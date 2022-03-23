@@ -1012,7 +1012,7 @@ var app = (function () {
     });
 
     const ui = writable({
-        page:           'discover',
+        page:           'home',
         showNav:        false,
         showMenuModal:  false,
         showModal:      false,
