@@ -51,9 +51,9 @@ const account = [{
 /* Stock image filenames */
 function getRandomStockImgPath(index){
     if(index){
-        return `../static/img/stock/${stockImgNames[index]}`
+        return `./static/img/stock/${stockImgNames[index]}`
     } else {
-        return `../static/img/stock/${stockImgNames[Math.floor(Math.random()*stockImgNames.length)]}`
+        return `./static/img/stock/${stockImgNames[Math.floor(Math.random()*stockImgNames.length)]}`
     }
 }
 
