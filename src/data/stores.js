@@ -7,7 +7,7 @@ export const user = writable({
 })
 
 export const ui = writable({
-    page:           'discover',
+    page:           'home',
     showNav:        false,
     showMenuModal:  false,
     showModal:      false,
