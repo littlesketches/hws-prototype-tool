@@ -1070,14 +1070,14 @@ var app = (function () {
     			t1 = space();
     			div0 = element("div");
     			p = element("p");
-    			attr_dev(h3, "class", "svelte-vdly33");
+    			attr_dev(h3, "class", "svelte-q7w46h");
     			add_location(h3, file$j, 15, 4, 305);
-    			attr_dev(hr, "class", "svelte-vdly33");
+    			attr_dev(hr, "class", "svelte-q7w46h");
     			add_location(hr, file$j, 16, 4, 331);
-    			attr_dev(p, "class", "svelte-vdly33");
+    			attr_dev(p, "class", "svelte-q7w46h");
     			add_location(p, file$j, 18, 8, 354);
     			add_location(div0, file$j, 17, 4, 340);
-    			attr_dev(div1, "class", "card svelte-vdly33");
+    			attr_dev(div1, "class", "card svelte-q7w46h");
     			attr_dev(div1, "name", /*name*/ ctx[0]);
     			add_location(div1, file$j, 14, 0, 245);
     		},
@@ -47660,7 +47660,7 @@ var app = (function () {
     const { console: console_1$2 } = globals;
     const file$b = "src/components/project/ProjectCard.svelte";
 
-    // (38:8) {#if hoverState}
+    // (37:8) {#if hoverState}
     function create_if_block$4(ctx) {
     	let div1;
     	let p;
@@ -47678,12 +47678,12 @@ var app = (function () {
     			div0 = element("div");
     			a = element("a");
     			a.textContent = ">> Tap to see more";
-    			add_location(p, file$b, 39, 12, 874);
-    			add_location(a, file$b, 41, 16, 956);
+    			add_location(p, file$b, 38, 12, 873);
+    			add_location(a, file$b, 40, 16, 955);
     			attr_dev(div0, "class", "project-link svelte-26zhz6");
-    			add_location(div0, file$b, 40, 12, 911);
+    			add_location(div0, file$b, 39, 12, 910);
     			attr_dev(div1, "class", "desc-container svelte-26zhz6");
-    			add_location(div1, file$b, 38, 8, 815);
+    			add_location(div1, file$b, 37, 8, 814);
     		},
     		m: function mount(target, anchor) {
     			insert_dev(target, div1, anchor);
@@ -47721,7 +47721,7 @@ var app = (function () {
     		block,
     		id: create_if_block$4.name,
     		type: "if",
-    		source: "(38:8) {#if hoverState}",
+    		source: "(37:8) {#if hoverState}",
     		ctx
     	});
 
@@ -47747,12 +47747,12 @@ var app = (function () {
     			t = space();
     			if (if_block) if_block.c();
     			attr_dev(h3, "class", "svelte-26zhz6");
-    			add_location(h3, file$b, 35, 8, 759);
+    			add_location(h3, file$b, 34, 8, 758);
     			attr_dev(div, "id", div_id_value = `card-${/*id*/ ctx[0]}`);
     			attr_dev(div, "class", "card svelte-26zhz6");
-    			add_location(div, file$b, 32, 4, 622);
+    			add_location(div, file$b, 31, 4, 621);
     			attr_dev(li, "class", "svelte-26zhz6");
-    			add_location(li, file$b, 31, 0, 613);
+    			add_location(li, file$b, 30, 0, 612);
     		},
     		l: function claim(nodes) {
     			throw new Error("options.hydrate only works if the component was compiled with the `hydratable: true` option");
@@ -52258,8 +52258,7 @@ var app = (function () {
 
     const app = new App({
     	target: document.body,
-    	props: {
-    	}
+    	props: {}
     });
 
     return app;
