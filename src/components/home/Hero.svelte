@@ -1,8 +1,8 @@
 
-<!-- PARALLAX HERO COMPONENT-->
+<!-- PARALLAX HERO COMPONENT WITH "ABOUT" SECTION -->
 <script>
     import About from './About.svelte'
-
+    import Footer from '../Footer.svelte'
 	const layers = [0, 1, 2, 3, 4, 5, 6, 7, 8];
 	let y;
 </script>
@@ -18,10 +18,11 @@
                 alt="parallax layer {layer}">
         {/each}
     </div>
-
+	<!-- Content embedded to merge with parallax container scrolling-->
     <div class="content">
         <div class="about-container">
             <About/>
+            <Footer/>
         </div>
     </div>
 </section>
@@ -58,30 +59,6 @@
 		height: 100%;
 		background: rgb(45,10,13);
 	}
-
-	.content {
-		position: relative;
-		width: 100%;
-		box-sizing: border-box;
-	}
-
-	span {
-		display: block;
-		font-size: 1em;
-		text-transform: uppercase;
-		will-change: transform, opacity;
-	}
-
-	.about-container {
-		position: absolute;
-		top: 100vh;
-		left: 0;
-		width: 100%;
-		/* height: calc(100% - 712px); */
-		/* background-image: linear-gradient( rgb(0	25	22	), #fff 30%); */
-        background: #fff;
-		padding: 10vh 0 0 0;
-	}
     img {
         filter: brightness(150%)  grayscale(30%)  hue-rotate(180deg);
     }
@@ -91,4 +68,21 @@
     img:nth-of-type(9){
         filter: brightness(230%)  grayscale(30%)  hue-rotate(180deg);
     }
+
+	/* CONTENT INTEGRATED BELOW THE HERO */
+	.content {
+		position: relative;
+		width: 100%;
+		box-sizing: border-box;
+	}
+
+	.about-container {
+		position: absolute;
+		top: 100vh;
+		left: 0;
+		text-align: start;
+        background: #fff;
+		padding: 10vh 0 0 0;
+	}
+
 </style>

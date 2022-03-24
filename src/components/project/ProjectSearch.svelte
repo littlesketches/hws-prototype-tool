@@ -1,14 +1,12 @@
 <!-- DISCOVER PAGE COMPONENT-->
 <script>
-    import { ui } from '../data/stores.js'
-    import { projectSchema, locationMap, locationTree } from '../data/schema.js'
-    import * as d3 from 'd3'
+    import { ui } from '../../data/stores.js'
+    import { projectSchema, locationMap, locationTree } from '../../data/schema.js'
 	import { slide } from "svelte/transition";
 
-
     ////// COLLAPSIBLE SEARCH PANES ////
-
 	const paneVisbility= {
+        byOutcomes:      false,
         byProject:      false,
         byOrg:          false,
         byLocation:     false
@@ -21,32 +19,43 @@
 
     ////// SEARCH FORMS ///////
     const catchmentEntries = [...locationTree.entries()]
-
     const capitaliseFirst = (string) => string.charAt(0).toUpperCase() + string.slice(1)
-
     function handleSubmit(){
+        $ui.byPage.discover.main = 'list'
         console.log('Handling submit')
     };
 </script>
 
 
 <!-- COMPONENT MARKUP-->
-<section class = "search">
-    <div class = ''>
-        <h2>Waterways projects</h2>
-        <p>A collecion of waterwas  </p>
-    </div>
-
-    <h2>Search for projects</h2>
+<section>
     <div class = "container">
-        <input type="text" id="search-term" placeholder="Enter a search word">
+        <div id = "byOutcomes" class="collapse__header" on:click={togglePane}>
+            <h3>Waterway outcomes</h3>
+            <!-- <div class="toggle-icon">v</div> -->
+        </div>
+        {#if paneVisbility.byOutcomes}
+        <div class = "collapse__body"  transition:slide>
+            <form id = "search-form" >
+                <ul class="flex-outer">
+                    <li>
+                        <label for = "catchment">by catchment</label>
+                        <select id="catchment" name = "catchment">
+                        {#each catchmentEntries as entry}
+                            <option name = {entry[0]}>{@html entry[0]}</option>
+                        {/each}
+                        </select>
+                    </li>
+                </ul>
+            </form>
+        </div>
+        {/if}
     </div>
-
 
     <div class = "container">
         <div id = "byLocation" class="collapse__header" on:click={togglePane}>
             <h3>Location</h3>
-            <div class="toggle-icon">v</div>
+            <!-- <div class="toggle-icon">v</div> -->
         </div>
         {#if paneVisbility.byLocation}
         <div class = "collapse__body"  transition:slide>
@@ -234,11 +243,23 @@
 
 
 <!------ STYLE ------->
-<style>
+<style> 
+    section{
+        grid-area: main;
+    }
     h3{ 
         margin-block-start: 0;
         margin-block-end: 0;
     }
+    ul{
+        list-style-type: none;
+        border: 0;
+        margin: 0;
+        margin-block-start: 0  ;
+        margin-block-end: 0  ;
+        padding-inline-start: 0;
+    }
+
     .search{
         grid-area: search;    
         background: rgb(238, 238, 238);

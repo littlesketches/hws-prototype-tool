@@ -1,8 +1,8 @@
 <script>
     import MenuCard from './MenuCard.svelte'
-    import { app,   deleteAllUsers } from "../data/realm.js";
-    import { getMenuOptions } from "../data/ui.js";
-	import { user, ui } from '../data/stores.js'
+    import { app,   deleteAllUsers } from '../../data/realm.js';
+    import { getMenuOptions } from '../../data/content.js'
+    import { user, ui } from '../../data/stores.js'
 
     $ui.items.pages = getMenuOptions($user)
 
@@ -45,16 +45,6 @@
         display:            flex;
         justify-content:    center;
     }
-
-    .menu-item{
-        display:            inline-block;
-        padding:            1rem;
-        margin:             0.5rem;
-        border:             0.5px solid #000;
-        border-radius:      1rem;
-        min-width:          200px;
-    }
-
     .down-container{
         display:            flex;
         flex-direction:     column;
@@ -75,20 +65,4 @@
         fill:           #fff;
         display:        block;
     }
-
-
-    /* .search-box{
-        display: flex;
-        justify-content: center;
-        align-content: center;
-        align-items: center;
-    }
-    .search-box *{
-        display: inline-block
-    }
-    .label{
-        -webkit-padding: 0.4em 0;
-        padding: 0.4em;
-        margin: 0 0 0.5em 0;
-    } */
 </style>

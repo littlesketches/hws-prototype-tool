@@ -9,7 +9,7 @@
         loginAnonymous,    
         connectToMongoAtlas, 
         connectToCollections
-    } from "../data/realm.js";
+    } from "../../data/realm.js";
 
     console.log('Hello from the (anon) autologin and connection component..')   
 

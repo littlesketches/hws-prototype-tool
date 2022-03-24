@@ -20,5 +20,10 @@ export const ui = writable({
             subCatchment:   false,
             location:       false
         }
+    },
+    byPage:{ 
+        discover: {
+            main:   'list'
+        }
     }
 })

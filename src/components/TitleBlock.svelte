@@ -1,12 +1,16 @@
+<script>
+    export let title
+    export let instruction
 
+</script>
 
 <!-- COMPONENT MARKUP-->
 <div class = "title">
     <div>
-        <h1>Explore waterways projects</h1>  
+        <h1>{@html title}</h1>  
     </div>
     <div>
-        <p>Learn about projects that are impacting and improving the health of our waterways.</p>
+        <p>{@html instruction}</p>
     </div>
 </div>
 
@@ -14,10 +18,10 @@
 <!------ STYLE ------->
 <style>
     .title{
-        grid-area: title;     
+        grid-area: title;  
+        height: fit-content;
     }
     h1{
-        /* text-align: center; */
         margin-block-start: 0;
         margin-block-end: 0;
     }

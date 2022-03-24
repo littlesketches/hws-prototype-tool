@@ -1,10 +1,10 @@
-export { uiSettings, getMenuOptions, getRandomStockImgPath }
+export { uiSettings, getMenuOptions, getPageInfo, getRandomStockImgPath }
 
 const uiSettings = {
     menuOptions:  []
 }
 
-
+///// EXPORTED METHODS /////
 function getMenuOptions(user){
     if(user.isRegistered){
         return account.concat(menuOptions)
@@ -13,6 +13,21 @@ function getMenuOptions(user){
     }
 };
 
+function getPageInfo(name){
+    return menuOptions.concat(join).concat(account).filter(d => d.name.toLowerCase() === name.toLowerCase())
+};
+
+function getRandomStockImgPath(index){
+    if(index){
+        return `./static/img/stock/${stockImgNames[index]}`
+    } else {
+        return `./static/img/stock/${stockImgNames[Math.floor(Math.random()*stockImgNames.length)]}`
+    }
+};
+
+
+
+////////// CONTENT //////////
 
 /* Menu options data */
 const menuOptions =  [
@@ -20,25 +35,41 @@ const menuOptions =  [
         id: 0,
         name:           'Discover',
         shortDesc:      "Find out about what's happening to improve our waterways",
-        tags:           ['Project search', 'Spatial search']
+        tags:           ['Project search', 'Spatial search'],
+        pageInfo: {
+            title:          'Discover waterways projects',
+            instruction:    'Use this feature to look for projects by their characteristics, location and outcomes',
+        }
     },
     {   
         id: 1,  
         name:           'Connect', 
         shortDesc:      "Find and connect with others working on our waterways",
-        tags:           ['Directory', 'Contacts']
+        tags:           ['Directory', 'Contacts'],
+        pageInfo: {
+            title:          'Connect with project stakeholders',
+            instruction:    'Use this feature to connect with others who are working to improve our',
+        }
     },
     {   id: 2,     
         name:           'Share', 
         shortDesc:      "Share your ideas and knowledge about improving waterway health",
-        tags:           ['Share an idea', 'Contribute to a project']
-    },
+        tags:           ['Share an idea', 'Contribute to a project'],
+        pageInfo: {
+            title:          'Share new ideas for improving our waterways',
+            instruction:    'Use this feature to post your ideas? Provide feedback and knowledge for others about their projects and ideas?',
+        }
+    }
 ]
 
 const join = [{
     id:             3,
     name:           'Join', // Or my account
-    shortDesc:      'Create an account (or login)'
+    shortDesc:      'Create an account (or login)',
+    pageInfo: {
+        title:          'Create an account',
+        instruction:    "Setup a free account to contribute your ideas and provide feedback for others! ",
+    }
 }]
 
 const account = [{
@@ -49,16 +80,6 @@ const account = [{
 
 
 /* Stock image filenames */
-function getRandomStockImgPath(index){
-    if(index){
-        return `./static/img/stock/${stockImgNames[index]}`
-    } else {
-        return `./static/img/stock/${stockImgNames[Math.floor(Math.random()*stockImgNames.length)]}`
-    }
-}
-
-
-
 const stockImgNames = [
     "pexels-our-life-in-pixels-7044614.jpg",
     "oak-g0c3060d01_640.jpg",
@@ -138,5 +159,12 @@ const stockImgNames = [
     "lake-g16baf4910_640.jpg",
     "fishing-g8232b4022_640.jpg",
     "pexels-quang-nguyen-vinh-2172499.jpg",
-    "pexels-monique-laats-733090.jpg"
+    "pexels-monique-laats-733090.jpg",
+    "pexels-jan-kopřiva-3811727.jpg",
+    "pexels-jan-prokes-670237.jpg",
+    "pexels-sam-lion-5733177.jpg",
+    "pexels-josh-hild-2662182.jpg",
+    "pexels-rachel-claire-4857752.jpg",
+    "pexels-tobias-bjørkli-2230444.jpg",
+    "pexels-artur-roman-534579.jpg"
 ]

@@ -1,6 +1,6 @@
+<!--- MAIN APP COMPONENT-->
 <script>
 	import { fade } 	from 'svelte/transition';
-	// import HomeModern 	from './pages/HomeModern.svelte'
 	import Home 		from './pages/Home.svelte'
 	import Discover 	from './pages/Discover.svelte'
 	import Connect 		from './pages/Connect.svelte'
@@ -14,11 +14,9 @@
 
 	let transition = fade
 
-    import { getMenuOptions } from "./data/ui.js";
+    import { getMenuOptions } from "./data/content.js";
     $ui.items.pages = getMenuOptions($user)
 	if($ui.page !== 'home')	$ui.showNav = true
-
-
 
 </script>
 
@@ -40,12 +38,10 @@
 		<Manage {transition}/>
 	{/if}
 </main>
+{#if $ui.page !== 'home'}
 <Footer/>
+{/if}
 
 
 <!------ STYLE ------->
-<style>
-	main{
-		min-height: 85vh
-	}
-</style>
+<style></style>

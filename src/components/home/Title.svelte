@@ -4,13 +4,11 @@
 
 
 <!-- COMPONENT MARKUP-->
-    <!-- <div class = "title-bg"></div> -->
     <div class = "title-content">
         <div>
             <h3>Healthy waterways</h3>
             <h1>Collaborative tool</h1>    
         </div>
-        <!-- <AutoLogin/> -->
     </div>
 
 
@@ -20,7 +18,7 @@
     .title-content{
         grid-area:      2 / 1 / 4 / 11 ;
         display:        grid;
-        align-items:    center;
+        align-items:    end;
         justify-items:  center;
         mix-blend-mode: hard-light;
         color:          rgb(13, 50, 50)

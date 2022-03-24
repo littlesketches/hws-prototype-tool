@@ -1,22 +1,22 @@
 <!-- HOME PAGE COMPONENT-->
 <script>
-	import HomeTitle from '../components/HomeTitle.svelte'
-	import HomeMenu from '../components/HomeMenu.svelte'
-    import HeroParallax from  '../components/HeroParallax.svelte'
-    import About from  '../components/About.svelte'
-
+	import Title from '../components/home/Title.svelte'
+	import Menu from '../components/home/Menu.svelte'
+    import Hero from  '../components/home/Hero.svelte'
+    import About from  '../components/home/About.svelte'
+    import Footer from '../components/Footer.svelte'
 	export let transition
-
 </script>
 
 
 <!-- COMPONENT MARKUP-->
 <section {transition}>
-    <HeroParallax/>
-    <HomeTitle/>
-    <HomeMenu/>
+    <Hero/>
+    <Title/>
+    <Menu/>
 </section>
 
+<Footer/> <!-- Re-added as App level footer is cutoff by parallax hero -->
 
 <!------ STYLE ------->
 <style>
