@@ -1,7 +1,7 @@
 <!-- PROJECT LIST-->
 <script>
     import ProjectCard from './ProjectCard.svelte'
-    import { getRandomStockImgPath } from '../../data/ui.js'
+    import { getRandomStockImgPath } from '../../data/content.js'
 
     const projects = [
         {
