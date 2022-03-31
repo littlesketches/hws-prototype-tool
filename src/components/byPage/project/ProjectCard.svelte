@@ -1,24 +1,30 @@
+<!-- PROECT SUMMARY CARD COMPONENT-->
 <script>
-	import { onMount } from 'svelte';
-	import { fade, fly } 	from 'svelte/transition';
+	import { onMount }  from 'svelte';
+	import { fade } 	from 'svelte/transition';
+	import { ui }       from '../../../data/stores.js'	 
 
     export let id
     export let name
     export let shortDesc
     export let imgURL
 
-    // Show and hide 
+    // Show and hide descriptions 
     let hoverState = false
     function showDesc(){
         hoverState = true
     };
     function hideDesc() {
         hoverState = false
-    }
+    };
+
+    // Open a project
     function openProject(){
-        console.log(this)
         console.log('Open project with id: ', id)
-    }
+
+
+        $ui.byPage.discover.projectPage = true
+    };
 
 	onMount(async () => {
         document.getElementById(`card-${id}`).style.backgroundImage = `url("${imgURL}")`
@@ -27,10 +33,12 @@
 </script>
 
 
-<!-- COMPONENT MARKUP-->
+<!-- COMPONENT HTML MARKUP-->
 <li>
     <div id = {`card-${id}`} class = 'card' 
-        on:click={openProject} on:mouseover={showDesc} on:mouseout={hideDesc}
+        on:click={openProject} 
+        on:mouseover={showDesc}  on:focus={showDesc}   
+        on:mouseout={hideDesc}  on:blur={hideDesc}   
         >
         <h3>{@html name}</h3>
 
@@ -48,7 +56,6 @@
 
 
 <!------ STYLE ------->
-
 <style>
     li{
         outline: none;
@@ -68,7 +75,7 @@
         height:                 35vh;
 		background-position:    center;
 		background-size:        cover;
-        filter:                 grayscale(80%) sepia(20%);
+        filter:                 grayscale(40%) sepia(20%);
         cursor:                 pointer;
     }
 
@@ -81,7 +88,7 @@
     }
 
     .card:hover{
-        filter:                 grayscale(0%) sepia(20%)
+        filter:                 grayscale(0%) sepia(0%)
     }
     .project-link{
         font-weight: 600;

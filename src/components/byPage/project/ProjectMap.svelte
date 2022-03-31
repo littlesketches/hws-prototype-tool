@@ -1,6 +1,6 @@
 <!-- PROJECT LIST-->
 <script>
-	import { ui } from '../../data/stores.js'	 
+	import { ui } from '../../../data/stores.js'	 
     function closeMap(){
         $ui.byPage.discover.main = 'list'
     }
@@ -9,7 +9,7 @@
 
 <section>
     <div class ='map-wrapper'>
-        <iframe frameborder="0" scrolling="no" marginheight="0" marginwidth="0" 
+        <iframe frameborder="0" scrolling="no" marginheight="0" marginwidth="0" alt="A map"
             src="https://www.openstreetmap.org/export/embed.html?bbox=144.3501162528992%2C-38.22939875284671%2C145.52839994430545%2C-37.35035595234929&amp;layer=hot" >
         </iframe>    
     </div>
@@ -50,7 +50,7 @@
         height:     100%
     }
     .button-container{
-        align-self: end;
-        justify-self: end;
+        align-self:     end;
+        justify-self:   end;
     }
 </style>

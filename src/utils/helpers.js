@@ -1,4 +1,4 @@
-export { slugify }
+export { slugify, capitaliseFirst }
 
 function slugify(str) {
     str = str.replace(/^\s+|\s+$/g, '').toLowerCase(); // trim           
@@ -11,4 +11,8 @@ function slugify(str) {
         .replace(/\s+/g, '-') // collapse whitespace and replace by -
         .replace(/-+/g, '-'); // collapse dashes
     return str;
-}
+};
+
+
+const capitaliseFirst = (string) => string.charAt(0).toUpperCase() + string.slice(1)
+

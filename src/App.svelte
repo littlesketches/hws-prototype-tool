@@ -7,9 +7,8 @@
 	import Share 		from './pages/Share.svelte'
 	import Join 		from './pages/Join.svelte'
 	import Manage 		from './pages/Manage.svelte'
-	import Nav 			from './components/Nav.svelte'
-	import Footer 		from './components/Footer.svelte'
-
+	import Nav 			from './components/shared/Nav.svelte'
+	import Footer 		from './components/shared/Footer.svelte'
 	import { user, ui } from './data/stores.js'	 
 
 	let transition = fade
@@ -17,7 +16,6 @@
     import { getMenuOptions } from "./data/content.js";
     $ui.items.pages = getMenuOptions($user)
 	if($ui.page !== 'home')	$ui.showNav = true
-
 </script>
 
 

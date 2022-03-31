@@ -1,5 +1,5 @@
 <script>
-	import { ui } from '../../data/stores.js'
+	import { ui }       from '../../../data/stores.js'
     export let name
     export let shortDesc
 

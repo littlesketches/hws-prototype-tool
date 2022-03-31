@@ -1,8 +1,9 @@
-<!-- DISCOVER PAGE COMPONENT-->
+<!-- DISCOVER PAGE INFO PANE COMPONENT-->
 <script>
-    import { ui } from '../../data/stores.js'
-    import { projectSchema, locationMap, locationTree } from '../../data/schema.js'
+    import { ui }   from '../../../data/stores.js'
+    import { projectSchema, locationMap, locationTree } from '../../../data/schema.js'
 	import { slide } from "svelte/transition";
+    import Magnify from "svelte-material-icons/Magnify.svelte";
 
     function showSearch(){
         $ui.byPage.discover.main = 'search'
@@ -10,15 +11,20 @@
     function showMap(){
         $ui.byPage.discover.main = 'map'
     };
-
     function showMoreRandom(){
         $ui.byPage.discover.main = 'list'
+    };
+
+    // Serach box input
+    let searchInput = ''
+    function handleSearch(){
+        console.log('Submit search: ', searchInput)
     };
 
 </script>
 
 
-<!-- COMPONENT MARKUP-->
+<!-- COMPONENT HTML MARKUP-->
 <section>
     {#if $ui.byPage.discover.main === 'list'}
         <div class = 'info-container'>
@@ -27,16 +33,20 @@
                 <p>There are hundreds of projects, initiatives and programs that impact and protect waterways across our catchment. 
                     A small, random selection are shown here and more details about each can be seen by simply hovering over and tapping on each card.
                 </p>
+            </div>    
         </div>
         <hr>
         <div class = 'search-options-container'>
             <h2>Tools for finding projects</h2>
-                <p> To help you find particular projects and initiatives you might be intersted in, you can use these tools:</p>
-            </div>
+            <p> To help you find particular projects and initiatives you might be intersted in, you can use these tools:</p>
+
             <ul>
                 <li>
-                    <div class = "button-container">
-                        <input type="text" id="search-term" placeholder="Try a keyword search">
+                    <div class = "button-container input">
+                        <input bind:value={searchInput} type="text" id="search-term" placeholder="Try a keyword search">
+                        <div id="search-button" class="input-icon" on:click={handleSearch}>
+                            <Magnify width="2em" height="2em"/>
+                        </div>
                     </div>
                 </li>
                 <li>
@@ -107,13 +117,39 @@
 
     #search-term,
     .button-container button{
-        cursor: pointer;
-        width: 100%;
-        padding: 0.75rem 0.5rem;
-        margin-bottom: 0.75rem;
-        text-align: left;
+        cursor:         pointer;
+        width:          100%;
+        padding:        0.75rem 0.5rem;
+        margin-bottom:  0.75rem;
+        text-align:     left;
     }
+
+    .button-container.input{
+        width: 100%;
+        position: relative;
+        display: flex;
+    }
+
+
     hr{
         margin: 2.5rem 0;
+    }
+    button{
+        color: #333;
+    }
+    button:hover{
+        background-color:#fff;
+        font-weight: 500;
+    }
+
+    .input-icon{
+        display:    flex;
+        position:   absolute;
+        right:      2.5%;
+        top:        12.5%;
+        cursor:     pointer;
+    }
+    .input-icon:hover{
+        color: rgb(181, 15, 181);
     }
 </style>

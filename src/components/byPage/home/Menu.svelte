@@ -1,8 +1,8 @@
 <script>
-    import MenuCard from './MenuCard.svelte'
-    import { app,   deleteAllUsers } from '../../data/realm.js';
-    import { getMenuOptions } from '../../data/content.js'
-    import { user, ui } from '../../data/stores.js'
+    import MenuCard                 from './MenuCard.svelte'
+    import { app, deleteAllUsers }  from '../../../data/realm.js';
+    import { getMenuOptions }       from '../../../data/content.js'
+    import { user, ui }             from '../../../data/stores.js'
 
     $ui.items.pages = getMenuOptions($user)
 

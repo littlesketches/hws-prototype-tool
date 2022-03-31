@@ -1,13 +1,13 @@
-
-<!-- PARALLAX HERO COMPONENT WITH "ABOUT" SECTION -->
+<!-- PARALLAX HERO BG COMPONENT WITH "ABOUT" && "FOOTER" COMPONENTS EMBEDDED -->
 <script>
     import About from './About.svelte'
-    import Footer from '../Footer.svelte'
+    import Footer from '../../shared/Footer.svelte'
 	const layers = [0, 1, 2, 3, 4, 5, 6, 7, 8];
 	let y;
 </script>
 
-<!------ COMPONENT MARKUP ------->
+
+<!------ COMPONENT HTMLMARKUP ------->
 <svelte:window bind:scrollY={y}/>
 
 <section>
@@ -31,7 +31,7 @@
 <!------ STYLE ------->
 <style>
     section{
-        grid-area: 1 / 1/ 11 / 11;
+        grid-area: 1 / 1 / 11 / 11;
     }
 	.parallax-container {
 		position:   fixed;
@@ -84,5 +84,4 @@
         background: #fff;
 		padding: 10vh 0 0 0;
 	}
-
 </style>

@@ -1,6 +1,4 @@
 <!-- LOGIN (ANON) COMPONENT AND CONNECTION SETUP--->
-
-<!-- SCRIPT -->
 <script>
     import MainMenu from './HomeMenu.svelte'
     import { 
@@ -22,15 +20,15 @@
 </script>
 
 
-<!-- STYLES -->
-<style></style>
-
 <!-- COMPONENT MARKUP -->
 {#await promise(app)}
-    <p>...connecting</p>
+    <p>...connecting to realm app</p>
 {:then data}
     <p>The realm and mongo atlas connections are made!!</p>
 
 {:catch error}
     <p style="color: red">{error.message}</p>
 {/await}
+
+<!-- STYLES -->
+<style></style>

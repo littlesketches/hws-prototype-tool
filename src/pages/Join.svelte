@@ -1,19 +1,18 @@
 <!-- EXPLORE PAGE COMPONENT-->
 <script>
-    import TitleBlock from '../components/TitleBlock.svelte'
-
-	import { ui } from '../data/stores.js'	 
-    import { getPageInfo } from '../data/content.js'
+    import TitleBlock       from '../components/shared/TitleBlock.svelte'
+	import { ui }           from '../data/stores.js'	 
+    import { getPageInfo }  from '../data/content.js'
 
 	export let transition
 
-    const pageInfo = getPageInfo($ui.page)[0].pageInfo
+    const titleInfo = getPageInfo($ui.page)[0].TitleBlock
 
 </script>
 
 <!-- COMPONENT MARKUP-->
 <section  { transition }>
-    <TitleBlock {...pageInfo}/>
+    <TitleBlock {...titleInfo}/>
 </section>
 
 

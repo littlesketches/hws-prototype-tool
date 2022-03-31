@@ -3,13 +3,17 @@
 <script>
 	import ModalMenu from './ModalMenu.svelte';
 	import { fade } from 'svelte/transition';
-	import { user, ui } from '../data/stores.js'
+	import { user, ui } from '../../data/stores.js'
 
 	/* Interaction functions */
 	function toggleMenu() {
     $ui.showMenuModal = !$ui.showMenuModal
 	};
 
+	function closeProjectPage() {
+    $ui.byPage.discover.projectPage = false
+    $ui.byPage.discover.projectID = null
+	};
 </script>
 
 
@@ -18,17 +22,27 @@
   {#if $ui.showNav}
     <nav class ='nav-menu' transition:fade>
       <div class = "menuButton-container">
+        {#if !$ui.byPage.discover.projectPage}     
           <svg id = "menu-icon" class ="nav-icon" width = "100%" viewbox = "0 0 50 50"
             on:click={toggleMenu} class:invert={$ui.showMenuModal} >
             <a href="#">
-              <circle cx = 25 cy = 25 r = 22.5></circle>
-              {#if !$ui.showMenuModal}
+              <circle cx = 25 cy = 25 r = 22.5></circle>         
+                {#if !$ui.showMenuModal}
                   <text x= 25 y= 30>Menu</text>
-              {:else}
+                {:else}
                   <text x= 25 y= 30>Close</text>
-              {/if}
+                {/if}
             </a>
           </svg>
+        {:else}
+          <svg id = "menu-icon" class ="nav-icon" width = "100%" viewbox = "0 0 50 50"
+            on:click={closeProjectPage} >
+            <a href="#">
+              <circle cx = 25 cy = 25 r = 22.5></circle>         
+                <text x= 25 y= 30>Close</text>
+            </a>
+          </svg>
+        {/if}
       </div>
     </nav>
   {/if}

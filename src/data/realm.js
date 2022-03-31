@@ -107,28 +107,5 @@ async function findRecord(app, collectionName){
     .catch(err => console.error(`Failed to find document: ${err}`));
 
 
-}
-
-
-    // collections = {
-    //   projects:             app.data.mongo.db(app.config.db.name).collection('projects'),
-    //   users:                app.data.mongo.db(app.config.db.name).collection('users'),
-    //   organisations:        app.data.mongo.db(app.config.db.name).collection('organisations'),
-    // }
-
-  // console.log('Realm app:',  app.realm)
-  // console.log('Realm user:', app.user)
-
-
-//   const projection = {
-//     "title": 1,
-//     "quantity": 1,
-//   }
-
-
-//   app.realm.removeUser(user)
-
-
-
-// Login anonymous user
+};
 

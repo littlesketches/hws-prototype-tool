@@ -7,12 +7,16 @@ export const user = writable({
 })
 
 export const ui = writable({
-    page:           'home',
-    showNav:        false,
-    showMenuModal:  false,
-    showModal:      false,
+    toolName:           null,
+    page:               'home',
+    showNav:            false,
+    showMenuModal:      false,
+    showModal:          false,
     items: {
         pages:      []
+    },
+    search: {
+
     },
     state: {
         location:   {
@@ -23,7 +27,17 @@ export const ui = writable({
     },
     byPage:{ 
         discover: {
-            main:   'list'
+            main:           'list',
+            projectPage:     false,
+            projectID:       null
         }
+    }
+})
+
+
+export const content =  writable({
+    project:   {
+        likes:          [],
+        favs:           []
     }
 })

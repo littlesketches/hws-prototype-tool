@@ -1,10 +1,10 @@
 <!-- HOME PAGE COMPONENT-->
 <script>
-	import Title from '../components/home/Title.svelte'
-	import Menu from '../components/home/Menu.svelte'
-    import Hero from  '../components/home/Hero.svelte'
-    import About from  '../components/home/About.svelte'
-    import Footer from '../components/Footer.svelte'
+	import Title    from '../components/byPage/home/Title.svelte'
+	import Menu     from '../components/byPage/home/Menu.svelte'
+    import Hero     from '../components/byPage/home/Hero.svelte'
+    import About    from '../components/byPage/home/About.svelte'
+    import Footer   from '../components/shared/Footer.svelte'
 	export let transition
 </script>
 

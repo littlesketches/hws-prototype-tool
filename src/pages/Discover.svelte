@@ -1,32 +1,40 @@
 <!-- EXPLORE PAGE COMPONENT-->
 <script>
-    import TitleBlock from '../components/TitleBlock.svelte'
-    import ProjectInfoPane from '../components/project/ProjectInfoPane.svelte'
-    import ProjectList from '../components/project/ProjectList.svelte'
-    import ProjectSearch from '../components/project/ProjectSearch.svelte'
-    import ProjectMap from '../components/project/ProjectMap.svelte'
-	import { ui } from '../data/stores.js'	 
-    import { getPageInfo } from '../data/content.js'
-	import { fade } from 'svelte/transition';
+    import TitleBlock       from '../components/shared/TitleBlock.svelte'
+    import ProjectInfoPane  from '../components/byPage/project/ProjectInfoPane.svelte'
+    import ProjectList      from '../components/byPage/project/ProjectList.svelte'
+    import ProjectSearch    from '../components/byPage/project/ProjectSearch.svelte'
+    import ProjectMap       from '../components/byPage/project/ProjectMap.svelte'
+    import ProjectPage      from '../components/byPage/project/ProjectPage.svelte'
+	import { ui }           from '../data/stores.js'	 
+    import { getPageInfo }  from '../data/content.js'
+	import { fade }         from 'svelte/transition';
 
 	export let transition
-    let pageInfo = getPageInfo($ui.page)[0].pageInfo
+    const titleInfo = getPageInfo($ui.page)[0].TitleBlock
 
 </script>
 
 <!-- COMPONENT MARKUP-->
 <section transition:fade >
-    <TitleBlock {...pageInfo}/>
+    <TitleBlock {...titleInfo}/>
+
+    <!-- Project cards view-->
+    {#if !$ui.byPage.discover.projectPage}
     <ProjectInfoPane/>
-
-
-    {#if $ui.byPage.discover.main === 'list'}
+        {#if $ui.byPage.discover.main === 'list'}
         <ProjectList/>
-    {:else if  $ui.byPage.discover.main === 'search'}
+        {:else if  $ui.byPage.discover.main === 'search'}
         <ProjectSearch/>
-    {:else if  $ui.byPage.discover.main === 'map'}
+        {:else if  $ui.byPage.discover.main === 'map'}
         <ProjectMap/>
-    {/if}
+        {/if}
+    {/if}    
+
+    <!-- Project page overlay-->
+    {#if $ui.byPage.discover.projectPage}
+    <ProjectPage/>
+    {/if}        
 </section>
 
 <!------ STYLE ------->

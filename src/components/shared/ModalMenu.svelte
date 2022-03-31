@@ -2,7 +2,7 @@
 <!-- SCRIPT -->
 <script>
 	import { fade } from 'svelte/transition';
-	import { ui } from '../data/stores.js'
+	import { ui } from '../../data/stores.js'
 
     function switchPage(){
         $ui.page = this.getAttribute('name').toLowerCase()

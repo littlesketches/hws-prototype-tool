@@ -1,8 +1,8 @@
 <!-- EXPLORE PAGE COMPONENT-->
 <script>
-    import TitleBlock from '../components/TitleBlock.svelte'
-	import { ui } from '../data/stores.js'	 
-    import { getPageInfo } from '../data/content.js'
+    import TitleBlock       from '../components/shared/TitleBlock.svelte'
+	import { ui }           from '../data/stores.js'	 
+    import { getPageInfo }  from '../data/content.js'
 
 	export let transition
     const pageInfo = getPageInfo($ui.page)[0].pageInfo

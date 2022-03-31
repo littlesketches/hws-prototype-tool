@@ -1,36 +1,32 @@
 <script>
 	// import AutoLogin from './AutoLogin.svelte'
+    import { componentContent } from '../../../data/content.js'
+
+    const content = componentContent.title
 </script>
 
 
 <!-- COMPONENT MARKUP-->
     <div class = "title-content">
         <div>
-            <h3>Healthy waterways</h3>
-            <h1>Collaborative tool</h1>    
+            <h3>{ @html content.subHeading } </h3>
+            <h1>{ @html content.mainHeading} </h1>    
         </div>
     </div>
 
 
 <!------ STYLE ------->
 <style>
-    .title-bg,
     .title-content{
         grid-area:      2 / 1 / 4 / 11 ;
         display:        grid;
         align-items:    end;
         justify-items:  center;
         mix-blend-mode: hard-light;
-        color:          rgb(13, 50, 50)
-    }
-    .title-bg{
-        background:     rgba(255, 255, 255, 0.95);
-        /* filter:         blur(4px);
-        -webkit-filter: blur(4px); */
-    }
-    .title-content{
+        color:          rgb(13, 50, 50);
         z-index: 2;
     }
+
     h1, h3 {
 		text-transform:     lowercase; 
         margin-block-end:   0;
@@ -42,7 +38,6 @@
         margin-block-start: 0;
 	}
 	h1 {
-		text-transform:     lowercase;
 		font-size:          8vw;
 		font-weight:        500;
         margin-block-start: -1.0vw;

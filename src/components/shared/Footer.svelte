@@ -9,7 +9,6 @@
             <img src = "./static/img/logo.svg"/>
         </div>
     </div>
-
 </footer>
 
 
