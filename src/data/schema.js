@@ -1,6 +1,12 @@
 import * as d3 from 'd3'
 
-export  { hwsData, projectSchema, locationMap, locationTree }
+export  { 
+    hwsSchema, 
+    hwsData, 
+    projectSchema, 
+    locationMap, 
+    locationTree
+}
 
 const hwsData = {
     "schema": {
@@ -35662,11 +35668,250 @@ const hwsData = {
     ]
 } 
 
+const hwsSchema = {
+    defs: {
+        keyValues:          `Key values are easily recognised as being part of what we appreciate about waterways and are representative of a broader range of environmental, cultural, social and economic values that we care about.`,
+        conditions:         `Waterway condition refers to the state of the processes that underpin waterway health and support the key values.`,
+        broadValues: {
+            Environmental:  `Environmentally, waterways provide habitat for plants and animals and are critically important in sustaining much of our region’s biodiversity.`,
+            Social:         `Socially, waterways are important for our wellbeing. They provide places to escape the busy urban landscape, to bird watch, to fish for food, to actively commute, to meet friends and family, to exercise and connect with nature. They provide cool and shady spaces during hot weather, and water for swimming and boating.`,
+            Cultural:       `Culturally, waterways are places of memories, ancestral and spiritual connection, and connection to country.`,
+            Economic:       `Economically, waterways provide benefits through provision of drinking water to towns and cities, water for livestock and irrigation for crops and pleasant places for travel, tourism, hospitality purposes and boat mooring.`      
+        },
+    },
+    keyValues: {
+        "Birds": {
+        },
+        "Frogs": {
+        },
+        "Platypus": {
+        },
+        "Macroinvertebrates": {
+        },
+        "Fish": {
+        },
+        "Vegetation": {
+        },
+        "Amenity": {
+        },
+        "Community connection": {
+        },
+        "Recreation": {
+        },
+        "Cultural": {
+        },
+        "Economic": {
+        }
+    },
+
+    conditions: {
+        "Vegetation":{
+            valuesEnviro: [
+                "Macroinvertebrates",
+                "Fish",
+                "Frogs",
+                "Birds",
+                "Platypus",
+                "Vegetation"
+            ],
+            valuesHuman: [
+                "Amenity",
+                "Recreation",
+                "Community connection",
+            ],
+        },
+        "Water quality":{
+            valuesEnviro: [
+                "Macroinvertebrates",
+                "Fish",
+                "Frogs",
+                "Birds",
+                "Platypus",
+                "Vegetation"
+            ],
+            valuesHuman: [
+                "Amenity",
+                "Recreation",
+                "Community connection",
+            ],
+        },
+        "Water for the environment":{
+            valuesEnviro: [
+                "Macroinvertebrates",
+                "Fish",
+                "Frogs",
+                "Birds",
+                "Platypus",
+                "Vegetation"
+            ],
+            valuesHuman: [
+                "Amenity",
+                "Recreation",
+                "Community connection",
+            ],
+        },
+        "Stormwater":{
+            valuesEnviro: [
+                "Macroinvertebrates",
+                "Fish",
+                "Frogs",
+                "Birds",
+                "Platypus",
+                "Vegetation"
+            ],
+            valuesHuman: [
+                "Amenity",
+                "Recreation",
+                "Community connection",
+            ],
+        },
+
+        "Habitat":{
+            valuesEnviro: [
+                "Macroinvertebrates",
+                "Fish",
+                "Frogs",
+                "Birds",
+                "Platypus",
+                "Vegetation"
+            ],
+            valuesHuman: [
+                "Amenity",
+                "Recreation",
+                "Community connection",
+            ],
+        },
+
+        "Recreational water quality":{
+            valuesEnviro:      null,
+            valuesHuman: [
+                "Recreation",
+                "Community connection",
+            ],
+        },
+
+        "Access":{
+            valuesEnviro:      null,
+            valuesHuman: [
+                "Amenity",
+                "Recreation",
+                "Community connection",
+            ],
+        },
+
+        "Litter":{
+            valuesEnviro:      null,
+            valuesHuman: [
+                "Amenity",
+                "Recreation",
+                "Community connection",
+            ],
+        },
+
+        "Particpation":{
+            valuesEnviro:      null,
+            valuesHuman: [
+                "Recreation",
+                "Community connection",
+            ]
+        },
+    },
+
+    performanceObjectives:{
+        "Adaptive management and research": {
+            themes: [
+                "Responding to Climate Change",
+                "Knowledge Gaps and Research"
+            ]
+        },
+        "Collaborative governance": {
+            themes: [
+                "Reporting",
+                "Supporting governance framework"
+            ]
+        },
+        "Community places": {
+            themes: [
+                "Responding to Climate Change",
+                "Knowledge Gaps and Research"
+            ]
+        },
+        "Cultural": {
+            themes: [
+                "Cultural Values"
+            ]
+        },
+        "Economic": {
+            themes: [
+                "Economic Values"
+            ]
+        },
+        "Engaged communities": {
+            themes: [
+                "Engaged and Knowledgeable Community and Stakeholders",
+                "Increase participation rates around rivers wetlands and estuaries",
+            ]
+        },
+        "Flow regimes": {
+            themes: [
+                "Increase environmental water reserve in regulated systems",
+                "Maintain or improve flow regimes in unregulated systems",
+                "Responding to Climate Change",
+                "Protect specific values and habitat"
+            ]
+        },
+        "Habitat": {
+            themes: [
+                "Improve / increase connectivity for fish passage",
+                "Manage pests",
+                "Mitigate threat of soil disturbance",
+                "Mitigate threats to physical form",
+                "Protect specific values and habitat",
+                "Re-engage floodplains",
+                "Translocate species",
+
+
+            ]
+        },
+        "Pests": {},
+        "Stormwater": {},
+        "Vegetation": {},
+        "Water quality": {},
+    }
+
+}
 
 const projectSchema =  {
-    stage:  ['idea', 'concept', 'research', 'pre-feasibility', 'feasibility', 'in development', 'completed'],
-    group:  ['research', 'funding and facilitation', 'policy', 'capital works'],
-    class:  [
+    orgType: [
+        'Riverkeeper', 
+        'Community group', 
+        'Traditional owners groups', 
+        'Local Government', 
+        'State Government',  
+        'Federal Government', 
+        'Peak bodies', 
+        'Water retailers', 
+        'Water corpration', 
+        'Research association or institution', 
+        'Other insutitions and landowners', 
+        'Private development organisations'
+    ],
+    stage: [
+        'Idea', 
+        'Concept', 
+        'Research', 
+        'Pre-feasibility', 
+        'Feasibility', 
+        'In development', 
+        'Completed'
+    ],
+    class: [
+        'Research', 
+        'Funding and facilitation', 
+        'Policy', 
+        'Capital works'
+    ],
+    initiativeType:  [
         'Improved planning controls',
         'Advocacy',
         'Enforcement',
@@ -35677,8 +35922,16 @@ const projectSchema =  {
         'Integrated stormwater management',
         'Environmental water and diversions management'
     ],
-    size:       ['small', 'medium', 'large'],
-    scale:      ['sub-catchment', 'catchment', 'multiple catchments'],
+    size: [
+        'Small', 
+        'Medium', 
+        'Large'
+    ],
+    scale: [
+        'Sub-catchment', 
+        'Catchment', 
+        'Multiple catchments'
+    ],
 }
 
 const locationMap = {
@@ -35691,7 +35944,6 @@ const locationMap = {
         d => d.subCatchmentName
     )
 }
-
 
 const locationTree = d3.group(hwsData.table, 
     d => d.catchmentName,
