@@ -1,4 +1,4 @@
-<!-- DISCOVER PAGE INFO PANE COMPONENT-->
+<!-- CONNECT PAGE INFO PANE COMPONENT-->
 <script>
     import InfoEmptySearch      from "./InfoEmptySearch.svelte"
     import InfoSearchResults    from "./InfoSearchResults.svelte"
@@ -10,15 +10,15 @@
 <!-- COMPONENT HTML MARKUP-->
 <section>
     {#if $ui.byPage.discover.main === 'list'}
-        {#if !$ui.byPage.discover.projectSearch.isMade}
+        {#if !$ui.byPage.connect.stakeholderSearch.isMade}
         <InfoEmptySearch/>
         {:else}
         <InfoSearchResults/>
         {/if}
 
     {:else if $ui.byPage.discover.main === 'search'}
-        <h2>{@html componentContent.projectInfo.filterHeader}</h2>
-        {@html componentContent.projectInfo.filterDesc}  
+        <h2>{@html componentContent.connectInfo.filterHeader}</h2>
+        {@html componentContent.connectInfo.filterDesc}  
     {/if}
 </section>
 

@@ -10,6 +10,7 @@
 
 </script>
 
+
 <!-- COMPONENT MARKUP-->
 <main {transition}>
     <TitleBlock {...titleInfo}/>

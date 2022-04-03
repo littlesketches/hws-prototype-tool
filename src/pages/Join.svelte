@@ -21,6 +21,7 @@
     section{
         display:                grid;
         grid-template-columns:  1fr 2fr;
+        grid-template-rows:     auto 1fr;
         column-gap:             2.5vw;
         row-gap:                2.5vw;
         grid-template-areas: 

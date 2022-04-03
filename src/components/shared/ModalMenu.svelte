@@ -1,8 +1,8 @@
 <!-- FULL SCREEN MODAL NAVIGATION MENU COMPONENT -->
-<!-- SCRIPT -->
 <script>
-	import { fade } from 'svelte/transition';
-	import { ui } from '../../data/stores.js'
+	import { fade }     from 'svelte/transition';
+	import { ui }       from '../../data/stores.js'
+	import { slugify }  from '../../utils/helpers.js'
 
     function switchPage(){
         $ui.page = this.getAttribute('name').toLowerCase()
@@ -13,7 +13,7 @@
 
 </script>
 
-<!---- COMPONENT MARKUP HTML ---->
+<!---- COMPONENT HTML MARKUP ---->
 <section class ='modal-menu' transition:fade>
      <div class = 'title-container'>
         <h1>navigate</h1>
@@ -21,20 +21,16 @@
     </div>    
      <div class = 'page-nav-container'>
         <ul >
-          <li name = 'home' on:click={switchPage}>
-            <div class = 'menu-title'>Home</div>
-            <div class = 'menu-shortDesc'>Go back to where it all began...</div>
-          </li>
-          {#each $ui.items.pages as page (page.id) }
-            <li name = {page.name} on:click={switchPage}>
-                <div class = 'menu-title'>
-                  {@html page.name} 
-                </div>
-                <div class = 'menu-shortDesc'>
-                  {@html page.shortDesc} 
-                </div> 
+            <li name = 'home' on:click={switchPage}>
+                <div class = 'menu-title'>Home</div>
+                <div class = 'menu-shortDesc'>Get back to where you once belonged..</div>
             </li>
-          {/each}
+            {#each $ui.items.pages as page (slugify(page.name)) }
+            <li name = {page.name} on:click={switchPage}>
+                <div class = 'menu-title'> {@html page.name} </div>
+                <div class = 'menu-shortDesc'>{@html page.shortDesc} </div> 
+            </li>
+            {/each}
         </ul>
     </div>
 </section>
@@ -43,7 +39,6 @@
 
 <!---- CSS STYLING ---->
 <style>
-
     section.modal-menu{
         position:   fixed;
         top:        0;
@@ -51,7 +46,6 @@
         z-index:    20;
         display:    grid;
         grid-template-columns: 1fr 2fr;
-        /* column-gap: 5vw; */
         width:      100vw;
         height:     100vh;
         background: rgba(0, 0, 0, 0.9);
@@ -82,16 +76,16 @@
         border-bottom: none;
     }
     ul{
-        margin-block-start: 0;
-        margin-block-end: 0;
-        padding-inline-start: 0;
+        margin-block-start:     0;
+        margin-block-end:       0;
+        padding-inline-start:   0;
         }
     li{
         list-style-type: none;
-        cursor:   pointer;
-        padding:  2rem 0;
-        display:  block;
-        width: 100%;
+        cursor:     pointer;
+        padding:    2rem 0;
+        display:    block;
+        width:      100%;
     }
     li:not(:first-child){
         border-top: 1px #fff solid;
@@ -105,7 +99,6 @@
     .menu-title{
         font-size: 2rem;
     }
-
     .menu-shortDesc{
         padding-top: 0.5rem;
         font-size: 1rem;

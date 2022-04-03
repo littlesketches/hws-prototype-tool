@@ -1,13 +1,12 @@
 <!-- PROJECT LIST-->
 <script>
-    import ListViewSwitch    from './ListViewSwitch.svelte'
-    import ProjectCard       from './ProjectCard.svelte'
-    import ProjectMap        from './ProjectMap.svelte'
-    import { ui }            from '../../../data/stores.js'
-    import { getRandomStockImgPath, projectData } from '../../../data/content.js'
+    import ListViewSwitch       from './ListViewSwitch.svelte'
+    import StakeholderCard      from './StakeholderCard.svelte'
+    import StakeholderNetwork   from './StakeholderNetwork.svelte'
+    import { ui }               from '../../../data/stores.js'
+    import { organisationData } from '../../../data/content.js'
 
-
-    // Random project selection
+    // Random stakeholder selection
     function getRandomInt(min, max) {
         min = Math.ceil(min);
         max = Math.floor(max);
@@ -15,24 +14,22 @@
     };
     const shuffleArray = (array) => array.sort(() => Math.random() - 0.5)
 
-    const randProjNumber =  getRandomInt(4, 9)  
-    const projects = shuffleArray(projectData.slice(0, randProjNumber))
-
+    const randStakeholderNumber =  getRandomInt(4, 9)  
+    const stakeholders = shuffleArray(organisationData.slice(0, randStakeholderNumber))
 
 </script>
 
 <!-- COMPONENT HTML MARKUP-->
 <section>   
     <ListViewSwitch/> 
-    
-    {#if $ui.byPage.discover.projectView === 'cards'}
+    {#if $ui.byPage.connect.stakeholderView === 'cards'}
     <ul>
-        {#each projects as project}
-        <ProjectCard {...project} />
+        {#each stakeholders as stakeholder}
+        <StakeholderCard {...stakeholder} />
         {/each}
     </ul>
     {:else}
-        <ProjectMap/> 
+        <StakeholderNetwork/> 
     {/if}
     
 </section>
@@ -57,21 +54,5 @@
     }
     h3{
         margin-block-start: 0;
-    }
-    .option-container{
-        display: flex;
-        justify-content: space-between;
-    }
-    .icon-container{
-        display: inline-block;
-        cursor: pointer;
-        opacity: 0.65;
-        font-size: 0.75rem;
-    }
-    .icon-container.selected{
-        opacity: 1;
-    }
-    .icon-container:hover{
-        font-weight: 600;
     }
 </style>

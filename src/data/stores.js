@@ -27,9 +27,24 @@ export const ui = writable({
     },
     byPage:{ 
         discover: {
-            main:           'list',
-            projectPage:     false,
-            projectID:       null
+            main:               'list',            // Project "list" or "search"
+            projectPage:        false,            // Whether the project details page is showing    
+            projectID:          null,
+            projectView:        'cards',       // Project "cards" or "map"
+            projectSearch: {
+                isMade:         false,
+                type:           null,
+            }
+        },
+        connect: {
+            main:               'list',         // Connection by "list" or "search"
+            stakeholderPage:    false,            // Whether the project details page is showing    
+            stakeholderID:      null,
+            stakeholderView:     'cards',
+            stakeholderSearch: {
+                isMade:         false,
+                type:           null,
+            }
         }
     }
 })

@@ -27,13 +27,13 @@
     };
 
     function handleSubmit(){
-        $ui.byPage.discover.main = 'list'
-        $ui.byPage.discover.projectSearch.isMade = true
+        $ui.byPage.connect.main = 'list'
+        $ui.byPage.connect.stakeholderSearch.isMade = true
         console.log($ui.search)
     };
 
     function handleClose(){
-        $ui.byPage.discover.main = 'list'
+        $ui.byPage.connect.main = 'list'
     };
 
 
@@ -165,6 +165,43 @@
         </div>
     </div>
 
+    <!-- by Stakeholders -->
+    <div class = "container">
+        <div id = "byStakeholders" class="collapse__header" type="button" 
+            class:selected="{paneVisbility.byStakeholders}" on:click={togglePane}>
+            <h3>Stakeholder name</h3>
+            <div class="toggle-icon down">&#8595;</div>
+        </div>
+        {#if paneVisbility.byStakeholders}
+        <div class = "collapse__body" transition:slide>
+            <div class = 'multi-select-container' style="z-index:9">
+                <h4>{@html leadOrg.label}</h4>
+                <MultiSelect id = {leadOrg.name} bind:value={$ui.search.leadOrg} placeholder={leadOrg.placeholder} >
+                    {#each leadOrg.list as name}
+                    <option value={name}>{@html name}</option>
+                    {/each}                
+                </MultiSelect>
+            </div>
+            <div class = 'multi-select-container' style="z-index:8">
+                <h4>{@html leadOrgType.label}</h4>
+                <MultiSelect id = {leadOrgType.name} bind:value={$ui.search.leadOrgType} placeholder={leadOrgType.placeholder} >
+                    {#each leadOrgType.list as name}
+                    <option value={name}>{@html name}</option>
+                    {/each}                
+                </MultiSelect>
+            </div>
+            <div class = 'multi-select-container' style="z-index:7">
+                <h4>{@html partnerOrg.label}</h4>
+                <MultiSelect id = {partnerOrg.name} bind:value={$ui.search.partnerOrg} placeholder={partnerOrg.placeholder} >
+                    {#each partnerOrg.list as name}
+                    <option value={name}>{@html name}</option>
+                    {/each}                
+                </MultiSelect>
+            </div>
+        </div>
+        {/if}
+    </div>
+
     <!-- by Waterways impact -->
     <div class = "container">
         <div id = "byOutcomes" class="collapse__header" type="button" 
@@ -209,7 +246,7 @@
     <div class = "container">
         <div id = "byLocation" class="collapse__header" type="button" 
             class:selected="{paneVisbility.byLocation}" on:click={togglePane}>
-            <h3>Location</h3>
+            <h3>Location of work</h3>
             <div class="toggle-icon down">&#8595;</div>
         </div>
         {#if paneVisbility.byLocation}
@@ -297,45 +334,8 @@
         {/if}
     </div>
 
-    <!-- by Stakeholders -->
-    <div class = "contariner">
-        <div id = "byStakeholders" class="collapse__header" type="button" 
-            class:selected="{paneVisbility.byStakeholders}" on:click={togglePane}>
-            <h3>Stakeholders</h3>
-            <div class="toggle-icon down">&#8595;</div>
-        </div>
-        {#if paneVisbility.byStakeholders}
-        <div class = "collapse__body" transition:slide>
-            <div class = 'multi-select-container' style="z-index:9">
-                <h4>{@html leadOrg.label}</h4>
-                <MultiSelect id = {leadOrg.name} bind:value={$ui.search.leadOrg} placeholder={leadOrg.placeholder} >
-                    {#each leadOrg.list as name}
-                    <option value={name}>{@html name}</option>
-                    {/each}                
-                </MultiSelect>
-            </div>
-            <div class = 'multi-select-container' style="z-index:8">
-                <h4>{@html leadOrgType.label}</h4>
-                <MultiSelect id = {leadOrgType.name} bind:value={$ui.search.leadOrgType} placeholder={leadOrgType.placeholder} >
-                    {#each leadOrgType.list as name}
-                    <option value={name}>{@html name}</option>
-                    {/each}                
-                </MultiSelect>
-            </div>
-            <div class = 'multi-select-container' style="z-index:7">
-                <h4>{@html partnerOrg.label}</h4>
-                <MultiSelect id = {partnerOrg.name} bind:value={$ui.search.partnerOrg} placeholder={partnerOrg.placeholder} >
-                    {#each partnerOrg.list as name}
-                    <option value={name}>{@html name}</option>
-                    {/each}                
-                </MultiSelect>
-            </div>
-        </div>
-        {/if}
-    </div>
-
     <div class = "button-container">
-        <button on:click|preventDefault={handleSubmit}>Search for projects</button>
+        <button on:click|preventDefault={handleSubmit}>Search for stakeholders</button>
     </div>
 
 </section>

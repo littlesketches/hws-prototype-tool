@@ -3,6 +3,7 @@
     import { app, deleteAllUsers }  from '../../../data/realm.js';
     import { getMenuOptions }       from '../../../data/content.js'
     import { user, ui }             from '../../../data/stores.js'
+    import { slugify }              from '../../../utils/helpers.js'
 
     $ui.items.pages = getMenuOptions($user)
 
@@ -12,7 +13,7 @@
 <section>
     <!-- <h3>Menu of stuff</h3> -->
     <div class ='menu-container'>
-        {#each $ui.items.pages as page (page.id)}
+        {#each $ui.items.pages as page (slugify(page.name))}
             <MenuCard name = {page.name} shortDesc = {page.shortDesc}/>
         {/each}
     </div>

@@ -19,10 +19,10 @@
 
     onMount(() => {
         slot.querySelectorAll('option').forEach(o => {
-        o.selected && !value.includes(o.value) && (value = [...value, o.value]);
-        options = [...options, {value: o.value, name: o.textContent}]
+            o.selected && !value.includes(o.value) && (value = [...value, o.value]);
+            options = [...options, {value: o.value, name: o.textContent}]
         });
-        // value && (selected = options.reduce((obj, op) => value.includes(op.value) ? {...obj, [op.value]: op} : obj, {}));
+        value && (selected = options.reduce((obj, op) => value.includes(op.value) ? {...obj, [op.value]: op} : obj, {}));
         first = false;
     });
 
@@ -180,14 +180,15 @@
     .token {
         align-items: center;
         background-color: hsl(214, 17%, 92%);
-        border-radius: 1.25rem;
+        border-radius: 1.0rem;
         display: flex;
-        margin: .25rem .5rem .25rem 0;
+        margin: .125rem .25rem .125rem 0;
         max-height: 2rem;
         padding: 1rem .75rem 1rem .75rem;
         transition: background-color .3s;
         white-space: nowrap;
         font-weight: 300;
+        font-size: 0.75rem;
     }
     .token:hover {
         background-color: hsl(214, 15%, 88%);

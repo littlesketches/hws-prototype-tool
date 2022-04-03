@@ -5,7 +5,7 @@
     import { getPageInfo }  from '../data/content.js'
 
 	export let transition
-    const pageInfo = getPageInfo($ui.page)[0].pageInfo
+    const pageInfo = getPageInfo($ui.page)[0].TitleBlock
 
 </script>
 
@@ -20,6 +20,7 @@
     section{
         display:                grid;
         grid-template-columns:  1fr 2fr;
+        grid-template-rows:     auto 1fr;
         column-gap:             2.5vw;
         row-gap:                2.5vw;
         grid-template-areas: 
