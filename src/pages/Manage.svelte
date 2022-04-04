@@ -12,12 +12,25 @@
 
 
 <!-- COMPONENT MARKUP-->
-<main {transition}>
+<section {transition}>
     <TitleBlock {...titleInfo}/>
-</main>
+</section>
 
 
 
 <!------ STYLE ------->
 <style>
+    section{
+        display:                grid;
+        grid-template-columns:  1fr 2fr;
+        grid-template-rows:     auto 1fr;
+        column-gap:             2.5vw;
+        row-gap:                2.5vw;
+        grid-template-areas: 
+            "title title"
+            "info main"
+        ;
+        min-height:             100vh;
+        padding:                5vw;
+    }
 </style>

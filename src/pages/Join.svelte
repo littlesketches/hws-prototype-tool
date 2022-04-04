@@ -1,6 +1,9 @@
 <!-- EXPLORE PAGE COMPONENT-->
 <script>
     import TitleBlock       from '../components/shared/TitleBlock.svelte'
+    import JoinInfoPane     from '../components/byPage/join/JoinInfoPane.svelte'
+    import NewUser          from '../components/byPage/join/NewUser.svelte'
+    import Login            from '../components/byPage/join/Login.svelte'
 	import { ui }           from '../data/stores.js'	 
     import { getPageInfo }  from '../data/content.js'
 
@@ -13,6 +16,13 @@
 <!-- COMPONENT MARKUP-->
 <section  { transition }>
     <TitleBlock {...titleInfo}/>
+    <JoinInfoPane/>
+    {#if $ui.byPage.join.form ==='newUser'}
+    <NewUser/>
+    {:else}
+    <Login/>
+    {/if}
+
 </section>
 
 

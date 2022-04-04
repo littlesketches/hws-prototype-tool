@@ -1,6 +1,12 @@
 <!-- EXPLORE PAGE COMPONENT-->
 <script>
     import TitleBlock       from '../components/shared/TitleBlock.svelte'
+    import ShareNew         from '../components/byPage/share/ShareNew.svelte'
+    import ProjectFeedback  from '../components/byPage/share/ProjectFeedback.svelte'
+    import ProjectList      from '../components/byPage/project/ProjectList.svelte'
+    import ProjectSearch    from '../components/byPage/project/ProjectSearch.svelte'
+    import ProjectPage      from '../components/byPage/project/ProjectPage.svelte'
+
 	import { ui }           from '../data/stores.js'	 
     import { getPageInfo }  from '../data/content.js'
 
@@ -12,6 +18,23 @@
 <!-- COMPONENT MARKUP-->
 <section  { transition }>
     <TitleBlock {...pageInfo}/>
+    <!-- Project cards view-->
+    <ShareNew/>
+    <ProjectFeedback/>
+    {#if !$ui.byPage.share.projectPage}
+
+        <!-- {#if $ui.byPage.discover.main === 'list'}
+        <ProjectList/>
+        {:else if  $ui.byPage.discover.main === 'search'}
+        <ProjectSearch/>
+        {/if} -->
+    {/if}    
+
+    <!-- Project page overlay-->
+    {#if $ui.byPage.discover.projectPage}
+    <!-- <ProjectPage/> -->
+    {/if}    
+
 </section>
 
 
@@ -19,13 +42,13 @@
 <style>
     section{
         display:                grid;
-        grid-template-columns:  1fr 2fr;
+        grid-template-columns:  2fr 1fr;
         grid-template-rows:     auto 1fr;
         column-gap:             2.5vw;
         row-gap:                2.5vw;
         grid-template-areas: 
             "title title"
-            "info main"
+            "share feedback"
         ;
         min-height:             100vh;
         padding:                5vw;

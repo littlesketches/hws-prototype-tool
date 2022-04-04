@@ -2,8 +2,8 @@ import { writable } from 'svelte/store';
 
 
 export const user = writable({
-    isLoggedIn:     true,
-    isRegistered:   false,
+    isLoggedIn:         true,
+    isRegistered:       false,
 })
 
 export const ui = writable({
@@ -16,7 +16,8 @@ export const ui = writable({
         pages:      []
     },
     search: {
-
+        project:            {},
+        organisation:       {}
     },
     state: {
         location:   {
@@ -27,25 +28,43 @@ export const ui = writable({
     },
     byPage:{ 
         discover: {
-            main:               'list',            // Project "list" or "search"
-            projectPage:        false,            // Whether the project details page is showing    
-            projectID:          null,
-            projectView:        'cards',       // Project "cards" or "map"
+            main:                   'list',         // Project "list" or "search"
+            projectPage:            false,          // Whether the project details page is showing    
+            projectID:              null,
+            projectView:            'cards',        // Project "cards" or "map"
             projectSearch: {
-                isMade:         false,
-                type:           null,
+                isMade:             false,
+                type:               null,
             }
         },
         connect: {
-            main:               'list',         // Connection by "list" or "search"
-            stakeholderPage:    false,            // Whether the project details page is showing    
-            stakeholderID:      null,
-            stakeholderView:     'cards',
+            main:                   'list',         // Connection by "list" or "search"
+            stakeholderPage:        false,          // Whether the project details page is showing    
+            stakeholderID:          null,
+            stakeholderView:        'cards',
             stakeholderSearch: {
-                isMade:         false,
-                type:           null,
+                isMade:             false,
+                type:               null,
             }
+        },
+        share: {
+            main:                   'list',             // Project "list" or "search"
+            projectPage:            false,                 // "share" or "feedback"
+            projectView:            'cards',       // Project "cards" or "map"
+            projectSearch: {
+                isMade:             false,
+                type:               null,
+            }
+        },
+        join: {
+            form:                   'newUser'       // 'newUser' or  'login
+
+        },
+        manage: {
+
+
         }
+
     }
 })
 

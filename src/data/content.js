@@ -163,8 +163,20 @@ async function getContent(){
             searchResultsHeader:    getHTML('component.connectInfo.searchResultsHeader'),
             searchResultsDesc:      getHTML('component.connectInfo.searchResultsDesc'),
             searchResultsOptions:   getHTML('component.connectInfo.searchResultsOptions'),
-        }
+        },
 
+        shareInfo: {
+            selectionHeader:        getHTML('component.shareInfo.selectionHeader'),
+            selectionDefault:       getHTML('component.shareInfo.selectionDefault'),
+            searchToolHeader:       getHTML('component.shareInfo.searchToolHeader'),
+            searchToolDesc:         getHTML('component.shareInfo.searchToolDesc'),
+        },
+
+        join: {
+            header:        getHTML('component.joinInfo.header'),
+            desc:           getHTML('component.joinInfo.desc'),
+
+        }
     }
 };
 
