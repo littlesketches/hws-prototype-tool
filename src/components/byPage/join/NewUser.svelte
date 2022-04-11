@@ -2,7 +2,7 @@
 
 <script>
     import { app }               from '../../../data/realm.js'
-    import { user, ui }               from '../../../data/stores.js'
+    import { user, ui }          from '../../../data/stores.js'
 
     let username, password, firstName, lastName, organisation, submitted
     function handleSubmit(){

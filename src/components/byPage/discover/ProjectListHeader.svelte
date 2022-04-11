@@ -1,6 +1,5 @@
 <script>
     import { ui }       from '../../../data/stores.js'
-    import { getRandomStockImgPath, projectData } from '../../../data/content.js'
 
     // Switch between cards and map  
     $ui.byPage.discover.projectView = 'cards'
@@ -15,12 +14,12 @@
 </script>
 
 <!-- COMPONENT HTML MARKUP-->
-<div class = "option-container">
+<section>
     <div>   
         {#if $ui.byPage.discover.projectView === 'cards'}
-        <h4>&#8722; Project menu</h4>
+        <h4>——— Project menu</h4>
         {:else}
-        <h4>&#8722; Project locations</h4>
+        <h4>——— Project locations</h4>
         {/if}
     </div>
         
@@ -35,39 +34,41 @@
             Map
         </div>
     </div>
-</div>
+</section>
 
 <!------ STYLE ------->
 <style>
+    h4, .switch-container{
+        font-size:          1rem;
+    }
     h4{
-        font-size: 0.75rem;
+        font-weight:        500;
         margin-block-start: 0;
         margin-block-end:   0;
-        color: rgb(150, 150, 150);
+        color:            rgb(150, 150, 150);
     }
-    .option-container{
-        display: flex;
-        justify-content: space-between;
-        padding-bottom: 1rem;
+    section{
+        display:            flex;
+        justify-content:    space-between;
+        padding-bottom:     1rem;
     }
     .switch-container{
-        display: flex;
-        align-items: flex-start;
+        display:            flex;
+        align-items:        flex-start;
     }
     .icon-divider{
-        padding: 0 0.25rem;
-        font-size: 0.75rem;
+        padding:            0 0.25rem;
+        font-size:          0.75rem;
     }
     .icon-container{
-        display: inline-block;
-        cursor: pointer;
-        opacity: 0.65;
-        font-size: 0.75rem;
+        display:            inline-block;
+        cursor:             pointer;
+        opacity:            0.65;
     }
     .icon-container.selected{
-        opacity: 1;
+        opacity:            1;
     }
     .icon-container:hover{
-        font-weight: 600;
+        font-weight:        600;
     }
 </style>

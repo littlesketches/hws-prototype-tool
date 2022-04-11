@@ -1,13 +1,15 @@
 <!-- PROECT SUMMARY CARD COMPONENT-->
 <script>
-	import { onMount }  from 'svelte';
-	import { fade } 	from 'svelte/transition';
-	import { ui }       from '../../../data/stores.js'	 
+	import { onMount }      from 'svelte';
+	import { fade, fly } 	from 'svelte/transition';
+	import { ui }           from '../../../data/stores.js'	 
+    import { getRandomStockImgPath } from '../../../data/content.js'
 
-    export let id
-    export let name
-    export let shortDesc
-    export let imgURL
+    export let projectData
+    export let index
+
+    if(!projectData.imgURL) projectData.imgURL = getRandomStockImgPath()
+    const id = projectData._id.toString()
 
     // Show and hide descriptions 
     let hoverState = false
@@ -20,38 +22,37 @@
 
     // Open a project
     function openProject(){
-        console.log('Open project with id: ', id)
-
-
+        console.log('Open project with id: ', id )
+        $ui.state.focus.projectData = projectData
         $ui.byPage.discover.projectPage = true
     };
 
+    // Set the card background image
 	onMount(async () => {
-        document.getElementById(`card-${id}`).style.backgroundImage = `url("${imgURL}")`
+        document.getElementById(`card-${id}`).style.backgroundImage = `url("${projectData.imgURL}")`
 	});
 
 </script>
 
 
 <!-- COMPONENT HTML MARKUP-->
-<li>
+<li in:fly="{{x: 500, duration: 1000, delay: 500 + 100 * index}}">
     <div id = {`card-${id}`} class = 'card' 
-        on:click={openProject} 
+        on:click={openProject(projectData)} 
         on:mouseover={showDesc}  on:focus={showDesc}   
         on:mouseout={hideDesc}  on:blur={hideDesc}   
         >
-        <h3>{@html name}</h3>
+        <h3>{@html projectData.name}</h3>
 
         {#if hoverState}
         <div class = 'desc-container' transition:fade>
-            <p>{@html shortDesc}</p>
+            <p>{@html projectData.description.long}</p>
             <div class = "project-link">
-                <a>>> Tap to see more</a>
+                <a>&rarr; Tap to see more</a>
             </div>
         </div>
         {/if}
     </div>
-
 </li>
 
 
@@ -67,7 +68,6 @@
         font-size:      1vw;
         height: fit-content;
     }
-
     .card{
         display:                flex;
         flex-direction:         column ;
@@ -78,7 +78,6 @@
         filter:                 grayscale(40%) sepia(20%);
         cursor:                 pointer;
     }
-
     .desc-container{
         align-self:     flex-end;
         background:     rgba(255, 255, 255, 0.9);
@@ -86,12 +85,10 @@
         font-size:      0.75vw;
         max-height:        100%
     }
-
     .card:hover{
         filter:                 grayscale(0%) sepia(0%)
     }
     .project-link{
         font-weight: 600;
-
     }
 </style>

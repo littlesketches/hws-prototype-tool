@@ -1,5 +1,6 @@
-
 import * as Realm from "realm-web";
+import { getRandomStockImgPath } from './content.js'
+
 // import * as d3 from 'd3'
 export { 
   app, 
@@ -9,7 +10,8 @@ export {
   connectToCollections,
   deleteAnonUser,
   deleteAllUsers,
-  findRecord
+  findRecord,
+  setupLocalStore
 } 
 
 ////////////////////////////////////////////////////////////////////
@@ -79,8 +81,23 @@ async function deleteAllUsers(app){
   }
 };
 
-
 ////////////////////////////////////////
+
+async function setupLocalStore(app, store){
+  console.log("Storing database as store...")
+  for (const name of Object.keys(store)){
+    store[name] = await app.data.collections[name].find({})
+      .then(result => {
+        if(result) {
+          console.log(`${name} stored`);          
+          return result;
+        } else {
+          console.log("No documents found");
+        }
+      })
+      .catch(err => console.error(`Failed to find documents: ${err}`));
+  }
+};
 
 async function testConnection(app){
   await initRealm(app)

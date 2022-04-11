@@ -13,8 +13,8 @@
 <section>
     <!-- <h3>Menu of stuff</h3> -->
     <div class ='menu-container'>
-        {#each $ui.items.pages as page (slugify(page.name))}
-            <MenuCard name = {page.name} shortDesc = {page.shortDesc}/>
+        {#each $ui.items.pages as page, i (slugify(page.name))}
+        <MenuCard name = {page.name} shortDesc = {page.shortDesc} index = {i}/>
         {/each}
     </div>
     <div class ='down-container'>

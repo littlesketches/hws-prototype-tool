@@ -3,9 +3,9 @@
     import TitleBlock       from '../components/shared/TitleBlock.svelte'
     import ShareNew         from '../components/byPage/share/ShareNew.svelte'
     import ProjectFeedback  from '../components/byPage/share/ProjectFeedback.svelte'
-    import ProjectList      from '../components/byPage/project/ProjectList.svelte'
-    import ProjectSearch    from '../components/byPage/project/ProjectSearch.svelte'
-    import ProjectPage      from '../components/byPage/project/ProjectPage.svelte'
+    import ProjectList      from '../components/byPage/discover/ProjectList.svelte'
+    import ProjectSearch    from '../components/byPage/discover/ProjectSearch.svelte'
+    import ProjectPage      from '../components/byPage/discover/ProjectPage.svelte'
 
 	import { ui }           from '../data/stores.js'	 
     import { getPageInfo }  from '../data/content.js'

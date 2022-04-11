@@ -10,6 +10,7 @@
 	import Manage 		from './pages/Manage.svelte'
 	import Nav 			from './components/shared/Nav.svelte'
 	import Footer 		from './components/shared/Footer.svelte'
+	import Realm 		from './components/data/Realm.svelte'
 	import { user, ui } from './data/stores.js'	 
 	import { getContent, getMenuOptions } from './data/content.js'	 
 
@@ -20,7 +21,7 @@
 	// if($ui.page !== 'home')	$ui.showNav = true
 
 
-</script>
+</script>	
 
 
 <!------ HTMl COMPONENT MARKUP ------->
@@ -28,18 +29,19 @@
 	<Nav/>
 	<main><!-- Main "Page: section controlled with base logic selector -->
 		{#if $ui.page === 'home'}
-			<Home {transition}/>
+			<Home/>
 		{:else if $ui.page === 'discover'}
-			<Discover {transition} />
+			<Discover />
 		{:else if $ui.page === 'connect'}
-			<Connect {transition}/>
+			<Connect/>
 		{:else if $ui.page === 'share'}
-			<Share {transition}/>
+			<Share/>
 		{:else if $ui.page === 'join'  }
-			<Join {transition}/>
+			<Join/>
 		{:else if $ui.page === 'manage'  }
-			<Manage {transition}/>
+			<Manage/>
 		{/if}
+		<Realm/>
 	</main>
 	{#if $ui.page !== 'home'}
 	<Footer/>

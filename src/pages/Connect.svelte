@@ -1,5 +1,6 @@
 <!-- EXPLORE PAGE COMPONENT-->
 <script>
+	import  { fade }            from 'svelte/transition'
     import TitleBlock           from '../components/shared/TitleBlock.svelte'
     import ConnectInfoPane      from '../components/byPage/connect/ConnectInfoPane.svelte'
     import StakeholderList      from '../components/byPage/connect/StakeholderList.svelte'
@@ -8,13 +9,13 @@
 	import { ui }               from '../data/stores.js'	 
     import { getPageInfo }      from '../data/content.js'
 
-	export let transition
+
     const titleInfo = getPageInfo($ui.page)[0].TitleBlock
 
 </script>
 
 <!-- COMPONENT MARKUP-->
-<section  { transition }>
+<section  transition:fade>
     <TitleBlock {...titleInfo}/>
     <!-- Project cards view-->
     {#if !$ui.byPage.connect.projectPage}

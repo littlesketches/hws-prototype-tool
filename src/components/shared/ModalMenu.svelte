@@ -14,7 +14,7 @@
 </script>
 
 <!---- COMPONENT HTML MARKUP ---->
-<section class ='modal-menu' transition:fade>
+<section class ='modal-menu' in:fade="{{duration: 500}}" out:fade="{{duration: 250}}" >
      <div class = 'title-container'>
         <h1>navigate</h1>
         <!-- <p>jump to different sections</p> -->

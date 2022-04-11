@@ -1,5 +1,5 @@
+// User interface store objects
 import { writable } from 'svelte/store';
-
 
 export const user = writable({
     isLoggedIn:         true,
@@ -15,11 +15,15 @@ export const ui = writable({
     items: {
         pages:      []
     },
+
     search: {
         project:            {},
         organisation:       {}
     },
     state: {
+        focus: {
+            projectData:        null,
+        },
         location:   {
             catchment:      false,
             subCatchment:   false,
@@ -68,10 +72,10 @@ export const ui = writable({
     }
 })
 
-
 export const content =  writable({
     project:   {
         likes:          [],
         favs:           []
     }
 })
+

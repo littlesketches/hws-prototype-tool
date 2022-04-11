@@ -173,9 +173,8 @@ async function getContent(){
         },
 
         join: {
-            header:        getHTML('component.joinInfo.header'),
-            desc:           getHTML('component.joinInfo.desc'),
-
+            header:                 getHTML('component.joinInfo.header'),
+            desc:                   getHTML('component.joinInfo.desc'),
         }
     }
 };

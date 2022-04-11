@@ -1,5 +1,6 @@
 <!-- PARALLAX HERO BG COMPONENT WITH "ABOUT" && "FOOTER" COMPONENTS EMBEDDED -->
 <script>
+	import  { fade } from 'svelte/transition'
     import About from './About.svelte'
     import Footer from '../../shared/Footer.svelte'
 	const layers = [0, 1, 2, 3, 4, 5, 6, 7, 8];
@@ -12,10 +13,13 @@
 
 <section>
     <div class="parallax-container">
-        {#each layers as layer}
+        {#each layers as layer, i}
             <img style="transform: translate(0,{-y * layer / (layers.length - 1)}px)"
                 src="./static/img/parallax/parallax{layer}.png"
-                alt="parallax layer {layer}">
+                alt="parallax layer {layer}"
+				in:fade="{{duration: 500, delay: i* 200}}"
+				out:fade="{{duration: 200, delay: i* 50}}"
+				>
         {/each}
     </div>
 	<!-- Content embedded to merge with parallax container scrolling-->

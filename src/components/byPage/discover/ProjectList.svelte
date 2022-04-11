@@ -1,11 +1,11 @@
 <!-- PROJECT LIST-->
 <script>
-    import ListViewSwitch    from './ListViewSwitch.svelte'
+    import ProjectListHeader from './ProjectListHeader.svelte'
     import ProjectCard       from './ProjectCard.svelte'
     import ProjectMap        from './ProjectMap.svelte'
     import { ui }            from '../../../data/stores.js'
-    import { getRandomStockImgPath, projectData } from '../../../data/content.js'
-
+    import { database }      from '../../../data/dataStores.js'
+    import { getRandomStockImgPath } from '../../../data/content.js'
 
     // Random project selection
     function getRandomInt(min, max) {
@@ -15,20 +15,19 @@
     };
     const shuffleArray = (array) => array.sort(() => Math.random() - 0.5)
 
-    const randProjNumber =  getRandomInt(4, 9)  
+    const projectData = $database.projects
+    const randProjNumber =  9
     const projects = shuffleArray(projectData.slice(0, randProjNumber))
-
 
 </script>
 
 <!-- COMPONENT HTML MARKUP-->
 <section>   
-    <ListViewSwitch/> 
-    
+    <ProjectListHeader/> 
     {#if $ui.byPage.discover.projectView === 'cards'}
     <ul>
-        {#each projects as project}
-        <ProjectCard {...project} />
+        {#each projects as projectData, index}
+        <ProjectCard {projectData} {index} />
         {/each}
     </ul>
     {:else}

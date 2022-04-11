@@ -1,5 +1,5 @@
 <script>
-	// import AutoLogin from './AutoLogin.svelte'
+	import  { fly, fade }            from 'svelte/transition'
     import { componentContent } from '../../../data/content.js'
 
     const content = componentContent.title
@@ -7,24 +7,25 @@
 
 
 <!-- COMPONENT MARKUP-->
-    <div class = "title-content">
-        <div>
-            <h3>{ @html content.subHeading } </h3>
-            <h1>{ @html content.mainHeading} </h1>    
-        </div>
-    </div>
+    <section class = "title-content" out:fade>
+        <h3 in:fly="{{y: -50, duration: 1000}}" >
+            { @html content.subHeading } 
+        </h3>
+        <h1 in:fly="{{y: -100, duration: 1000}}">
+            { @html content.mainHeading}
+        </h1>    
+    </section>
 
 
 <!------ STYLE ------->
 <style>
-    .title-content{
+    section{
         grid-area:      2 / 1 / 4 / 11 ;
         display:        grid;
-        align-items:    end;
         justify-items:  center;
         mix-blend-mode: hard-light;
         color:          rgb(13, 50, 50);
-        z-index: 2;
+        z-index:        2;
     }
 
     h1, h3 {
@@ -35,12 +36,13 @@
 	h3 {
 		font-size:          2.5vw;
 		font-weight:        200;
-        margin-block-start: 0;
+
+        align-self:         end;
 	}
 	h1 {
 		font-size:          8vw;
 		font-weight:        500;
-        margin-block-start: -1.0vw;
+        margin-block-start: 0;
 	}
 
 </style>

@@ -9,7 +9,7 @@
 </script>
 
 
-<!-- COMPONENT MARKUP-->
+<!-- COMPONENT HTML MARKUP-->
 <section {transition}>
     <Hero/>
     <Title/>

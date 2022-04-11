@@ -5,7 +5,8 @@ export  {
     hwsData, 
     projectSchema, 
     locationMap, 
-    locationTree
+    subCatchmentMap,
+    locationTree,
 }
 
 const hwsData = {
@@ -35681,26 +35682,37 @@ const hwsSchema = {
     },
     keyValues: {
         "Birds": {
+            imgURL:     "https://mwrcstorage.blob.core.windows.net/files/2021-03/hws-key-values-Birds.jpg"
         },
         "Frogs": {
+            imgURL:     "https://mwrcstorage.blob.core.windows.net/files/2021-03/hws-key-values-Frogs.jpg"
         },
         "Platypus": {
+            imgURL:     "https://mwrcstorage.blob.core.windows.net/files/2021-03/hws-key-values-Platypus.jpg"
         },
         "Macroinvertebrates": {
+            imgURL:     "https://mwrcstorage.blob.core.windows.net/files/2021-03/hws-key-values-Macroinvertebrates.jpg"
         },
         "Fish": {
+            imgURL:     "https://mwrcstorage.blob.core.windows.net/files/2021-03/hws-key-values-Fish.jpg"
         },
         "Vegetation": {
+            imgURL:     "https://mwrcstorage.blob.core.windows.net/files/2021-03/hws-key-values-Vegetation_1.jpg"
         },
         "Amenity": {
+            imgURL:     "https://mwrcstorage.blob.core.windows.net/files/2021-05/hws-key-values-Amenity.jpg"
         },
         "Community connection": {
+            imgURL:     "https://mwrcstorage.blob.core.windows.net/files/2021-03/hws-key-values-Community-connection.jpg"
         },
         "Recreation": {
+            imgURL:     "https://mwrcstorage.blob.core.windows.net/files/2021-03/hws-key-values-Recreation.jpg"
         },
         "Cultural": {
+            imgURL:     "https://mwrcstorage.blob.core.windows.net/files/2021-03/hws-key-values-Cultural_0.jpg"
         },
         "Economic": {
+            imgURL:     "https://mwrcstorage.blob.core.windows.net/files/2021-03/hws-key-values-Economic_0.jpg"
         }
     },
 
@@ -35719,6 +35731,7 @@ const hwsSchema = {
                 "Recreation",
                 "Community connection",
             ],
+            imgURL:     "https://mwrcstorage.blob.core.windows.net/files/2021-03/hws-waterway-conditions-Vegetation.jpg"
         },
         "Water quality":{
             valuesEnviro: [
@@ -35734,6 +35747,7 @@ const hwsSchema = {
                 "Recreation",
                 "Community connection",
             ],
+            imgURL:     "https://mwrcstorage.blob.core.windows.net/files/2021-05/hws-waterway-conditions-Water-quality.jpg"
         },
         "Water for the environment":{
             valuesEnviro: [
@@ -35749,6 +35763,7 @@ const hwsSchema = {
                 "Recreation",
                 "Community connection",
             ],
+            imgURL:     "https://mwrcstorage.blob.core.windows.net/files/2021-03/hws-waterway-conditions-water-for-environment.jpg"
         },
         "Stormwater":{
             valuesEnviro: [
@@ -35764,8 +35779,8 @@ const hwsSchema = {
                 "Recreation",
                 "Community connection",
             ],
+            imgURL:   "https://mwrcstorage.blob.core.windows.net/files/2021-03/hws-waterway-conditions-Stormwater.jpg"
         },
-
         "Habitat":{
             valuesEnviro: [
                 "Macroinvertebrates",
@@ -35780,14 +35795,15 @@ const hwsSchema = {
                 "Recreation",
                 "Community connection",
             ],
+            imgURL:     "https://mwrcstorage.blob.core.windows.net/files/2021-03/hws-waterway-conditions-Habitat.jpg"
         },
-
         "Recreational water quality":{
             valuesEnviro:      null,
             valuesHuman: [
                 "Recreation",
                 "Community connection",
             ],
+            imgURL:     "https://mwrcstorage.blob.core.windows.net/files/2021-03/hws-waterway-conditions-Recreational-water-quality.jpg"
         },
 
         "Access":{
@@ -35797,6 +35813,7 @@ const hwsSchema = {
                 "Recreation",
                 "Community connection",
             ],
+            imgURL:     "https://mwrcstorage.blob.core.windows.net/files/2021-03/hws-waterway-conditions-Access.jpg"
         },
 
         "Litter":{
@@ -35806,14 +35823,16 @@ const hwsSchema = {
                 "Recreation",
                 "Community connection",
             ],
+            imgURL:       "https://mwrcstorage.blob.core.windows.net/files/2021-03/hws-waterway-conditions-Litter.jpg"
         },
 
-        "Particpation":{
+        "Participation":{
             valuesEnviro:      null,
             valuesHuman: [
                 "Recreation",
                 "Community connection",
-            ]
+            ],
+            imgURL:       "https://mwrcstorage.blob.core.windows.net/files/2021-03/hws-waterway-conditions-Partiicpation.jpg"
         },
     },
 
@@ -35873,10 +35892,32 @@ const hwsSchema = {
 
             ]
         },
-        "Pests": {},
-        "Stormwater": {},
-        "Vegetation": {},
-        "Water quality": {},
+        "Stormwater": {
+            themes: [
+                "Infiltrating and harvesting stormwater",
+                "Maintain stormwater treatment systems",
+                "Implement urban stormwater treatment measures",
+                "Stormwater foundational actions",
+                "Reduce sedimentation from run-off associated with construction for urban development"
+            ]
+        },
+        "Vegetation": {
+            themes: [
+                "Increase Vegetation Extent",
+                "Protect / maintain or improve vegetation quality",
+                "Vegetation Management"
+            ]
+        },
+        "Water quality": {
+            themes: [
+                "Improve water quality from agricultural land practices",
+                "Reporting",
+                "Maintain / protect recreational water quality",
+                "Maintain or improve quality of Sewerage Treatment Plant discharges",
+                "Address urban diffuse sources of water quality impact",
+                "Understanding and risk based programs"
+            ]
+        },
     }
 
 }
@@ -35934,7 +35975,7 @@ const projectSchema =  {
     ],
 }
 
-const locationMap = {
+const locationMapped = {
     subCatch_catch: d3.group(hwsData.table, 
         d => d.subCatchmentName,
         d => d.catchmentName 
@@ -35951,4 +35992,568 @@ const locationTree = d3.group(hwsData.table,
     d => d.poLocationName
 )
 
+/// Mapping objects for loction and subCatchement
+const subCatchmentMap = {
+    "Bass River": "Westernport",
+    "Boyd Creek": "Maribyrnong",
+    "Bunyip Lower": "Westernport",
+    "Bunyip River Middle and Upper": "Westernport",
+    "Cardinia, Toomuc, Deep and Ararat Creeks": "Westernport",
+    "Cherry Creek": "Werribee",
+    "Corhanwarrabul, Monbulk and Ferny Creeks": "Dandenong",
+    "Dalmore Outfalls": "Westernport",
+    "Dandenong Creek Lower": "Dandenong",
+    "Dandenong Creek Middle": "Dandenong",
+    "Darebin Creek": "Yarra",
+    "Deep Creek Lower": "Maribyrnong",
+    "Deep Creek Upper": "Maribyrnong",
+    "Diamond Creek (Rural)": "Yarra",
+    "Emu Creek": "Maribyrnong",
+    "Eumemmerring Creek": "Dandenong",
+    "French and Phillip Islands": "Westernport",
+    "Jacksons Creek": "Maribyrnong",
+    "Kananook Creek": "Dandenong",
+    "Kororoit Creek Lower": "Werribee",
+    "Kororoit Creek Upper": "Werribee",
+    "Lang Lang River": "Westernport",
+    "Laverton Creek": "Werribee",
+    "Little River Lower": "Werribee",
+    "Little River Upper": "Werribee",
+    "Lollypop Creek": "Werribee",
+    "Maribyrnong River": "Maribyrnong",
+    "Merri Creek Upper": "Yarra",
+    "Moonee Ponds Creek": "Maribyrnong",
+    "Mornington Peninsula North-Eastern Creeks": "Westernport",
+    "Mornington Peninsula South-Eastern Creeks": "Westernport",
+    "Mornington Peninsula Western Creeks": "Westernport",
+    "Mullum Mullum Creek": "Yarra",
+    "Olinda Creek": "Yarra",
+    "Parwan Creek": "Werribee",
+    "Plenty River Lower": "Yarra",
+    "Plenty River Upper": "Yarra",
+    "Regional - All Catchments": "Regional",
+    "Skeleton Creek": "Werribee",
+    "Steels and Pauls Creek (Rural)": "Yarra",
+    "Stringybark Creek": "Yarra",
+    "Tarago River": "Westernport",
+    "Toolern Creek": "Werribee",
+    "Watts River (Source)": "Yarra",
+    "Werribee River Lower": "Werribee",
+    "Werribee River Middle": "Werribee",
+    "Woori Yallock Creek": "Yarra",
+    "Yarra River Lower": "Yarra",
+    "Yarra River Middle": "Yarra",
+    "Yarra River Upper (Rural)": "Yarra",
+    "Yarra River Upper (Source)": "Yarra"
+}
 
+const locationMap = {
+    "Altona Treatment Plant": {
+        "subCatchment": "Laverton Creek",
+        "catchment": "Werribee"
+    },
+    "Anderson Creek East Retarding Basin": {
+        "subCatchment": "Yarra River Middle",
+        "catchment": "Yarra"
+    },
+    "Annulus Billabong Yarra Flats": {
+        "subCatchment": "Yarra River Lower",
+        "catchment": "Yarra"
+    },
+    "Balcombe Creek Estuary": {
+        "subCatchment": "Mornington Peninsula Western Creeks",
+        "catchment": "Westernport"
+    },
+    "Balls Wetland Complex (Western Grassland Reserve)": {
+        "subCatchment": "Lollypop Creek",
+        "catchment": "Werribee"
+    },
+    "Banyan Waterhole (aka Boundary Road Wetland)": {
+        "subCatchment": "Kananook Creek",
+        "catchment": "Dandenong"
+    },
+    "Banyule Flats Billabong": {
+        "subCatchment": "Yarra River Lower",
+        "catchment": "Yarra"
+    },
+    "Barnbam Swamp Lynbrook": {
+        "subCatchment": "Eumemmerring Creek",
+        "catchment": "Dandenong"
+    },
+    "Bass River Estuary": {
+        "subCatchment": "Bass River",
+        "catchment": "Westernport"
+    },
+    "Baths Swamp (Western Grassland Reserve)": {
+        "subCatchment": "Little River Lower",
+        "catchment": "Werribee"
+    },
+    "Black Forest Rd Wetland (Western Grassland Reserve)": {
+        "subCatchment": "Little River Lower",
+        "catchment": "Werribee"
+    },
+    "Black Swamp": {
+        "subCatchment": "Lollypop Creek",
+        "catchment": "Werribee"
+    },
+    "Boyd Creek Subcatchment": {
+        "subCatchment": "Boyd Creek",
+        "catchment": "Maribyrnong"
+    },
+    "Braeside Park": {
+        "subCatchment": "Dandenong Creek Lower",
+        "catchment": "Dandenong"
+    },
+    "Bunyip River Estuary": {
+        "subCatchment": "Bunyip Lower",
+        "catchment": "Westernport"
+    },
+    "Bunyip River Middle and Upper Subcatchment": {
+        "subCatchment": "Bunyip River Middle and Upper",
+        "catchment": "Westernport"
+    },
+    "Cardinia Creek Estuary": {
+        "subCatchment": "Cardinia, Toomuc, Deep and Ararat Creeks",
+        "catchment": "Westernport"
+    },
+    "Cardinia Creek Retarding Basin Wetlands": {
+        "subCatchment": "Cardinia, Toomuc, Deep and Ararat Creeks",
+        "catchment": "Westernport"
+    },
+    "Cardinia Toomuc Deep and Ararat Creeks Subcatchment": {
+        "subCatchment": "Cardinia, Toomuc, Deep and Ararat Creeks",
+        "catchment": "Westernport"
+    },
+    "Cheetham Wetlands": {
+        "subCatchment": "Skeleton Creek",
+        "catchment": "Werribee"
+    },
+    "Cherry Lake Cherry Creek": {
+        "subCatchment": "Cherry Creek",
+        "catchment": "Werribee"
+    },
+    "Chinamans Creek Estuary": {
+        "subCatchment": "Mornington Peninsula Western Creeks",
+        "catchment": "Westernport"
+    },
+    "Cobbledicks Ford Reserve (Western Grassland Reserve)": {
+        "subCatchment": "Lollypop Creek",
+        "catchment": "Werribee"
+    },
+    "Cockatoo Swamp": {
+        "subCatchment": "Woori Yallock Creek",
+        "catchment": "Yarra"
+    },
+    "Coolart Wetlands": {
+        "subCatchment": "Mornington Peninsula South-Eastern Creeks",
+        "catchment": "Westernport"
+    },
+    "Corhanwarrabul Monbulk and Ferny Creeks Subcatchment": {
+        "subCatchment": "Corhanwarrabul, Monbulk and Ferny Creeks",
+        "catchment": "Dandenong"
+    },
+    "Cunninghamâ€™s Swamp": {
+        "subCatchment": "Werribee River Lower",
+        "catchment": "Werribee"
+    },
+    "Dalmore Outfalls Subcatchment": {
+        "subCatchment": "Dalmore Outfalls",
+        "catchment": "Westernport"
+    },
+    "Dandenong Creek Lower Subcatchment": {
+        "subCatchment": "Dandenong Creek Lower",
+        "catchment": "Dandenong"
+    },
+    "Dandenong Creek Middle Subcatchment": {
+        "subCatchment": "Dandenong Creek Middle",
+        "catchment": "Dandenong"
+    },
+    "Darebin Creek Subcatchment": {
+        "subCatchment": "Darebin Creek",
+        "catchment": "Yarra"
+    },
+    "Deanside Marsh Rockbank": {
+        "subCatchment": "Kororoit Creek Lower",
+        "catchment": "Werribee"
+    },
+    "Deep Creek Estuary": {
+        "subCatchment": "Cardinia, Toomuc, Deep and Ararat Creeks",
+        "catchment": "Westernport"
+    },
+    "Deep Creek Lower Subcatchment": {
+        "subCatchment": "Deep Creek Lower",
+        "catchment": "Maribyrnong"
+    },
+    "Deep Creek Upper Subcatchment": {
+        "subCatchment": "Deep Creek Upper",
+        "catchment": "Maribyrnong"
+    },
+    "Diamond Creek (Rural) Subcatchment": {
+        "subCatchment": "Diamond Creek (Rural)",
+        "catchment": "Yarra"
+    },
+    "Domain Chandon Billabongs": {
+        "subCatchment": "Yarra River Upper (Rural)",
+        "catchment": "Yarra"
+    },
+    "Donnybrook Road Lake": {
+        "subCatchment": "Darebin Creek",
+        "catchment": "Yarra"
+    },
+    "Eastern Treatment Plant": {
+        "subCatchment": "Kananook Creek",
+        "catchment": "Dandenong"
+    },
+    "Edithvale Wetland": {
+        "subCatchment": "Dandenong Creek Lower",
+        "catchment": "Dandenong"
+    },
+    "Emu Creek Subcatchment": {
+        "subCatchment": "Emu Creek",
+        "catchment": "Maribyrnong"
+    },
+    "Eumemmerring Creek Subcatchment": {
+        "subCatchment": "Eumemmerring Creek",
+        "catchment": "Dandenong"
+    },
+    "French and Phillip Islands Subcatchment": {
+        "subCatchment": "French and Phillip Islands",
+        "catchment": "Westernport"
+    },
+    "Gisborne Marshlands": {
+        "subCatchment": "Jacksons Creek",
+        "catchment": "Maribyrnong"
+    },
+    "Greens Rd E Wetland No. 2 (Western Grassland Reserve)": {
+        "subCatchment": "Little River Upper",
+        "catchment": "Werribee"
+    },
+    "Hallam Valley Floodplain wetlands": {
+        "subCatchment": "Eumemmerring Creek",
+        "catchment": "Dandenong"
+    },
+    "Hays Paddock Billabong": {
+        "subCatchment": "Yarra River Lower",
+        "catchment": "Yarra"
+    },
+    "Holden Road Wetlands Diggers Rest": {
+        "subCatchment": "Kororoit Creek Upper",
+        "catchment": "Werribee"
+    },
+    "Jacana Wetlands": {
+        "subCatchment": "Moonee Ponds Creek",
+        "catchment": "Maribyrnong"
+    },
+    "Jacksons Creek Subcatchment": {
+        "subCatchment": "Jacksons Creek",
+        "catchment": "Maribyrnong"
+    },
+    "Jawbone Reserve": {
+        "subCatchment": "Kororoit Creek Lower",
+        "catchment": "Werribee"
+    },
+    "Jenz Swamp": {
+        "subCatchment": "Parwan Creek",
+        "catchment": "Werribee"
+    },
+    "Kananook Creek Estuary": {
+        "subCatchment": "Kananook Creek",
+        "catchment": "Dandenong"
+    },
+    "Kings Creek Estuary": {
+        "subCatchment": "Mornington Peninsula North-Eastern Creeks",
+        "catchment": "Westernport"
+    },
+    "Kororoit Creek Estuary": {
+        "subCatchment": "Kororoit Creek Lower",
+        "catchment": "Werribee"
+    },
+    "Kororoit Creek Lower Subcatchment": {
+        "subCatchment": "Kororoit Creek Lower",
+        "catchment": "Werribee"
+    },
+    "Kororoit Creek No. 3": {
+        "subCatchment": "Kororoit Creek Lower",
+        "catchment": "Werribee"
+    },
+    "Kororoit Creek Upper Subcatchment": {
+        "subCatchment": "Kororoit Creek Upper",
+        "catchment": "Werribee"
+    },
+    "Lang Lang floodplain wetlands": {
+        "subCatchment": "Lang Lang River",
+        "catchment": "Westernport"
+    },
+    "Lang Lang River Estuary": {
+        "subCatchment": "Lang Lang River",
+        "catchment": "Westernport"
+    },
+    "Lang Lang River Subcatchment": {
+        "subCatchment": "Lang Lang River",
+        "catchment": "Westernport"
+    },
+    "Laverton RAAF Swamp": {
+        "subCatchment": "Skeleton Creek",
+        "catchment": "Werribee"
+    },
+    "Lillydale Lake": {
+        "subCatchment": "Olinda Creek",
+        "catchment": "Yarra"
+    },
+    "Little River Estuary": {
+        "subCatchment": "Little River Lower",
+        "catchment": "Werribee"
+    },
+    "Little River Lower Subcatchment": {
+        "subCatchment": "Little River Lower",
+        "catchment": "Werribee"
+    },
+    "Live Bomb Wetland (Western Grassland Reserve)": {
+        "subCatchment": "Lollypop Creek",
+        "catchment": "Werribee"
+    },
+    "Lollypop Creek Subcatchment": {
+        "subCatchment": "Lollypop Creek",
+        "catchment": "Werribee"
+    },
+    "Maribyrnong River Subcatchment": {
+        "subCatchment": "Maribyrnong River",
+        "catchment": "Maribyrnong"
+    },
+    "Merri Creek Upper Subcatchment": {
+        "subCatchment": "Merri Creek Upper",
+        "catchment": "Yarra"
+    },
+    "Merricks Creek Estuary": {
+        "subCatchment": "Mornington Peninsula South-Eastern Creeks",
+        "catchment": "Westernport"
+    },
+    "Moonee Ponds Creek Subcatchment": {
+        "subCatchment": "Moonee Ponds Creek",
+        "catchment": "Maribyrnong"
+    },
+    "Mornington Peninsula North-Eastern Creeks Subcatchment": {
+        "subCatchment": "Mornington Peninsula North-Eastern Creeks",
+        "catchment": "Westernport"
+    },
+    "Mornington Peninsula South-Eastern Creeks Subcatchment": {
+        "subCatchment": "Mornington Peninsula South-Eastern Creeks",
+        "catchment": "Westernport"
+    },
+    "Mornington Peninsula Western Creeks Subcatchment": {
+        "subCatchment": "Mornington Peninsula Western Creeks",
+        "catchment": "Westernport"
+    },
+    "Mullum Mullum Creek Subcatchment": {
+        "subCatchment": "Mullum Mullum Creek",
+        "catchment": "Yarra"
+    },
+    "Olivers Creek Estuary": {
+        "subCatchment": "Mornington Peninsula North-Eastern Creeks",
+        "catchment": "Westernport"
+    },
+    "Paynes Rd Swamp": {
+        "subCatchment": "Kororoit Creek Lower",
+        "catchment": "Werribee"
+    },
+    "Plenty River Lower Subcatchment": {
+        "subCatchment": "Plenty River Lower",
+        "catchment": "Yarra"
+    },
+    "Plenty River Upper Subcatchment": {
+        "subCatchment": "Plenty River Upper",
+        "catchment": "Yarra"
+    },
+    "Point Cook Wetlands - RAAF Lake": {
+        "subCatchment": "Werribee River Lower",
+        "catchment": "Werribee"
+    },
+    "Point Cook Wetlands - Spectacle Lake": {
+        "subCatchment": "Werribee River Lower",
+        "catchment": "Werribee"
+    },
+    "Rabbitters Lake and Swamp (Western Grassland Reserve)": {
+        "subCatchment": "Little River Upper",
+        "catchment": "Werribee"
+    },
+    "Regional - All areas": {
+        "subCatchment": "Regional - All Catchments",
+        "catchment": "Regional"
+    },
+    "Richmonds Grass Swamp (Western Grassland Reserve)": {
+        "subCatchment": "Little River Lower",
+        "catchment": "Werribee"
+    },
+    "Rockbank No. 1": {
+        "subCatchment": "Kororoit Creek Lower",
+        "catchment": "Werribee"
+    },
+    "Rockbank Railway Swamp": {
+        "subCatchment": "Kororoit Creek Lower",
+        "catchment": "Werribee"
+    },
+    "Rolling Thunder Wetlands": {
+        "subCatchment": "Parwan Creek",
+        "catchment": "Werribee"
+    },
+    "Seaford Wetland": {
+        "subCatchment": "Kananook Creek",
+        "catchment": "Dandenong"
+    },
+    "Sheepwash Creek Estuary": {
+        "subCatchment": "Mornington Peninsula Western Creeks",
+        "catchment": "Westernport"
+    },
+    "Skeleton Creek Estuary": {
+        "subCatchment": "Skeleton Creek",
+        "catchment": "Werribee"
+    },
+    "Skeleton Creek Subcatchment": {
+        "subCatchment": "Skeleton Creek",
+        "catchment": "Werribee"
+    },
+    "Spadonis Billabong": {
+        "subCatchment": "Stringybark Creek",
+        "catchment": "Yarra"
+    },
+    "Steels and Pauls Creek (Rural) Subcatchment": {
+        "subCatchment": "Steels and Pauls Creek (Rural)",
+        "catchment": "Yarra"
+    },
+    "Stony Creek (WPB) Estuary": {
+        "subCatchment": "Mornington Peninsula South-Eastern Creeks",
+        "catchment": "Westernport"
+    },
+    "Tamarisk Waterway Reserve Langwarrin": {
+        "subCatchment": "Kananook Creek",
+        "catchment": "Dandenong"
+    },
+    "Tarago River Subcatchment": {
+        "subCatchment": "Tarago River",
+        "catchment": "Westernport"
+    },
+    "Target Range Swamp (Western Grassland Reserve)": {
+        "subCatchment": "Lollypop Creek",
+        "catchment": "Werribee"
+    },
+    "The Spit Nature Conservation Reserve": {
+        "subCatchment": "Little River Lower",
+        "catchment": "Werribee"
+    },
+    "Tirhatuan Wetlands Dandenong Creek": {
+        "subCatchment": "Dandenong Creek Middle",
+        "catchment": "Dandenong"
+    },
+    "Toolern Creek Subcatchment": {
+        "subCatchment": "Toolern Creek",
+        "catchment": "Werribee"
+    },
+    "Tooradin Road Drain Estuary": {
+        "subCatchment": "Dalmore Outfalls",
+        "catchment": "Westernport"
+    },
+    "Tootgarook Swamp": {
+        "subCatchment": "Mornington Peninsula Western Creeks",
+        "catchment": "Westernport"
+    },
+    "Troups Rd Swamp": {
+        "subCatchment": "Kororoit Creek Lower",
+        "catchment": "Werribee"
+    },
+    "Truganina Swamp Laverton Creek": {
+        "subCatchment": "Laverton Creek",
+        "catchment": "Werribee"
+    },
+    "Warringine Creek Estuary": {
+        "subCatchment": "Mornington Peninsula North-Eastern Creeks",
+        "catchment": "Westernport"
+    },
+    "Watson Creek Estuary": {
+        "subCatchment": "Mornington Peninsula North-Eastern Creeks",
+        "catchment": "Westernport"
+    },
+    "Watts River (Source) Subcatchment": {
+        "subCatchment": "Watts River (Source)",
+        "catchment": "Yarra"
+    },
+    "Werribee River Estuary": {
+        "subCatchment": "Werribee River Lower",
+        "catchment": "Werribee"
+    },
+    "Werribee River Lower Subcatchment": {
+        "subCatchment": "Werribee River Lower",
+        "catchment": "Werribee"
+    },
+    "Werribee River Middle Subcatchment": {
+        "subCatchment": "Werribee River Middle",
+        "catchment": "Werribee"
+    },
+    "West Quandong Swamp (Western Grassland Reserve)": {
+        "subCatchment": "Little River Upper",
+        "catchment": "Werribee"
+    },
+    "Western Port coastal wetlands": {
+        "subCatchment": "Dalmore Outfalls",
+        "catchment": "Westernport"
+    },
+    "Western Treatment Plant - Paul & Belfrages Wetland": {
+        "subCatchment": "Lollypop Creek",
+        "catchment": "Werribee"
+    },
+    "Western Treatment Plant - Ponds": {
+        "subCatchment": "Little River Lower",
+        "catchment": "Werribee"
+    },
+    "Western Treatment Plant - Ryans Swamp": {
+        "subCatchment": "Little River Lower",
+        "catchment": "Werribee"
+    },
+    "Westgate Park Wetlands": {
+        "subCatchment": "Yarra River Lower",
+        "catchment": "Yarra"
+    },
+    "Willsmere Billabong": {
+        "subCatchment": "Yarra River Lower",
+        "catchment": "Yarra"
+    },
+    "Winton Wetlands Dandenong Creek": {
+        "subCatchment": "Dandenong Creek Middle",
+        "catchment": "Dandenong"
+    },
+    "Woori Yallock Creek Subcatchment": {
+        "subCatchment": "Woori Yallock Creek",
+        "catchment": "Yarra"
+    },
+    "Wyndham Vale Swamp": {
+        "subCatchment": "Lollypop Creek",
+        "catchment": "Werribee"
+    },
+    "Yallock Creek Estuary": {
+        "subCatchment": "Bunyip Lower",
+        "catchment": "Westernport"
+    },
+    "Yallock Creek floodplain wetlands": {
+        "subCatchment": "Bunyip Lower",
+        "catchment": "Westernport"
+    },
+    "Yarra Bridge Stream Side Reserve": {
+        "subCatchment": "Yarra River Upper (Rural)",
+        "catchment": "Yarra"
+    },
+    "Yarra River Lower Subcatchment": {
+        "subCatchment": "Yarra River Lower",
+        "catchment": "Yarra"
+    },
+    "Yarra River Middle Subcatchment": {
+        "subCatchment": "Yarra River Middle",
+        "catchment": "Yarra"
+    },
+    "Yarra River Upper (Source) Subcatchment": {
+        "subCatchment": "Yarra River Upper (Source)",
+        "catchment": "Yarra"
+    },
+    "Yering Backswamp Yarra River": {
+        "subCatchment": "Yarra River Upper (Rural)",
+        "catchment": "Yarra"
+    }
+}

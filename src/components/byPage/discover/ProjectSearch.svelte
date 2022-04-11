@@ -3,10 +3,10 @@
     // import MultiSelector  from '../../shared/MultiSelector.svelte'
 	import MultiSelect    from '../../shared/MultiSelect.svelte';
     import { ui }         from '../../../data/stores.js'
-	import { slugify, capitaliseFirst } from '../../../utils/helpers.js'
-    import { hwsSchema, projectSchema, locationMap, locationTree } from '../../../data/schema.js'
+    import { hwsSchema, projectSchema, subCatchmentMap, locationMap, locationTree } from '../../../data/schema.js'
     import { organisationData } from '../../../data/content.js'
 	import { slide }      from "svelte/transition";
+
 
     ////// COLLAPSIBLE SEARCH PANES ////
 	const paneVisbility= {
@@ -45,19 +45,26 @@
         list:       Object.keys(hwsSchema.keyValues),
         placeholder:    'Use this field to select waterway key values'
     }
+
     const conditions = {
         label:      'by waterway conditions',
         name:       'conditions',
         list:       Object.keys(hwsSchema.conditions),
         placeholder:    'Use this field to select waterway conditions'
-
     }
-    const performanceObjectives = {
-        label:      'by performance objectives',
-        name:       'performanceObjectives',
-        list:       Object.keys(hwsSchema.performanceObjectives),
-        placeholder:    'Use this field to select performance objectives'
 
+    const performanceObjectivesGroup = {
+        label:      'by performance objective group',
+        name:       'performanceObjectiveGroup',
+        list:       Object.keys(hwsSchema.performanceObjectives),
+        placeholder:    'Use this field to select performance objectives groups'
+    }
+
+    const performanceObjectivesTheme = {
+        label:      'by performance objective theme',
+        name:       'performanceObjectiveTheme',
+        list:       [... new Set(Object.values(hwsSchema.performanceObjectives).map(d => d.themes).flat().sort()) ],
+        placeholder:    'Use this field to select performance objectives themes'
     }
 
     // Project location
@@ -66,27 +73,31 @@
         name:       'catchment',
         list:       [...locationTree.entries()].map(d => d[0]),
         placeholder:    'Use this field to select catchments'
-
     }
+
     const subcatchments = {
         label:          'by subcatchments',
         name:           'subcatchment',
-        list:           [].concat(...
-                            [...locationTree.entries()]
-                                .map(d => [...d[1]].map(d => d[0])) 
-                        ),
+        list:           Object.keys(subCatchmentMap).sort(),
         placeholder:    'Use this field to select subcatchments'
-
     }
+
     const locations = {
         label:          'by location',
         name:           'location',
-        list:           [].concat(...
-                            [...locationTree.entries()]
-                                .map(d => [...d[1]].map(d => d[0])) 
-                        ),
+        list:           Object.keys(locationMap).sort(),
         placeholder:    'Use this field to select locations'
     }
+
+
+// console.log('Key values', keyValues)
+// console.log('Conditions', conditions)
+// console.log('Performance objectives Group', performanceObjectivesGroup)
+// console.log('Performance objectives Theme', performanceObjectivesTheme)
+
+// console.log('Locations', locations)
+// console.log('Conditions', subcatchments)
+// console.log('Performance objectives', catchments)
 
     // Project characterships
     const initiativeType = {
@@ -160,7 +171,7 @@
 
         {#if paneVisbility.byOutcomes}
         <div class = "collapse__body"  transition:slide>
-            <div class = 'multi-select-container' style="z-index:20">
+            <div class = 'multi-select-container' style="z-index:21">
                 <h4>{@html keyValues.label}</h4>
                 <MultiSelect id={keyValues.name} bind:value={$ui.search.project.keyValues} placeholder={keyValues.placeholder} >
                     {#each keyValues.list as name}
@@ -169,7 +180,7 @@
                 </MultiSelect>
             </div>
 
-            <div class = 'multi-select-container'  style="z-index:19">
+            <div class = 'multi-select-container'  style="z-index:20">
                 <h4>{@html conditions.label}</h4>
                 <MultiSelect id={conditions.name} bind:value={$ui.search.project.conditions}   placeholder={conditions.placeholder} >
                     {#each conditions.list as name}
@@ -178,10 +189,19 @@
                 </MultiSelect>
             </div>
 
+            <div class = 'multi-select-container' style="z-index:19">
+                <h4>{@html performanceObjectivesGroup.label}</h4>
+                <MultiSelect id={performanceObjectivesGroup.name} bind:value={$ui.search.project.performanceObjectivesGroup}   placeholder={performanceObjectivesGroup.placeholder} >
+                    {#each performanceObjectivesGroup.list as name}
+                    <option value={name}>{@html name}</option>
+                    {/each}
+                </MultiSelect>
+            </div>
+
             <div class = 'multi-select-container' style="z-index:18">
-                <h4>{@html performanceObjectives.label}</h4>
-                <MultiSelect id={performanceObjectives.name} bind:value={$ui.search.project.performanceObjectives}   placeholder={performanceObjectives.placeholder} >
-                    {#each performanceObjectives.list as name}
+                <h4>{@html performanceObjectivesTheme.label}</h4>
+                <MultiSelect id={performanceObjectivesTheme.name} bind:value={$ui.search.project.performanceObjectivesTheme}   placeholder={performanceObjectivesTheme.placeholder} >
+                    {#each performanceObjectivesTheme.list as name}
                     <option value={name}>{@html name}</option>
                     {/each}
                 </MultiSelect>
@@ -393,7 +413,6 @@
         transform: rotate(180deg);
     }
 
-
 	.collapse__header.selected,
 	.collapse__header:hover {
 	    background: #333;
@@ -401,7 +420,6 @@
 	}
 	.collapse__body {
 	    padding: 1rem 0;
-	    /* background: #f0f0f0; */
         display: grid;
 	}
 

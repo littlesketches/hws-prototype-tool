@@ -1,13 +1,15 @@
 <!-- EXPLORE PAGE COMPONENT-->
 <script>
+	import { fade }         from 'svelte/transition';
     import TitleBlock       from '../components/shared/TitleBlock.svelte'
-    import ProjectInfoPane  from '../components/byPage/project/ProjectInfoPane.svelte'
-    import ProjectList      from '../components/byPage/project/ProjectList.svelte'
-    import ProjectSearch    from '../components/byPage/project/ProjectSearch.svelte'
-    import ProjectPage      from '../components/byPage/project/ProjectPage.svelte'
+    import ProjectInfoPane  from '../components/byPage/discover/ProjectInfoPane.svelte'
+    import ProjectList      from '../components/byPage/discover/ProjectList.svelte'
+    import ProjectSearch    from '../components/byPage/discover/ProjectSearch.svelte'
+    import ProjectPage      from '../components/byPage/discover/ProjectPage.svelte'
+
+
 	import { ui }           from '../data/stores.js'	 
     import { getPageInfo }  from '../data/content.js'
-	import { fade }         from 'svelte/transition';
 
     // Get title block information
     const titleInfo = getPageInfo($ui.page)[0].TitleBlock
@@ -15,20 +17,18 @@
 </script>
 
 <!-- COMPONENT MARKUP-->
-<section transition:fade >
-    <TitleBlock {...titleInfo}/>
-    <!-- Project cards view-->
+<section in:fade="{{duration: 1500}}" >
     {#if !$ui.byPage.discover.projectPage}
-    <ProjectInfoPane/>
+        <TitleBlock {...titleInfo}/>
+        <!-- Project cards view-->
+        <ProjectInfoPane/>
         {#if $ui.byPage.discover.main === 'list'}
         <ProjectList/>
         {:else if  $ui.byPage.discover.main === 'search'}
         <ProjectSearch/>
         {/if}
-    {/if}    
-
+    {:else}
     <!-- Project page overlay-->
-    {#if $ui.byPage.discover.projectPage}
     <ProjectPage/>
     {/if}        
 </section>
