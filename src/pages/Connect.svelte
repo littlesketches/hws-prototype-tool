@@ -1,37 +1,36 @@
-<!-- EXPLORE PAGE COMPONENT-->
+<!-- CONNECT PAGE COMPONENT-->
 <script>
-	import  { fade }            from 'svelte/transition'
+	import { fade }             from 'svelte/transition'
     import TitleBlock           from '../components/shared/TitleBlock.svelte'
-    import ConnectInfoPane      from '../components/byPage/connect/ConnectInfoPane.svelte'
-    import StakeholderList      from '../components/byPage/connect/StakeholderList.svelte'
+    import StakeholderList      from '../components/shared/stakeholders/StakeholderList.svelte'
+    import StakeholderPage      from '../components/shared/stakeholders/StakeholderPage.svelte'
+    import InfoPane             from '../components/byPage/connect/InfoPane.svelte'
     import StakeholderSearch    from '../components/byPage/connect/StakeholderSearch.svelte'
-    import StakeholderPage      from '../components/byPage/connect/StakeholderPage.svelte'
 	import { ui }               from '../data/stores.js'	 
     import { getPageInfo }      from '../data/content.js'
 
-
     const titleInfo = getPageInfo($ui.page)[0].TitleBlock
-
 </script>
 
+
 <!-- COMPONENT MARKUP-->
-<section  transition:fade>
+<section in:fade="{{duration: 1500}}" >
+    <!-- 1. Stakeholder cards view-->
+    {#if !$ui.byPage.connect.stakeholderPage}
     <TitleBlock {...titleInfo}/>
-    <!-- Project cards view-->
-    {#if !$ui.byPage.connect.projectPage}
-    <ConnectInfoPane/>
+    <InfoPane/>
+        <!-- a. Stakeholder default listing-->
         {#if $ui.byPage.connect.main === 'list'}
         <StakeholderList/>
+        <!-- b. Stakeholder search results view-->
         {:else if  $ui.byPage.connect.main === 'search'}
         <StakeholderSearch/>
         {/if}
-    {/if}    
 
-    <!-- Connection page overlay-->
-    {#if $ui.byPage.connect.stakeholderPage}
+    <!-- 2. Connection page overlay-->
+    {:else}    
     <StakeholderPage/>
     {/if}    
-
 </section>
 
 
@@ -45,8 +44,7 @@
         row-gap:                2.5vw;
         grid-template-areas: 
             "title title"
-            "info main"
-        ;
+            "info main";
         min-height:             100vh;
         padding:                5vw;
     }

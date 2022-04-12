@@ -5,12 +5,12 @@
     import Hero     from '../components/byPage/home/Hero.svelte'
     import About    from '../components/byPage/home/About.svelte'
     import Footer   from '../components/shared/Footer.svelte'
-	export let transition
+
 </script>
 
 
 <!-- COMPONENT HTML MARKUP-->
-<section {transition}>
+<section>
     <Hero/>
     <Title/>
     <Menu/>

@@ -1,0 +1,93 @@
+<!-- PROECT SUMMARY CARD COMPONENT-->
+<script>
+	import { fade, fly } 	         from 'svelte/transition';
+	import { ui }                    from '../../../data/stores.js'	 
+    import { getRandomStockImgPath } from '../../../data/content.js'
+
+    export let projectData
+    export let index
+console.log(projectData)
+    if(!projectData.imgURL) projectData.imgURL = getRandomStockImgPath()
+    const id = projectData._id.toString()
+
+    // Show and hide descriptions 
+    let hoverState = false
+    function showDesc(){ hoverState = true };
+    function hideDesc(){ hoverState = false };
+
+    // Open a project
+    function openProject(){
+        console.log('Open project with id: ', id )
+        $ui.state.focus.projectData = projectData
+        $ui.byPage.discover.projectPage = true
+        window.scrollTo({top: 0, behavior: 'smooth'});
+    };
+</script>
+
+
+<!-- COMPONENT HTML MARKUP-->
+<li in:fly="{{x: 500, duration: 1000, delay: 500 + 100 * index}}">
+    <div id = {`card-${id}`} class = 'card' 
+        on:click={openProject(projectData)} 
+        on:mouseover={showDesc}  on:focus={showDesc}   
+        on:mouseout={hideDesc}  on:blur={hideDesc}   
+        >
+        <img src = {projectData.imgURL} alt ='tba'>
+        <h3>{@html projectData.name}</h3>
+
+        {#if hoverState}
+        <div class = 'desc-container' transition:fade>
+            <p>{@html projectData.about.shortDescription}</p>
+            <div class = "project-link">
+                <a>&rarr; Tap to see more</a>
+            </div>
+        </div>
+        {/if}
+    </div>
+</li>
+
+
+<!------ STYLE ------->
+<style>
+    li{
+        outline: none;
+    }
+    h3{
+        padding:        0.5rem 0.5rem;
+        background:    #333;
+        color:         #fff;
+        font-size:      1vw;
+        height:         fit-content;
+    }
+    .card{
+        display:                flex;
+        flex-direction:         column ;
+        padding:                1rem;
+        height:                 35vh;
+        filter:                 grayscale(40%) sepia(20%);
+        cursor:                 pointer;
+    }
+    .card:hover{
+        filter:        grayscale(0%) sepia(0%);
+    }
+    .desc-container{
+        align-self:     flex-end;
+        background:     rgba(255, 255, 255, 0.9);
+        padding:        0.5rem;
+        font-size:      0.75vw;
+        max-height:     100%;
+    }
+
+    img{
+        position:       absolute;
+        top:            0;
+        left:           0;
+        width:          100%;
+        height:         100%; 
+        object-fit:     cover;
+        z-index:        -1;
+    }
+    .project-link{
+        font-weight:    600;
+    }
+</style>

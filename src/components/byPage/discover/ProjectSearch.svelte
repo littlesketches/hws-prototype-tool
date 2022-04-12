@@ -357,6 +357,10 @@
         padding: 0 1rem 0 0.5rem;
         line-height: 1.25;
     }
+    h4{
+        font-size:      1rem;
+        font-weight:    600
+    }
     .multi-select-container{
         display: grid;
         grid-template-columns: 1fr 3fr;

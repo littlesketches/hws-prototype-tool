@@ -2,33 +2,34 @@
 <script>
 	import { fade }         from 'svelte/transition';
     import TitleBlock       from '../components/shared/TitleBlock.svelte'
-    import ProjectInfoPane  from '../components/byPage/discover/ProjectInfoPane.svelte'
-    import ProjectList      from '../components/byPage/discover/ProjectList.svelte'
+    import ProjectList      from '../components/shared/projects/ProjectList.svelte'
+    import ProjectPage      from '../components/shared/projects/ProjectPage.svelte'
+    import InfoPane         from '../components/byPage/discover/InfoPane.svelte'
     import ProjectSearch    from '../components/byPage/discover/ProjectSearch.svelte'
-    import ProjectPage      from '../components/byPage/discover/ProjectPage.svelte'
-
-
 	import { ui }           from '../data/stores.js'	 
     import { getPageInfo }  from '../data/content.js'
 
     // Get title block information
     const titleInfo = getPageInfo($ui.page)[0].TitleBlock
-
 </script>
+
 
 <!-- COMPONENT MARKUP-->
 <section in:fade="{{duration: 1500}}" >
+    <!-- 1. Project search and listing-->
     {#if !$ui.byPage.discover.projectPage}
-        <TitleBlock {...titleInfo}/>
-        <!-- Project cards view-->
-        <ProjectInfoPane/>
+    <TitleBlock {...titleInfo}/>
+    <InfoPane/>
+        <!-- a. Project default listing-->
         {#if $ui.byPage.discover.main === 'list'}
         <ProjectList/>
+        <!-- b. Project search results view-->
         {:else if  $ui.byPage.discover.main === 'search'}
         <ProjectSearch/>
         {/if}
+
+    <!-- 2. Project page overlay-->
     {:else}
-    <!-- Project page overlay-->
     <ProjectPage/>
     {/if}        
 </section>
@@ -43,8 +44,7 @@
         row-gap:                2.5vw;
         grid-template-areas: 
             "title title"
-            "info main"
-        ;
+            "info main";
         min-height:             100vh;
         padding:                5vw;
     }

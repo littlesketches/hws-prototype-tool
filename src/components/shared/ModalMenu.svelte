@@ -94,7 +94,7 @@
         padding-top: 0;
     }
     li:hover{
-        color: aquamarine;
+        color: rgb(157, 255, 255);
     }
     .menu-title{
         font-size: 2rem;

@@ -14,8 +14,6 @@
 	import { user, ui } from './data/stores.js'	 
 	import { getContent, getMenuOptions } from './data/content.js'	 
 
-	let transition = fade
-
 	const promise = getContent()
     // $ui.items.pages = getMenuOptions($user)
 	// if($ui.page !== 'home')	$ui.showNav = true

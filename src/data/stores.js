@@ -22,7 +22,8 @@ export const ui = writable({
     },
     state: {
         focus: {
-            projectData:        null,
+            projectData:            null,
+            stakeholderData:        null,
         },
         location:   {
             catchment:      false,
@@ -45,7 +46,7 @@ export const ui = writable({
             main:                   'list',         // Connection by "list" or "search"
             stakeholderPage:        false,          // Whether the project details page is showing    
             stakeholderID:          null,
-            stakeholderView:        'cards',
+            stakeholderView:        'cards',        // Project "cards" or "network"
             stakeholderSearch: {
                 isMade:             false,
                 type:               null,

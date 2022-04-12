@@ -27,8 +27,8 @@
 
     #search-term{
         width:          100%;
-        padding:        1rem 3rem 1rem 0.25rem;
-        font-size:      0.75rem;
+        padding:        1rem 3rem 1rem 0.5rem;
+        font-weight:    300;
     }
     .input-icon{
         display:        flex;

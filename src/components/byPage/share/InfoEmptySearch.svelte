@@ -8,10 +8,11 @@
     };
 </script>
 
+
 <!-- COMPONENT HTML MARKUP-->
 <div class = 'search-options-container'>
     <!-- Replciates project search -->
-    <h2>{@html componentContent.shareInfo.searchToolHeader}</h2>
+    <h2>&#8212; {@html componentContent.shareInfo.searchToolHeader}</h2>
     {@html  componentContent.shareInfo.searchToolDesc}
     <ul>
         <li>
@@ -43,17 +44,15 @@
         margin-top: 0.5rem;
     }
     button{
-        cursor:         pointer;
-        width:          100%;
-        padding:        0.75rem 0.5rem;
-        margin-bottom:  0.75rem;
-        text-align:     left;
-        color: #333;
+        cursor:             pointer;
+        width:              100%;
+        padding:            0.75rem 0.5rem;
+        margin-bottom:      0.75rem;
+        text-align:         left;
+        color:          #333;
     }
     button:hover{
-        background-color:#fff;
-        font-weight: 500;
+        background-color:   #fff;
+        font-weight:    500;
     }
-
-
 </style>

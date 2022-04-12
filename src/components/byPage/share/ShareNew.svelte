@@ -18,9 +18,8 @@
 
 <!-- COMPONENT HTML MARKUP-->
 <section>
-
     <div class = 'selection-info info-container'>
-        <h2>{@html componentContent.shareInfo.selectionHeader}</h2>
+        <h2>&#8212; {@html componentContent.shareInfo.selectionHeader}</h2>
         {@html  componentContent.shareInfo.selectionDefault}  
     </div>
 
@@ -31,17 +30,18 @@
         <button on:click={handleLoginRedirect}>Login to share your project</button>
         {/if}
     </div>
-
 </section>
 
 
 <!------ STYLE ------->
 <style> 
     section{
-        grid-area:  share;    
+        grid-area:  share;
+        column-gap: 2.5vw;    
         background: rgb(238, 238, 238);
         padding:    1rem;
     }
+
     .button-container{
         margin-top: 0.5rem;
     }

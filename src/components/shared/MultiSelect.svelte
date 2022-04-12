@@ -1,4 +1,4 @@
-<!-- MULTI SELECT PILL AND TEXT SELECTOR COMPONENT adapted from https://svelte.dev/repl/c7094fb1004b440482d2a88f4d1d7ef5?version=3.14.0-->
+<!-- MULTI SELECT TAG AND TEXT INPUT SELECTOR COMPONENT adapted from https://svelte.dev/repl/c7094fb1004b440482d2a88f4d1d7ef5?version=3.14.0-->
 <script>
     import { onMount } from 'svelte';
     import { fly } from 'svelte/transition';
@@ -99,7 +99,7 @@
 
 
 <!-- COMPONENT HTML MARKUP -->
-<div class="multiselect" class:readonly >
+<section class="multiselect" class:readonly >
     <div class="tokens" class:showOptions on:click={handleTokenClick}>
         {#each Object.values(selected) as s}
         <div class="token" data-id="{s.value}">
@@ -140,21 +140,20 @@
         {/each}
     </ul>
     {/if}
-</div>
+</section>
 
 
 <!-- STYLES -->
 <style>
-    .multiselect {
+    section {
         background-color: white;
         border-bottom: 1px solid hsl(0, 0%, 70%);
         position: relative;
         padding: 0.125rem;
     }
-    .multiselect:not(.readonly):hover {
+    section:not(.readonly):hover {
         border-bottom-color: hsl(0, 0%, 50%);
     }
-
     .tokens {
         align-items: center;
         display: flex;
@@ -169,7 +168,6 @@
         height: 2px;
         left: 50%;
         position: absolute;
-        background: hsl(45, 100%, 51%);
         transition: width 0.3s ease 0s, left 0.3s ease 0s;
         width: 0;
     }
@@ -183,12 +181,12 @@
         border-radius: 1.0rem;
         display: flex;
         margin: .125rem .25rem .125rem 0;
-        max-height: 2rem;
-        padding: 1rem .75rem 1rem .75rem;
+        max-height: 1.75rem;
+        padding: 0.5rem 0.75rem;
         transition: background-color .3s;
         white-space: nowrap;
-        font-weight: 300;
-        font-size: 0.75rem;
+        font-weight: 600;
+        font-size: 0.8rem;
     }
     .token:hover {
         background-color: hsl(214, 15%, 88%);
@@ -203,7 +201,7 @@
         color: hsl(214, 17%, 92%);
         display: flex;
         justify-content: center;
-        height: 1.25rem;
+        height: 1rem;
         margin-left: .25rem;
         min-width: 1.25rem;
     }

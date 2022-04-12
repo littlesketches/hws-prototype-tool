@@ -1,4 +1,4 @@
-export { slugify, capitaliseFirst }
+export { slugify, capitaliseFirst, getRandomInt }
 
 function slugify(str) {
     str = str.replace(/^\s+|\s+$/g, '').toLowerCase(); // trim           
@@ -16,3 +16,9 @@ function slugify(str) {
 
 const capitaliseFirst = (string) => string.charAt(0).toUpperCase() + string.slice(1)
 
+
+function getRandomInt(min, max) {
+    min = Math.ceil(min);
+    max = Math.floor(max);
+    return Math.floor(Math.random() * (max - min + 1)) + min;
+};
