@@ -29,6 +29,10 @@
         padding:        1rem 3rem 1rem 0.25rem;
         font-size:      0.75rem;
     }
+    input{
+        width: 100%
+
+    }
     .input-icon{
         display:        flex;
         position:       absolute;

@@ -28,8 +28,8 @@
 
     <!-- 2. PROJECT SEARCH RESULT -->
     {:else if $ui.byPage.discover.main === 'search'}
-        <h2>&#8212; {@html componentContent.projectInfo.filterHeader}</h2>
-        {@html componentContent.projectInfo.filterDesc}  
+        <h2>&mdash; {@html componentContent.discover.info.filterHeader}</h2>
+        {@html componentContent.discover.info.filterDesc}  
     {/if}
 </section>
 

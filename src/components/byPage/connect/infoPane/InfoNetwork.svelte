@@ -6,8 +6,8 @@
 </script>
 
 <!-- COMPONENT HTML MARKUP-->
-<h2>&#8212;  {@html componentContent.connectInfo.networkHeader}</h2>
-{@html componentContent.connectInfo.networkDesc}  
+<h2>&mdash;  {@html componentContent.connect.info.networkHeader}</h2>
+{@html componentContent.connect.info.networkDesc}  
 
 
 <!-- STYLES -->

@@ -24,7 +24,7 @@
         {#if $ui.byPage.discover.main === 'list'}
         <ProjectList/>
         <!-- b. Project search results view-->
-        {:else if  $ui.byPage.discover.main === 'search'}
+        {:else if $ui.byPage.discover.main === 'search'}
         <ProjectSearch/>
         {/if}
 
@@ -45,7 +45,6 @@
         grid-template-areas: 
             "title title"
             "info main";
-        min-height:             100vh;
         padding:                5vw;
     }
 </style>

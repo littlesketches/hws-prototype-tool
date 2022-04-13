@@ -17,9 +17,9 @@
 <section>
     <div>   
         {#if $ui.byPage.discover.projectView === 'cards'}
-        <h4>&#8212;&#8212; Project menu</h4>
+        <h4>&mdash;&mdash; Project menu</h4>
         {:else}
-        <h4>&#8212;&#8212; Project locations</h4>
+        <h4>&mdash;&mdash; Project locations</h4>
         {/if}
     </div>
         

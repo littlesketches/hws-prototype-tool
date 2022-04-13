@@ -1,7 +1,7 @@
 <!-- COMPONENT TO DISPLAY SEARCH OPTIONS (No search)-->
 <script>
-    import { componentContent } from '../../../data/content.js'
-    import { ui }       from '../../../data/stores.js'
+    import { componentContent } from '../../../../data/content.js'
+    import { ui }               from '../../../../data/stores.js'
 
     // Options for "re-search"
     function clearSearch(){
@@ -46,15 +46,5 @@
     }
     .button-container{
         width: 100%;
-    }
-    button{
-        cursor:      pointer;
-        width:       100%;
-        text-align:  left;
-        color:      #333;
-    }
-    button:hover{
-        background-color:   #fff;
-        font-weight:        600;
     }
 </style>

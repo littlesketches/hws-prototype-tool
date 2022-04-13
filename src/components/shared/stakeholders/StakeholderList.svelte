@@ -5,7 +5,6 @@
     import StakeholderNetwork       from './StakeholderNetwork.svelte'
     import { ui }                   from '../../../data/stores.js'
     import { database }             from '../../../data/dataStores.js'
-    import { organisationData }     from '../../../data/content.js'
 
     // Random stakeholder selection
     function getRandomInt(min, max) {

@@ -6,7 +6,7 @@
 
     export let projectData
     export let index
-console.log(projectData)
+
     if(!projectData.imgURL) projectData.imgURL = getRandomStockImgPath()
     const id = projectData._id.toString()
 

@@ -6,27 +6,24 @@
 
     // Options for "re-search"
     function clearSearch(){
-        $ui.byPage.connect.main = 'list'
-        $ui.byPage.connect.stakeholderSearch.isMade = false
-        console.log('Search cleared')
+        $ui.byPage.discover.main = 'list'
+        $ui.byPage.discover.projectSearch.isMade = false
     };
     function openSearch(){
-        $ui.byPage.connect.main = 'search'
-        $ui.byPage.connect.stakeholderSearch.isMade = false
-        console.log('Opening search cleared')
+        $ui.byPage.discover.main = 'search'
+        $ui.byPage.discover.projectSearch.isMade = false
     };
-
 </script>
 
 
 <!-- COMPONENT HTML MARKUP-->
 <div>
-    <h2>&#8212; {@html componentContent.stakeholderInfo.searchResultsHeader}</h2>
-    {@html componentContent.stakeholderInfo.searchResultsDesc}
+    <h2>&mdash; {@html componentContent.discover.info.searchResultsHeader}</h2>
+    {@html componentContent.discover.info.searchResultsDesc}
 </div>
 <hr>
 <div class="search-options">
-    {@html componentContent.stakeholderInfo.searchResultsOptions}
+    {@html componentContent.discover.info.searchResultsOptions}
     <div class = 'two-button-container'>
         <div class ='button-container'>
             <button on:click={clearSearch}>Clear search</button>
@@ -48,15 +45,5 @@
     }
     .button-container{
         width: 100%;
-    }
-    button{
-        cursor:      pointer;
-        width:       100%;
-        text-align:  left;
-        color:      #333;
-    }
-    button:hover{
-        background-color:   #fff;
-        font-weight:        600;
     }
 </style>

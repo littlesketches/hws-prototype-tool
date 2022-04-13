@@ -1,11 +1,11 @@
-<!-- DISCOVER PAGE COMPONENT-->
+<!-- STAKEHOLDER SEARCH OPTIONSCOMPONENT-->
 <script>
     // import MultiSelector  from '../../shared/MultiSelector.svelte'
 	import MultiSelect    from '../../shared/MultiSelect.svelte';
     import { ui }         from '../../../data/stores.js'
+    import { database }         from '../../../data/dataStores.js'
 	import { slugify, capitaliseFirst } from '../../../utils/helpers.js'
     import { hwsSchema, projectSchema, locationMap, locationTree } from '../../../data/schema.js'
-    import { organisationData } from '../../../data/content.js'
 	import { slide }      from "svelte/transition";
 
     ////// COLLAPSIBLE SEARCH PANES ////
@@ -134,7 +134,7 @@
     const organisation = {
         label:          'Organisation name',
         name:           'organisation',
-        list:           organisationData.map( d => d.name).sort(),
+        list:           $database.organisations.map( d => d.name).sort(),
         placeholder:    'Use this field to select the name of organisation'
     }
 </script>
@@ -343,22 +343,6 @@
 	    border-top: 0.75px solid grey;
         margin-top: 2rem;
     }
-    button {
-        margin-left: auto;
-        padding: 8px 16px;
-        border: none;
-        background: #333;
-        color: #f2f2f2;
-        text-transform: uppercase;
-        letter-spacing: .09em;
-        border-radius: 2px;
-        cursor: pointer;
-        width: 100%;
-    }
-    button:hover{
-        font-weight: 600;
-    }
-
     /* COLLAPSIBLE PANE STYLING */
 	.collapse__header {
         display: flex;
@@ -374,8 +358,6 @@
     .selected .toggle-icon{
         transform: rotate(180deg);
     }
-
-
 	.collapse__header.selected,
 	.collapse__header:hover {
 	    background: #333;
@@ -383,7 +365,6 @@
 	}
 	.collapse__body {
 	    padding: 1rem 0;
-	    /* background: #f0f0f0; */
         display: grid;
 	}
 

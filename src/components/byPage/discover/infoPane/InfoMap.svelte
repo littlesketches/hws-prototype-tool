@@ -1,4 +1,4 @@
-<!-- PROJECT VIEW MAP INTERFACE COMPONENT-->
+<!-- PROJECT MAP VIEW INTERFACE COMPONENT-->
 <script>
 	import { fly }              from 'svelte/transition';
     import { ui }               from '../../../../data/stores.js'
@@ -6,10 +6,9 @@
 </script>
 
 <!-- COMPONENT HTML MARKUP-->
-<h2>&#8212; {@html componentContent.projectInfo.selectionHeader}</h2>
-{@html componentContent.projectInfo.mapDesc}  
+<h2>&mdash; {@html componentContent.discover.info.selectionHeader}</h2>
+{@html componentContent.discover.info.mapDesc}  
 
 
 <!-- STYLES -->
-<style>
-</style>
+<style></style>

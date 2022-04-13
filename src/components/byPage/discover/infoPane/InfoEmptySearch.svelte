@@ -11,14 +11,14 @@
 
 <!-- COMPONENT HTML MARKUP-->
 <div>
-    <h2>&#8212; {@html componentContent.projectInfo.selectionHeader}</h2>
-    {@html componentContent.projectInfo.selectionDefault}  
+    <h2>&mdash; {@html componentContent.discover.info.selectionHeader}</h2>
+    {@html componentContent.discover.info.selectionDefault}  
 </div>
 
 <hr>
 <div>
-    <h2>&#8212; {@html componentContent.projectInfo.searchToolHeader}</h2>
-    {@html componentContent.projectInfo.searchToolDesc}
+    <h2>&mdash; {@html componentContent.discover.info.searchToolHeader}</h2>
+    {@html componentContent.discover.info.searchToolDesc}
     <ul>
         <li>
             <div class = "search-box-container">
@@ -57,18 +57,5 @@
     }
     .button-container{
         margin-top: 0.5rem;
-    }
-    button{
-        cursor:         pointer;
-        width:          100%;
-        padding:        1rem 0.5rem;
-        margin-top:     0.75rem;
-        text-align:     left;
-        color:          #fff;
-        background-color:     #333;
-    }
-    button:hover{
-        background-color:#000;
-        font-weight:    500;
     }
 </style>

@@ -3,11 +3,9 @@
     import TitleBlock       from '../components/shared/TitleBlock.svelte'
 	import { ui }           from '../data/stores.js'	 
     import { getPageInfo }  from '../data/content.js'
-
 	export let transition
 
     const titleInfo = getPageInfo($ui.page)[0].TitleBlock
-
 </script>
 
 
@@ -15,7 +13,6 @@
 <section {transition}>
     <TitleBlock {...titleInfo}/>
 </section>
-
 
 
 <!------ STYLE ------->
@@ -28,9 +25,7 @@
         row-gap:                2.5vw;
         grid-template-areas: 
             "title title"
-            "info main"
-        ;
-        min-height:             100vh;
+            "info main";
         padding:                5vw;
     }
 </style>

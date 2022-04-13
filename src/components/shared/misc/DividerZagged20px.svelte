@@ -1,5 +1,3 @@
-
-
 <!--- COMPOENNT HTML MARKUP -->
 <div></div>
 
@@ -19,5 +17,4 @@
         background-size: 20px 20px;
         background-repeat: repeat;
     }
-
 </style>

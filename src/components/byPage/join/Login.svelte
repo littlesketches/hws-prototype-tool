@@ -1,8 +1,9 @@
 <!-- LOGIN FORM COMPOENNT -->
 
 <script>
+    import DividerZagged20px from '../../shared/misc/DividerZagged20px.svelte'
     import { app }               from '../../../data/realm.js'
-    import { user, ui }               from '../../../data/stores.js'
+    import { user, ui }          from '../../../data/stores.js'
 
     let username, password, submitted
     function handleSubmit(){
@@ -10,52 +11,60 @@
         $user.isRegistered = true
         $ui.page = 'home'
     };
-
     function switchForm(){
         $ui.byPage.join.form = 'newUser'
     }
-
 </script>
 
 
 <!-- COMPONENT HTML MARKUP -->
-<div class = 'form-container'>
-    <h2>Login to your account</h2>
-    <form on:submit|preventDefault={handleSubmit}>
-        <ul>
-            <li>
-                <label for="emailUsername">Email (username)</label>
-                <input class = "email" name ="emailUsername" bind:value={username} placeholder="Enter your email address (username)">
-            </li>
-            <li>
-                <label for="password">Password</label>
-                <input class = "name" name ="password" bind:value={password} placeholder="Enter your password">
-            </li>
-        </ul>
-        <button on:click={handleSubmit}> Login to your account </button>
-    </form>
-    <hr>
-    <div> 
-        <h3>Don't have an account?</h3>
-        <div class = "instruction-text" on:click={switchForm}>
-            &#8594; Click here to create an account
-        </div>
+<section>
+    <div>
+        <DividerZagged20px/>
+        <h2>Login to your account</h2>
+        <form on:submit|preventDefault={handleSubmit}>
+            <ul>
+                <li>
+                    <label for="emailUsername">Email (username)</label>
+                    <input class = "email" name ="emailUsername" bind:value={username} placeholder="Enter your email address (username)">
+                </li>
+                <li>
+                    <label for="password">Password</label>
+                    <input class = "name" name ="password" bind:value={password} placeholder="Enter your password">
+                </li>
+            </ul>
+            <button on:click={handleSubmit}> Login to your account </button>
+        </form>
     </div>
-</div>
+    <div>
+        <hr>
+        <div class = 'switch-container'> 
+            <h4>Don't have an account?</h4>
+            <div class = "instruction-text" on:click={switchForm}>
+                &rarr; Click here to create one
+            </div>
+        </div>
+        <DividerZagged20px/>
+    </div>
+</section>
 
 
 
 <!-- STYLES -->
 <style>
-    .form-container{
+    section{
         grid-area: main;
-        width: 100%;
+        width: 70%;
+        margin: 0 auto;
+        display: flex;
+        flex-direction: column;
+        justify-content: space-between;
     }
     form{
         width: 100%;        
     }
     hr{
-        margin: 2rem 0;
+        margin-top: 2rem;
     }
     ul{
         list-style-type:    none;
@@ -83,13 +92,19 @@
     button{ 
         width: 100%;
     }
+    .switch-container{
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+    }
     .instruction-text{
+        text-align: right;
         font-weight: 300;
-        cursor: pointer;
+        font-size: 1rem;
+        cursor: pointer;    
     }
     .instruction-text:hover{
-        font-weight: 600;
+        font-weight: 500;
         text-decoration: underline;
     }
-
 </style>

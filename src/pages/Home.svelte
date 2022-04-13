@@ -16,13 +16,11 @@
     <Menu/>
 </section>
 
-<Footer/> <!-- Re-added as App level footer is cutoff by parallax hero -->
-
 <!------ STYLE ------->
 <style>
     section{
-		display: grid;
-        height: 100vh;
+		display:    grid;
+        height:     100vh;
 		grid-template-rows: 5vh repeat(8, 1fr) 5vh;
 		grid-template-columns: 5vh repeat(8, 1fr) 5vh;
         text-align: center;

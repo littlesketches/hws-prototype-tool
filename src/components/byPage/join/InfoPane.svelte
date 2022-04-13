@@ -7,8 +7,8 @@
 
 <!-- COMPONENT HTML MARKUP-->
 <section>
-    <h3>{@html componentContent.join.header}</h3>
-   {@html componentContent.join.desc}
+    <h2>&mdash; {@html componentContent.join.info.header}</h2>
+   {@html componentContent.join.info.desc}
 </section>
 
 

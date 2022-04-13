@@ -18,7 +18,7 @@
 
     <div class = 'info-pane-content'>
         <!-- WHO: Lead  org(s) and partners-->
-        <h4>&#8212;&#8212; Stakeholders</h4> 
+        <h4>&mdash;&mdash; Stakeholders</h4> 
         <div class='info-row'>
             <div class ='info-label'>Lead organisation:</div>
             <div class ='info-content'>
@@ -41,7 +41,7 @@
         {/if}
 
         <!-- PROJECT INFO: Lead  org(s) and partners-->
-        <h4>&#8212;&#8212; Project info</h4> 
+        <h4>&mdash;&mdash; Project info</h4> 
         <div class='info-row'>
             <div class ='info-label'>Project type</div>
             <div class ='info-content'>{capitaliseFirst(projectData.meta.type)}</div>
@@ -63,7 +63,7 @@
         {/if}
 
         <!-- PROJECT LOCATION DATA -->
-        <h4>&#8212;&#8212; Location</h4> 
+        <h4>&mdash;&mdash; Location</h4> 
         <div class='info-row'>
             {#if projectData.location.locations.length > 1 }
             <div class ='info-label'>Locations:</div>
@@ -85,7 +85,7 @@
             {/if}
             <div class ='info-content'>
                 {#each projectData.location.subCatchments as subcatchment, index}
-                    <span>{index === 0 ? subcatchment :index == projectData.location.subCatchments.length - 1 ? ` and ${subcatchment}` : `${subcatchment}, `} </span>
+                <span>{index === 0 ? subcatchment :index == projectData.location.subCatchments.length - 1 ? ` and ${subcatchment}` : `${subcatchment}, `} </span>
                 {/each}
             </div>
         </div>
@@ -98,7 +98,7 @@
             {/if}
             <div class ='info-content'>
                 {#each projectData.location.catchments as catchment, index}
-                    <span>{index === 0 ? catchment :index == projectData.location.catchments.length - 1 ? ` and ${catchment}` : `${catchment}, `}</span>
+                <span>{index === 0 ? catchment :index == projectData.location.catchments.length - 1 ? ` and ${catchment}` : `${catchment}, `}</span>
                 {/each}
             </div>
         </div>

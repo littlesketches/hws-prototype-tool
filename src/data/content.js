@@ -9,9 +9,8 @@ export {
     getContent,
     getRandomStockImgPath, 
     getRandomAbstractImgPath,
-    componentContent,
-    projectData, 
-    organisationData
+    getRandomStockSplashImgPath,
+    componentContent
 }
 
 
@@ -33,9 +32,9 @@ function getPageInfo(name){
 
 function getRandomStockImgPath(index){
     if(index){
-        return `./static/img/stock/${stockImgNames[index]}`
+        return `./static/img/stock/${stockWaterwaysImgNames[index]}`
     } else {
-        return `./static/img/stock/${stockImgNames[Math.floor(Math.random()*stockImgNames.length)]}`
+        return `./static/img/stock/${stockWaterwaysImgNames[Math.floor(Math.random()*stockWaterwaysImgNames.length)]}`
     }
 };
 
@@ -47,6 +46,14 @@ function getRandomAbstractImgPath(index){
     }
 };
 
+function getRandomStockSplashImgPath(index){
+    if(index){
+        return `./static/img/stock/splash/${stockSplashNames[index]}`
+    } else {
+        return `./static/img/stock/splash/${stockSplashNames[Math.floor(Math.random()*stockSplashNames.length)]}`
+    }
+};
+
 
 ////////// CONTENT //////////
 let toolName = 'Collaborative tool'
@@ -55,7 +62,7 @@ let pages = {} , componentContent = {}
 async function getContent(){
 
 	const data = await d3.tsv('https://docs.google.com/spreadsheets/d/e/2PACX-1vQ36HUgHmF_LDKH5Nfn6jLPyo56ygQu5vIgCqHa1md8cQCPvvSXhOGmudo_8zWftxu-Sx3lrU14Pwy4/pub?gid=0&single=true&output=tsv')
-    const getHTML = (ref) => data.filter(d => d.reference === ref)[0].content
+    const getHTML = (ref) => data.filter(d => d.reference === ref)[0].content;
     console.log(data)
     toolName = getHTML('toolName')
 
@@ -134,54 +141,60 @@ async function getContent(){
         },
 
         discover: {
-            instruction:            getHTML('component.projectInfo.selectionHeader')
+            info: {
+                selectionHeader:        getHTML('component.discover.info.selectionHeader'),
+                selectionDefault:       getHTML('component.discover.info.selectionDefault'),
+                searchToolHeader:       getHTML('component.discover.info.searchToolHeader'),
+                searchToolDesc:         getHTML('component.discover.info.searchToolDesc'),
+                filterHeader:           getHTML('component.discover.info.filterHeader'),
+                filterDesc:             getHTML('component.discover.info.filterDesc'),
+                mapHeader:              getHTML('component.discover.info.mapHeader'),
+                mapDesc:                getHTML('component.discover.info.mapDesc'),
+                searchResultsHeader:    getHTML('component.discover.info.searchResultsHeader'),
+                searchResultsDesc:      getHTML('component.discover.info.searchResultsDesc'),
+                searchResultsOptions:   getHTML('component.discover.info.searchResultsOptions'),
+            }
         },
 
-        projectInfo: {
-            selectionHeader:        getHTML('component.projectInfo.selectionHeader'),
-            selectionDefault:       getHTML('component.projectInfo.selectionDefault'),
-            searchToolHeader:       getHTML('component.projectInfo.searchToolHeader'),
-            searchToolDesc:         getHTML('component.projectInfo.searchToolDesc'),
-            filterHeader:           getHTML('component.projectInfo.filterHeader'),
-            filterDesc:             getHTML('component.projectInfo.filterDesc'),
-            mapHeader:              getHTML('component.projectInfo.mapHeader'),
-            mapDesc:                getHTML('component.projectInfo.mapDesc'),
-            searchResultsHeader:    getHTML('component.projectInfo.searchResultsHeader'),
-            searchResultsDesc:      getHTML('component.projectInfo.searchResultsDesc'),
-            searchResultsOptions:   getHTML('component.projectInfo.searchResultsOptions'),
+        connect: {
+            info: {
+                selectionHeader:        getHTML('component.connect.info.selectionHeader'),
+                selectionDefault:       getHTML('component.connect.info.selectionDefault'),
+                searchToolHeader:       getHTML('component.connect.info.searchToolHeader'),
+                searchToolDesc:         getHTML('component.connect.info.searchToolDesc'),
+                filterHeader:           getHTML('component.connect.info.filterHeader'),
+                filterDesc:             getHTML('component.connect.info.filterDesc'),
+                networkHeader:          getHTML('component.connect.info.networkHeader'),
+                networkDesc:            getHTML('component.connect.info.networkDesc'),
+                searchResultsHeader:    getHTML('component.connect.info.searchResultsHeader'),
+                searchResultsDesc:      getHTML('component.connect.info.searchResultsDesc'),
+                searchResultsOptions:   getHTML('component.connect.info.searchResultsOptions'),
+            }
         },
 
-        connectInfo: {
-            selectionHeader:        getHTML('component.connectInfo.selectionHeader'),
-            selectionDefault:       getHTML('component.connectInfo.selectionDefault'),
-            searchToolHeader:       getHTML('component.connectInfo.searchToolHeader'),
-            searchToolDesc:         getHTML('component.connectInfo.searchToolDesc'),
-            filterHeader:           getHTML('component.connectInfo.filterHeader'),
-            filterDesc:             getHTML('component.connectInfo.filterDesc'),
-            networkHeader:          getHTML('component.connectInfo.networkHeader'),
-            networkDesc:            getHTML('component.connectInfo.networkDesc'),
-            searchResultsHeader:    getHTML('component.connectInfo.searchResultsHeader'),
-            searchResultsDesc:      getHTML('component.connectInfo.searchResultsDesc'),
-            searchResultsOptions:   getHTML('component.connectInfo.searchResultsOptions'),
+        share:{
+            new: {
+                selectionHeader:        getHTML('component.share.new.selectionHeader'),
+                selectionDefault:       getHTML('component.share.new.selectionDefault'),
+            },
+            existing: {
+                searchToolHeader:       getHTML('component.share.existing.searchToolHeader'),
+                searchToolDesc:         getHTML('component.share.existing.searchToolDesc'),
+            }
         },
-
-        shareInfo: {
-            selectionHeader:        getHTML('component.shareInfo.selectionHeader'),
-            selectionDefault:       getHTML('component.shareInfo.selectionDefault'),
-            searchToolHeader:       getHTML('component.shareInfo.searchToolHeader'),
-            searchToolDesc:         getHTML('component.shareInfo.searchToolDesc'),
-        },
-
+    
         join: {
-            header:                 getHTML('component.joinInfo.header'),
-            desc:                   getHTML('component.joinInfo.desc'),
+            info:{
+                header:                 getHTML('component.join.info.header'),
+                desc:                   getHTML('component.join.info.desc'),
+            }
         }
     }
 };
 
 
 /* Stock image filenames */
-const stockImgNames = [
+const stockWaterwaysImgNames = [
     "pexels-our-life-in-pixels-7044614.jpg",
     "oak-g0c3060d01_640.jpg",
     "river-g0b82092e4_640.jpg",
@@ -283,836 +296,17 @@ const abstractImgNames = [
     "elemental_flows_water.png"
 ]
 
-
-/******** SAMPLE PROJECT DATA ********/
-const projectData = [
-    {
-        id:         '001',
-        name:       'Reprehenderit in voluptat',
-        shortDesc:  'Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.t',
-        imgURL :    getRandomStockImgPath()
-    },
-    {
-        id:         '002',
-        name:       'Resse cillum dolore eu fugiat nulla pariatur',
-        shortDesc:  'Nemo enim ipsam voluptatem quia voluptas sit aspernatur aut odit aut fugit, sed quia consequuntur magni dolores eos qui ratione voluptatem sequi nesciunt.',
-        imgURL :    getRandomStockImgPath()
-    },
-    {
-        id:         '003',
-        name:       'Quis autem vel eum iure reprehenderit qui',
-        shortDesc:  'Ut enim ad minima veniam, quis nostrum exercitationem ullam corporis suscipit laboriosam, nisi ut aliquid ex ea commodi consequatur? Quis autem vel eum iure reprehenderit qui in ea voluptate velit esse quam nihil molestiae consequatur, vel illum qui dolorem eum fugiat quo voluptas nulla pariatur?',
-        imgURL :    getRandomStockImgPath()
-    },
-    {
-        id:         '004',
-        name:       'Firure dolor in reprehender',
-        shortDesc:  'Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.',
-        imgURL :    getRandomStockImgPath()
-    },
-    {
-        id:         '005',
-        name:       'Nodio dignissimos ducimus qui blanditiis',
-        shortDesc:  'At vero eos et accusamus et iusto odio dignissimos ducimus qui blanditiis praesentium voluptatum deleniti atque corrupti quos dolores et quas molestias excepturi sint occaecati cupiditate non provident, similique sunt in culpa qui officia deserunt mollitia animi, id est laborum et dolorum fuga',
-        imgURL :    getRandomStockImgPath()
-    },
-    {
-        id:         '006',
-        name:       'Dolor in reprehenderit in voluptate ve',
-        shortDesc:  'Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.',
-        imgURL :    getRandomStockImgPath()
-    },
-    {
-        id:         '007',
-        name:       'At vero eos et accusamus et iusto odio dignissimos ducimus qui',
-        shortDesc:  'Itaque earum rerum hic tenetur a sapiente delectus, ut aut reiciendis voluptatibus maiores alias consequatur aut perferendis doloribus asperiores repellat',
-        imgURL :    getRandomStockImgPath()
-    },
-    {
-        id:         '008',
-        name:       'Omnis voluptas assumenda est, omnis dolor repellendus.',
-        shortDesc:  'Et harum quidem rerum facilis est et expedita distinctio. Nam libero tempore, cum soluta nobis est eligendi optio cumque nihil impedit quo minus id quod maxime placeat facere possimus, omnis voluptas assumenda est, omnis dolor repellendus.',
-        imgURL :    getRandomStockImgPath()
-    },
-    {
-        id:         '009',
-        name:       'Et harum quidem rerum facilis',
-        shortDesc:  'Et harum quidem rerum facilis est et expedita distinctio. Nam libero tempore, cum soluta nobis est eligendi optio cumque nihil impedit quo minus id quod maxime placeat facere possimus, omnis voluptas assumenda est, omnis dolor repellendus. Et harum quidem rerum facilis est et expedita distinctio. Nam libero tempore, cum soluta nobis est eligendi optio cumque nihil impedit quo minus id quod maxime placeat facere possimus, omnis voluptas assumenda est, omnis dolor repellendus.',
-        imgURL :    getRandomStockImgPath()
-    },
-    {
-        id:         '010',
-        name:       'Reprehenderit in voluptat',
-        shortDesc:  'Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.t',
-        imgURL :    getRandomStockImgPath()
-    },
-    {
-        id:         '011',
-        name:       'Resse cillum dolore eu fugiat nulla pariatur',
-        shortDesc:  'Nemo enim ipsam voluptatem quia voluptas sit aspernatur aut odit aut fugit, sed quia consequuntur magni dolores eos qui ratione voluptatem sequi nesciunt.',
-        imgURL :    getRandomStockImgPath()
-    },
-    {
-        id:         '012',
-        name:       'Quis autem vel eum iure reprehenderit qui',
-        shortDesc:  'Ut enim ad minima veniam, quis nostrum exercitationem ullam corporis suscipit laboriosam, nisi ut aliquid ex ea commodi consequatur? Quis autem vel eum iure reprehenderit qui in ea voluptate velit esse quam nihil molestiae consequatur, vel illum qui dolorem eum fugiat quo voluptas nulla pariatur?',
-        imgURL :    getRandomStockImgPath()
-    },
-    {
-        id:         '013',
-        name:       'Ut enim ad minima veniam, quis nostrum e',
-        shortDesc:  'Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.',
-        imgURL :    getRandomStockImgPath()
-    },
-    {
-        id:         '014',
-        name:       'Nodio dignissimos ducimus qui blanditiis',
-        shortDesc:  'At vero eos et accusamus et iusto odio dignissimos ducimus qui blanditiis praesentium voluptatum deleniti atque corrupti quos dolores et quas molestias excepturi sint occaecati cupiditate non provident, similique sunt in culpa qui officia deserunt mollitia animi, id est laborum et dolorum fuga',
-        imgURL :    getRandomStockImgPath()
-    },
-    {
-        id:         '015',
-        name:       'Dolor in reprehenderit in voluptate ve',
-        shortDesc:  'Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.',
-        imgURL :    getRandomStockImgPath()
-    },
-    {
-        id:         '016',
-        name:       'At vero eos et accusamus et iusto odio dignissimos ducimus qui',
-        shortDesc:  'Itaque earum rerum hic tenetur a sapiente delectus, ut aut reiciendis voluptatibus maiores alias consequatur aut perferendis doloribus asperiores repellat',
-        imgURL :    getRandomStockImgPath()
-    },
-    {
-        id:         '017',
-        name:       'Omnis voluptas assumenda est, omnis dolor repellendus.',
-        shortDesc:  'Et harum quidem rerum facilis est et expedita distinctio. Nam libero tempore, cum soluta nobis est eligendi optio cumque nihil impedit quo minus id quod maxime placeat facere possimus, omnis voluptas assumenda est, omnis dolor repellendus.',
-        imgURL :    getRandomStockImgPath()
-    },
-    {
-        id:         '018',
-        name:       'Et harum quidem rerum facilis',
-        shortDesc:  'Et harum quidem rerum facilis est et expedita distinctio. Nam libero tempore, cum soluta nobis est eligendi optio cumque nihil impedit quo minus id quod maxime placeat facere possimus, omnis voluptas assumenda est, omnis dolor repellendus. Et harum quidem rerum facilis est et expedita distinctio. Nam libero tempore, cum soluta nobis est eligendi optio cumque nihil impedit quo minus id quod maxime placeat facere possimus, omnis voluptas assumenda est, omnis dolor repellendus.',
-        imgURL :    getRandomStockImgPath()
-    }
-]
-
-const organisationData = [
-    {   
-        id:         '001',
-        imgURL:     getRandomAbstractImgPath(),
-        name:       "Abbotsford Riverbankers" 
-    },
-    {   
-        id:         '002',
-        imgURL:     getRandomAbstractImgPath(),
-        name:       "First Friends of Dandenong Creek"
-    },
-    { 
-        id:         '003',
-        imgURL:     getRandomAbstractImgPath(),
-        name:       "Friends of Cockatoo Creek" 
-    },
-    { 
-        id:         '004',
-        imgURL:     getRandomAbstractImgPath(),
-        name:       "Friends of Damper Creek" 
-    },
-    { 
-        id:         '005',
-        imgURL:     getRandomAbstractImgPath(),
-        name:       "Friends of Lower Kororoit Creek" 
-    },
-    { 
-        id:         '006',
-        imgURL:     getRandomAbstractImgPath(),
-        name:       "Friends of Merri Creek" 
-    },
-    { 
-        id:         '007',
-        imgURL:     getRandomAbstractImgPath(),
-        name:       "Friends of Mt Evelyn Aqueduct" 
-    },
-    { 
-        id:         '008',
-        imgURL:     getRandomAbstractImgPath(),
-        name:       "Friends of Plenty River" 
-    },
-    { 
-        id:         '009',
-        imgURL:     getRandomAbstractImgPath(),
-        name:       "Friends of Steele Creek" 
-    },
-    { 
-        id:         '010',
-        imgURL:     getRandomAbstractImgPath(),
-        name:       "Friends of Water Race and Quinn Reserve" 
-    },
-    { 
-        id:         '011',
-        imgURL:     getRandomAbstractImgPath(),
-        name:       "Healthy Waterways PLT" 
-    },
-    { 
-        id:         '012',
-        imgURL:     getRandomAbstractImgPath(),
-        name:       "Kananook Creek Association" 
-    },
-    { 
-        id:         '013',
-        imgURL:     getRandomAbstractImgPath(),
-        name:       "Australian Plant Society, Keilor Plains" 
-    },
-    { 
-        id:         '014',
-        imgURL:     getRandomAbstractImgPath(),
-        name:       "Avondale Heights Community Garden Inc." 
-    },
-    { 
-        id:         '015',
-        imgURL:     getRandomAbstractImgPath(),
-        name:       "Bend of Islands Conservation Association" 
-    },
-    { 
-        id:         '016',
-        imgURL:     getRandomAbstractImgPath(),
-        name:       "Berg Mt Martha" 
-    },
-    {   
-        id:         '017',
-        imgURL:     getRandomAbstractImgPath(),
-        name:       "Candlebark Community Nursery" 
-    },
-    { 
-        id:         '018',
-        imgURL:     getRandomAbstractImgPath(),
-        name:       "Cardinia Environment Coalition" 
-    },
-    { 
-        id:         '019',
-        imgURL:     getRandomAbstractImgPath(),
-        name:       "City of Casey Conservation Advisory Committee" 
-    },
-    { 
-        id:         '020',
-        imgURL:     getRandomAbstractImgPath(),
-        name:       "Conservation Volunteers" 
-    },
-    { 
-        id:         '021',
-        imgURL:     getRandomAbstractImgPath(),
-        name:       "Down's Estate Community Project" 
-    },
-    { 
-        id:         '022',
-        imgURL:     getRandomAbstractImgPath(),
-        name:       "Elsternwick Park Coalition" 
-    },
-    { 
-        id:         '023',
-        imgURL:     getRandomAbstractImgPath(),
-        name:       "Friends of Banyule" 
-    },
-    { 
-        id:         '024',
-        imgURL:     getRandomAbstractImgPath(),
-        name:       "Friends of Cardinia Creek Sanctuary" 
-    },
-    { 
-        id:         '025',
-        imgURL:     getRandomAbstractImgPath(),
-        name:       "Friends of Glenfern Valley Bushlands" 
-    },
-    { 
-        id:         '026',
-        imgURL:     getRandomAbstractImgPath(),
-        name:       "Friends of Hazel Vale Valley Tecoma" 
-    },
-    { 
-        id:         '027',
-        imgURL:     getRandomAbstractImgPath(),
-        name:       "Friends of Helmeted Honeyeater" 
-    },
-    { 
-        id:         '028',
-        imgURL:     getRandomAbstractImgPath(),
-        name:       "Friends of Leadbeater's Possum" 
-    },
-    { 
-        id:         '029',
-        imgURL:     getRandomAbstractImgPath(),
-        name:       "Friends of Maribyrnong Valley" 
-    },
-    { 
-        id:         '030',
-        imgURL:     getRandomAbstractImgPath(),
-        name:       "Friends of the Glenfern Green Wedge" 
-    },
-    { 
-        id:         '031',
-        imgURL:     getRandomAbstractImgPath(),
-        name:       "Friends of the Maribyrnong Valley" 
-    },
-    { 
-        id:         '032',
-        imgURL:     getRandomAbstractImgPath(),
-        name:       "Friends of Yarra Valley Parks" 
-    },
-    { 
-        id:         '033',
-        imgURL:     getRandomAbstractImgPath(),
-        name:       "Knox Environment Society" 
-    },
-    { 
-        id:         '034',
-        imgURL:     getRandomAbstractImgPath(),
-        name:       "Warringal Conservation Society" 
-    },
-    { 
-        id:         '035',
-        imgURL:     getRandomAbstractImgPath(),
-        name:       "Yellingbo Conservation Area Co-ordinating Committee" 
-    },
-    { 
-        id:         '036',
-        imgURL:     getRandomAbstractImgPath(),
-        name:       "Arthurs Creek District Landcare Group" 
-    },
-    { 
-        id:         '037',
-        imgURL:     getRandomAbstractImgPath(),
-        name:       "Bacchus Marsh Platypus Alliance Inc." 
-    },
-    { 
-        id:         '038',
-        imgURL:     getRandomAbstractImgPath(),
-        name:       "Bessie-Ararat Creek Landcare Group" 
-    },
-    { 
-        id:         '039',
-        imgURL:     getRandomAbstractImgPath(),
-        name:       "Cannibal Creek Landcare Group" 
-    },
-    { 
-        id:         '040',
-        imgURL:     getRandomAbstractImgPath(),
-        name:       "Cardinia Catchment Landcare Group" 
-    },
-    { 
-        id:         '041',
-        imgURL:     getRandomAbstractImgPath(),
-        name:       "Chum Creek Landcare" 
-    },
-    { 
-        id:         '042',
-        imgURL:     getRandomAbstractImgPath(),
-        name:       "Darebin Creek Management Committee" 
-    },
-    { 
-        id:         '043',
-        imgURL:     getRandomAbstractImgPath(),
-        name:       "Dixons Creek Landcare Group" 
-    },
-    { 
-        id:         '044',
-        imgURL:     getRandomAbstractImgPath(),
-        name:       "Dunns Creek Landcare Group" 
-    },
-    { 
-        id:         '045',
-        imgURL:     getRandomAbstractImgPath(),
-        name:       "Friends of Edithvale-Seaford Wetlands"
-    },
-    { 
-        id:         '046',
-        imgURL:     getRandomAbstractImgPath(),
-        name:       "Friends of Frankston Reservoir Inc"
-    },
-    { 
-        id:         '047',
-        imgURL:     getRandomAbstractImgPath(),
-        name:       "Friends of Glass Creek Parklands"
-    },
-    { 
-        id:         '048',
-        imgURL:     getRandomAbstractImgPath(),
-        name:       "Friends of Hopetoun Park & Parwan Gorge"
-    }, 
-    { 
-        id:         '049',
-        imgURL:     getRandomAbstractImgPath(),
-        name:       "Friends of Kororoit Creek" 
-    },
-    { 
-        id:         '050',
-        imgURL:     getRandomAbstractImgPath(),
-        name:       "Friends of Malcolm Creek" 
-    },
-    { 
-        id:         '051',
-        imgURL:     getRandomAbstractImgPath(),
-        name:       "Friends of Newport Lakes" 
-    },
-    { 
-        id:         '052',
-        imgURL:     getRandomAbstractImgPath(),
-        name:       "Friends of Rosebud Beach and Foreshore" 
-    },
-    { 
-        id:         '053',
-        imgURL:     getRandomAbstractImgPath(),
-        name:       "Friends of Sassafras Creek Inc (FOSC)" 
-    },
-    { 
-        id:         '054',
-        imgURL:     getRandomAbstractImgPath(),
-        name:       "Jacksons Creek EcoNetwork" 
-    },
-    { 
-        id:         '055',
-        imgURL:     getRandomAbstractImgPath(),
-        name:       "Jumping Creek Catchment Landcare Group" 
-    },
-    { 
-        id:         '056',
-        imgURL:     getRandomAbstractImgPath(),
-        name:       "Kongwak Hills Landcare Group"
-    },
-    { 
-        id:         '057',
-        imgURL:     getRandomAbstractImgPath(),
-        name:       "Langwarrin Woodlands & Northern Westernport" 
-    },
-    { 
-        id:         '058',
-        imgURL:     getRandomAbstractImgPath(),
-        name:       "Macclesfield Landcare Group" 
-    },
-    { 
-        id:         '059',
-        imgURL:     getRandomAbstractImgPath(),
-        name:       "Manton and Stony Creek Landcare Group" 
-    },
-    { 
-        id:         '060',
-        imgURL:     getRandomAbstractImgPath(),
-        name:       "Maryknoll Tracks and Reserves" 
-    },
-    { 
-        id:         '061',
-        imgURL:     getRandomAbstractImgPath(),
-        name:       "Middle Yarra Landcare Network" 
-    },
-    { 
-        id:         '062',
-        imgURL:     getRandomAbstractImgPath(),
-        name:       "Moorabool Catchment Landcare Group" 
-    },
-    { 
-        id:         '063',
-        imgURL:     getRandomAbstractImgPath(),
-        name:       "Olinda Creek Landcare Group" 
-    },
-    { 
-        id:         '064',
-        imgURL:     getRandomAbstractImgPath(),
-        name:       "Steels Creek Landcare Group" 
-    },
-    { 
-        id:         '065',
-        imgURL:     getRandomAbstractImgPath(),
-        name:       "Upper Deep Creek Landcare Network" 
-    },
-    { 
-        id:         '066',
-        imgURL:     getRandomAbstractImgPath(),
-        name:       "Werribee River Association" 
-    },
-    { 
-        id:         '067',
-        imgURL:     getRandomAbstractImgPath(),
-        name:       "Western Region Environment Centre" 
-    },
-    { 
-        id:         '068',
-        imgURL:     getRandomAbstractImgPath(),
-        name:       "Western Port Catchment Landcare Network" 
-    },
-    { 
-        id:         '069',
-        imgURL:     getRandomAbstractImgPath(),
-        name:       "Westernport Swamp Landcare Group"
-    },
-    { 
-        id:         '070',
-        imgURL:     getRandomAbstractImgPath(),
-        name:       "Whittlesea Landcare" 
-    },
-    { 
-        id:         '071',
-        imgURL:     getRandomAbstractImgPath(),
-        name:       "Yarra Ranges Landcare Network" 
-    },
-    { 
-        id:         '072',
-        imgURL:     getRandomAbstractImgPath(),
-        name:       "Balcombe and Moorooduc Landcare Group" 
-    },
-    { 
-        id:         '073',
-        imgURL:     getRandomAbstractImgPath(),
-        name:       "Bass Coast Landcare Network" 
-    },
-    { 
-        id:         '074',
-        imgURL:     getRandomAbstractImgPath(),
-        name:       "Bayside Intrepid Landcare Group"   
-    },
-    { 
-        id:         '075',
-        imgURL:     getRandomAbstractImgPath(),
-        name:       "Bunyip Landcare Group" 
-    },
-    { 
-        id:         '076',
-        imgURL:     getRandomAbstractImgPath(),
-        name:       "Cardinia Hills Ragwort and Landcare Group" 
-    },
-    { 
-        id:         '077',
-        imgURL:     getRandomAbstractImgPath(),
-        name: "Clarkefield and District Farm Landcare Group" 
-    },
-    {   
-        id:         '078',
-        imgURL:     getRandomAbstractImgPath(),
-        name:       "Eynesbury Environment Group" },
-    { 
-        id:         '079',
-        imgURL:     getRandomAbstractImgPath(),
-        name:   "Federation Horticulture and Environment Macedon Ranges" 
-    },
-    { 
-        id:         '080',
-        imgURL:     getRandomAbstractImgPath(),
-        name:       "French Island Landcare Group" 
-    },
-    { 
-        id:         '081',
-        imgURL:     getRandomAbstractImgPath(),
-        name:   "Friends of Baden Powell Bushland Reserve" 
-    },
-    { 
-        id:         '082',
-        imgURL:     getRandomAbstractImgPath(),
-        name:       "Friends of Belvedere Bushland Reserve" 
-    },
-    {   
-        id:         '083',
-        imgURL:     getRandomAbstractImgPath(),
-        name:       "Friends of Bradshaw Bushland Reserve Inc" 
-    },
-    { 
-        id:         '084',
-        imgURL:     getRandomAbstractImgPath(),
-        name:   "Friends of Brisbane Ranges" 
-    },
-    { 
-        id:         '085',
-        imgURL:     getRandomAbstractImgPath(),
-        name:       "Friends of Bungalook Conservation Reserves" 
-    },
-    { 
-        id:         '086',
-        imgURL:     getRandomAbstractImgPath(),
-        name:       "Friends of Candlebark Walk" 
-    },
-    { 
-        id:         '087',
-        imgURL:     getRandomAbstractImgPath(),
-        name:       "Friends of Central Sweetwater" 
-    },
-    { 
-        id:         '088',
-        imgURL:     getRandomAbstractImgPath(),
-        name:        "Friends of Cobbledicks Ford" 
-    },
-    { 
-        id:         '089',
-        imgURL:     getRandomAbstractImgPath(),
-        name:       "Friends of Coolart" 
-    },
-    { 
-        id:         '090',
-        imgURL:     getRandomAbstractImgPath(),
-        name:       "Friends of Dandenong Ranges National Park" 
-    },
-    { 
-        id:         '091',
-        imgURL:     getRandomAbstractImgPath(),
-        name:   "Friends of Diamond Bay" 
-    },
-    { 
-        id:         '092',
-        imgURL:     getRandomAbstractImgPath(),
-        name:   "Friends of Donald Macdonald Reserve" 
-    },
-    { 
-        id:         '093',
-        imgURL:     getRandomAbstractImgPath(),
-        name:       "Friends of Edithvale-Seaford Wetlands" 
-    },
-    { 
-        id:         '094',
-        imgURL:     getRandomAbstractImgPath(),
-        name:       "Friends of Eltham West Drain" 
-    },
-    { 
-        id:         '095',
-        imgURL:     getRandomAbstractImgPath(),
-        name:       "Friends of Hanging Rock" 
-    },
-    { 
-        id:         '096',
-        imgURL:     getRandomAbstractImgPath(),
-        name:   "Friends of Holden Flora Reserve" 
-    },
-    { 
-        id:         '097',
-        imgURL:     getRandomAbstractImgPath(),
-        name:       "Friends of Hopetoun Park & Parwan Gorge" 
-    }, 
-    { 
-        id:         '098',
-        imgURL:     getRandomAbstractImgPath(),
-        name:       "Friends of Mount Eliza Regional Park" 
-    },
-    { 
-        id:         '099',
-        imgURL:     getRandomAbstractImgPath(),
-        name:       "Friends of St Kilda Botanical Gardens" },
-    { 
-        id:         '098',
-        imgURL:     getRandomAbstractImgPath(),
-        name:       "Friends of Sunbury Cemetery" 
-    },
-    { 
-        id:         '099',
-        imgURL:     getRandomAbstractImgPath(),
-        name:      "Friends of the Helmeted Honeyeater" 
-    },
-    { 
-        id:         '100',
-        imgURL:     getRandomAbstractImgPath(),
-        name:       "Friends of The Pines Flora & Fauna Reserve" 
-    },
-    { 
-        id:         '101',
-        imgURL:     getRandomAbstractImgPath(),
-        name:       "Friends of Truganina Park" 
-    },
-    { 
-        id:         '102',
-        imgURL:     getRandomAbstractImgPath(),
-        name:       "Friends of Walmer Street Bushland" 
-    },
-    { 
-        id:         '103',
-        imgURL:     getRandomAbstractImgPath(),
-        name:       "Friends of Werribee Park" 
-    },
-    { 
-        id:         '104',
-        imgURL:     getRandomAbstractImgPath(),
-        name:       "Friends of Wildlife Reserves Group Inc" 
-    },
-    { 
-        id:         '105',
-        imgURL:     getRandomAbstractImgPath(),
-        name:       "Friends of Yarra Valley Parks" 
-    },
-    {   
-        id:         '106',
-        imgURL:     getRandomAbstractImgPath(),
-        name:       "Greening of Riddell" 
-    },
-    { 
-        id:         '107',
-        imgURL:     getRandomAbstractImgPath(),
-        name:       "Growing Friends of Yarra Bend Park" 
-    },
-    {   
-        id:         '108',
-        imgURL:     getRandomAbstractImgPath(),
-        name:       "Kongwak Hills Landcare Group" 
-    },
-    { 
-        id:         '109',
-        imgURL:     getRandomAbstractImgPath(),
-        name:       "Labertouche Landcare" 
-    },
-    { 
-        id:         '110',
-        imgURL:     getRandomAbstractImgPath(),
-        name:       "Langwarrin Woodlands & Northern Westernport" 
-    },
-    { 
-        id:         '111',
-        imgURL:     getRandomAbstractImgPath(),
-        name:       "Loch/Nyora Landcare Group" 
-    },
-    { 
-        id:         '112',
-        imgURL:     getRandomAbstractImgPath(),
-        name:   "Macclesfield Landcare Group" 
-    },
-    { 
-        id:         '113',
-        imgURL:     getRandomAbstractImgPath(),
-        name:       "Maryknoll Tracks and Reserves" 
-    },
-    { 
-        id:         '114',
-        imgURL:     getRandomAbstractImgPath(),
-        name:       "Mornington Peninsula Koala Conservation" 
-    }, 
-    { 
-        id:         '115',
-        imgURL:     getRandomAbstractImgPath(),
-        name:       "Mornington Peninsula Landcare Network" 
-    },
-    { 
-        id:         '116',
-        imgURL:     getRandomAbstractImgPath(),
-        name:       "Mount Pleasant Research Landcare Group" 
-    },
-    { 
-        id:         '117',
-        imgURL:     getRandomAbstractImgPath(),
-        name:       "Mt Lyall Landcare Group" 
-    },
-    { 
-        id:         '118',
-        imgURL:     getRandomAbstractImgPath(),
-        name:       "Mt Toolebewong & District Landcare Group" 
-    },
-    { 
-        id:         '119',
-        imgURL:     getRandomAbstractImgPath(),
-        name:       "Neerim Landcare Group" 
-    },
-    { 
-        id:         '120',
-        imgURL:     getRandomAbstractImgPath(),
-        name:       "Nillumbik Landcare Network" 
-    },
-    { 
-        id:         '121',
-        imgURL:     getRandomAbstractImgPath(),
-        name:       "Pentland Hills Landcare Group" 
-    },
-    { 
-        id:         '122',
-        imgURL:     getRandomAbstractImgPath(),
-        name:       "Pinkerton Landcare & Environment Group" 
-    },
-    { 
-        id:         '123',
-        imgURL:     getRandomAbstractImgPath(),
-        name:       "Point Cook Open Spaces" 
-    },
-    { 
-        id:         '124',
-        imgURL:     getRandomAbstractImgPath(),
-        name:       "Poowong Landcare" 
-    },
-    { 
-        id:         '125',
-        imgURL:     getRandomAbstractImgPath(),
-        name:       "Rabbit Busters - Exford" 
-    },
-    { 
-        id:         '126',
-        imgURL:     getRandomAbstractImgPath(),
-        name:       "Rowsley Landcare Group" 
-    },
-    { 
-        id:         '127',
-        imgURL:     getRandomAbstractImgPath(),
-        name:       "Shiela Cameron Guides" 
-    },
-    { 
-        id:         '128',
-        imgURL:     getRandomAbstractImgPath(),
-        name:       "South Gippsland Landcare Network" 
-    },
-    { 
-        id:         '129',
-        imgURL:     getRandomAbstractImgPath(),
-        name:       "Southern Dandenongs Landcare Group" 
-    },
-    { 
-        id:         '130',
-        imgURL:     getRandomAbstractImgPath(),
-        name:       "Southern Ranges Environment Alliance" 
-    },
-    { 
-        id:         '131',
-        imgURL:     getRandomAbstractImgPath(),
-        name:       "Southwest Mornington Peninsula Landcare Group" 
-    },
-    { 
-        id:         '132',
-        imgURL:     getRandomAbstractImgPath(),
-        name:       "Stanley Park Committee of Management" 
-    },
-    { 
-        id:         '133',
-        imgURL:     getRandomAbstractImgPath(),
-        name:       "Sunbury Landcare Association" 
-    },
-    { 
-        id:         '134',
-        imgURL:     getRandomAbstractImgPath(),
-        name:       "Surf Coast & Inland Plains Landcare Network" 
-    },
-    { 
-        id:         '135',
-        imgURL:     getRandomAbstractImgPath(),
-        name:       "Threatened Bird Network" 
-    },
-    { 
-        id:         '136',
-        imgURL:     getRandomAbstractImgPath(),
-        name:       "Toomuc Landcare" 
-    },
-    { 
-        id:         '137',
-        imgURL:     getRandomAbstractImgPath(),
-        name:       "TreeProject" 
-    },
-    {
-        id:         '138',
-        imgURL:     getRandomAbstractImgPath(),
-        name:       "Truganina Landcare Group" 
-    },
-    { 
-        id:         '139',
-        imgURL:     getRandomAbstractImgPath(),
-        name:       "Warranwood Reserve Committee" 
-    },
-    { 
-        id:         '140',
-        imgURL:     getRandomAbstractImgPath(),
-        name:       "Western Region Environment Centre" 
-    },
-    {   
-        id:         '141',
-        imgURL:     getRandomAbstractImgPath(),
-        name:       "Whittlesea Landcare" 
-    },
-    { 
-        id:         '142',
-        imgURL:     getRandomAbstractImgPath(),
-        name:       "Yarra Ranges Landcare Network" 
-    }
+const stockSplashNames = [
+    "jimmy-chang-NP8gd2KUnfw-unsplash.jpg",
+    "david-clode-lmLgrnxIALI-unsplash.jpg",
+    "izzy-gibson-sFrkWv4ACJg-unsplash.jpg",
+    "rohit-morwani-eJQ9VZi-axI-unsplash.jpg",
+    "aung-soe-min-WjULnaVRwxU-unsplash.jpg",
+    "justin-owens-vh2mgjZ_tXw-unsplash.jpg",
+    "aaron-burden-y0h45Oemrx4-unsplash.jpg",
+    "jake-charles-dwVToFjYJOo-unsplash.jpg",
+    "ian-keefe-NBQhCKtg_9Y-unsplash.jpg",
+    "sergio-silva-AFrv2t6jgw4-unsplash.jpg",
+    "samara-doole-peaTniZsUQs-unsplash.jpg",
+    "samara-doole-mKOKC0dWG5Y-unsplash.jpg"
 ]

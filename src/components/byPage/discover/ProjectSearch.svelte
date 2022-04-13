@@ -1,10 +1,9 @@
 <!-- DISCOVER PAGE COMPONENT-->
 <script>
-    // import MultiSelector  from '../../shared/MultiSelector.svelte'
 	import MultiSelect    from '../../shared/MultiSelect.svelte';
     import { ui }         from '../../../data/stores.js'
+    import { database }         from '../../../data/dataStores.js'
     import { hwsSchema, projectSchema, subCatchmentMap, locationMap, locationTree } from '../../../data/schema.js'
-    import { organisationData } from '../../../data/content.js'
 	import { slide }      from "svelte/transition";
 
 
@@ -135,7 +134,7 @@
     const leadOrg = {
         label:          'Lead organisation',
         name:           'leadOrg',
-        list:           organisationData.map( d => d.name).sort(),
+        list:           $database.organisations.map( d => d.name).sort(),
         placeholder:    'Use this field to select the name of lead organisation to filter for'
     }
     const leadOrgType = {
@@ -147,7 +146,7 @@
     const partnerOrg = {
         label:          'Partner organisation(s)',
         name:           'partnerOrg',
-        list:           organisationData.map( d => d.name),
+        list:           $database.organisations.map( d => d.name),
         placeholder:    'Use this field to select the name of a partner organisation to filter for'
     }
 </script>
@@ -342,7 +341,6 @@
     <div class = "button-container">
         <button on:click|preventDefault={handleSubmit}>Search for projects</button>
     </div>
-
 </section>
 
 
@@ -384,21 +382,6 @@
     .button-container{
 	    border-top: 0.75px solid grey;
         margin-top: 2rem;
-    }
-    button {
-        margin-left: auto;
-        padding: 8px 16px;
-        border: none;
-        background: #333;
-        color: #f2f2f2;
-        text-transform: uppercase;
-        letter-spacing: .09em;
-        border-radius: 2px;
-        cursor: pointer;
-        width: 100%;
-    }
-    button:hover{
-        font-weight: 600;
     }
 
     /* COLLAPSIBLE PANE STYLING */

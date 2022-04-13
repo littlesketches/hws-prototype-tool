@@ -1,7 +1,7 @@
 <!-- FEEDBAC ON EXISTING PROJECT COMPONENT-->
 <script>
-    import InfoEmptySearch      from "./InfoEmptySearch.svelte"
-    import InfoSearchResults    from "./InfoSearchResults.svelte"
+    import InfoEmptySearch      from "./infoPane/InfoEmptySearch.svelte"
+    import InfoSearchResults    from "./infoPane/InfoSearchResults.svelte"
     import { ui }               from '../../../data/stores.js'
     import { componentContent } from '../../../data/content.js'
 </script>

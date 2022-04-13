@@ -15,17 +15,17 @@
 
 <!-- COMPONENT HTML MARKUP-->
 <div class = 'selection-info info-container'>
-    <h2>&#8212; {@html componentContent.connectInfo.selectionHeader}</h2>
-    {@html  componentContent.connectInfo.selectionDefault}  
+    <h2>&mdash; {@html componentContent.connect.info.selectionHeader}</h2>
+    {@html  componentContent.connect.info.selectionDefault}  
 </div>
 <hr>
 <div class = 'search-options-container'>
-    <h2>&#8212; {@html componentContent.connectInfo.searchToolHeader}</h2>
-    {@html  componentContent.connectInfo.searchToolDesc}
+    <h2>&mdash; {@html componentContent.connect.info.searchToolHeader}</h2>
+    {@html  componentContent.connect.info.searchToolDesc}
     <ul>
         <li>
             <div class = "button-container">
-                <button on:click={showSearch}>Stakeholder search filters	&rarr;</button>
+                <button on:click={showSearch}>Search for stakeholders &rarr;</button>
             </div>
         </li>
     </ul>
@@ -50,18 +50,5 @@
     }
     .button-container{
         margin-top: 0.5rem;
-    }
-    button{
-        cursor:         pointer;
-        width:          100%;
-        padding:        1rem 0.5rem;
-        margin-top:     0.75rem;
-        text-align:     left;
-        color:          #fff;
-        background-color:     #333;
-    }
-    button:hover{
-        background-color:#000;
-        font-weight:    500;
     }
 </style>

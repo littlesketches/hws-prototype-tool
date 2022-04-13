@@ -15,16 +15,14 @@
 
 <!-- COMPONENT HTML MARKUP-->
 <input id="search-term" bind:value={searchInput} type="text" 
-    placeholder="Search project name by keyword">
+    placeholder="Search project name">
 <div id="search-button" class="input-icon" on:click={handleSearch}>
     <Magnify width="2em" height="2em"/>
 </div>
 
 
-
 <!------ STYLE ------->
 <style> 
-
     #search-term{
         width:          100%;
         padding:        1rem 3rem 1rem 0.5rem;

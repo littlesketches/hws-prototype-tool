@@ -19,7 +19,7 @@
         <h3>key info</h3>
     </div>
     <div class = 'info-pane-content'>
-        <h4>&#8212;&#8212; Organisation type</h4> 
+        <h4>&mdash;&mdash; Organisation type</h4> 
         <div class='info-row'>
             <div class ='info-label'>Category:</div>
             <div class ='info-content'>
@@ -38,7 +38,7 @@
         </div>
         {/if}
 
-        <h4>&#8212;&#8212; Waterways projects</h4> 
+        <h4>&mdash;&mdash; Waterways projects</h4> 
         <div class='info-row'>
             <div class ='info-label'>No. projects:</div>
             <div class ='info-content'>
@@ -54,7 +54,7 @@
             </div>
         </div>
 
-        <h4>&#8212;&#8212; Contact details</h4> 
+        <h4>&mdash;&mdash; Contact details</h4> 
         <div class='info-row'>
             <div class ='info-label'>Address:</div>
             <div class ='info-content'>

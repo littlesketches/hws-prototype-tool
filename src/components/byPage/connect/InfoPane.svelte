@@ -27,8 +27,8 @@
 
     <!-- 2. STAKEHOLDER DEFAULT LISTING -->
     {:else if $ui.byPage.connect.main === 'search'}
-        <h2>&#8212;  {@html componentContent.connectInfo.filterHeader}</h2>
-        {@html componentContent.connectInfo.filterDesc}  
+        <h2>&mdash; {@html componentContent.connect.info.filterHeader}</h2>
+        {@html componentContent.connect.info.filterDesc}  
     {/if}
 </section>
 

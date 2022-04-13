@@ -45,7 +45,6 @@
         grid-template-areas: 
             "title title"
             "info main";
-        min-height:             100vh;
         padding:                5vw;
     }
 </style>

@@ -1,26 +1,26 @@
 <!-- EXPLORE PAGE COMPONENT-->
 <script>
     import TitleBlock       from '../components/shared/TitleBlock.svelte'
-    import JoinInfoPane     from '../components/byPage/join/JoinInfoPane.svelte'
+    import InfoPane         from '../components/byPage/join/InfoPane.svelte'
+    import ImagePane        from '../components/byPage/join/ImagePane.svelte'
     import NewUser          from '../components/byPage/join/NewUser.svelte'
     import Login            from '../components/byPage/join/Login.svelte'
 	import { ui }           from '../data/stores.js'	 
     import { getPageInfo }  from '../data/content.js'
-
-	export let transition
 
     const titleInfo = getPageInfo($ui.page)[0].TitleBlock
 
 </script>
 
 <!-- COMPONENT MARKUP-->
-<section  { transition }>
+<section >
     <TitleBlock {...titleInfo}/>
-    <JoinInfoPane/>
+    <!-- <ImagePane/> -->
+    <InfoPane/>
     {#if $ui.byPage.join.form ==='newUser'}
-    <NewUser/>
+        <NewUser/>
     {:else}
-    <Login/>
+        <Login/>
     {/if}
 
 </section>
@@ -38,7 +38,6 @@
             "title title"
             "info main"
         ;
-        min-height:             100vh;
         padding:                5vw;
     }
 </style>

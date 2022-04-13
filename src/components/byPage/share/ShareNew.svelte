@@ -1,7 +1,7 @@
 <!-- SHARE NEW IDEA PANE COMPONENT-->
 <script>
-    import InfoEmptySearch      from "./InfoEmptySearch.svelte"
-    import InfoSearchResults    from "./InfoSearchResults.svelte"
+    import InfoEmptySearch      from "./infoPane/InfoEmptySearch.svelte"
+    import InfoSearchResults    from "./infoPane/InfoSearchResults.svelte"
     import { user, ui }         from '../../../data/stores.js'
     import { componentContent } from '../../../data/content.js'
 
@@ -12,15 +12,14 @@
     function openNewProject(){
         console.log('Open the project entry')
     }; 
-
 </script>
 
 
 <!-- COMPONENT HTML MARKUP-->
 <section>
     <div class = 'selection-info info-container'>
-        <h2>&#8212; {@html componentContent.shareInfo.selectionHeader}</h2>
-        {@html  componentContent.shareInfo.selectionDefault}  
+        <h2>&#8212; {@html componentContent.share.new.selectionHeader}</h2>
+        {@html  componentContent.share.new.selectionDefault}  
     </div>
 
     <div class = "button-container">
@@ -40,23 +39,14 @@
         column-gap: 2.5vw;    
         background: rgb(238, 238, 238);
         padding:    1rem;
+        display:    flex;
+        flex-direction: column;
+        justify-content: space-between;
     }
 
     .button-container{
         margin-top: 0.5rem;
     }
-    button{
-        text-align:     center;
-        cursor:         pointer;
-        width:          100%;
-        padding:        0.75rem 0.5rem;
-        margin-bottom:  0.75rem;
-        text-align:     left;
-        color: #333;
-    }
-    button:hover{
-        background-color:#fff;
-        font-weight: 500;
-    }
+
 
 </style>
