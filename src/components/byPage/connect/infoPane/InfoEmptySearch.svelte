@@ -6,10 +6,12 @@
 
     function showSearch(){
         $ui.byPage.connect.main = 'search'
+        window.scrollTo({top: 0, behavior: 'smooth'});
     };
 
     function showMoreRandom(){
         $ui.byPage.discover.main = 'list'
+        window.scrollTo({top: 0, behavior: 'smooth'});
     };
 </script>
 
@@ -34,9 +36,6 @@
 
 <!------ STYLE ------->
 <style> 
-    h2{
-        margin-block-start: 0;
-    }
     ul{
         list-style-type: none;
         border: 0;

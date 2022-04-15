@@ -1,19 +1,26 @@
 <!-- FEEDBAC ON EXISTING PROJECT COMPONENT-->
 <script>
+	import { fly }              from 'svelte/transition'
     import InfoEmptySearch      from "./infoPane/InfoEmptySearch.svelte"
     import InfoSearchResults    from "./infoPane/InfoSearchResults.svelte"
+    import DividerZagged20px    from "../../shared/misc/DividerZagged20px.svelte"
     import { ui }               from '../../../data/stores.js'
     import { componentContent } from '../../../data/content.js'
 </script>
 
 
 <!-- COMPONENT HTML MARKUP-->
-<section>
+<section transition:fly="{{x: 500, duration: 800}}">
+    <DividerZagged20px/>
     {#if !$ui.byPage.share.projectSearch.isMade}
     <InfoEmptySearch/>
     {:else}
     <InfoSearchResults/>
     {/if}
+
+    <div class = 'float-bottom'>
+        <DividerZagged20px/>
+    </div>
 </section>
 
 
@@ -21,7 +28,10 @@
 <style> 
     section{
         grid-area:  feedback;    
-        background: rgb(238, 238, 238);
-        padding:    1rem;
+        display:    flex;
+        flex-direction: column;
+    }
+    .float-bottom{
+        margin-top: 1.5rem;
     }
 </style>

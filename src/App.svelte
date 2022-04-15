@@ -14,16 +14,36 @@
 	import { user, ui } from './data/stores.js'	 
 	import { getContent, getMenuOptions } from './data/content.js'	 
 
-	const promise = getContent()
+	const promiseContent = getContent()
+
+	// Connect to Realm app
+    import { 
+        app,    
+        initRealm, 
+        loginAnonymous,    
+        connectToMongoAtlas, 
+        connectToCollections,
+        setupLocalStore
+    } from "./data/realm.js";
+    import { database } from './data/dataStores.js'
+    const promiseRealm = async function(app){
+        await initRealm(app)
+        await loginAnonymous(app)
+        await connectToMongoAtlas(app)
+        await connectToCollections(app)
+        await setupLocalStore(app, $database)
+        console.log($database)
+    };
+
+
     // $ui.items.pages = getMenuOptions($user)
-	// if($ui.page !== 'home')	$ui.showNav = true
-
-
+	// if($ui.page !== 'home')	$ui.showNav = true	
 </script>	
 
 
 <!------ HTMl COMPONENT MARKUP ------->
-{#await promise then value}
+{#await promiseRealm then value}
+	{#await promiseContent then value}
 	<Nav/>
 	<main><!-- Main "Page: section controlled with base logic selector -->
 		{#if $ui.page === 'home'}
@@ -44,6 +64,7 @@
 	{#if $ui.page !== 'home'}
 	<Footer/>
 	{/if}
+	{/await}
 {/await}
 
 <!------ STYLE ------->

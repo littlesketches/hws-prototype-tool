@@ -2,26 +2,25 @@
 	import { ui }       from '../../../data/stores.js'
     import {fade, fly}     from 'svelte/transition';
 
-    export let name
-    export let shortDesc
+    export let pageData
     export let index
 
     function switchPage(){
         $ui.page = this.getAttribute('name').toLowerCase()
         $ui.showNav = true
     };
-
 </script>
 
 
 <!-- HTML -->
-<div class = 'card' name={name} on:click={switchPage} index={index} 
+<div class = 'card card-{index}' name={pageData.name}
+    on:click={switchPage}
     in:fly="{{ y: 200 * (index%2 - 0.5) , duration: 1200, delay: 1800 }}"
-    out:fade >
-    <h3>{@html name}</h3>
+    >
+    <h3>{@html pageData.name}</h3>
     <hr>
     <div>
-        <p>{@html shortDesc}</p>
+        <p>{@html pageData.shortDesc}</p>
     </div>
 </div>
 
@@ -35,24 +34,31 @@
         margin:         0 auto;
     }
     h3{
-        font-size:      2vw;
+        font-size:      2.2vw;
         margin-top:     0;
         margin-bottom:  0.5rem;
         text-transform: lowercase;
         letter-spacing: 0.05rem;
     }
     p{
-        font-size: 1vw;
+        font-size:      1.15vw;
+        line-height:    1.35;
     }
     .card{
-        width:          12.5vw;
-        height:         12.5vw;
-        margin:         1rem;
-        padding:        1rem;
-        background:     rgba(255, 255, 255, 0.85);
-        cursor:         pointer;
-        transition:      all 200ms;
-        transform-origin: 50% 50%;
+        width:              12.5vw;
+        height:             12.5vw;
+        margin:             1rem;
+        padding:            1rem;
+        background:         rgba(255, 255, 255, 0.85);
+        cursor:             pointer;
+        transition:         all 200ms;
+        transform-origin:   50% 50%;
+    }
+    .card-0, .card-1{
+        border-radius:      2rem 2rem 0rem 2rem;
+    }
+    .card-2, .card-3{
+        border-radius:      2rem 2rem 2rem 0rem;
     }
     .card:hover{
         color:          #fff;

@@ -10,7 +10,7 @@
 
 <!-- COMPONENT HTML MARKUP-->
 <section>
-    <div class = 'subtitle'>&#8212;&#8212;&#8212; <span>waterways project</span></div>
+    <div>&#8212;&#8212;&#8212; <span>waterways project</span></div>
     <h1>{ @html projectName }</h1>
 </section>
 
@@ -31,8 +31,8 @@
     span {
         letter-spacing: 0.0625rem;
     }
-    .subtitle{
-        color:          rgb(163, 161, 161);
+    div{
+        color:          var(--grey);
         font-weight:    200;
         font-size:      0.8rem;
     }

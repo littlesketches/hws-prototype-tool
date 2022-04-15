@@ -19,14 +19,15 @@
     function openProject(){
         console.log('Open project with id: ', id )
         $ui.state.focus.projectData = projectData
-        $ui.byPage.discover.projectPage = true
+        $ui.byPage[$ui.page].overlay = 'project'
         window.scrollTo({top: 0, behavior: 'smooth'});
+        console.log(projectData)
     };
 </script>
 
 
 <!-- COMPONENT HTML MARKUP-->
-<li in:fly="{{x: 500, duration: 1000, delay: 500 + 100 * index}}">
+<li  in:fly="{{x: 500, duration: 1000, delay: 500 + 100 * index}}"  out:fly="{{x: 500, duration: 200, delay: 50 * index}}">
     <div id = {`card-${id}`} class = 'card' 
         on:click={openProject(projectData)} 
         on:mouseover={showDesc}  on:focus={showDesc}   

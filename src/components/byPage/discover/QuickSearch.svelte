@@ -9,6 +9,7 @@
     function handleSearch(){
         console.log('Submit search: ', searchInput)
         $ui.byPage.discover.projectSearch.isMade = true
+        window.scrollTo({top: 0, behavior: 'smooth'});
     };
 </script>
 
@@ -23,6 +24,9 @@
 
 <!------ STYLE ------->
 <style> 
+    input{
+	border: 1px solid #000;
+    }
     #search-term{
         width:          100%;
         padding:        1rem 3rem 1rem 0.5rem;

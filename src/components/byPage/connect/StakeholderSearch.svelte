@@ -29,11 +29,13 @@
     function handleSubmit(){
         $ui.byPage.connect.main = 'list'
         $ui.byPage.connect.stakeholderSearch.isMade = true
+        window.scrollTo({top: 0, behavior: 'smooth'});
         console.log($ui.search)
     };
 
     function handleClose(){
         $ui.byPage.connect.main = 'list'
+        window.scrollTo({top: 0, behavior: 'smooth'});
     };
 
 
@@ -311,61 +313,62 @@
 <!------ STYLE ------->
 <style> 
     section{
-        grid-area: main;
+        grid-area:          main;
     }
     h3, h4{ 
         margin-block-start: 0;
-        margin-block-end: 0;
-        padding: 0 1rem 0 0.5rem;
-        line-height: 1.25;
+        margin-block-end:   0;
+        padding:            0 1rem 0 0.5rem;
+        line-height:        1.25;
     }
     .multi-select-container{
-        display: grid;
+        display:            grid;
+        padding:            1rem 0;
         grid-template-columns: 1fr 3fr;
-        padding: 1rem 0;
+
     }
     .container * {
         box-sizing: border-box;
     }
     .close-container{
-        margin-bottom: 1rem;
-        display: flex;        
+        margin-bottom:      1rem;
+        display:            flex;      
+        justify-content:    flex-end;  
     }
     .close-button{
-        font-weight: 600;
-        font-size: 0.75rem;
-        cursor: pointer;
+        font-weight:        600;
+        font-size:          0.8rem;
+        cursor:             pointer;
     }
     .close-button:hover{
-        text-decoration: underline;
+        text-decoration:    underline;
     }
     .button-container{
-	    border-top: 0.75px solid grey;
-        margin-top: 2rem;
+        margin-top:         1rem;
     }
+
     /* COLLAPSIBLE PANE STYLING */
 	.collapse__header {
-        display: flex;
-        justify-content: space-between;
-	    padding: 1rem 0rem;
-	    border-top: 0.75px solid grey;
-	    transition: background 200ms ease-in-out;
+        display:            flex;
+        justify-content:    space-between;
+	    padding:            1rem 0rem;
+	    border-top:         0.75px solid grey;
+	    transition:         background 200ms ease-in-out;
 	}
     .collapse__header .toggle-icon{
-        margin-right: 1rem;
-	    transition: all 200ms ease-in-out;
+        margin-right:       1rem;
+	    transition:         all 200ms ease-in-out;
     }
     .selected .toggle-icon{
-        transform: rotate(180deg);
+        transform:          rotate(180deg);
     }
 	.collapse__header.selected,
 	.collapse__header:hover {
-	    background: #333;
-        color:      #fff;
+	    background:         var(--darkGrey);
+        color:              #fff;
 	}
 	.collapse__body {
-	    padding: 1rem 0;
-        display: grid;
+	    padding:            1rem 0;
+        display:            grid;
 	}
-
 </style>

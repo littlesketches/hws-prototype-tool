@@ -1,6 +1,6 @@
 <script>
-    import { ui }          from '../../../data/stores.js'
-
+    import { ui }         from '../../../data/stores.js'
+	import { fly }        from 'svelte/transition'
     // Switch between cards and netowrk  
     $ui.byPage.connect.stakeholderView = 'cards' 
 
@@ -14,7 +14,7 @@
 </script>
 
 <!-- COMPONENT HTML MARKUP-->
-<section>
+<section in:fly="{{x: 500, duration: 1500}}" out:fly="{{x: 500, duration: 150}}">
     <div>   
         {#if $ui.byPage.connect.stakeholderView === 'cards'}
         <h4>&#8212;&#8212; Stakeholders menu</h4>
@@ -25,12 +25,12 @@
         
     <div class = "switch-container">
         <div on:click={switchView} name="cards" 
-            class = 'icon-container selected' type = 'button'>
+            class = 'icon-container cards selected' type = 'button'>
             Cards
         </div>
         <div class = "icon-divider">|</div>
         <div on:click={switchView} name="network" 
-            class = 'icon-container' type = 'button'>
+            class = 'icon-container network' type = 'button'>
             Network
         </div>
     </div>
@@ -47,10 +47,9 @@
         font-size:          1rem;
     }
     h4{
-        font-weight:        500;
+        font-weight:        700;
         margin-block-start: 0;
         margin-block-end:   0;
-        color:            rgb(100, 100, 100);
     }
     .switch-container{
         display:            flex;
@@ -58,17 +57,27 @@
     }
     .icon-divider{
         padding:            0 0.25rem;
-        font-size:          0.75rem;
     }
     .icon-container{
         display:            inline-block;
         cursor:             pointer;
         opacity:            0.65;
+        font-weight:        300;
     }
+    .icon-container.cards{
+        width:          50px;
+        text-align:     left;
+    }
+    .icon-container.network{
+        width:          65px;
+        text-align:     right;
+    }
+
     .icon-container.selected{
         opacity:            1;
+        font-weight:        700;
     }
     .icon-container:hover{
-        font-weight:        600;
+        font-weight:        700;
     }
 </style>

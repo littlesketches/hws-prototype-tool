@@ -11,8 +11,6 @@
 
     import { database } from '../../data/dataStores.js'
 
-    console.log('Hello from the (anon) autologin and connection component..')   
-
     const promise = async function(app){
         await initRealm(app)
         await loginAnonymous(app)
@@ -25,12 +23,8 @@
 
 
 <!-- COMPONENT MARKUP -->
-{#await promise(app)}
-    <p>...connecting to realm app</p>
-{:then data}
-    <!-- <p>The realm and mongo atlas connections are made!!</p> -->
-{:catch error}
-    <p style="color: red">{error.message}</p>
+{#await promise(app) then data }
+
 {/await}
 
 <!-- STYLES -->

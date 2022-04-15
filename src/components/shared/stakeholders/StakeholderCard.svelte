@@ -19,18 +19,17 @@
     function openStakeholder(){
         console.log('Open stakeholder with id: ', id)
         $ui.state.focus.stakeholderData = stakeholderData
-        $ui.byPage.connect.stakeholderPage = true
+        $ui.byPage.connect.overlay = 'stakeholder'
         window.scrollTo({top: 0, behavior: 'smooth'});
     };
-
 </script>
 
 
 <!-- COMPONENT HTML MARKUP-->
-<li in:fly="{{x: 500, duration: 1000, delay: 500 + 100 * index}}">
+<li  in:fly="{{x: 500, duration: 1000, delay: 500 + 100 * index}}"  out:fly="{{x: 500, duration: 200, delay: 50 * index}}">
     <div id = {`card-${id}`} class = 'card' 
         on:click={openStakeholder(stakeholderData)} 
-        on:mouseover={showDesc}  on:focus={showDesc}   
+        on:mouseover={showDesc} on:focus={showDesc}   
         on:mouseout={hideDesc}  on:blur={hideDesc}   
         >
         <img src = {stakeholderData.imgURL} alt ='tba'>

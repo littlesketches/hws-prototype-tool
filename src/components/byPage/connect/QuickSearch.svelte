@@ -1,6 +1,6 @@
 <!-- COMPONENT TO HANDLE QUICK SEARCH BOX -->
 <script>
-    import QuickSearch from './QuickSearch.svelte'
+    import QuickSearch  from './QuickSearch.svelte'
     import { ui }       from '../../../data/stores.js'
     import Magnify      from "svelte-material-icons/Magnify.svelte";
 
@@ -9,6 +9,7 @@
     function handleSearch(){
         console.log('Submit search: ', searchInput)
         $ui.byPage.discover.connectSearch.isMade = true
+        window.scrollTo({top: 0, behavior: 'smooth'});
     };
 </script>
 

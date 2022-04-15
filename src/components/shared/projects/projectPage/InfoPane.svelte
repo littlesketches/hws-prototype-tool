@@ -18,7 +18,7 @@
 
     <div class = 'info-pane-content'>
         <!-- WHO: Lead  org(s) and partners-->
-        <h4>&mdash;&mdash; Stakeholders</h4> 
+        <h4>&mdash;&mdash; Who's invovled?</h4> 
         <div class='info-row'>
             <div class ='info-label'>Lead organisation:</div>
             <div class ='info-content'>
@@ -34,25 +34,25 @@
             {/if}
             <div class ='info-content'>
                 {#each projectData.stakeholders.partners as partner, index}
-                    <span>{index === 0  ? partner :index == projectData.stakeholders.partners.length - 1 ? ` and ${partner}` : `${partner}, `} </span>
+                <span>{index === 0  ? partner :index == projectData.stakeholders.partners.length - 1 ? ` and ${partner}` : `${partner}, `} </span>
                 {/each}
             </div>
         </div>
         {/if}
 
         <!-- PROJECT INFO: Lead  org(s) and partners-->
-        <h4>&mdash;&mdash; Project info</h4> 
+        <h4>&mdash;&mdash; What's the status?</h4> 
         <div class='info-row'>
-            <div class ='info-label'>Project type</div>
+            <div class ='info-label'>Project type:</div>
             <div class ='info-content'>{capitaliseFirst(projectData.meta.type)}</div>
         </div>
         <div class='info-row'>
-            <div class ='info-label'>Status</div>
+            <div class ='info-label'>Status:</div>
             <div class ='info-content'>{capitaliseFirst(projectData.status.stage)}</div>
         </div>
         {#if projectData.status.stage === 'complete' || projectData.status.stage === 'ongoing'}
         <div class='info-row'>
-            <div class ='info-label'>Completion date</div>
+            <div class ='info-label'>Completion date:</div>
             <div class ='info-content'>{projectData.status.dates.completion}</div>
         </div>
         {:else}
@@ -63,7 +63,7 @@
         {/if}
 
         <!-- PROJECT LOCATION DATA -->
-        <h4>&mdash;&mdash; Location</h4> 
+        <h4>&mdash;&mdash; Where is it?</h4> 
         <div class='info-row'>
             {#if projectData.location.locations.length > 1 }
             <div class ='info-label'>Locations:</div>

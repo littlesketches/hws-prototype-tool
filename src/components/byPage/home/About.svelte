@@ -64,7 +64,6 @@
             { @html content.section_04_description }
         </div>
     </div>
-
 </section>
 
 
@@ -103,28 +102,20 @@
         font-size:          5vw;
         font-weight:        100;
     }
-    h2{
-        font-size:          3vw;
-    }
     p{
         margin-block-start: 0;
-        font-weight:        300;
-        line-height:        1.75;
     }
-
     img{
         height:             100%;
-        max-height:         50vh;
+        max-height:         65vh;
         width:              100%;
         object-fit:         cover;
     }
-
     .note{
         font-size:      0.75rem;
         color:         rgb(150, 150, 150);
         font-style:     italic;
         width:          75%;
-
     }
 
 </style>

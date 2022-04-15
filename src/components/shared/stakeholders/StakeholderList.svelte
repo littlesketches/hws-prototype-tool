@@ -1,5 +1,6 @@
 <!-- PROJECT LIST-->
 <script>
+	import { fade, fly } 	from 'svelte/transition';
     import StakeholderListHeader    from './StakeholderListHeader.svelte'
     import StakeholderCard          from './StakeholderCard.svelte'
     import StakeholderNetwork       from './StakeholderNetwork.svelte'
@@ -21,7 +22,7 @@
 </script>
 
 <!-- COMPONENT HTML MARKUP-->
-<section>   
+<section  in:fly="{{x: 500, duration: 1000, delay: 500}}">   
     <StakeholderListHeader/> 
     {#if $ui.byPage.connect.stakeholderView === 'cards'}
     <ul>
@@ -38,7 +39,7 @@
 <!------ STYLE ------->
 <style>
     section{
-        grid-template-areas:    main;
+        grid-area:              main;
     }
     ul{
         display:                grid;

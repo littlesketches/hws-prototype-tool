@@ -8,18 +8,17 @@
 </script>
 
 
-<!------ COMPONENT HTMLMARKUP ------->
+<!------ COMPONENT HTML MARKUP ------->
 <svelte:window bind:scrollY={y}/>
 
 <section>
     <div class="parallax-container">
         {#each layers as layer, i}
-            <img style="transform: translate(0,{-y * layer / (layers.length - 1)}px)"
-                src="./static/img/parallax/parallax{layer}.png"
-                alt="parallax layer {layer}"
-				in:fade="{{duration: 500, delay: i* 200}}"
-				out:fade="{{duration: 200, delay: i* 50}}"
-				>
+		<img style="transform: translate(0,{-y * layer / (layers.length - 1)}px)"
+			src="./static/img/parallax/parallax{layer}.png"
+			alt="parallax layer {layer}"
+			in:fade="{{duration: 500, delay: i* 200}}"
+			>
         {/each}
     </div>
 	<!-- Content embedded to merge with parallax container scrolling-->

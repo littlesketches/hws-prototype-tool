@@ -8,10 +8,12 @@
     function clearSearch(){
         $ui.byPage.discover.main = 'list'
         $ui.byPage.discover.projectSearch.isMade = false
+        window.scrollTo({top: 0, behavior: 'smooth'});
     };
     function openSearch(){
         $ui.byPage.discover.main = 'search'
         $ui.byPage.discover.projectSearch.isMade = false
+        window.scrollTo({top: 0, behavior: 'smooth'});
     };
 </script>
 
@@ -44,6 +46,6 @@
         gap:             0.5rem;
     }
     .button-container{
-        width: 100%;
+        width:          100%;
     }
 </style>

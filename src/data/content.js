@@ -17,7 +17,7 @@ export {
 ///// EXPORTED METHODS /////
 function getMenuOptions(user){
     if(user.isRegistered){
-        return pages.myAccount.concat(pages.core)     // "MyAccount" option would be first
+        return pages.manage.concat(pages.core)     // "MyAccount" option would be first
     } else {
         return pages.core.concat(pages.join)           // "Join" goes last (includes login)
     }
@@ -26,7 +26,7 @@ function getMenuOptions(user){
 function getPageInfo(name){ 
     return pages.core
         .concat(pages.join)
-        .concat(pages.myAccount)
+        .concat(pages.manage)
         .filter(d => d.name.toLowerCase() === name.toLowerCase())
 }; 
 
@@ -107,13 +107,13 @@ async function getContent(){
             }
         ],
 
-        myAccount: [
+        manage: [
             {
-                name:               getHTML('page.myAccount.name'),
-                shortDesc:          getHTML('page.myAccount.shortDesc'),
+                name:               getHTML('page.manage.name'),
+                shortDesc:          getHTML('page.manage.shortDesc'),
                 TitleBlock: {
-                    title:          getHTML('page.myAccount.TitleBlock.title'),
-                    instruction:    getHTML('page.myAccount.TitleBlock.instruction')
+                    title:          getHTML('page.manage.TitleBlock.title'),
+                    instruction:    getHTML('page.manage.TitleBlock.instruction')
                 }   
             }
         ]
@@ -187,6 +187,19 @@ async function getContent(){
             info:{
                 header:                 getHTML('component.join.info.header'),
                 desc:                   getHTML('component.join.info.desc'),
+            }
+        },
+
+        manage: {
+            info:{
+                defaultHeader:          getHTML('component.manage.info.defaultHeader'),
+                defaultDesc:            getHTML('component.manage.info.defaultDesc'),
+                myProjectsHeader:       getHTML('component.manage.info.myProjectsHeader'),
+                myProjectsDesc:         getHTML('component.manage.info.myProjectsDesc'),
+                bookmarkedHeader:       getHTML('component.manage.info.bookmarkedHeader'),
+                bookmarkedDesc:         getHTML('component.manage.info.bookmarkedDesc'),
+                feedbackHeader:         getHTML('component.manage.info.feedbackHeader'),
+                feedbackDesc:           getHTML('component.manage.info.feedbackDesc'),
             }
         }
     }

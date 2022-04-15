@@ -1,16 +1,16 @@
 <!-- MAIN TITLE BLOCK COMPONENT-->
 <script>
     import { fly }  from    'svelte/transition'
-    export let title
-    export let instruction
+    export let titleData
 </script>
 
 <!-- COMPONENT HTML MARKUP-->
-<section class = "title" in:fly="{{y: -500, duration: 1000}}">
-    <h1 > {@html title}</h1>  
-    <p in:fly="{{x: -100, duration: 1500} }">
-        &#8212;&#8212;&#8212; <span>{@html instruction}</span>
-    </p>
+<section  in:fly="{{y: -500, duration: 1000}}" out:fly="{{y: -500, duration: 500}}">
+    <div in:fly="{{x: -100, duration: 1500}}" out:fly="{{x: -100, duration: 750}}" >
+        &mdash;&mdash;&mdash; <span>{@html titleData.instruction}</span>
+    </div>
+    <h1><span>:</span>{@html titleData.title}</h1>  
+
 </section>
 
 
@@ -22,17 +22,20 @@
         margin-bottom:      2rem;
     }
     h1{
-        font-size:          5rem;
+        font-size:          7rem;
         margin-block-start: 0;
         margin-block-end:   0;
         letter-spacing:     0.125rem;
         font-weight:        700;
+        text-transform:     lowercase;
     }
-    p{
-        font-weight:        100;
-        color:            #555;
+    div{
+        color:              var(--grey);
+        font-weight:        200;
+        font-size:          0.8rem;
     }
     span{
         letter-spacing:     0.0625rem;
+        padding-right:       1rem;
     }
 </style>

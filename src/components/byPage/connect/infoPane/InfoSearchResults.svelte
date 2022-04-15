@@ -8,11 +8,13 @@
     function clearSearch(){
         $ui.byPage.connect.main = 'list'
         $ui.byPage.connect.stakeholderSearch.isMade = false
+        window.scrollTo({top: 0, behavior: 'smooth'});
         console.log('Search cleared')
     };
     function openSearch(){
         $ui.byPage.connect.main = 'search'
         $ui.byPage.connect.stakeholderSearch.isMade = false
+        window.scrollTo({top: 0, behavior: 'smooth'});
         console.log('Opening search cleared')
     };
 

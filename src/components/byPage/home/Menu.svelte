@@ -11,10 +11,9 @@
 
 <!------ COMPONENT MARKUP ------->
 <section>
-    <!-- <h3>Menu of stuff</h3> -->
     <div class ='menu-container'>
-        {#each $ui.items.pages as page, i (slugify(page.name))}
-        <MenuCard name = {page.name} shortDesc = {page.shortDesc} index = {i}/>
+        {#each $ui.items.pages as pageData, index (slugify(pageData.name))}
+        <MenuCard {pageData} {index}/>
         {/each}
     </div>
     <div class ='down-container'>
@@ -40,7 +39,6 @@
         grid-area:          6 / 1 / 10 / 11 ;      
         z-index:            7;
     }
-
     .menu-container{
         width:              100%;
         display:            flex;

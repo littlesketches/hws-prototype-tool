@@ -4,13 +4,15 @@
     import InfoEmptySearch      from "./infoPane/InfoEmptySearch.svelte"
     import InfoSearchResults    from "./infoPane/InfoSearchResults.svelte"
     import InfoNetwork          from "./infoPane/InfoNetwork.svelte"
+    import DividerZagged20px    from "../../shared/misc/DividerZagged20px.svelte"
     import { ui }               from '../../../data/stores.js'
     import { componentContent } from '../../../data/content.js'
 </script>
 
 
 <!-- COMPONENT HTML MARKUP-->
-<section in:fly="{{x: -100, duration: 1500}}">
+<section in:fly="{{x: -500, duration: 1500}}" out:fly="{{x: -500, duration: 150}}">
+    <DividerZagged20px/>
     <!-- 1. STAKEHOLDER DEFAULT LISTING -->
     {#if $ui.byPage.connect.main === 'list'}
         <!-- a. STAKEHOLDER CARD VIEW: DEFAULT OR AFTER SEARCH-->
@@ -30,14 +32,20 @@
         <h2>&mdash; {@html componentContent.connect.info.filterHeader}</h2>
         {@html componentContent.connect.info.filterDesc}  
     {/if}
+    <div class = 'float-bottom'>
+        <DividerZagged20px/>
+    </div>
 </section>
 
 
 <!------ STYLE ------->
 <style> 
     section{
-        grid-area:  info;    
-        background: rgb(238, 238, 238);
-        padding:    1rem;
+        grid-area:      info;    
+        display:        flex;
+        flex-direction: column;
+    }
+    .float-bottom{
+        margin-top: auto;
     }
 </style>

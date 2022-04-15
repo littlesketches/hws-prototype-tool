@@ -14,9 +14,9 @@
 </script>
 
 <!---- COMPONENT HTML MARKUP ---->
-<section class ='modal-menu' in:fade="{{duration: 500}}" out:fade="{{duration: 250}}" >
+<section in:fade="{{duration: 500}}" out:fade="{{duration: 250}}" >
      <div class = 'title-container'>
-        <h1>navigate</h1>
+        <h1>Navigate</h1>
         <!-- <p>jump to different sections</p> -->
     </div>    
      <div class = 'page-nav-container'>
@@ -39,7 +39,7 @@
 
 <!---- CSS STYLING ---->
 <style>
-    section.modal-menu{
+    section{
         position:   fixed;
         top:        0;
         left:       0;
@@ -51,11 +51,6 @@
         background: rgba(0, 0, 0, 0.9);
         color:    #fff;
     }
-    .modal-menu-title,
-    .page-nav-container{
-        color:    #fff;
-        margin:     1rem 7.5vh;
-    }
     h1{
         font-weight:    700;
         font-size:      6vw;
@@ -66,20 +61,16 @@
         padding:       7.5vh;
     }
     .page-nav-container{
-        grid-area: 1 / 2 / 2 / 3;
-        padding:       7.5vh 0;    
+        grid-area:      1 / 2 / 2 / 3;
+        padding:        7.5vh 0;  
+        margin:         1rem 7.5vh;  
     }
-    .modal-menu-title{
-        font-size:    2rem;
-        font-weight:  100;
-        margin:       7.5vh 0 0;
-        border-bottom: none;
-    }
+
     ul{
         margin-block-start:     0;
         margin-block-end:       0;
         padding-inline-start:   0;
-        }
+    }
     li{
         list-style-type: none;
         cursor:     pointer;
@@ -94,15 +85,19 @@
         padding-top: 0;
     }
     li:hover{
-        color: rgb(157, 255, 255);
+        color:          var(--modalLight)
+    }
+    .title-container,
+    .menu-title{
+        text-transform: lowercase;
     }
     .menu-title{
-        font-size: 2rem;
+        font-size:      2rem;
     }
     .menu-shortDesc{
-        padding-top: 0.5rem;
-        font-size: 1rem;
-        font-weight: 100;
+        padding-top:    0.5rem;
+        font-size:      1rem;
+        font-weight:    100;
     }
 
 </style>

@@ -39,7 +39,7 @@
 <!------ STYLE ------->
 <style>
     section{
-        grid-template-areas:    main;
+        grid-area:              main;
     }
     ul{
         display:                grid;

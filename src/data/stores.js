@@ -25,17 +25,16 @@ export const ui = writable({
             projectData:            null,
             stakeholderData:        null,
         },
-        location:   {
-            catchment:      false,
-            subCatchment:   false,
-            location:       false
+        location:{
+            catchment:              false,
+            subCatchment:           false,
+            location:               false
         }
     },
     byPage:{ 
         discover: {
             main:                   'list',         // Project "list" or "search"
-            projectPage:            false,          // Whether the project details page is showing    
-            projectID:              null,
+            overlay:                 false,         // Whether the project details overlay page is showing    
             projectView:            'cards',        // Project "cards" or "map"
             projectSearch: {
                 isMade:             false,
@@ -44,8 +43,7 @@ export const ui = writable({
         },
         connect: {
             main:                   'list',         // Connection by "list" or "search"
-            stakeholderPage:        false,          // Whether the project details page is showing    
-            stakeholderID:          null,
+            overlay:                false,          // Whether the stakeholder/project overlay page is showing    
             stakeholderView:        'cards',        // Project "cards" or "network"
             stakeholderSearch: {
                 isMade:             false,

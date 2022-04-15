@@ -1,4 +1,5 @@
 <script>
+    import { fly }      from    'svelte/transition'
     import { ui }       from '../../../data/stores.js'
 
     // Switch between cards and map  
@@ -14,7 +15,7 @@
 </script>
 
 <!-- COMPONENT HTML MARKUP-->
-<section>
+<section in:fly="{{x: 500, duration: 1500}}" out:fly="{{x: 500, duration: 150}}">
     <div>   
         {#if $ui.byPage.discover.projectView === 'cards'}
         <h4>&mdash;&mdash; Project menu</h4>
@@ -25,12 +26,12 @@
         
     <div class = "switch-container">
         <div on:click={switchView} name="cards" 
-            class = 'icon-container selected' type = 'button'>
+            class = 'icon-container cards selected' type = 'button'>
             Cards
         </div>
         <div class = "icon-divider">|</div>
         <div on:click={switchView} name="map" 
-            class = 'icon-container' type = 'button'>
+            class = 'icon-container map' type = 'button'>
             Map
         </div>
     </div>
@@ -47,28 +48,36 @@
         font-size:          1rem;
     }
     h4{
-        font-weight:        500;
+        font-weight:        700;
         margin-block-start: 0;
         margin-block-end:   0;
-        color:            rgb(100, 100, 100);
     }
     .switch-container{
         display:            flex;
         align-items:        flex-start;
     }
     .icon-divider{
-        padding:            0 0.25rem;
-        font-size:          0.75rem;
+        padding:            0 0.125rem;
     }
     .icon-container{
         display:            inline-block;
         cursor:             pointer;
         opacity:            0.65;
+        font-weight:        300;
+    }
+    .icon-container.cards{
+        width:              50px;
+        text-align:         left;
+    }
+    .icon-container.map{
+        width:              35px;
+        text-align:         right;
     }
     .icon-container.selected{
         opacity:            1;
+        font-weight:        700;
     }
     .icon-container:hover{
-        font-weight:        600;
+        font-weight:        700;
     }
 </style>

@@ -182,7 +182,7 @@
         display: flex;
         margin: .125rem .25rem .125rem 0;
         max-height: 1.75rem;
-        padding: 0.5rem 0.75rem;
+        padding: 0.35rem 0.5rem;
         transition: background-color .3s;
         white-space: nowrap;
         font-weight: 600;
@@ -201,7 +201,7 @@
         color: hsl(214, 17%, 92%);
         display: flex;
         justify-content: center;
-        height: 1rem;
+        height: 1.25rem;
         margin-left: .25rem;
         min-width: 1.25rem;
     }

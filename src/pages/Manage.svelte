@@ -1,31 +1,23 @@
 <!-- EXPLORE PAGE COMPONENT-->
 <script>
+	import { fade }         from 'svelte/transition'
     import TitleBlock       from '../components/shared/TitleBlock.svelte'
+    import InfoPane         from '../components/byPage/manage/InfoPane.svelte'
+
 	import { ui }           from '../data/stores.js'	 
     import { getPageInfo }  from '../data/content.js'
-	export let transition
 
-    const titleInfo = getPageInfo($ui.page)[0].TitleBlock
+    const titleData = getPageInfo($ui.page)[0].TitleBlock
 </script>
 
 
 <!-- COMPONENT MARKUP-->
-<section {transition}>
-    <TitleBlock {...titleInfo}/>
+<section class='page manage' in:fade="{{duration: 1500}}" >
+    <TitleBlock {titleData}/>
+    <InfoPane/>
 </section>
 
 
 <!------ STYLE ------->
 <style>
-    section{
-        display:                grid;
-        grid-template-columns:  1fr 2fr;
-        grid-template-rows:     auto 1fr;
-        column-gap:             2.5vw;
-        row-gap:                2.5vw;
-        grid-template-areas: 
-            "title title"
-            "info main";
-        padding:                5vw;
-    }
 </style>

@@ -1,11 +1,11 @@
 <!-- SHARE PAGE IMAAGE COMPONENT-->
 <script>
+	import { fly }              from 'svelte/transition'
     import { getRandomStockSplashImgPath }  from '../../../data/content.js'
-
 </script>
 
 <!-- COMPONENT HTML MARKUP-->
-<section>
+<section transition:fly="{{y: 500, duration: 800}}">
     <img src = {getRandomStockSplashImgPath()} alt ='tba'/>
 </section>
 

@@ -6,6 +6,7 @@
 
     function showSearch(){
         $ui.byPage.discover.main = 'search'
+        window.scrollTo({top: 0, behavior: 'smooth'});
     };
 </script>
 
@@ -19,7 +20,7 @@
 <div>
     <h2>&mdash; {@html componentContent.discover.info.searchToolHeader}</h2>
     {@html componentContent.discover.info.searchToolDesc}
-    <ul>
+    <ul class = 'unformatted'>
         <li>
             <div class = "search-box-container">
                 <QuickSearch/>
@@ -36,19 +37,8 @@
 
 <!------ STYLE ------->
 <style> 
-    h2{
-        margin-block-start: 0;
-    }
-    ul{
-        list-style-type: none;
-        border: 0;
-        margin: 0;
-        margin-block-start: 0  ;
-        margin-block-end: 0  ;
-        padding-inline-start: 0;
-    }
     hr{
-        margin: 2.5rem 0;
+        margin: 2.5rem 0 0.5rem 0;
     }
     .search-box-container{
         width: 100%;

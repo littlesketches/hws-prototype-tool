@@ -17,9 +17,7 @@
 
     function togglePane(){
         Object.keys(paneVisbility).map( key => {
-            if(this.id !== key){
-                paneVisbility[key] = false
-            }
+            if(this.id !== key){ paneVisbility[key] = false }
         })
         paneVisbility[this.id] = ! paneVisbility[this.id]
         console.log(`Toggling ${this.id} vis to `, paneVisbility[this.id])
@@ -28,11 +26,13 @@
     function handleSubmit(){
         $ui.byPage.discover.main = 'list'
         $ui.byPage.discover.projectSearch.isMade = true
+        window.scrollTo({top: 0, behavior: 'smooth'});
         console.log($ui.search)
     };
 
     function handleClose(){
         $ui.byPage.discover.main = 'list'
+        window.scrollTo({top: 0, behavior: 'smooth'});
     };
 
 
@@ -370,18 +370,18 @@
     .close-container{
         margin-bottom: 1rem;
         display: flex;        
+        justify-content: flex-end;
     }
     .close-button{
         font-weight: 600;
-        font-size: 0.75rem;
+        font-size: 0.8rem;
         cursor: pointer;
     }
     .close-button:hover{
         text-decoration: underline;
     }
     .button-container{
-	    border-top: 0.75px solid grey;
-        margin-top: 2rem;
+        margin-top: 1rem;
     }
 
     /* COLLAPSIBLE PANE STYLING */

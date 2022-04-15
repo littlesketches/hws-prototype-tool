@@ -1,16 +1,20 @@
-<!-- LOGIN FORM COMPOENNT -->
+<!-- NEW USER SIGN UP FORM COMPOENNT -->
 <script>
+	import  { fly, fade }    from 'svelte/transition'
     import DividerZagged20px from '../../shared/misc/DividerZagged20px.svelte'
     import { app }          from '../../../data/realm.js'
     import { user, ui }     from '../../../data/stores.js'
+
 
     let username, password, firstName, lastName, organisation, submitted
     function handleSubmit(){
         console.log(username, password,  lastName, organisation, submitted)
         if(firstName && lastName && username && organisation && password){
         }
+        // Set the UI state
         $user.isRegistered = true
         $ui.page = 'home'
+        window.scrollTo({top: 0, behavior: 'smooth'});
     };
 
     function switchForm(){
@@ -20,11 +24,12 @@
 
 
 <!-- COMPONENT HTML MARKUP -->
-<section>
+<section in:fly="{{x: 500,duration: 800, delay: 0}}"
+        out:fly="{{x: 500,duration: 200, delay: 0}}">
     <div>
         <DividerZagged20px/>
-        <h2>Create your account</h2>
-        <form on:submit|preventDefault={handleSubmit}>
+        <h2>&mdash; Create your account</h2>
+        <form class ='login' on:submit|preventDefault={handleSubmit}>
             <ul>
                 <li>
                     <label for="firstName">First name</label>
@@ -50,10 +55,8 @@
             <button on:click={handleSubmit}> Create account </button>
         </form>
     </div>
-
     <div>
-        <hr>
-        <div class = 'switch-container'> 
+        <div class = 'switch-form-container'> 
             <h4>Aleady have an account?</h4>
             <div class = "instruction-text" on:click={switchForm}>
                 &rarr; Click here to login
@@ -61,67 +64,17 @@
         </div>
         <DividerZagged20px/>
     </div>
-
 </section>
-
 
 
 <!-- STYLES -->
 <style>
     section{
-        grid-area: main;
-        width: 70%;
-        margin: 0 auto; 
-        display: flex;
-        flex-direction: column;
-        justify-content: space-between;
-    }
-    form{
-        width: 100%;        
-    }
-    ul{
-        list-style-type:    none;
-        margin-block-start:     0;
-        margin-block-end:       0;
-        margin-inline-start:    0;
-        margin-inline-end:      0;
-        padding-inline-start:   0;
-    }
-    hr{
-        margin-top: 2rem;
-    }
-    li{ 
-        font-size:      0.8rem;
-        padding-bottom:    2rem;
-    }
-    label, input{
-        display: inline-block;
-        font-weight: 300;
-    }
-    label{ 
-        width: 25%;
-    }
-    input{ 
-        width:      72.5%;
-        float:      right;
-        padding:    0.5rem;
-    }
-    button{ 
-        width: 100%;
-    }
-    .switch-container{
-        display: flex;
-        align-items: center;
-        justify-content: space-between;
-    }
-    .instruction-text{
-        text-align: right;
-        font-weight: 300;
-        font-size: 1rem;
-        cursor: pointer;    
-    }
-    .instruction-text:hover{
-        font-weight: 500;
-        text-decoration: underline;
+        grid-area:          main;
+        width:              70%;
+        margin:             0 auto; 
+        display:            flex;
+        flex-direction:     column;
+        justify-content:    space-between;
     }
 </style>

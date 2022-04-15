@@ -1,6 +1,6 @@
 <!-- PROJECT DETAIL COMPONENT-->
 <script>
-	import { fade }         from 'svelte/transition'
+	import { fade, fly }         from 'svelte/transition'
     import TitleBlock       from './projectPage/TitleBlock.svelte'
     import InfoPane         from './projectPage/Infopane.svelte'
     import UserActions      from './projectPage/UserAction.svelte'
@@ -12,7 +12,7 @@
 </script>
 
 <!-- COMPONENT HTML MARKUP-->
-<section in:fade>
+<section in:fly="{{x: 500, duration: 1000}}" out:fly="{{x: 500, duration: 200}}" >
     <TitleBlock/>
     <InfoPane/>
     <UserActions/>
@@ -31,5 +31,7 @@
         grid-template-rows: repeat(6, auto);
         column-gap: 10vw;
         row-gap: 2.5vw;
+        z-index: 10;
+        background: #fff;
     }
 </style>

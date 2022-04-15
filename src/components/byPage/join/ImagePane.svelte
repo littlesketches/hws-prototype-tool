@@ -1,4 +1,4 @@
-
+<!-- IMAGE FOR THE JOIN PAGE-->
 <script>
     import { getRandomAbstractImgPath }          from '../../../data/content.js'
 </script>
@@ -13,7 +13,7 @@
 <style>
     section{
         grid-area: image;
-        width: 100%;
+        width:      100%;
     }
 
     img{

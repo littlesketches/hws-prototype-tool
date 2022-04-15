@@ -1,6 +1,6 @@
 <!-- LOGIN FORM COMPOENNT -->
-
 <script>
+	import  { fly, fade }    from 'svelte/transition'
     import DividerZagged20px from '../../shared/misc/DividerZagged20px.svelte'
     import { app }               from '../../../data/realm.js'
     import { user, ui }          from '../../../data/stores.js'
@@ -8,8 +8,11 @@
     let username, password, submitted
     function handleSubmit(){
         console.log(username, password)
+
+        // Set the UI state
         $user.isRegistered = true
         $ui.page = 'home'
+        window.scrollTo({top: 0, behavior: 'smooth'});
     };
     function switchForm(){
         $ui.byPage.join.form = 'newUser'
@@ -18,11 +21,12 @@
 
 
 <!-- COMPONENT HTML MARKUP -->
-<section>
+<section in:fly="{{x: -500, duration: 800}}"
+        out:fly="{{x: -500, duration: 200}}">
     <div>
         <DividerZagged20px/>
-        <h2>Login to your account</h2>
-        <form on:submit|preventDefault={handleSubmit}>
+        <h2>&mdash; Login to your account</h2>
+        <form class =  'login' on:submit|preventDefault={handleSubmit}>
             <ul>
                 <li>
                     <label for="emailUsername">Email (username)</label>
@@ -37,8 +41,8 @@
         </form>
     </div>
     <div>
-        <hr>
-        <div class = 'switch-container'> 
+        <!-- <hr> -->
+        <div class = 'switch-form-container'> 
             <h4>Don't have an account?</h4>
             <div class = "instruction-text" on:click={switchForm}>
                 &rarr; Click here to create one
@@ -60,51 +64,7 @@
         flex-direction: column;
         justify-content: space-between;
     }
-    form{
-        width: 100%;        
-    }
     hr{
         margin-top: 2rem;
-    }
-    ul{
-        list-style-type:    none;
-        margin-block-start:     0;
-        margin-block-end:       0;
-        margin-inline-start:    0;
-        margin-inline-end:      0;
-        padding-inline-start:   0;
-    }
-
-    li{ 
-        padding-bottom:         2rem;
-    }
-    label, input{
-        display: inline-block;
-    }
-    label{ 
-        width: 25%
-    }
-    input{ 
-        width: 72.5%;
-        float: right;
-        font-size: 0.75rem;
-    }
-    button{ 
-        width: 100%;
-    }
-    .switch-container{
-        display: flex;
-        align-items: center;
-        justify-content: space-between;
-    }
-    .instruction-text{
-        text-align: right;
-        font-weight: 300;
-        font-size: 1rem;
-        cursor: pointer;    
-    }
-    .instruction-text:hover{
-        font-weight: 500;
-        text-decoration: underline;
     }
 </style>

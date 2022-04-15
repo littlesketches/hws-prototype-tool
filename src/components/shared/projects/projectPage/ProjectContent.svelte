@@ -4,7 +4,8 @@
 	import { slide }    from 'svelte/transition'
     import HWS_tags     from '../../misc/HWS_tags.svelte'
     import HWS_boxes    from '../../misc/HWS_boxes.svelte'
-    import Sources      from './Sources.svelte'
+    import ProjectSources     from './ProjectSources.svelte'
+    import ProjectLearnings  from './ProjectLearnings.svelte'
 
     // Reactive variables
     $: projectData = $ui.state.focus.projectData
@@ -29,11 +30,13 @@
     const visibility = {
         hwsDetails:         false,
         aboutDetails:       false,
+        learningsDetails:  false,
         sourcesDetails:     false
     }
     // Pane toggle labels
     $: aboutLabel = !visibility.aboutDetails ? 'Show more project details' : 'Hide project details' 
     $: hwsLabel = !visibility.hwsDetails ? 'Show more impact details' : 'Hide impact details' 
+    $: learningsLabel = !visibility.learnings ? 'Show learnings' : 'Hide learnings details' 
     $: sourcesLabel = !visibility.sourcesDetails ? 'Show more sources details' : 'Hide sources details' 
 
     function togglePane(){
@@ -49,7 +52,7 @@
         {@html projectData.about.shortDescription}  
     </div>
     {#if visibility.aboutDetails }
-        <div transition:slide>
+        <div transition:slide="{{duration: 1200}}">
             <h3>&#8212;&#8212; Project details</h3>
             {@html projectData.about.longDescription}
 
@@ -68,8 +71,9 @@
     </div>
 
     <hr>
+
     <!-- HWS IMPACT SECTION-->
-    <h3>&#8212;&#8212;&#8212; Waterways impact</h3>
+    <h3>&mdash;&mdash;&mdash; Waterways impact</h3>
     <p>Every waterways project can be categorised by the waterways themes, key values an conditions which they impact.</p>
     <HWS_tags data={themesData}/>
     <HWS_boxes data={keyValuesData}/>
@@ -85,11 +89,28 @@
     </div>
     <hr>
 
+    <!-- PROJECT LEARNINGS -->
+    {#if (Object.values(projectData.lessons).flat().length > 0)}
+        <h3>&mdash;&mdash;&mdash; Project learnings</h3>
+        <p>The follow project notes are provided by {@html projectData.stakeholders.lead.org} to help document key lessons from this project.</p>
+        {#if visibility.learningsDetails }
+        <ProjectLearnings/>
+        {/if}
+        <div class = "collapse__body"  transition:slide>
+            <div id = "learningsDetails" class="collapse__header" type="button" 
+                class:selected="{visibility.learnings}" on:click={togglePane}>
+                <div class="toggle-label">{@html learningsLabel}</div>
+                <div class="toggle-icon down">&#8595;</div>
+            </div>
+        </div>
+        <hr>
+    {/if}
+
     <!-- MORE INFO AND SOURCES-->
-    <h3>&#8212;&#8212;&#8212; Where to find more information</h3>
+    <h3>&mdash;&mdash;&mdash; Where to find more information</h3>
     <p>Project information was provided from {@html projectData.stakeholders.lead.org} in {@html projectData.status.dates.lastUpdate} .</p>
     {#if visibility.sourcesDetails }
-    <Sources/>
+    <ProjectSources/>
     {/if}
     <div class = "collapse__body"  transition:slide>
         <div id = "sourcesDetails" class="collapse__header" type="button" 

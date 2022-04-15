@@ -11,10 +11,8 @@
 	};
 
 	function closeModalPage() {
-    $ui.byPage.discover.projectPage = false
-    $ui.byPage.discover.projectID = null
-    $ui.byPage.connect.stakeholderPage = false
-    $ui.byPage.connect.stakeholderID = null
+    $ui.byPage.discover.overlay = false
+    $ui.byPage.connect.overlay = false
 	};
 
 </script>
@@ -25,7 +23,7 @@
   {#if $ui.showNav}
     <nav class ='nav-menu' transition:fade>
       <div class = "menuButton-container">
-        {#if !$ui.byPage.discover.projectPage && !$ui.byPage.connect.stakeholderPage }     
+        {#if !$ui.byPage.discover.overlay && !$ui.byPage.connect.overlay }     
           <svg id = "menu-icon" class ="nav-icon" width = "100%" viewbox = "0 0 50 50"
             on:click={toggleMenu} class:invert={$ui.showMenuModal} >
             <a href="#">
@@ -63,15 +61,14 @@
     display: grid;
     grid-template-columns: 7.5vh repeat(5, 1fr) 7.5vh;
     grid-template-rows: 7.5vh 1fr 7.5vh;
-    position: fixed;
-    top:    0;
-    left:   0;
-    width:  100vw;
-    height: 100vh;
-    z-index: 100;
+    position:     fixed;
+    top:          0;
+    left:         0;
+    width:        100vw;
+    height:       100vh;
+    z-index:      100;
     pointer-events: none;
   }
-  .home-container,
   .menuButton-container {
       display:        flex;
       justify-items:  center;
@@ -80,11 +77,7 @@
   }
   .menuButton-container {
       grid-area:      1 / 7 / 2 / 8;
-      padding:        1rem 1rem 0rem 0rem;
-  }
-  .home-container{
-      grid-area:      1 / 1 / 2 / 1;
-      padding:        1rem 0rem 0rem 1rem;
+      padding:        8px;
   }
 
   /* Navigation icon styling */

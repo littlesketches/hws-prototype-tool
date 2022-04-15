@@ -1,7 +1,9 @@
 <!-- SHARE NEW IDEA PANE COMPONENT-->
 <script>
+	import { fly }              from 'svelte/transition'
     import InfoEmptySearch      from "./infoPane/InfoEmptySearch.svelte"
     import InfoSearchResults    from "./infoPane/InfoSearchResults.svelte"
+    import DividerZagged20px    from "../../shared/misc/DividerZagged20px.svelte"
     import { user, ui }         from '../../../data/stores.js'
     import { componentContent } from '../../../data/content.js'
 
@@ -16,8 +18,9 @@
 
 
 <!-- COMPONENT HTML MARKUP-->
-<section>
-    <div class = 'selection-info info-container'>
+<section transition:fly="{{x: -500, duration: 800}}">
+    <DividerZagged20px/>
+    <div class = 'content-container'>
         <h2>&#8212; {@html componentContent.share.new.selectionHeader}</h2>
         {@html  componentContent.share.new.selectionDefault}  
     </div>
@@ -26,8 +29,12 @@
         {#if $user.isRegistered}
         <button on:click={openNewProject}>Contribute a project</button>
         {:else}
-        <button on:click={handleLoginRedirect}>Login to share your project</button>
+        <button on:click={handleLoginRedirect}>Login to share your project &rarr;</button>
         {/if}
+    </div>
+
+    <div class = 'float-bottom'>
+        <DividerZagged20px/>
     </div>
 </section>
 
@@ -35,17 +42,16 @@
 <!------ STYLE ------->
 <style> 
     section{
-        grid-area:  share;
-        column-gap: 2.5vw;    
-        background: rgb(238, 238, 238);
-        padding:    1rem;
-        display:    flex;
+        grid-area:      share;
+        column-gap:     2.5vw;    
+        display:        flex;
         flex-direction: column;
-        justify-content: space-between;
     }
-
     .button-container{
-        margin-top: 0.5rem;
+        margin-top: auto;
+    }
+    .float-bottom{
+        margin-top: 1.5rem;
     }
 
 
