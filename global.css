@@ -1,45 +1,57 @@
+:root {
+  	--darkGrey: 		#333;
+  	--midGrey: 		#555;
+  	--grey: 			#999;
+  	--lightGrey: 		#aaa;
+  	--lightestGrey: 	#ddd;
+  	--darkPurple: 	rgb(117, 3, 130);
+  	--white: 			#ffffff;
+	--forestGreen:  rgb(13, 50, 50);
+	--modalLight: 		rgb(115, 232, 234);
+}
+
+
+
 html, body {
-	position: relative;
-	width: 100%;
-	height: 100%;
+	position: 	relative;
+	width: 		100%;
+	height: 	100%;
 }
 
 body {
-	color: #333;
-	margin: 0;
-	box-sizing: border-box;
-	font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Oxygen-Sans, Ubuntu, Cantarell, "Helvetica Neue", sans-serif;
-	font-size: 1.2rem;
+	color: 			var(--darkGrey);
+	margin: 		0;
+	box-sizing: 	border-box;
+	font-family: 	-apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Oxygen-Sans, Ubuntu, Cantarell, "Helvetica Neue", sans-serif;
+	font-size: 		1.2rem;
 }
 p{
-	line-height: 1.5;
-	font-weight: 300;
+	line-height: 		1.5;
+	font-weight: 		300;
 }
 a {
-  	color: rgb(64, 63, 63);	
-	text-decoration: none;
+  	color: 				var(--darkGrey);
+	text-decoration: 	none;
 }
-
 a:hover {
-	text-decoration: underline;
+	text-decoration: 	underline;
 }
-
 a:visited {
-	color: rgb(0,80,160);
+	color: 				var(--darkGrey);
 }
 
 label {
-	display: block;
+	display: 			block;
 }
 
 input, button, select, textarea {
-	font-family: inherit;
-	font-size: inherit;
-	-webkit-padding: 0.4em 0;
-	padding: 0.4em;
-	box-sizing: border-box;
-	border: 1px solid #ccc;
-	border-radius: 2px;
+	font-family: 		inherit;
+	font-size: 			inherit;
+	-webkit-padding: 	0.4em 0;
+	padding:	 		0.4em;
+	box-sizing: 		border-box;
+	border: 			1px solid var(--darkGrey);
+	border-radius: 		2px;
 }
 
 input:disabled {
@@ -47,32 +59,102 @@ input:disabled {
 }
 
 button {
-	cursor: 		pointer;
-    width:          100%;
-	color:          #fff;
-	background-color:     #555;
-	padding:        1rem 0.5rem;
-	margin-top:     0.75rem;
-	outline: 		none;
+	cursor: 			pointer;
+    width:          	100%;
+	color:          	#fff;
+	background-color:   var(--midGrey);
+	/* background-color:     #fff; */
+	padding:        	1rem 0.5rem;
+	margin-top:     	0.75rem;
+	outline: 			none;
+	transition:  		all 200ms
 }
 button:hover{
-	background-color:#000;
-	font-weight:    500;
+	background-color:	var(--darkGrey);
+	font-weight:    	500;
+	color: 			  #fff
 }
-
 button:disabled {
-	color: #999;
+	color: 				var(--grey);
 }
-
 button:not(:disabled):active {
-	background-color: #ddd;
-	color: #333;
+	/* background-color:  	var(--lightGrey);
+	color: 				var(--darkGrey); */
+	transform: 			scale(1.025)
 }
-
 button:focus {
-	border-color: #666;
-
+	border-color: 		var(--darkGrey);
 }
+
+
 .faded{
 	opacity: 0.25
+}
+ul.unformatted{
+	list-style-type: none;
+	border: 0;
+	margin: 0;
+	margin-block-start: 0  ;
+	margin-block-end: 0  ;
+	padding-inline-start: 0;
+}
+
+/* MAIN PAGES GRID LAYOUT */
+section.page{
+	display:                grid;
+	grid-template-columns:  1fr 2fr;
+	grid-template-rows:     auto 1fr;
+	column-gap:             5vw;
+	row-gap:                2.5vw;
+	grid-template-areas: 
+		"title title"
+		"info main";
+	padding:                7.5vh;
+}
+
+
+/* LOGIN AND SIGN UP FORMS */
+.login ul{
+	list-style-type:    none;
+	margin-block-start:     0;
+	margin-block-end:       0;
+	margin-inline-start:    0;
+	margin-inline-end:      0;
+	padding-inline-start:   0;
+}
+.login li{ 
+	font-size: 	0.8rem;
+	padding-bottom:     1.25rem;
+}
+.login label, input{
+	display:            inline-block;
+	font-weight:        300;
+}
+.login label{ 
+	padding: 	0.4rem 0;
+	width: 		25%;
+	font-weight: 600;
+
+}
+.login input{ 
+	width: 		70%;
+	float: 		right;
+	padding:    0.5rem 0;
+	border:     none;
+	border-bottom:    1px solid var(--darkGrey)
+}
+.switch-form-container{
+	display: 			flex;
+	align-items: 		center;
+	justify-content: 	space-between;
+}
+.switch-form-container div{
+	text-align: right;
+	font-weight: 300;
+	font-size: 1rem;
+	cursor: pointer;    
+}
+.switch-form-container div:hover{
+	font-weight: 500;
+	text-decoration: underline;
 }
