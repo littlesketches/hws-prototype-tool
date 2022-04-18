@@ -121,9 +121,6 @@ async function addDefaultImages(store){
 ////////////////////////////////////////
 
 
-
-
-
 async function testConnection(app){
   await initRealm(app)
   await loginAnonymous(app)

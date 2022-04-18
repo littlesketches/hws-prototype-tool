@@ -8,7 +8,6 @@ export const user = writable({
         projects:               null,
         bookmarkedProjects:     null,
         interactions:           []
-
     }
 })
 
