@@ -253,9 +253,11 @@
         width: 100%;
     }
     li {
+        display: block;
         background-color: white;
         cursor: pointer;
         padding: .5rem;
+        width: 100%;
     }
     li:last-child {
         border-bottom-left-radius: .2rem;

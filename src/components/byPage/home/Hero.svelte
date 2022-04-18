@@ -37,30 +37,27 @@
         grid-area: 1 / 1 / 11 / 11;
     }
 	.parallax-container {
-		position:   fixed;
-		width:      2400px;
-		height:     712px;
-		height:     100vh;
-		left:       50%;
-		transform:  translate(-50%,0);
+		position:   	fixed;
+		width:      	2400px;
+		height:     	712px;
+		height:     	100vh;
+		left:       	50%;
+		transform:  	translate(-50%,0);
 	}
-
 	.parallax-container img {
-		position: absolute;
-        object-fit: cover;
-		top: 0;
-		left: 0;
-		width: 100%;
-        height: 100vh;
-		will-change: transform;
+		position: 		absolute;
+        object-fit: 	cover;
+		top: 			0;
+		left: 			0;
+		width: 			100%;
+        height: 		100vh;
+		will-change: 	transform;
 	}
-
 	.parallax-container img:last-child::after {
-		content: '';
-		position: absolute;
-		width: 100%;
-		height: 100%;
-		background: rgb(45,10,13);
+		content: 		'';
+		position: 		absolute;
+		width: 			100%;
+		height: 		100%;
 	}
     img {
         filter: brightness(150%)  grayscale(30%)  hue-rotate(180deg);
@@ -74,17 +71,16 @@
 
 	/* CONTENT INTEGRATED BELOW THE HERO */
 	.content {
-		position: relative;
-		width: 100%;
-		box-sizing: border-box;
+		position: 		relative;
+		width: 			100%;
+		box-sizing: 	border-box;
 	}
-
 	.about-container {
-		position: absolute;
-		top: 100vh;
-		left: 0;
-		text-align: start;
-        background: #fff;
-		padding: 10vh 0 0 0;
+		position: 		absolute;
+		top: 			100vh;
+		left: 			0;
+		text-align: 	start;
+        background: 	#fff;
+		padding: 		10vh 0 0 0;
 	}
 </style>

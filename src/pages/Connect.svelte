@@ -1,4 +1,4 @@
-<!-- CONNECT PAGE COMPONENT-->
+<!-- CONNECT (WITH STAKEHOLDERS) PAGE COMPONENT-->
 <script>
 	import { fade }             from 'svelte/transition'
     import TitleBlock           from '../components/shared/TitleBlock.svelte'
@@ -31,7 +31,6 @@
     <!-- 2. Connection or project page overlay-->
     {:else if $ui.byPage.connect.overlay === 'stakeholder'}    
     <StakeholderPage/>
-
     {:else if $ui.byPage.connect.overlay === 'project'}    
     <ProjectPage/>
     {/if}    
@@ -39,5 +38,4 @@
 
 
 <!------ STYLE ------->
-<style>
-</style>
+<style></style>

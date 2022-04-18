@@ -5,13 +5,13 @@
 
     // Options for "re-search"
     function clearSearch(){
-        $ui.byPage.discover.main = 'list'
-        $ui.byPage.discover.projectSearch.isMade = false
+        $ui.byPage.share.main = 'list'
+        $ui.byPage.share.projectSearch.isMade = false
         console.log('Search cleared')
     };
     function openSearch(){
-        $ui.byPage.discover.main = 'search'
-        $ui.byPage.discover.projectSearch.isMade = false
+        $ui.byPage.share.main = 'search'
+        $ui.byPage.share.projectSearch.isMade = false
         console.log('Opening search cleared')
     };
 
@@ -19,12 +19,12 @@
 
 <!-- COMPONENT HTML MARKUP-->
 <div>
-    <h2>{@html componentContent.projectInfo.searchResultsHeader}</h2>
-    {@html componentContent.projectInfo.searchResultsDesc}
+    <h2>{@html componentContent.share.existing.searchResultsHeader}</h2>
+    {@html componentContent.share.existing.searchResultsDesc}
 </div>
 <hr>
 <div class="search-options">
-    {@html componentContent.projectInfo.searchResultsOptions}
+    <!-- {@html componentContent.projectInfo.searchResultsOptions} -->
     <div class = 'two-button-container'>
         <div class ='button-container'>
             <button on:click={clearSearch}>Clear search</button>

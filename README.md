@@ -33,3 +33,9 @@ Initial prototype deployment and testing is through a static hosting services (G
 Git Command to push a gh-pages subtree for publishing the build version via Github Pages
 
     git subtree push --prefix public/ origin gh-pages
+
+
+Remove anon uses from Realm CLI
+`realm-cli users delete -a mw-collab-prototype-yxtgd`
+
+

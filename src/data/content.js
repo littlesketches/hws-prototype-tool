@@ -174,13 +174,19 @@ async function getContent(){
 
         share:{
             new: {
-                selectionHeader:        getHTML('component.share.new.selectionHeader'),
-                selectionDefault:       getHTML('component.share.new.selectionDefault'),
+                aboutHeader:            getHTML('component.share.new.aboutHeader'),
+                aboutDesc:              getHTML('component.share.new.aboutDesc'),
+                instructionHeader:      getHTML('component.share.new.instructionHeader'),
+                instructionDesc:        getHTML('component.share.new.instructionDesc'),
             },
             existing: {
-                searchToolHeader:       getHTML('component.share.existing.searchToolHeader'),
-                searchToolDesc:         getHTML('component.share.existing.searchToolDesc'),
-            }
+                aboutHeader:            getHTML('component.share.existing.aboutHeader'),
+                aboutDesc:              getHTML('component.share.existing.aboutDesc'),
+                instructionHeader:      getHTML('component.share.existing.instructionHeader'),
+                instructionDesc:        getHTML('component.share.existing.instructionDesc'),
+                searchResultsHeader:    getHTML('component.share.existing.searchResultsHeader'),
+                searchResultsDesc:      getHTML('component.share.existing.searchResultsDesc'), 
+           }
         },
     
         join: {

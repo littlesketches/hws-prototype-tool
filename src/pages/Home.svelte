@@ -7,7 +7,7 @@
 
 
 <!-- COMPONENT HTML MARKUP-->
-<section>
+<section id="home-page">
     <Hero/>
     <Title/>
     <Menu/>
@@ -19,8 +19,8 @@
     section{
 		display:        grid;
         height:         100vh;
+        text-align:     center;
 		grid-template-rows:     5vh repeat(8, 1fr) 5vh;
 		grid-template-columns:  5vh repeat(8, 1fr) 5vh;
-        text-align:     center;
     }
 </style>

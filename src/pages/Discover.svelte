@@ -1,4 +1,4 @@
-<!-- EXPLORE PAGE COMPONENT-->
+<!-- DSICOVER (PROJECTS) PAGE COMPONENT-->
 <script>
 	import { fade }         from 'svelte/transition'
     import TitleBlock       from '../components/shared/TitleBlock.svelte'
@@ -14,7 +14,7 @@
 
 
 <!-- COMPONENT MARKUP-->
-<section class='page connect' in:fade="{{duration: 1500}}" >
+<section id="discover-page" class='page' in:fade="{{duration: 1500}}" >
     <!-- 1. Project search and listing-->
     {#if !$ui.byPage.discover.overlay}
     <TitleBlock {titleData}/>

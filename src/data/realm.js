@@ -1,7 +1,7 @@
 import * as Realm from "realm-web";
-import { getRandomStockImgPath } from './content.js'
+import { getRandomStockImgPath }  from './content.js'
+import {leadOrg, partnerOrg}      from './multiSelect.js'
 
-// import * as d3 from 'd3'
 export { 
   app, 
   initRealm, 
@@ -11,7 +11,8 @@ export {
   deleteAnonUser,
   deleteAllUsers,
   findRecord,
-  setupLocalStore
+  setupLocalStore,
+  updateMultiSelect
 } 
 
 ////////////////////////////////////////////////////////////////////
@@ -89,7 +90,7 @@ async function setupLocalStore(app, store){
     store[name] = await app.data.collections[name].find({})
       .then(result => {
         if(result) {
-          console.log(`${name} stored`);          
+          console.log(`- ${name} stored`);          
           return result;
         } else {
           console.log("No documents found");
@@ -98,6 +99,19 @@ async function setupLocalStore(app, store){
       .catch(err => console.error(`Failed to find documents: ${err}`));
   }
 };
+
+async function updateMultiSelect(store){
+  console.log(store)
+  console.log("Updating the multiselect objects...")
+  leadOrg.list = store.organisations.map( d => d.name).sort()
+  partnerOrg.list =  store.organisations.map( d => d.name).sort()
+};
+
+////////////////////////////////////////
+
+
+
+
 
 async function testConnection(app){
   await initRealm(app)

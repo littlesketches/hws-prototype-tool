@@ -1,11 +1,10 @@
 <!-- DISCOVER PAGE COMPONENT-->
 <script>
 	import MultiSelect    from '../../shared/MultiSelect.svelte';
-    import { ui }         from '../../../data/stores.js'
-    import { database }         from '../../../data/dataStores.js'
-    import { hwsSchema, projectSchema, subCatchmentMap, locationMap, locationTree } from '../../../data/schema.js'
 	import { slide }      from "svelte/transition";
-
+    import { ui }         from '../../../data/stores.js'
+    import { database }   from '../../../data/dataStores.js'
+    import { keyValues, conditions, performanceObjectivesGroup, performanceObjectivesTheme, catchments, subcatchments, locations, leadOrg, leadOrgType, partnerOrg, initiativeType, projectStage, projectClass, projectSize, projectScale }  from '../../../data/multiSelect.js'
 
     ////// COLLAPSIBLE SEARCH PANES ////
 	const paneVisbility= {
@@ -20,145 +19,44 @@
             if(this.id !== key){ paneVisbility[key] = false }
         })
         paneVisbility[this.id] = ! paneVisbility[this.id]
-        console.log(`Toggling ${this.id} vis to `, paneVisbility[this.id])
     };
 
-    function handleSubmit(){
-        $ui.byPage.discover.main = 'list'
-        $ui.byPage.discover.projectSearch.isMade = true
+    function handleSearch(){
+        switch( $ui.page){
+
+            case 'discover':
+                $ui.byPage.discover.main = 'list'
+                $ui.byPage.discover.projectSearch.isMade = true
+
+                break
+
+            case 'share':
+                $ui.byPage.share.main = 'list'
+                $ui.byPage.share.projectSearch.isMade = true
+                break
+        }
+
         window.scrollTo({top: 0, behavior: 'smooth'});
         console.log($ui.search)
     };
 
     function handleClose(){
         $ui.byPage.discover.main = 'list'
-        window.scrollTo({top: 0, behavior: 'smooth'});
     };
 
 
-    // DATA FOR MULTI-SELECT COMPONENTS
-    // Waterways outcomes 
-    const keyValues = {
-        label:      'by key values',
-        name:       'keyValues',
-        list:       Object.keys(hwsSchema.keyValues),
-        placeholder:    'Use this field to select waterway key values'
-    }
-
-    const conditions = {
-        label:      'by waterway conditions',
-        name:       'conditions',
-        list:       Object.keys(hwsSchema.conditions),
-        placeholder:    'Use this field to select waterway conditions'
-    }
-
-    const performanceObjectivesGroup = {
-        label:      'by performance objective group',
-        name:       'performanceObjectiveGroup',
-        list:       Object.keys(hwsSchema.performanceObjectives),
-        placeholder:    'Use this field to select performance objectives groups'
-    }
-
-    const performanceObjectivesTheme = {
-        label:      'by performance objective theme',
-        name:       'performanceObjectiveTheme',
-        list:       [... new Set(Object.values(hwsSchema.performanceObjectives).map(d => d.themes).flat().sort()) ],
-        placeholder:    'Use this field to select performance objectives themes'
-    }
-
-    // Project location
-    const catchments = {
-        label:      'by catchments',
-        name:       'catchment',
-        list:       [...locationTree.entries()].map(d => d[0]),
-        placeholder:    'Use this field to select catchments'
-    }
-
-    const subcatchments = {
-        label:          'by subcatchments',
-        name:           'subcatchment',
-        list:           Object.keys(subCatchmentMap).sort(),
-        placeholder:    'Use this field to select subcatchments'
-    }
-
-    const locations = {
-        label:          'by location',
-        name:           'location',
-        list:           Object.keys(locationMap).sort(),
-        placeholder:    'Use this field to select locations'
-    }
-
-
-// console.log('Key values', keyValues)
-// console.log('Conditions', conditions)
-// console.log('Performance objectives Group', performanceObjectivesGroup)
-// console.log('Performance objectives Theme', performanceObjectivesTheme)
-
-// console.log('Locations', locations)
-// console.log('Conditions', subcatchments)
-// console.log('Performance objectives', catchments)
-
-    // Project characterships
-    const initiativeType = {
-        label:          'Type',
-        name:           'initiativeType',
-        list:           projectSchema.initiativeType,
-        placeholder:    'Use this field to select initiative type(s)'
-    }
-    const projectStage = {
-        label:          'Stage',
-        name:           'projectStage',
-        list:           projectSchema.stage,
-        placeholder:    'Use this field to select initiative project(s)'
-    }
-    const projectClass = {
-        label:          'Class',
-        name:           'projectClass',
-        list:           projectSchema.class,
-        placeholder:    'Use this field to select project class(es)'
-    }
-    const projectSize = {
-        label:          'Size',
-        name:           'projectSize',
-        list:           projectSchema.size,
-        placeholder:    'Use this field to select project size to filter for'
-    }
-    const projectScale = {
-        label:          'Scale',
-        name:           'projectScale',
-        list:           projectSchema.class,
-        placeholder:    'Use this field to select project scale to filter for'
-    }
-
-    // Project stakeholders
-    const leadOrg = {
-        label:          'Lead organisation',
-        name:           'leadOrg',
-        list:           $database.organisations.map( d => d.name).sort(),
-        placeholder:    'Use this field to select the name of lead organisation to filter for'
-    }
-    const leadOrgType = {
-        label:          'Lead organisation type',
-        name:           'leadOrgType',
-        list:           projectSchema.orgType,
-        placeholder:    'Use this field to select the type of lead organisation to filter for'
-    }
-    const partnerOrg = {
-        label:          'Partner organisation(s)',
-        name:           'partnerOrg',
-        list:           $database.organisations.map( d => d.name),
-        placeholder:    'Use this field to select the name of a partner organisation to filter for'
-    }
 </script>
 
 
 <!-- COMPONENT MARKUP-->
 <section>
+    {#if $ui.page === 'dicover'}
     <div class='close-container'>
         <div on:click={handleClose} class='close-button'>
             &#8592; Close search filter
         </div>
     </div>
+    {/if}
 
     <!-- by Waterways impact -->
     <div class = "container">
@@ -302,7 +200,7 @@
     </div>
 
     <!-- by Stakeholders -->
-    <div class = "contariner">
+    <div class = "container">
         <div id = "byStakeholders" class="collapse__header" type="button" 
             class:selected="{paneVisbility.byStakeholders}" on:click={togglePane}>
             <h3>Stakeholders</h3>
@@ -339,7 +237,7 @@
     </div>
 
     <div class = "button-container">
-        <button on:click|preventDefault={handleSubmit}>Search for projects</button>
+        <button on:click|preventDefault={handleSearch}>Search for projects</button>
     </div>
 </section>
 
@@ -359,6 +257,7 @@
         font-size:      1rem;
         font-weight:    600
     }
+
     .multi-select-container{
         display: grid;
         grid-template-columns: 1fr 3fr;
@@ -386,28 +285,30 @@
 
     /* COLLAPSIBLE PANE STYLING */
 	.collapse__header {
-        display: flex;
-        justify-content: space-between;
-	    padding: 1rem 0rem;
-	    border-top: 0.75px solid grey;
-	    transition: background 200ms ease-in-out;
+        pointer-events:     bounding-box;
+        cursor:             pointer;
+        display:            flex;
+        justify-content:    space-between;
+	    padding:            1rem 0rem;
+	    border-top:         0.75px solid grey;
+	    transition:         background 200ms ease-in-out;
 	}
     .collapse__header .toggle-icon{
-        margin-right: 1rem;
-	    transition: all 200ms ease-in-out;
+        margin-right:       1rem;
+	    transition:         all 200ms ease-in-out;
     }
     .selected .toggle-icon{
-        transform: rotate(180deg);
+        transform:          rotate(180deg);
     }
 
 	.collapse__header.selected,
 	.collapse__header:hover {
-	    background: #333;
-        color:      #fff;
+	    background:         var(--darkGrey);
+        color:              #fff;
 	}
 	.collapse__body {
-	    padding: 1rem 0;
-        display: grid;
+	    padding:            1rem 0;
+        display:            grid;
 	}
 
 </style>

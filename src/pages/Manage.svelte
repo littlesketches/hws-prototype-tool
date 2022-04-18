@@ -12,12 +12,11 @@
 
 
 <!-- COMPONENT MARKUP-->
-<section class='page manage' in:fade="{{duration: 1500}}" >
+<section id="manage-page" class='page' in:fade="{{duration: 1500}}" >
     <TitleBlock {titleData}/>
     <InfoPane/>
 </section>
 
 
 <!------ STYLE ------->
-<style>
-</style>
+<style></style>

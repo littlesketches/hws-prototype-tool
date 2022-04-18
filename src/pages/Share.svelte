@@ -5,6 +5,9 @@
     import ShareNew         from '../components/byPage/share/ShareNew.svelte'
     import ShareExisting    from '../components/byPage/share/ShareExisting.svelte'
     import ShareImage       from '../components/byPage/share/ShareImage.svelte'
+    import ExistingSearch   from '../components/byPage/share/ExistingSearch.svelte'
+    import NewProject       from '../components/shared/newProject/NewProject.svelte'
+    import ProjectPage      from '../components/shared/projects/ProjectPage.svelte'
 	import { ui }           from '../data/stores.js'	 
     import { getPageInfo }  from '../data/content.js'
 
@@ -13,24 +16,25 @@
 </script>
 
 <!-- COMPONENT MARKUP-->
-<section class='page share'  in:fade="{{duration: 1500}}" >
-    <TitleBlock {titleData}/>
-    <ShareNew/>
-    <ShareImage/>
-    <ShareExisting/>
+<section id = "share-page" class='page' in:fade="{{duration: 1500}}" >
+    {#if !$ui.byPage.share.overlay}
+        <TitleBlock {titleData}/>
+        <ShareNew/>
+        <ShareImage/>
+        <ShareExisting/>
 
-    {#if !$ui.byPage.share.projectPage}
-        <!-- {#if $ui.byPage.discover.main === 'list'}
-        <ProjectList/>
-        {:else if  $ui.byPage.discover.main === 'search'}
-        <ProjectSearch/>
-        {/if} -->
+    <!-- Overlay page options -->
+    {:else if $ui.byPage.share.overlay === 'newProject'}
+        <TitleBlock {titleData}/>
+       <NewProject/>
+    {:else if $ui.byPage.share.overlay === 'projectSearch'}
+        <TitleBlock {titleData}/>
+       <ExistingSearch/>
+    {:else if $ui.byPage.share.overlay === 'project'}
+        <ProjectPage/>
     {/if}    
 
-    <!-- Project page overlay-->
-    {#if $ui.byPage.discover.projectPage}
-    <!-- <ProjectPage/> -->
-    {/if}    
+
 </section>
 
 

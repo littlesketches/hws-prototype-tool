@@ -13,16 +13,18 @@
 
     function openNewProject(){
         console.log('Open the project entry')
+        $ui.byPage.share.overlay = 'newProject'
+        console.log($ui)
     }; 
 </script>
 
 
 <!-- COMPONENT HTML MARKUP-->
-<section transition:fly="{{x: -500, duration: 800}}">
+<section in:fly="{{x: -500, duration: 800}}"  out:fly="{{x: -500, duration: 300}}">
     <DividerZagged20px/>
     <div class = 'content-container'>
-        <h2>&#8212; {@html componentContent.share.new.selectionHeader}</h2>
-        {@html  componentContent.share.new.selectionDefault}  
+        <h2>&mdash; {@html componentContent.share.new.aboutHeader }</h2>
+        {@html componentContent.share.new.aboutDesc } 
     </div>
 
     <div class = "button-container">
@@ -42,8 +44,7 @@
 <!------ STYLE ------->
 <style> 
     section{
-        grid-area:      share;
-        column-gap:     2.5vw;    
+        grid-area:      share; 
         display:        flex;
         flex-direction: column;
     }

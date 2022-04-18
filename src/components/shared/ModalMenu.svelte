@@ -43,7 +43,7 @@
         position:   fixed;
         top:        0;
         left:       0;
-        z-index:    20;
+        z-index:    200;
         display:    grid;
         grid-template-columns: 1fr 2fr;
         width:      100vw;

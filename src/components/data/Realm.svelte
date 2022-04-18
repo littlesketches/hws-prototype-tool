@@ -6,7 +6,8 @@
         loginAnonymous,    
         connectToMongoAtlas, 
         connectToCollections,
-        setupLocalStore
+        setupLocalStore,
+        updateMultiSelect
     } from "../../data/realm.js";
 
     import { database } from '../../data/dataStores.js'
@@ -17,7 +18,7 @@
         await connectToMongoAtlas(app)
         await connectToCollections(app)
         await setupLocalStore(app, $database)
-        console.log($database)
+        await updateMultiSelect($database)	
     };
 </script>
 

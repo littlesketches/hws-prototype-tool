@@ -3,7 +3,7 @@ import { writable } from 'svelte/store';
 
 export const user = writable({
     isLoggedIn:         true,
-    isRegistered:       false,
+    isRegistered:       true,
 })
 
 export const ui = writable({
@@ -13,12 +13,16 @@ export const ui = writable({
     showMenuModal:      false,
     showModal:          false,
     items: {
-        pages:      []
+        pages:              []
     },
-
     search: {
         project:            {},
         organisation:       {}
+    },
+    newProject:         null,
+    editProject: {
+        id:                 null,
+        data:               null
     },
     state: {
         focus: {
@@ -51,8 +55,8 @@ export const ui = writable({
             }
         },
         share: {
-            main:                   'list',             // Project "list" or "search"
-            projectPage:            false,                 // "share" or "feedback"
+            main:                   'search',      // Project "list" or "search"
+            overlay:                false,         // "newProject", "projectSearch", or "project"
             projectView:            'cards',       // Project "cards" or "map"
             projectSearch: {
                 isMade:             false,
