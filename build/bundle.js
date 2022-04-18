@@ -1476,7 +1476,6 @@ var app = (function () {
             projects:               null,
             bookmarkedProjects:     null,
             interactions:           []
-
         }
     });
 
