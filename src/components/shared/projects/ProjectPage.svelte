@@ -12,7 +12,7 @@
 </script>
 
 <!-- COMPONENT HTML MARKUP-->
-<section id = "project-page" in:fly="{{x: 500, duration: 1000}}" out:fade="{{duration: 200}}" >
+<section id = "project-overlay" in:fly="{{x: 500, duration: 1000}}" out:fade="{{duration: 200}}" >
     <TitleBlock/>
     <InfoPane/>
     <UserActions/>

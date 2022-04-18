@@ -1,151 +1,194 @@
-<!-- MASTER NAVIGATION COMPONENT: ICONS AND MODAL MENU-->
+<!--  NAVIGATION COMPONENT: NAV BUTTON, MODAL MENU and HELO MODAL-->
 <script>
 	import ModalMenu      from './ModalMenu.svelte';
-	import { fade, fly }  from 'svelte/transition';
-	import { user, ui }   from '../../data/stores.js'
+	import ModalHelp      from './ModalHelp.svelte';
+	import { fade }       from 'svelte/transition';
+	import { ui }         from '../../data/stores.js'
 
-	/* Interaction functions */
+	/* Menu modal functions */
 	function toggleMenu() {
-    $ui.showMenuModal = !$ui.showMenuModal
+        $ui.showMenuModal = !$ui.showMenuModal
 	};
 
+    /* Overlay page modal */
 	function closeModalPage() {
-    $ui.byPage.discover.overlay = false
-    $ui.byPage.connect.overlay = false
-    $ui.byPage.share.overlay = false
-    $ui.byPage.manage.overlay = false
+        $ui.byPage.discover.overlay = false
+        $ui.byPage.connect.overlay = false
+        $ui.byPage.share.overlay = false
+        $ui.byPage.manage.overlay = false
 
-    // Hack to remove components that dont' destroy when changing page state the store
-    if(document.getElementById('new-project')) document.getElementById('new-project').remove()
-    if(document.getElementById('project-page')) document.getElementById('project-page').remove()
-
+        // Hack to remove components that dont' destroy when changing page state the store
+        if(document.getElementById('new-project')) document.getElementById('new-project').remove()
+        if(document.getElementById('project-overlay')) document.getElementById('project-overlay').remove()
+        if(document.getElementById('stakeholder-overlay')) document.getElementById('stakeholder-overlay').remove()
 	};
 
-  function showHelpOption(){
-    console.log('Show help')
-    document.getElementById('helpButton').classList.add('inactive')
-  };
-  function hideHelpOption(){
-    document.getElementById('helpButton').classList.remove('inactive')
-  };
+    // Help options and modal
+    function showHelpOption(){
+        this.classList.add('inactive')
+    };
 
-  function openHelpModal(){
+    function hideHelpOption(){
+        this.classList.remove('inactive')
+    };
 
+    // Help modal page
+    function openHelpModal(){
+        $ui.showHelpModal = true
+        $ui.showNav = true
+        document.getElementById('helpButton').style.opacity = "0"
 
-  };
+        console.log('Opening help modal...')
+        console.log($ui)
+    };
+
+    function closeHelpModal(){
+        $ui.showHelpModal = false
+        if($ui.page === 'home') $ui.showNav = true
+        document.getElementById('helpButton').style.opacity = null
+        console.log('Closing help modal...')
+    };
 
 </script>
 
 
 <!---- COMPONENT MARKUP HTML ---->
+
 <!-- 1. Navigation menu -->
-{#if $ui.showNav}
-  <nav transition:fade>
+<nav transition:fade>   
+    <!-- Help button : top left-->
     <div class = "helpButton-container" >
-      <div id="helpButton" on:mouseover={showHelpOption} on:focus={showHelpOption}>
-
-      </div>
+        <div id="helpButton" on:mouseover={showHelpOption} on:focus={showHelpOption} on:click={openHelpModal}>
+            <svg id = "help-icon" class ="nav-icon" width = "50%" viewbox = "0 0 50 50">
+                <circle cx = 25 cy = 25 r = 22.5></circle>
+                <text x = 25 y = 30>Help</text>
+            </svg>
+        </div>
     </div>
 
+    <!-- Menu nav button : top right-->
+    {#if $ui.showNav}
     <div class = "menuButton-container">
-      {#if !$ui.byPage.discover.overlay && !$ui.byPage.connect.overlay && !$ui.byPage.share.overlay  }     
-        <svg id = "menu-icon" class ="nav-icon" width = "100%" viewbox = "0 0 50 50"
-          on:click={toggleMenu} class:invert={$ui.showMenuModal} >
-          <a href="#">
+        <!-- A. Menu and help modal -->
+        {#if !$ui.byPage.discover.overlay && !$ui.byPage.connect.overlay && !$ui.byPage.share.overlay  && !$ui.byPage.manage.overlay }            
+            <!-- 1. Toggle the modal menu-->
+            {#if !$ui.showHelpModal}
+                <svg id = "menu-icon" class ="nav-icon" width = "100%" viewbox = "0 0 50 50" on:click={toggleMenu} class:invert={$ui.showMenuModal}>
+                    <circle cx = 25 cy = 25 r = 22.5></circle>         
+                    {#if !$ui.showMenuModal}
+                    <text x = 25 y = 30>Menu</text>
+                    {:else}
+                    <text x = 25 y = 30>Close</text>
+                    {/if}
+                </svg>
+            <!-- 2. Close the help modal-->
+            {:else}
+                <svg id = "menu-icon" class ="nav-icon invert" width = "100%" viewbox = "0 0 50 50" on:click={closeHelpModal}>
+                    <circle cx = 25 cy = 25 r = 22.5></circle>         
+                    <text x = 25 y = 30>Close</text>
+                </svg>        
+            {/if}
+
+        <!-- B. Close any page  overlay-->
+        {:else}
+        <svg id = "menu-icon" class ="nav-icon" width = "100%" viewbox = "0 0 50 50" on:click={closeModalPage}>
             <circle cx = 25 cy = 25 r = 22.5></circle>         
-              {#if !$ui.showMenuModal}
-              <text x= 25 y= 30>Menu</text>
-              {:else}
-              <text x= 25 y= 30>Close</text>
-              {/if}
-          </a>
+            <text x = 25 y = 30>Close</text>
         </svg>
-      {:else}
-        <svg id = "menu-icon" class ="nav-icon" width = "100%" viewbox = "0 0 50 50"
-          on:click={closeModalPage} >
-          <a href="#">
-            <circle cx = 25 cy = 25 r = 22.5></circle>         
-            <text x= 25 y= 30>Close</text>
-          </a>
-        </svg>
-      {/if}
+        {/if}
     </div>
-  </nav>
-{/if}
+    {/if}
+</nav>
+
 
 <!-- 2. Modal menu or help -->
 {#if $ui.showMenuModal}
-  <ModalMenu/>
+<ModalMenu/>
 {/if}
 
-
+{#if $ui.showHelpModal}
+<ModalHelp/>
+{/if}
 
 
 <!---- CSS STYLING ---->
 <style>
-  /* "BORDER" UI navigation options */
-  nav{
-    display: grid;
-    grid-template-columns: 7.5vh 1fr 7.5vh;
-    grid-template-rows: 7.5vh 1fr 7.5vh;
-    position:     fixed;
-    top:          0;
-    left:         0;
-    width:        100vw;
-    height:       100vh;
-    z-index:      500;
-    pointer-events: none;
-  }
-  .menuButton-container {
-      grid-area:      1 / 3 / 2 / 4;
-      padding:        8px;
-  }
-  .helpButton-container {
-      grid-area:      1 / 1 / 2 / 1;
-      pointer-events: all;
-  }
-  /* Navigation icon styling */
-  .nav-icon {
-    cursor:           pointer;
-    pointer-events:   bounding-box;
-  }
-  .nav-icon circle{
-    fill:             none;
-    stroke:           var(--darkGrey);
-    stroke-width:     1px;
-  }
-  .nav-icon text{
-    font-family:      'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-    fill:             var(--darkGrey);
-    font-size:        13.5px;
-    text-anchor:      middle;
-    text-transform:   uppercase;
-  }
-  .nav-icon.invert circle{
-    stroke:       #fff;
-  }
-  .nav-icon.invert text{
-    fill:         #fff;
-  }
+    /* "BORDER" UI navigation options */
+    nav{
+        display:                grid;
+        grid-template-columns:  7.5vh 1fr 7.5vh;
+        grid-template-rows:     7.5vh 1fr 7.5vh;
+        position:               fixed;
+        top:                    0;
+        left:                   0;
+        width:                  100vw;
+        height:                 100vh;
+        z-index:                500;
+        pointer-events:         none;
+    }
+    .menuButton-container {
+        grid-area:              1 / 3 / 2 / 4;
+        padding:                8px;
+    }
+    .helpButton-container {
+        grid-area:              1 / 1 / 2 / 1;
+        pointer-events:         all;
+    }
+    /* Navigation icon styling */
+    svg:hover{
+        text-decoration:        underline;
+    }
+    .nav-icon {
+        cursor:                 pointer;
+        pointer-events:         bounding-box;
+    }
+    .nav-icon circle{
+        fill:                   none;
+        stroke:                 var(--darkGrey);
+        stroke-width:           1px;
+    }
+    .nav-icon text{
+        font-family:            'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        fill:                   var(--darkGrey);
+        font-size:              13.5px;
+        text-anchor:            middle;
+        text-transform:         uppercase;
+    }
+    .nav-icon.invert circle{
+        stroke:                 #fff;
+    }
+    .nav-icon.invert text{
+        fill:                   #fff;
+    }
 
-  /* Help button */
-  #helpButton{
-    position:     relative;
-    top:          0;
-    left:         0;
-    opacity:      0;
-    height:       12.5vw;
-    width:        12.5vw; 
-    clip-path:    polygon(0 0, 100% 0, 0 100%);
-    background-color: rgb(0, 255, 183);
-    cursor:       pointer;
-    transition:   200ms all;
-    transform:    translate(-2.5vw, -2.5vw)
-  }
-  #helpButton:hover{
-    opacity:      1;
-    transform:    translate(0, 0)
-  }
+    /* Help button */
+     #helpButton{
+        position:           relative;
+        top:                0;
+        left:               0;
+        opacity:            0;
+        height:             12.5vw;
+        width:              12.5vw; 
+        clip-path:          polygon(0 0, 100% 0, 0 100%);
+        background-color:   rgb(0, 255, 183);
+        pointer-events:     none;
+        transition:         200ms all;
+        transform:          translate(-2.5vw, -2.5vw)
+    }
+    #helpButton.active{
+        cursor:             pointer;
+        pointer-events:     all;
+    }
+    #helpButton:hover{
+        opacity:            1;
+        transform:          translate(0, 0)
+    }
+    #helpButton svg{
+        padding: 2.5vw;
+    }
 
+    .help-icon{
+        pointer-events: none;
+    }
 
 </style>

@@ -14,19 +14,16 @@
 </script>
 
 <!-- COMPONENT MARKUP-->
-<section class='page join' in:fade="{{duration: 1500}}" >
+<section id="join-page" class='page' in:fade="{{duration: 1500}}" >
     <TitleBlock {titleData}/>
-    <!-- <ImagePane/> -->
     <InfoPane/>
     {#if $ui.byPage.join.form ==='newUser'}
         <NewUser/>
     {:else}
         <Login/>
     {/if}
-
 </section>
 
 
 <!------ STYLE ------->
-<style>
-</style>
+<style></style>

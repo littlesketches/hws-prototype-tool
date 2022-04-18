@@ -13,6 +13,26 @@
 
     const titleData = getPageInfo($ui.page)[0].TitleBlock
 
+    $ui.newProject = {
+        name:           null,
+        about:          {},
+        contact:        {},
+        hws:            {},
+        learnings:        {
+            general:    ['', '', ''],
+            worked:     ['', '', ''],
+            failed:     ['', '', ''],
+        },
+        links:          [
+            {name: '', url: '', description: ''}
+        ],
+        location:       {},
+        meta:           {},
+        stakeholders:   {},
+        status:         {},
+    }
+
+
 </script>
 
 <!-- COMPONENT MARKUP-->
@@ -26,15 +46,13 @@
     <!-- Overlay page options -->
     {:else if $ui.byPage.share.overlay === 'newProject'}
         <TitleBlock {titleData}/>
-       <NewProject/>
+        <NewProject store={$ui.newProject}/>
     {:else if $ui.byPage.share.overlay === 'projectSearch'}
         <TitleBlock {titleData}/>
-       <ExistingSearch/>
+        <ExistingSearch/>
     {:else if $ui.byPage.share.overlay === 'project'}
         <ProjectPage/>
     {/if}    
-
-
 </section>
 
 

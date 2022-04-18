@@ -7,7 +7,7 @@
     export let projectData
     export let index
 
-    if(!projectData.imgURL) projectData.imgURL = getRandomStockImgPath()
+    // if(!projectData.imgURL) projectData.imgURL = getRandomStockImgPath()
     const id = projectData._id.toString()
 
     // Show and hide descriptions 

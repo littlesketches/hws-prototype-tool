@@ -4,6 +4,12 @@ import { writable } from 'svelte/store';
 export const user = writable({
     isLoggedIn:         true,
     isRegistered:       true,
+    data: {
+        projects:               null,
+        bookmarkedProjects:     null,
+        interactions:           []
+
+    }
 })
 
 export const ui = writable({
@@ -11,7 +17,7 @@ export const ui = writable({
     page:               'home',
     showNav:            false,
     showMenuModal:      false,
-    showModal:          false,
+    showHelpModal:      false,
     items: {
         pages:              []
     },
@@ -19,7 +25,7 @@ export const ui = writable({
         project:            {},
         organisation:       {}
     },
-    newProject:         null,
+    newProject:             null,
     editProject: {
         id:                 null,
         data:               null
@@ -64,12 +70,10 @@ export const ui = writable({
             }
         },
         join: {
-            form:                   'newUser'       // 'newUser' or  'login
-
+            form:                   'newUser'       // 'newUser' or  'login'
         },
         manage: {
-
-
+            overlay:                false,         // "newProject", "editProject" or "project"
         }
 
     }

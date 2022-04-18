@@ -3,6 +3,9 @@
 	import Title    from '../components/byPage/home/Title.svelte'
 	import Menu     from '../components/byPage/home/Menu.svelte'
     import Hero     from '../components/byPage/home/Hero.svelte'
+	import { ui }   from '../data/stores.js'	
+
+    $ui.showNav = false
 </script>
 
 

@@ -5,7 +5,6 @@
     import ProjectMap        from './ProjectMap.svelte'
     import { ui }            from '../../../data/stores.js'
     import { database }      from '../../../data/dataStores.js'
-    import { getRandomStockImgPath } from '../../../data/content.js'
 
     // Random project selection
     function getRandomInt(min, max) {
@@ -16,7 +15,7 @@
 
     const shuffleArray = (array) => array.sort(() => Math.random() - 0.5)
     const projectDatabase = $database.projects
-    const randProjNumber =  9
+    const randProjNumber =  5
     const projects = shuffleArray(projectDatabase.slice(0, randProjNumber))
 
 </script>

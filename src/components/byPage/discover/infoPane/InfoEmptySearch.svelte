@@ -17,7 +17,7 @@
 </div>
 
 <hr>
-<div>
+<div class ='search-container'>
     <h2>&mdash; {@html componentContent.discover.info.searchToolHeader}</h2>
     {@html componentContent.discover.info.searchToolDesc}
     <ul class = 'unformatted'>
@@ -39,6 +39,9 @@
 <style> 
     hr{
         margin: 2.5rem 0 0.5rem 0;
+    }
+    .search-container{
+        padding-bottom: 1.5rem;
     }
     .search-box-container{
         width: 100%;

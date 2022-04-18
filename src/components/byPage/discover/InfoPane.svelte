@@ -48,6 +48,6 @@
         flex-direction: column;
     }
     .float-bottom{
-        margin-top: auto;
+        margin-top:     auto;
     }
 </style>

@@ -4,32 +4,16 @@
 	import MultiSelect          from '../MultiSelect.svelte';
 	import MultiInput           from '..//MultiInput.svelte';
     import DividerZagged20px    from "../../shared/misc/DividerZagged20px.svelte"
-
 	import { fly, slide }       from 'svelte/transition'
     import { user, ui }         from '../../../data/stores.js'
     import { componentContent } from '../../../data/content.js'
     import { keyValues, conditions, performanceObjectivesGroup, performanceObjectivesTheme, catchments, subcatchments, locations, leadOrg, leadOrgType, partnerOrg, initiativeType, projectStage, projectClass, projectSize, projectScale }  from '../../../data/multiSelect.js'
 
-    const iconClearPath = 'M19 6.41L17.59 5 12 10.59 6.41 5 5 6.41 10.59 12 5 17.59 6.41 19 12 13.41 17.59 19 19 17.59 13.41 12z';
+    export let store
 
-    $ui.newProject = {
-        name:           null,
-        about:          {},
-        contact:        {},
-        hws:            {},
-        learnings:        {
-            general:    ['', '', ''],
-            worked:     ['', '', ''],
-            failed:     ['', '', ''],
-        },
-        links:          [
-            {name: '', url: '', description: ''}
-        ],
-        location:       {},
-        meta:           {},
-        stakeholders:   {},
-        status:         {},
-    }
+    $: projectStore = store
+
+    const iconClearPath = 'M19 6.41L17.59 5 12 10.59 6.41 5 5 6.41 10.59 12 5 17.59 6.41 19 12 13.41 17.59 19 19 17.59 13.41 12z';
 
     ////// COLLAPSIBLE SEARCH PANES ////
 	const paneVisbility= {
@@ -54,28 +38,30 @@
     // Save and submit form
     function handleSave(){
         console.log('Saving a project...')
-        console.log($ui.newProject)
+        console.log(projectStore)
+        console.log($ui)
     };
 
     function handleSubmit(){
         console.log('Submitting a project...')
-        console.log($ui.newProject)
+        console.log(projectStore)
     };
 
     // Add and remove items for array inputs; and link/resources
     function deleteItem(type, index, learning){
         console.log('Delete an item:', learning, index)
-        $ui.newProject.learnings[type] = $ui.newProject.learnings[type].filter((d, i) => i !== index)
+        projectStore.learnings[type] = projectStore.learnings[type].filter((d, i) => i !== index)
     };
 
     function addLearning(type){
-        $ui.newProject.learnings[type] = [...$ui.newProject.learnings[type], '']
+        projectStore.learnings[type] = [...projectStore.learnings[type], '']
     };
 
     function addLinkResource(){
         console.log('Adding a new blank one...')
-         $ui.newProject.links = [...$ui.newProject.links, {name: '', url: '', description: ''}]
+         projectStore.links = [...projectStore.links, {name: '', url: '', description: ''}]
     };
+
 
 </script>
 
@@ -101,11 +87,11 @@
             <ul>
                 <li>
                     <label class = "centre_v" for="projectName">Project name</label>
-                    <input name ="projectName" bind:value={$ui.newProject.name} />
+                    <input name ="projectName" bind:value={projectStore.name} />
                 </li>
                 <li>
                     <label  for="shortDescription">Brief description</label>
-                    <textarea name ="shortDescription" rows = "5" bind:value={$ui.newProject.about.shortDescription}></textarea>
+                    <textarea name ="shortDescription" rows = "5" bind:value={projectStore.about.shortDescription}></textarea>
                 </li>
             </ul>
 
@@ -119,11 +105,11 @@
             <ul class = "collapse__body"  transition:slide="{{duration: 800}}">
                 <li>
                     <label  for="shortDescription">Detailed description</label>
-                    <textarea name ="shortDescription" rows = "20" bind:value={$ui.newProject.about.longDescription}></textarea>
+                    <textarea name ="shortDescription" rows = "20" bind:value={projectStore.about.longDescription}></textarea>
                 </li>
                 <li>
                     <label  for="projectHistory">Project history</label>
-                    <textarea name ="projectHistory" rows = "20"  bind:value={$ui.newProject.about.history}></textarea>
+                    <textarea name ="projectHistory" rows = "20"  bind:value={projectStore.about.history}></textarea>
                 </li>
             </ul>
             {/if}
@@ -141,7 +127,7 @@
             <div class = "collapse__body"  transition:slide>
                 <div class = 'multi-select-container' style="z-index:21">
                     <div class = "label centre_v" >{@html keyValues.label}</div>
-                    <MultiSelect id={keyValues.name}  bind:value={$ui.newProject.hws.values} placeholder={keyValues.placeholder} >
+                    <MultiSelect id={keyValues.name}  bind:value={projectStore.hws.values} placeholder={keyValues.placeholder} >
                         {#each keyValues.list as name}
                         <option value={name}>{@html name}</option>
                         {/each}
@@ -150,7 +136,7 @@
 
                 <div class = 'multi-select-container'  style="z-index:20">
                     <div class = "label centre_v" >{@html conditions.label}</div>
-                    <MultiSelect id={conditions.name} bind:value={$ui.newProject.hws.conditions} placeholder={conditions.placeholder} >
+                    <MultiSelect id={conditions.name} bind:value={projectStore.hws.conditions} placeholder={conditions.placeholder} >
                         {#each conditions.list as name}
                         <option value={name}>{@html name}</option>
                         {/each}
@@ -159,7 +145,7 @@
 
                 <div class = 'multi-select-container' style="z-index:19">
                     <div class = "label centre_v" >{@html performanceObjectivesGroup.label}</div>
-                    <MultiSelect id={performanceObjectivesGroup.name} bind:value={$ui.newProject.hws.poGroup}  placeholder={performanceObjectivesGroup.placeholder} >
+                    <MultiSelect id={performanceObjectivesGroup.name} bind:value={projectStore.hws.poGroup}  placeholder={performanceObjectivesGroup.placeholder} >
                         {#each performanceObjectivesGroup.list as name}
                         <option value={name}>{@html name}</option>
                         {/each}
@@ -168,7 +154,7 @@
 
                 <div class = 'multi-select-container' style="z-index:18">
                     <div class = "label centre_v" >{@html performanceObjectivesTheme.label}</div>
-                    <MultiSelect id={performanceObjectivesTheme.name} bind:value={$ui.newProject.hws.poTheme}  placeholder={performanceObjectivesTheme.placeholder} >
+                    <MultiSelect id={performanceObjectivesTheme.name} bind:value={projectStore.hws.poTheme}  placeholder={performanceObjectivesTheme.placeholder} >
                         {#each performanceObjectivesTheme.list as name}
                         <option value={name}>{@html name}</option>
                         {/each}
@@ -189,7 +175,7 @@
             <div class = "collapse__body"  transition:slide>
                 <div class = 'multi-select-container' style="z-index:17">
                     <div class = "label centre_v">{@html catchments.label}</div>
-                    <MultiSelect id={catchments.name} bind:value={$ui.newProject.location.catchments} placeholder={catchments.placeholder} >
+                    <MultiSelect id={catchments.name} bind:value={projectStore.location.catchments} placeholder={catchments.placeholder} >
                         {#each catchments.list as name}
                         <option value={name}>{@html name}</option>
                         {/each}                
@@ -198,7 +184,7 @@
 
                 <div class = 'multi-select-container' style="z-index:16">
                     <div class = "label centre_v">{@html subcatchments.label}</div>
-                    <MultiSelect id={subcatchments.name} bind:value={$ui.newProject.location.subCatchments} placeholder={subcatchments.placeholder} >
+                    <MultiSelect id={subcatchments.name} bind:value={projectStore.location.subCatchments} placeholder={subcatchments.placeholder} >
                         {#each subcatchments.list as name}
                         <option value={name}>{@html name}</option>
                         {/each}                
@@ -207,7 +193,7 @@
 
                 <div class = 'multi-select-container' style="z-index:15">
                     <div class = "label centre_v">{@html locations.label}</div>
-                    <MultiSelect id={locations.name}  bind:value={$ui.newProject.location.locations} placeholder={locations.placeholder}>
+                    <MultiSelect id={locations.name}  bind:value={projectStore.location.locations} placeholder={locations.placeholder}>
                         {#each locations.list as name}
                         <option value={name}>{@html name}</option>
                         {/each}                
@@ -228,7 +214,7 @@
             <div class = "collapse__body"  transition:slide>
                 <div class = 'multi-select-container' style="z-index:14">
                     <div class = "label">{@html initiativeType.label}</div>
-                    <MultiSelect id = {initiativeType.name} bind:value={$ui.newProject.meta.type} placeholder={initiativeType.placeholder} >
+                    <MultiSelect id = {initiativeType.name} bind:value={projectStore.meta.type} placeholder={initiativeType.placeholder} >
                         {#each initiativeType.list as name}
                         <option value={name}>{@html name}</option>
                         {/each}                
@@ -236,7 +222,7 @@
                 </div>
                 <div class = 'multi-select-container' style="z-index:13">
                     <div class = "label">{@html projectStage.label}</div>
-                    <MultiSelect id = {projectStage.name} bind:value={$ui.newProject.status.stage} placeholder={projectStage.placeholder} >
+                    <MultiSelect id = {projectStage.name} bind:value={projectStore.status.stage} placeholder={projectStage.placeholder} >
                         {#each projectStage.list as name}
                         <option value={name}>{@html name}</option>
                         {/each}                
@@ -317,14 +303,13 @@
 
             {#if paneVisbility.learnings}
                 <div class = 'label'>General</div>
-                <MultiInput store={$ui.newProject.learnings.general} type = 'general' label='Add another learning'/>
+                <MultiInput store={projectStore.learnings.general} type = 'general' label='Add another learning'/>
                 <div class = 'label'>What worked</div>
-                <MultiInput store={$ui.newProject.learnings.worked} type = 'worked'  label='Add another learning'/>
+                <MultiInput store={projectStore.learnings.worked} type = 'worked'  label='Add another learning'/>
                 <div class = 'label'>What didn't worked</div>
-                <MultiInput store={$ui.newProject.learnings.failed} type = 'failed'  label='Add another learning'/>
+                <MultiInput store={projectStore.learnings.failed} type = 'failed'  label='Add another learning'/>
             {/if}
         </div>
-
 
         <!-- Project links  -->
         <div class = "container">
@@ -336,7 +321,7 @@
 
             {#if paneVisbility.links}
                 <ul>
-                    {#each $ui.newProject.links as item, index}
+                    {#each projectStore.links as item, index}
                     <MultiLinkInput {item} {index}/>
                     {/each}
                 </ul>
@@ -353,7 +338,6 @@
         </div>
 
     </form>
-
 </section>
 
 
@@ -394,15 +378,6 @@
     .centre_v{
         align-self:         center;
     }
-    .align-right{
-        justify-content:    flex-end;
-    }
-    label span{
-        font-size:          0.8rem;       
-        padding-top:        0.5rem;
-        font-weight:        300;
-    }
-
     .button-container{
         padding-top:        1rem;
     }

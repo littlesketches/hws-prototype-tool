@@ -4,7 +4,6 @@
     import { ui }           from '../../../data/stores.js'
     export let item 
     export let index 
-    export let type 
 
     const iconClearPath = 'M19 6.41L17.59 5 12 10.59 6.41 5 5 6.41 10.59 12 5 17.59 6.41 19 12 13.41 17.59 19 19 17.59 13.41 12z';
 
@@ -17,7 +16,7 @@
 
 
 <!-- COMPONENT HTML MARKUP -->
-<li id = "{type}-{index+1}-container" transition:slide>
+<li id = "link-container-{index+1}" transition:slide>
     <div class = 'input-container'>
         <label for= "link-name-{index+1}">Name of resource #{@html index+1}</label>
         <input name = "link-name-{index+1}" bind:value={item.name}/>

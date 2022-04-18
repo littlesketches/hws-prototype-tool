@@ -1,6 +1,5 @@
 <!--- MAIN APP COMPONENT-->
 <script>
-
 	import { fade } 	from 'svelte/transition';
 	import Home 		from './pages/Home.svelte'
 	import Discover 	from './pages/Discover.svelte'
@@ -14,35 +13,26 @@
 	import { user, ui } from './data/stores.js'	 
 	import { getContent, getMenuOptions } from './data/content.js'	 
 
+    export let queryParams
+
+	$user.isRegistered = queryParams.get('userRegistered') === 'true' ? true : false
 	const promiseContent = getContent()
-
-	const params = new URLSearchParams(window.location.search)
-
-	$user.isRegistered = params.get('userRegistered') === 'true' ? true : false
-
-
 </script>	
 
 
 <!------ HTMl COMPONENT MARKUP ------->
 {#await promiseContent then value}
 	<Nav/>
-	<main><!-- Main "Page: section controlled with base logic selector -->
-		{#if $ui.page === 'home'}
-			<Home/>
-		{:else if $ui.page === 'discover'}
-			<Discover />
-		{:else if $ui.page === 'connect'}
-			<Connect/>
-		{:else if $ui.page === 'share'}
-			<Share/>
-		{:else if $ui.page === 'join'  }
-			<Join/>
-		{:else if $ui.page === 'manage'  }
-			<Manage/>
+	<main><!-- Main "Page: section controlled with logic selector -->
+		{#if      $ui.page === 'home'}      <Home/>
+		{:else if $ui.page === 'discover'}  <Discover/>
+		{:else if $ui.page === 'connect'}   <Connect/>
+		{:else if $ui.page === 'share'}     <Share/>
+		{:else if $ui.page === 'join'}      <Join/>
+		{:else if $ui.page === 'manage'}    <Manage/>
 		{/if}
-		<Realm/>
 	</main>
+	<Realm/>
 	{#if $ui.page !== 'home'}
 	<Footer/>
 	{/if}

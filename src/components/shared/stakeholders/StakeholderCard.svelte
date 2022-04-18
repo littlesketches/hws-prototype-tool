@@ -7,7 +7,6 @@
     export let stakeholderData
     export let index
 
-    if(!stakeholderData.imgURL) stakeholderData.imgURL = getRandomAbstractImgPath()
     const id = stakeholderData._id.toString()
 
     // Show and hide descriptions 

@@ -12,7 +12,7 @@
 
 
 <!-- COMPONENT HTML MARKUP-->
-<section in:fly="{{x: 500, duration: 1000}}" out:fly="{{x: 500, duration: 200}}">
+<section id = 'stakeholder-overlay' in:fly="{{x: 500, duration: 1000}}" out:fly="{{x: 500, duration: 200}}">
     <TitleBlock/>
     <InfoPane/>
     <StakeholderContent/>
