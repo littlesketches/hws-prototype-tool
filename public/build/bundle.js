@@ -65932,16 +65932,16 @@ var app = (function () {
     			button = element("button");
     			button.textContent = "Refine search";
     			html_tag.a = null;
-    			add_location(h2, file$q, 19, 4, 582);
+    			add_location(h2, file$q, 18, 4, 581);
     			html_tag_1.a = null;
-    			add_location(div0, file$q, 18, 0, 572);
-    			add_location(hr, file$q, 22, 0, 724);
+    			add_location(div0, file$q, 17, 0, 571);
+    			add_location(hr, file$q, 21, 0, 723);
     			html_tag_2.a = t4;
-    			add_location(button, file$q, 26, 8, 865);
+    			add_location(button, file$q, 25, 8, 864);
     			attr_dev(div1, "class", "button-container svelte-11rw9zy");
-    			add_location(div1, file$q, 25, 4, 825);
+    			add_location(div1, file$q, 24, 4, 824);
     			attr_dev(div2, "class", "search-options");
-    			add_location(div2, file$q, 23, 0, 729);
+    			add_location(div2, file$q, 22, 0, 728);
     		},
     		l: function claim(nodes) {
     			throw new Error("options.hydrate only works if the component was compiled with the `hydratable: true` option");
@@ -66013,8 +66013,8 @@ var app = (function () {
 
     	$$self.$capture_state = () => ({
     		Magnify,
-    		componentContent,
     		ui,
+    		componentContent,
     		openSearch,
     		$ui
     	});
@@ -78880,12 +78880,13 @@ var app = (function () {
     	: '') + "";
 
     	let t0;
+    	let t1;
     	let html_tag;
     	let raw0_value = /*page*/ ctx[2].name + "";
-    	let t1;
+    	let t2;
     	let div1;
     	let raw1_value = /*page*/ ctx[2].shortDesc + "";
-    	let t2;
+    	let t3;
     	let li_name_value;
     	let mounted;
     	let dispose;
@@ -78897,15 +78898,16 @@ var app = (function () {
     			li = element("li");
     			div0 = element("div");
     			t0 = text$1(t0_value);
-    			html_tag = new HtmlTag();
     			t1 = space();
-    			div1 = element("div");
+    			html_tag = new HtmlTag();
     			t2 = space();
+    			div1 = element("div");
+    			t3 = space();
     			html_tag.a = null;
     			attr_dev(div0, "class", "menu-title svelte-y2nlql");
     			add_location(div0, file$3, 28, 16, 1042);
     			attr_dev(div1, "class", "menu-shortDesc svelte-y2nlql");
-    			add_location(div1, file$3, 29, 16, 1158);
+    			add_location(div1, file$3, 29, 16, 1159);
     			attr_dev(li, "name", li_name_value = /*page*/ ctx[2].name);
     			attr_dev(li, "class", "svelte-y2nlql");
     			add_location(li, file$3, 27, 12, 980);
@@ -78915,11 +78917,12 @@ var app = (function () {
     			insert_dev(target, li, anchor);
     			append_dev(li, div0);
     			append_dev(div0, t0);
+    			append_dev(div0, t1);
     			html_tag.m(raw0_value, div0);
-    			append_dev(li, t1);
+    			append_dev(li, t2);
     			append_dev(li, div1);
     			div1.innerHTML = raw1_value;
-    			append_dev(li, t2);
+    			append_dev(li, t3);
 
     			if (!mounted) {
     				dispose = listen_dev(li, "click", /*switchPage*/ ctx[1], false, false, false);
