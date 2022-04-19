@@ -1734,7 +1734,34 @@ var app = (function () {
                     feedbackHeader:         getHTML('component.manage.info.feedbackHeader'),
                     feedbackDesc:           getHTML('component.manage.info.feedbackDesc'),
                 }
+            },
+            info: {
+                home:{
+                    header:                 getHTML('info.home.header'),
+                    content:                getHTML('info.home.content')
+                },
+                manage:{
+                    header:                 getHTML('info.manage.header'),
+                    content:                getHTML('info.manage.content')
+                },
+                discover:{
+                    header:                 getHTML('info.discover.header'),
+                    content:                getHTML('info.discover.content')
+                },
+                connect:{
+                    header:                 getHTML('info.connect.header'),
+                    content:                getHTML('info.connect.content')
+                },
+                share:{
+                    header:                 getHTML('info.share.header'),
+                    content:                getHTML('info.share.content')
+                },
+                join:{
+                    header:                 getHTML('info.join.header'),
+                    content:                getHTML('info.join.content')
+                }
             }
+
         };
     }
 
@@ -47662,8 +47689,6 @@ var app = (function () {
     };
 
     ///// DATA OBJECTS FOR MULTI-SELECT COMPONENTS //////
-
-
         // Waterways outcomes 
         const keyValues = {
             label:          'by key values',
@@ -50199,7 +50224,7 @@ var app = (function () {
     }
 
     // (28:8) {#if projectData.stakeholders.partners.length > 0}
-    function create_if_block_5$4(ctx) {
+    function create_if_block_5$5(ctx) {
     	let div1;
     	let t;
     	let div0;
@@ -50289,7 +50314,7 @@ var app = (function () {
 
     	dispatch_dev("SvelteRegisterBlock", {
     		block,
-    		id: create_if_block_5$4.name,
+    		id: create_if_block_5$5.name,
     		type: "if",
     		source: "(28:8) {#if projectData.stakeholders.partners.length > 0}",
     		ctx
@@ -50457,7 +50482,7 @@ var app = (function () {
     }
 
     // (53:8) {#if projectData.status.stage === 'complete' || projectData.status.stage === 'ongoing'}
-    function create_if_block_4$5(ctx) {
+    function create_if_block_4$6(ctx) {
     	let div2;
     	let div0;
     	let t1;
@@ -50497,7 +50522,7 @@ var app = (function () {
 
     	dispatch_dev("SvelteRegisterBlock", {
     		block,
-    		id: create_if_block_4$5.name,
+    		id: create_if_block_4$6.name,
     		type: "if",
     		source: "(53:8) {#if projectData.status.stage === 'complete' || projectData.status.stage === 'ongoing'}",
     		ctx
@@ -50978,10 +51003,10 @@ var app = (function () {
     	let div17;
     	let t27;
     	let div16;
-    	let if_block0 = /*projectData*/ ctx[1].stakeholders.partners.length > 0 && create_if_block_5$4(ctx);
+    	let if_block0 = /*projectData*/ ctx[1].stakeholders.partners.length > 0 && create_if_block_5$5(ctx);
 
     	function select_block_type_1(ctx, dirty) {
-    		if (/*projectData*/ ctx[1].status.stage === 'complete' || /*projectData*/ ctx[1].status.stage === 'ongoing') return create_if_block_4$5;
+    		if (/*projectData*/ ctx[1].status.stage === 'complete' || /*projectData*/ ctx[1].status.stage === 'ongoing') return create_if_block_4$6;
     		return create_else_block_4;
     	}
 
@@ -51259,7 +51284,7 @@ var app = (function () {
     				if (if_block0) {
     					if_block0.p(ctx, dirty);
     				} else {
-    					if_block0 = create_if_block_5$4(ctx);
+    					if_block0 = create_if_block_5$5(ctx);
     					if_block0.c();
     					if_block0.m(div18, t7);
     				}
@@ -53629,7 +53654,7 @@ var app = (function () {
     const file$U = "src/components/shared/projects/projectPage/ProjectContent.svelte";
 
     // (55:4) {#if visibility.aboutDetails }
-    function create_if_block_5$3(ctx) {
+    function create_if_block_5$4(ctx) {
     	let div;
     	let h3;
     	let t1;
@@ -53702,7 +53727,7 @@ var app = (function () {
 
     	dispatch_dev("SvelteRegisterBlock", {
     		block,
-    		id: create_if_block_5$3.name,
+    		id: create_if_block_5$4.name,
     		type: "if",
     		source: "(55:4) {#if visibility.aboutDetails }",
     		ctx
@@ -53759,7 +53784,7 @@ var app = (function () {
     }
 
     // (80:4) {#if visibility.hwsDetails }
-    function create_if_block_4$4(ctx) {
+    function create_if_block_4$5(ctx) {
     	let hws_boxes;
     	let current;
 
@@ -53797,7 +53822,7 @@ var app = (function () {
 
     	dispatch_dev("SvelteRegisterBlock", {
     		block,
-    		id: create_if_block_4$4.name,
+    		id: create_if_block_4$5.name,
     		type: "if",
     		source: "(80:4) {#if visibility.hwsDetails }",
     		ctx
@@ -54248,7 +54273,7 @@ var app = (function () {
     	let current;
     	let mounted;
     	let dispose;
-    	let if_block0 = /*visibility*/ ctx[0].aboutDetails && create_if_block_5$3(ctx);
+    	let if_block0 = /*visibility*/ ctx[0].aboutDetails && create_if_block_5$4(ctx);
 
     	hws_tags = new HWS_tags({
     			props: { data: /*themesData*/ ctx[8] },
@@ -54260,7 +54285,7 @@ var app = (function () {
     			$$inline: true
     		});
 
-    	let if_block1 = /*visibility*/ ctx[0].hwsDetails && create_if_block_4$4(ctx);
+    	let if_block1 = /*visibility*/ ctx[0].hwsDetails && create_if_block_4$5(ctx);
     	let if_block2 = show_if_1 && create_if_block_2$d(ctx);
     	let if_block3 = show_if && create_if_block$k(ctx);
 
@@ -54398,7 +54423,7 @@ var app = (function () {
     						transition_in(if_block0, 1);
     					}
     				} else {
-    					if_block0 = create_if_block_5$3(ctx);
+    					if_block0 = create_if_block_5$4(ctx);
     					if_block0.c();
     					transition_in(if_block0, 1);
     					if_block0.m(section, t1);
@@ -54433,7 +54458,7 @@ var app = (function () {
     						transition_in(if_block1, 1);
     					}
     				} else {
-    					if_block1 = create_if_block_4$4(ctx);
+    					if_block1 = create_if_block_4$5(ctx);
     					if_block1.c();
     					transition_in(if_block1, 1);
     					if_block1.m(section, t12);
@@ -56399,16 +56424,12 @@ var app = (function () {
     	let t2;
     	let hr;
     	let t3;
-    	let div4;
+    	let div2;
     	let html_tag_2;
     	let raw2_value = componentContent.discover.info.searchResultsOptions + "";
     	let t4;
-    	let div3;
     	let div1;
-    	let button0;
-    	let t6;
-    	let div2;
-    	let button1;
+    	let button;
     	let mounted;
     	let dispose;
 
@@ -56423,33 +56444,23 @@ var app = (function () {
     			t2 = space();
     			hr = element("hr");
     			t3 = space();
-    			div4 = element("div");
+    			div2 = element("div");
     			html_tag_2 = new HtmlTag();
     			t4 = space();
-    			div3 = element("div");
     			div1 = element("div");
-    			button0 = element("button");
-    			button0.textContent = "Clear search";
-    			t6 = space();
-    			div2 = element("div");
-    			button1 = element("button");
-    			button1.textContent = "Search again";
+    			button = element("button");
+    			button.textContent = "Refine search";
     			html_tag.a = null;
-    			add_location(h2, file$L, 22, 4, 742);
+    			add_location(h2, file$L, 17, 4, 523);
     			html_tag_1.a = null;
-    			add_location(div0, file$L, 21, 0, 732);
-    			add_location(hr, file$L, 25, 0, 886);
+    			add_location(div0, file$L, 16, 0, 513);
+    			add_location(hr, file$L, 20, 0, 667);
     			html_tag_2.a = t4;
-    			add_location(button0, file$L, 30, 12, 1077);
-    			attr_dev(div1, "class", "button-container svelte-4fqnhu");
-    			add_location(div1, file$L, 29, 8, 1033);
-    			add_location(button1, file$L, 33, 12, 1197);
-    			attr_dev(div2, "class", "button-container svelte-4fqnhu");
-    			add_location(div2, file$L, 32, 8, 1153);
-    			attr_dev(div3, "class", "two-button-container svelte-4fqnhu");
-    			add_location(div3, file$L, 28, 4, 988);
-    			attr_dev(div4, "class", "search-options");
-    			add_location(div4, file$L, 26, 0, 891);
+    			add_location(button, file$L, 24, 8, 809);
+    			attr_dev(div1, "class", "button-container svelte-rorp8s");
+    			add_location(div1, file$L, 23, 4, 769);
+    			attr_dev(div2, "class", "search-options");
+    			add_location(div2, file$L, 21, 0, 672);
     		},
     		l: function claim(nodes) {
     			throw new Error("options.hydrate only works if the component was compiled with the `hydratable: true` option");
@@ -56464,22 +56475,14 @@ var app = (function () {
     			insert_dev(target, t2, anchor);
     			insert_dev(target, hr, anchor);
     			insert_dev(target, t3, anchor);
-    			insert_dev(target, div4, anchor);
-    			html_tag_2.m(raw2_value, div4);
-    			append_dev(div4, t4);
-    			append_dev(div4, div3);
-    			append_dev(div3, div1);
-    			append_dev(div1, button0);
-    			append_dev(div3, t6);
-    			append_dev(div3, div2);
-    			append_dev(div2, button1);
+    			insert_dev(target, div2, anchor);
+    			html_tag_2.m(raw2_value, div2);
+    			append_dev(div2, t4);
+    			append_dev(div2, div1);
+    			append_dev(div1, button);
 
     			if (!mounted) {
-    				dispose = [
-    					listen_dev(button0, "click", /*clearSearch*/ ctx[0], false, false, false),
-    					listen_dev(button1, "click", /*openSearch*/ ctx[1], false, false, false)
-    				];
-
+    				dispose = listen_dev(button, "click", /*openSearch*/ ctx[0], false, false, false);
     				mounted = true;
     			}
     		},
@@ -56491,9 +56494,9 @@ var app = (function () {
     			if (detaching) detach_dev(t2);
     			if (detaching) detach_dev(hr);
     			if (detaching) detach_dev(t3);
-    			if (detaching) detach_dev(div4);
+    			if (detaching) detach_dev(div2);
     			mounted = false;
-    			run_all(dispose);
+    			dispose();
     		}
     	};
 
@@ -56511,15 +56514,9 @@ var app = (function () {
     function instance$M($$self, $$props, $$invalidate) {
     	let $ui;
     	validate_store(ui, 'ui');
-    	component_subscribe($$self, ui, $$value => $$invalidate(2, $ui = $$value));
+    	component_subscribe($$self, ui, $$value => $$invalidate(1, $ui = $$value));
     	let { $$slots: slots = {}, $$scope } = $$props;
     	validate_slots('InfoSearchResults', slots, []);
-
-    	function clearSearch() {
-    		set_store_value(ui, $ui.byPage.discover.main = 'list', $ui);
-    		set_store_value(ui, $ui.byPage.discover.projectSearch.isMade = false, $ui);
-    		window.scrollTo({ top: 0, behavior: 'smooth' });
-    	}
 
     	function openSearch() {
     		set_store_value(ui, $ui.byPage.discover.main = 'search', $ui);
@@ -56536,12 +56533,11 @@ var app = (function () {
     		componentContent,
     		ui,
     		Magnify,
-    		clearSearch,
     		openSearch,
     		$ui
     	});
 
-    	return [clearSearch, openSearch];
+    	return [openSearch];
     }
 
     class InfoSearchResults$2 extends SvelteComponentDev {
@@ -57171,7 +57167,7 @@ var app = (function () {
     	return child_ctx;
     }
 
-    // (107:12) {#if !readonly}
+    // (108:12) {#if !readonly}
     function create_if_block_2$b(ctx) {
     	let div;
     	let svg;
@@ -57184,17 +57180,17 @@ var app = (function () {
     			svg = svg_element("svg");
     			path = svg_element("path");
     			attr_dev(path, "d", iconClearPath$3);
-    			attr_dev(path, "class", "svelte-fwr8tw");
-    			add_location(path, file$I, 109, 20, 3734);
-    			attr_dev(svg, "class", "icon-clear svelte-fwr8tw");
+    			attr_dev(path, "class", "svelte-1yto3i0");
+    			add_location(path, file$I, 110, 20, 3881);
+    			attr_dev(svg, "class", "icon-clear svelte-1yto3i0");
     			attr_dev(svg, "xmlns", "http://www.w3.org/2000/svg");
     			attr_dev(svg, "width", "18");
     			attr_dev(svg, "height", "18");
     			attr_dev(svg, "viewBox", "0 0 24 24");
-    			add_location(svg, file$I, 108, 16, 3611);
-    			attr_dev(div, "class", "token-remove svelte-fwr8tw");
+    			add_location(svg, file$I, 109, 16, 3758);
+    			attr_dev(div, "class", "token-remove svelte-1yto3i0");
     			attr_dev(div, "title", div_title_value = "Remove " + /*s*/ ctx[29].name);
-    			add_location(div, file$I, 107, 12, 3544);
+    			add_location(div, file$I, 108, 12, 3691);
     		},
     		m: function mount(target, anchor) {
     			insert_dev(target, div, anchor);
@@ -57215,14 +57211,14 @@ var app = (function () {
     		block,
     		id: create_if_block_2$b.name,
     		type: "if",
-    		source: "(107:12) {#if !readonly}",
+    		source: "(108:12) {#if !readonly}",
     		ctx
     	});
 
     	return block;
     }
 
-    // (104:8) {#each Object.values(selected) as s}
+    // (105:8) {#each Object.values(selected) as s}
     function create_each_block_1$4(ctx) {
     	let div;
     	let span;
@@ -57239,10 +57235,10 @@ var app = (function () {
     			t0 = text$1(t0_value);
     			t1 = space();
     			if (if_block) if_block.c();
-    			add_location(span, file$I, 105, 12, 3482);
-    			attr_dev(div, "class", "token svelte-fwr8tw");
+    			add_location(span, file$I, 106, 12, 3629);
+    			attr_dev(div, "class", "token svelte-1yto3i0");
     			attr_dev(div, "data-id", div_data_id_value = /*s*/ ctx[29].value);
-    			add_location(div, file$I, 104, 8, 3430);
+    			add_location(div, file$I, 105, 8, 3577);
     		},
     		m: function mount(target, anchor) {
     			insert_dev(target, div, anchor);
@@ -57281,21 +57277,24 @@ var app = (function () {
     		block,
     		id: create_each_block_1$4.name,
     		type: "each",
-    		source: "(104:8) {#each Object.values(selected) as s}",
+    		source: "(105:8) {#each Object.values(selected) as s}",
     		ctx
     	});
 
     	return block;
     }
 
-    // (117:12) {#if !readonly}
+    // (118:12) {#if !readonly}
     function create_if_block_1$d(ctx) {
     	let input_1;
     	let t0;
-    	let div;
+    	let div2;
+    	let div0;
+    	let t2;
+    	let div1;
     	let svg0;
     	let path0;
-    	let t1;
+    	let t3;
     	let svg1;
     	let path1;
     	let mounted;
@@ -57305,49 +57304,60 @@ var app = (function () {
     		c: function create() {
     			input_1 = element("input");
     			t0 = space();
-    			div = element("div");
+    			div2 = element("div");
+    			div0 = element("div");
+    			div0.textContent = "Clear all";
+    			t2 = space();
+    			div1 = element("div");
     			svg0 = svg_element("svg");
     			path0 = svg_element("path");
-    			t1 = space();
+    			t3 = space();
     			svg1 = svg_element("svg");
     			path1 = svg_element("path");
     			attr_dev(input_1, "id", /*id*/ ctx[0]);
     			attr_dev(input_1, "autocomplete", "off");
     			attr_dev(input_1, "placeholder", /*placeholderText*/ ctx[9]);
-    			attr_dev(input_1, "class", "svelte-fwr8tw");
-    			add_location(input_1, file$I, 117, 12, 3923);
+    			attr_dev(input_1, "class", "svelte-1yto3i0");
+    			add_location(input_1, file$I, 118, 12, 4070);
+    			attr_dev(div0, "class", "remove-all-label svelte-1yto3i0");
+    			add_location(div0, file$I, 123, 16, 4383);
     			attr_dev(path0, "d", iconClearPath$3);
-    			attr_dev(path0, "class", "svelte-fwr8tw");
-    			add_location(path0, file$I, 123, 20, 4349);
-    			attr_dev(svg0, "class", "icon-clear svelte-fwr8tw");
+    			attr_dev(path0, "class", "svelte-1yto3i0");
+    			add_location(path0, file$I, 126, 24, 4618);
+    			attr_dev(svg0, "class", "icon-clear svelte-1yto3i0");
     			attr_dev(svg0, "xmlns", "http://www.w3.org/2000/svg");
     			attr_dev(svg0, "width", "18");
     			attr_dev(svg0, "height", "18");
     			attr_dev(svg0, "viewBox", "0 0 24 24");
-    			add_location(svg0, file$I, 122, 16, 4226);
-    			attr_dev(div, "class", "remove-all svelte-fwr8tw");
-    			attr_dev(div, "title", "Remove All");
-    			toggle_class(div, "hidden", !Object.keys(/*selected*/ ctx[4]).length);
-    			add_location(div, file$I, 121, 12, 4121);
+    			add_location(svg0, file$I, 125, 20, 4491);
+    			attr_dev(div1, "class", "remove-all svelte-1yto3i0");
+    			add_location(div1, file$I, 124, 16, 4446);
+    			attr_dev(div2, "class", "remove-all-container svelte-1yto3i0");
+    			attr_dev(div2, "title", "Remove All");
+    			toggle_class(div2, "hidden", !Object.keys(/*selected*/ ctx[4]).length);
+    			add_location(div2, file$I, 122, 12, 4268);
     			attr_dev(path1, "d", "M5 8l4 4 4-4z");
-    			attr_dev(path1, "class", "svelte-fwr8tw");
-    			add_location(path1, file$I, 127, 16, 4554);
-    			attr_dev(svg1, "class", "dropdown-arrow svelte-fwr8tw");
+    			attr_dev(path1, "class", "svelte-1yto3i0");
+    			add_location(path1, file$I, 132, 16, 4851);
+    			attr_dev(svg1, "class", "dropdown-arrow svelte-1yto3i0");
     			attr_dev(svg1, "xmlns", "http://www.w3.org/2000/svg");
     			attr_dev(svg1, "width", "18");
     			attr_dev(svg1, "height", "18");
     			attr_dev(svg1, "viewBox", "0 0 18 18");
-    			add_location(svg1, file$I, 126, 12, 4431);
+    			add_location(svg1, file$I, 131, 12, 4728);
     		},
     		m: function mount(target, anchor) {
     			insert_dev(target, input_1, anchor);
     			set_input_value(input_1, /*inputValue*/ ctx[2]);
     			/*input_1_binding*/ ctx[21](input_1);
     			insert_dev(target, t0, anchor);
-    			insert_dev(target, div, anchor);
-    			append_dev(div, svg0);
+    			insert_dev(target, div2, anchor);
+    			append_dev(div2, div0);
+    			append_dev(div2, t2);
+    			append_dev(div2, div1);
+    			append_dev(div1, svg0);
     			append_dev(svg0, path0);
-    			insert_dev(target, t1, anchor);
+    			insert_dev(target, t3, anchor);
     			insert_dev(target, svg1, anchor);
     			append_dev(svg1, path1);
 
@@ -57375,15 +57385,15 @@ var app = (function () {
     			}
 
     			if (dirty[0] & /*selected*/ 16) {
-    				toggle_class(div, "hidden", !Object.keys(/*selected*/ ctx[4]).length);
+    				toggle_class(div2, "hidden", !Object.keys(/*selected*/ ctx[4]).length);
     			}
     		},
     		d: function destroy(detaching) {
     			if (detaching) detach_dev(input_1);
     			/*input_1_binding*/ ctx[21](null);
     			if (detaching) detach_dev(t0);
-    			if (detaching) detach_dev(div);
-    			if (detaching) detach_dev(t1);
+    			if (detaching) detach_dev(div2);
+    			if (detaching) detach_dev(t3);
     			if (detaching) detach_dev(svg1);
     			mounted = false;
     			run_all(dispose);
@@ -57394,14 +57404,14 @@ var app = (function () {
     		block,
     		id: create_if_block_1$d.name,
     		type: "if",
-    		source: "(117:12) {#if !readonly}",
+    		source: "(118:12) {#if !readonly}",
     		ctx
     	});
 
     	return block;
     }
 
-    // (136:4) {#if showOptions}
+    // (141:4) {#if showOptions}
     function create_if_block$i(ctx) {
     	let ul;
     	let ul_transition;
@@ -57424,8 +57434,8 @@ var app = (function () {
     				each_blocks[i].c();
     			}
 
-    			attr_dev(ul, "class", "options svelte-fwr8tw");
-    			add_location(ul, file$I, 136, 4, 4762);
+    			attr_dev(ul, "class", "options svelte-1yto3i0");
+    			add_location(ul, file$I, 141, 4, 5059);
     		},
     		m: function mount(target, anchor) {
     			insert_dev(target, ul, anchor);
@@ -57494,14 +57504,14 @@ var app = (function () {
     		block,
     		id: create_if_block$i.name,
     		type: "if",
-    		source: "(136:4) {#if showOptions}",
+    		source: "(141:4) {#if showOptions}",
     		ctx
     	});
 
     	return block;
     }
 
-    // (138:8) {#each filtered as option}
+    // (143:8) {#each filtered as option}
     function create_each_block$9(ctx) {
     	let li;
     	let t_value = /*option*/ ctx[26].name + "";
@@ -57513,10 +57523,10 @@ var app = (function () {
     			li = element("li");
     			t = text$1(t_value);
     			attr_dev(li, "data-value", li_data_value_value = /*option*/ ctx[26].value);
-    			attr_dev(li, "class", "svelte-fwr8tw");
+    			attr_dev(li, "class", "svelte-1yto3i0");
     			toggle_class(li, "selected", /*selected*/ ctx[4][/*option*/ ctx[26].value]);
     			toggle_class(li, "active", /*activeOption*/ ctx[3] === /*option*/ ctx[26]);
-    			add_location(li, file$I, 138, 8, 4919);
+    			add_location(li, file$I, 143, 8, 5216);
     		},
     		m: function mount(target, anchor) {
     			insert_dev(target, li, anchor);
@@ -57546,7 +57556,7 @@ var app = (function () {
     		block,
     		id: create_each_block$9.name,
     		type: "each",
-    		source: "(138:8) {#each filtered as option}",
+    		source: "(143:8) {#each filtered as option}",
     		ctx
     	});
 
@@ -57594,17 +57604,17 @@ var app = (function () {
     			if (default_slot) default_slot.c();
     			t2 = space();
     			if (if_block1) if_block1.c();
-    			attr_dev(div0, "class", "actions svelte-fwr8tw");
-    			add_location(div0, file$I, 115, 8, 3861);
-    			attr_dev(div1, "class", "tokens svelte-fwr8tw");
+    			attr_dev(div0, "class", "actions svelte-1yto3i0");
+    			add_location(div0, file$I, 116, 8, 4008);
+    			attr_dev(div1, "class", "tokens svelte-1yto3i0");
     			toggle_class(div1, "showOptions", /*showOptions*/ ctx[7]);
-    			add_location(div1, file$I, 102, 4, 3310);
+    			add_location(div1, file$I, 103, 4, 3457);
     			attr_dev(select, "type", "multiple");
-    			attr_dev(select, "class", "hidden svelte-fwr8tw");
-    			add_location(select, file$I, 133, 4, 4654);
-    			attr_dev(section, "class", "multiselect svelte-fwr8tw");
+    			attr_dev(select, "class", "hidden svelte-1yto3i0");
+    			add_location(select, file$I, 138, 4, 4951);
+    			attr_dev(section, "class", "multiselect svelte-1yto3i0");
     			toggle_class(section, "readonly", /*readonly*/ ctx[1]);
-    			add_location(section, file$I, 101, 0, 3260);
+    			add_location(section, file$I, 102, 0, 3407);
     		},
     		l: function claim(nodes) {
     			throw new Error("options.hydrate only works if the component was compiled with the `hydratable: true` option");
@@ -57781,6 +57791,8 @@ var app = (function () {
     			o.selected && !value.includes(o.value) && $$invalidate(14, value = [...value, o.value]);
     			$$invalidate(16, options = [...options, { value: o.value, name: o.textContent }]);
     		});
+
+    		$$invalidate(14, value = value.filter(d => d !== ''));
 
     		value && $$invalidate(4, selected = options.reduce(
     			(obj, op) => value.includes(op.value)
@@ -57964,7 +57976,9 @@ var app = (function () {
     		}
 
     		if ($$self.$$.dirty[0] & /*value, placeholder*/ 49152) {
-    			$$invalidate(9, placeholderText = value.length > 0 ? '' : placeholder);
+    			$$invalidate(9, placeholderText = typeof value === 'undefined' || value.length > 0
+    			? ''
+    			: placeholder);
     		}
     	};
 
@@ -58064,96 +58078,96 @@ var app = (function () {
 
     function get_each_context$8(ctx, list, i) {
     	const child_ctx = ctx.slice();
-    	child_ctx[20] = list[i];
+    	child_ctx[22] = list[i];
     	return child_ctx;
     }
 
     function get_each_context_1$3(ctx, list, i) {
     	const child_ctx = ctx.slice();
-    	child_ctx[20] = list[i];
+    	child_ctx[22] = list[i];
     	return child_ctx;
     }
 
     function get_each_context_2$2(ctx, list, i) {
     	const child_ctx = ctx.slice();
-    	child_ctx[20] = list[i];
+    	child_ctx[22] = list[i];
     	return child_ctx;
     }
 
     function get_each_context_3$2(ctx, list, i) {
     	const child_ctx = ctx.slice();
-    	child_ctx[20] = list[i];
+    	child_ctx[22] = list[i];
     	return child_ctx;
     }
 
     function get_each_context_4$2(ctx, list, i) {
     	const child_ctx = ctx.slice();
-    	child_ctx[20] = list[i];
+    	child_ctx[22] = list[i];
     	return child_ctx;
     }
 
     function get_each_context_5$2(ctx, list, i) {
     	const child_ctx = ctx.slice();
-    	child_ctx[20] = list[i];
+    	child_ctx[22] = list[i];
     	return child_ctx;
     }
 
     function get_each_context_6$2(ctx, list, i) {
     	const child_ctx = ctx.slice();
-    	child_ctx[20] = list[i];
+    	child_ctx[22] = list[i];
     	return child_ctx;
     }
 
     function get_each_context_7$2(ctx, list, i) {
     	const child_ctx = ctx.slice();
-    	child_ctx[20] = list[i];
+    	child_ctx[22] = list[i];
     	return child_ctx;
     }
 
     function get_each_context_8$2(ctx, list, i) {
     	const child_ctx = ctx.slice();
-    	child_ctx[20] = list[i];
+    	child_ctx[22] = list[i];
     	return child_ctx;
     }
 
     function get_each_context_9$2(ctx, list, i) {
     	const child_ctx = ctx.slice();
-    	child_ctx[20] = list[i];
+    	child_ctx[22] = list[i];
     	return child_ctx;
     }
 
     function get_each_context_10$2(ctx, list, i) {
     	const child_ctx = ctx.slice();
-    	child_ctx[20] = list[i];
+    	child_ctx[22] = list[i];
     	return child_ctx;
     }
 
     function get_each_context_11$2(ctx, list, i) {
     	const child_ctx = ctx.slice();
-    	child_ctx[20] = list[i];
+    	child_ctx[22] = list[i];
     	return child_ctx;
     }
 
-    function get_each_context_12$1(ctx, list, i) {
+    function get_each_context_12$2(ctx, list, i) {
     	const child_ctx = ctx.slice();
-    	child_ctx[20] = list[i];
+    	child_ctx[22] = list[i];
     	return child_ctx;
     }
 
     function get_each_context_13$1(ctx, list, i) {
     	const child_ctx = ctx.slice();
-    	child_ctx[20] = list[i];
+    	child_ctx[22] = list[i];
     	return child_ctx;
     }
 
     function get_each_context_14$1(ctx, list, i) {
     	const child_ctx = ctx.slice();
-    	child_ctx[20] = list[i];
+    	child_ctx[22] = list[i];
     	return child_ctx;
     }
 
-    // (53:4) {#if $ui.page === 'dicover'}
-    function create_if_block_4$3(ctx) {
+    // (61:4) {#if $ui.page === 'discover'}
+    function create_if_block_5$3(ctx) {
     	let div1;
     	let div0;
     	let mounted;
@@ -58164,17 +58178,17 @@ var app = (function () {
     			div1 = element("div");
     			div0 = element("div");
     			div0.textContent = "← Close search filter";
-    			attr_dev(div0, "class", "close-button svelte-1v79vcn");
-    			add_location(div0, file$H, 54, 8, 1674);
-    			attr_dev(div1, "class", "close-container svelte-1v79vcn");
-    			add_location(div1, file$H, 53, 4, 1636);
+    			attr_dev(div0, "class", "close-button svelte-8akpg7");
+    			add_location(div0, file$H, 62, 8, 2268);
+    			attr_dev(div1, "class", "close-container svelte-8akpg7");
+    			add_location(div1, file$H, 61, 4, 2230);
     		},
     		m: function mount(target, anchor) {
     			insert_dev(target, div1, anchor);
     			append_dev(div1, div0);
 
     			if (!mounted) {
-    				dispose = listen_dev(div0, "click", /*handleClose*/ ctx[4], false, false, false);
+    				dispose = listen_dev(div0, "click", /*handleClose*/ ctx[5], false, false, false);
     				mounted = true;
     			}
     		},
@@ -58188,17 +58202,17 @@ var app = (function () {
 
     	dispatch_dev("SvelteRegisterBlock", {
     		block,
-    		id: create_if_block_4$3.name,
+    		id: create_if_block_5$3.name,
     		type: "if",
-    		source: "(53:4) {#if $ui.page === 'dicover'}",
+    		source: "(61:4) {#if $ui.page === 'discover'}",
     		ctx
     	});
 
     	return block;
     }
 
-    // (69:8) {#if paneVisbility.byOutcomes}
-    function create_if_block_3$a(ctx) {
+    // (77:8) {#if paneVisbility.byOutcomes}
+    function create_if_block_4$4(ctx) {
     	let div4;
     	let div0;
     	let h40;
@@ -58231,7 +58245,7 @@ var app = (function () {
     	let current;
 
     	function multiselect0_value_binding(value) {
-    		/*multiselect0_value_binding*/ ctx[5](value);
+    		/*multiselect0_value_binding*/ ctx[7](value);
     	}
 
     	let multiselect0_props = {
@@ -58241,8 +58255,8 @@ var app = (function () {
     		$$scope: { ctx }
     	};
 
-    	if (/*$ui*/ ctx[1].search.project.keyValues !== void 0) {
-    		multiselect0_props.value = /*$ui*/ ctx[1].search.project.keyValues;
+    	if (/*$ui*/ ctx[0].search.project.keyValues !== void 0) {
+    		multiselect0_props.value = /*$ui*/ ctx[0].search.project.keyValues;
     	}
 
     	multiselect0 = new MultiSelect({
@@ -58253,7 +58267,7 @@ var app = (function () {
     	binding_callbacks.push(() => bind(multiselect0, 'value', multiselect0_value_binding));
 
     	function multiselect1_value_binding(value) {
-    		/*multiselect1_value_binding*/ ctx[6](value);
+    		/*multiselect1_value_binding*/ ctx[8](value);
     	}
 
     	let multiselect1_props = {
@@ -58263,8 +58277,8 @@ var app = (function () {
     		$$scope: { ctx }
     	};
 
-    	if (/*$ui*/ ctx[1].search.project.conditions !== void 0) {
-    		multiselect1_props.value = /*$ui*/ ctx[1].search.project.conditions;
+    	if (/*$ui*/ ctx[0].search.project.conditions !== void 0) {
+    		multiselect1_props.value = /*$ui*/ ctx[0].search.project.conditions;
     	}
 
     	multiselect1 = new MultiSelect({
@@ -58275,18 +58289,18 @@ var app = (function () {
     	binding_callbacks.push(() => bind(multiselect1, 'value', multiselect1_value_binding));
 
     	function multiselect2_value_binding(value) {
-    		/*multiselect2_value_binding*/ ctx[7](value);
+    		/*multiselect2_value_binding*/ ctx[9](value);
     	}
 
     	let multiselect2_props = {
     		id: performanceObjectivesGroup.name,
     		placeholder: performanceObjectivesGroup.placeholder,
-    		$$slots: { default: [create_default_slot_12$1] },
+    		$$slots: { default: [create_default_slot_12$2] },
     		$$scope: { ctx }
     	};
 
-    	if (/*$ui*/ ctx[1].search.project.performanceObjectivesGroup !== void 0) {
-    		multiselect2_props.value = /*$ui*/ ctx[1].search.project.performanceObjectivesGroup;
+    	if (/*$ui*/ ctx[0].search.project.performanceObjectivesGroup !== void 0) {
+    		multiselect2_props.value = /*$ui*/ ctx[0].search.project.performanceObjectivesGroup;
     	}
 
     	multiselect2 = new MultiSelect({
@@ -58297,7 +58311,7 @@ var app = (function () {
     	binding_callbacks.push(() => bind(multiselect2, 'value', multiselect2_value_binding));
 
     	function multiselect3_value_binding(value) {
-    		/*multiselect3_value_binding*/ ctx[8](value);
+    		/*multiselect3_value_binding*/ ctx[10](value);
     	}
 
     	let multiselect3_props = {
@@ -58307,8 +58321,8 @@ var app = (function () {
     		$$scope: { ctx }
     	};
 
-    	if (/*$ui*/ ctx[1].search.project.performanceObjectivesTheme !== void 0) {
-    		multiselect3_props.value = /*$ui*/ ctx[1].search.project.performanceObjectivesTheme;
+    	if (/*$ui*/ ctx[0].search.project.performanceObjectivesTheme !== void 0) {
+    		multiselect3_props.value = /*$ui*/ ctx[0].search.project.performanceObjectivesTheme;
     	}
 
     	multiselect3 = new MultiSelect({
@@ -58340,28 +58354,28 @@ var app = (function () {
     			h43 = element("h4");
     			t6 = space();
     			create_component(multiselect3.$$.fragment);
-    			attr_dev(h40, "class", "svelte-1v79vcn");
-    			add_location(h40, file$H, 71, 16, 2307);
-    			attr_dev(div0, "class", "multi-select-container svelte-1v79vcn");
+    			attr_dev(h40, "class", "svelte-8akpg7");
+    			add_location(h40, file$H, 79, 16, 2926);
+    			attr_dev(div0, "class", "multi-select-container svelte-8akpg7");
     			set_style(div0, "z-index", "21");
-    			add_location(div0, file$H, 70, 12, 2233);
-    			attr_dev(h41, "class", "svelte-1v79vcn");
-    			add_location(h41, file$H, 80, 16, 2749);
-    			attr_dev(div1, "class", "multi-select-container svelte-1v79vcn");
+    			add_location(div0, file$H, 78, 12, 2852);
+    			attr_dev(h41, "class", "svelte-8akpg7");
+    			add_location(h41, file$H, 89, 16, 3430);
+    			attr_dev(div1, "class", "multi-select-container svelte-8akpg7");
     			set_style(div1, "z-index", "20");
-    			add_location(div1, file$H, 79, 12, 2674);
-    			attr_dev(h42, "class", "svelte-1v79vcn");
-    			add_location(h42, file$H, 89, 16, 3197);
-    			attr_dev(div2, "class", "multi-select-container svelte-1v79vcn");
+    			add_location(div1, file$H, 88, 12, 3355);
+    			attr_dev(h42, "class", "svelte-8akpg7");
+    			add_location(h42, file$H, 99, 16, 3940);
+    			attr_dev(div2, "class", "multi-select-container svelte-8akpg7");
     			set_style(div2, "z-index", "19");
-    			add_location(div2, file$H, 88, 12, 3123);
-    			attr_dev(h43, "class", "svelte-1v79vcn");
-    			add_location(h43, file$H, 98, 16, 3725);
-    			attr_dev(div3, "class", "multi-select-container svelte-1v79vcn");
+    			add_location(div2, file$H, 98, 12, 3866);
+    			attr_dev(h43, "class", "svelte-8akpg7");
+    			add_location(h43, file$H, 109, 16, 4530);
+    			attr_dev(div3, "class", "multi-select-container svelte-8akpg7");
     			set_style(div3, "z-index", "18");
-    			add_location(div3, file$H, 97, 12, 3651);
-    			attr_dev(div4, "class", "collapse__body svelte-1v79vcn");
-    			add_location(div4, file$H, 69, 8, 2172);
+    			add_location(div3, file$H, 108, 12, 4456);
+    			attr_dev(div4, "class", "collapse__body svelte-8akpg7");
+    			add_location(div4, file$H, 77, 8, 2791);
     		},
     		m: function mount(target, anchor) {
     			insert_dev(target, div4, anchor);
@@ -58393,52 +58407,52 @@ var app = (function () {
     		p: function update(ctx, dirty) {
     			const multiselect0_changes = {};
 
-    			if (dirty[1] & /*$$scope*/ 1048576) {
+    			if (dirty[1] & /*$$scope*/ 4194304) {
     				multiselect0_changes.$$scope = { dirty, ctx };
     			}
 
-    			if (!updating_value && dirty[0] & /*$ui*/ 2) {
+    			if (!updating_value && dirty[0] & /*$ui*/ 1) {
     				updating_value = true;
-    				multiselect0_changes.value = /*$ui*/ ctx[1].search.project.keyValues;
+    				multiselect0_changes.value = /*$ui*/ ctx[0].search.project.keyValues;
     				add_flush_callback(() => updating_value = false);
     			}
 
     			multiselect0.$set(multiselect0_changes);
     			const multiselect1_changes = {};
 
-    			if (dirty[1] & /*$$scope*/ 1048576) {
+    			if (dirty[1] & /*$$scope*/ 4194304) {
     				multiselect1_changes.$$scope = { dirty, ctx };
     			}
 
-    			if (!updating_value_1 && dirty[0] & /*$ui*/ 2) {
+    			if (!updating_value_1 && dirty[0] & /*$ui*/ 1) {
     				updating_value_1 = true;
-    				multiselect1_changes.value = /*$ui*/ ctx[1].search.project.conditions;
+    				multiselect1_changes.value = /*$ui*/ ctx[0].search.project.conditions;
     				add_flush_callback(() => updating_value_1 = false);
     			}
 
     			multiselect1.$set(multiselect1_changes);
     			const multiselect2_changes = {};
 
-    			if (dirty[1] & /*$$scope*/ 1048576) {
+    			if (dirty[1] & /*$$scope*/ 4194304) {
     				multiselect2_changes.$$scope = { dirty, ctx };
     			}
 
-    			if (!updating_value_2 && dirty[0] & /*$ui*/ 2) {
+    			if (!updating_value_2 && dirty[0] & /*$ui*/ 1) {
     				updating_value_2 = true;
-    				multiselect2_changes.value = /*$ui*/ ctx[1].search.project.performanceObjectivesGroup;
+    				multiselect2_changes.value = /*$ui*/ ctx[0].search.project.performanceObjectivesGroup;
     				add_flush_callback(() => updating_value_2 = false);
     			}
 
     			multiselect2.$set(multiselect2_changes);
     			const multiselect3_changes = {};
 
-    			if (dirty[1] & /*$$scope*/ 1048576) {
+    			if (dirty[1] & /*$$scope*/ 4194304) {
     				multiselect3_changes.$$scope = { dirty, ctx };
     			}
 
-    			if (!updating_value_3 && dirty[0] & /*$ui*/ 2) {
+    			if (!updating_value_3 && dirty[0] & /*$ui*/ 1) {
     				updating_value_3 = true;
-    				multiselect3_changes.value = /*$ui*/ ctx[1].search.project.performanceObjectivesTheme;
+    				multiselect3_changes.value = /*$ui*/ ctx[0].search.project.performanceObjectivesTheme;
     				add_flush_callback(() => updating_value_3 = false);
     			}
 
@@ -58479,27 +58493,27 @@ var app = (function () {
 
     	dispatch_dev("SvelteRegisterBlock", {
     		block,
-    		id: create_if_block_3$a.name,
+    		id: create_if_block_4$4.name,
     		type: "if",
-    		source: "(69:8) {#if paneVisbility.byOutcomes}",
+    		source: "(77:8) {#if paneVisbility.byOutcomes}",
     		ctx
     	});
 
     	return block;
     }
 
-    // (74:20) {#each keyValues.list as name}
+    // (83:20) {#each keyValues.list as name}
     function create_each_block_14$1(ctx) {
     	let option;
-    	let raw_value = /*name*/ ctx[20] + "";
+    	let raw_value = /*name*/ ctx[22] + "";
 
     	const block = {
     		c: function create() {
     			option = element("option");
-    			option.__value = /*name*/ ctx[20];
+    			option.__value = /*name*/ ctx[22];
     			option.value = option.__value;
-    			attr_dev(option, "class", "svelte-1v79vcn");
-    			add_location(option, file$H, 74, 20, 2540);
+    			attr_dev(option, "class", "svelte-8akpg7");
+    			add_location(option, file$H, 83, 20, 3221);
     		},
     		m: function mount(target, anchor) {
     			insert_dev(target, option, anchor);
@@ -58515,15 +58529,17 @@ var app = (function () {
     		block,
     		id: create_each_block_14$1.name,
     		type: "each",
-    		source: "(74:20) {#each keyValues.list as name}",
+    		source: "(83:20) {#each keyValues.list as name}",
     		ctx
     	});
 
     	return block;
     }
 
-    // (73:16) <MultiSelect id={keyValues.name} bind:value={$ui.search.project.keyValues} placeholder={keyValues.placeholder} >
+    // (81:16) <MultiSelect id={keyValues.name} bind:value={$ui.search.project.keyValues} placeholder={keyValues.placeholder} >
     function create_default_slot_14$1(ctx) {
+    	let option;
+    	let t;
     	let each_1_anchor;
     	let each_value_14 = keyValues.list;
     	validate_each_argument(each_value_14);
@@ -58535,13 +58551,25 @@ var app = (function () {
 
     	const block = {
     		c: function create() {
+    			option = element("option");
+    			t = space();
+
     			for (let i = 0; i < each_blocks.length; i += 1) {
     				each_blocks[i].c();
     			}
 
     			each_1_anchor = empty();
+    			option.disabled = true;
+    			option.selected = true;
+    			option.__value = "";
+    			option.value = option.__value;
+    			attr_dev(option, "class", "svelte-8akpg7");
+    			add_location(option, file$H, 81, 20, 3108);
     		},
     		m: function mount(target, anchor) {
+    			insert_dev(target, option, anchor);
+    			insert_dev(target, t, anchor);
+
     			for (let i = 0; i < each_blocks.length; i += 1) {
     				each_blocks[i].m(target, anchor);
     			}
@@ -58574,6 +58602,8 @@ var app = (function () {
     			}
     		},
     		d: function destroy(detaching) {
+    			if (detaching) detach_dev(option);
+    			if (detaching) detach_dev(t);
     			destroy_each(each_blocks, detaching);
     			if (detaching) detach_dev(each_1_anchor);
     		}
@@ -58583,25 +58613,25 @@ var app = (function () {
     		block,
     		id: create_default_slot_14$1.name,
     		type: "slot",
-    		source: "(73:16) <MultiSelect id={keyValues.name} bind:value={$ui.search.project.keyValues} placeholder={keyValues.placeholder} >",
+    		source: "(81:16) <MultiSelect id={keyValues.name} bind:value={$ui.search.project.keyValues} placeholder={keyValues.placeholder} >",
     		ctx
     	});
 
     	return block;
     }
 
-    // (83:20) {#each conditions.list as name}
+    // (93:20) {#each conditions.list as name}
     function create_each_block_13$1(ctx) {
     	let option;
-    	let raw_value = /*name*/ ctx[20] + "";
+    	let raw_value = /*name*/ ctx[22] + "";
 
     	const block = {
     		c: function create() {
     			option = element("option");
-    			option.__value = /*name*/ ctx[20];
+    			option.__value = /*name*/ ctx[22];
     			option.value = option.__value;
-    			attr_dev(option, "class", "svelte-1v79vcn");
-    			add_location(option, file$H, 83, 20, 2989);
+    			attr_dev(option, "class", "svelte-8akpg7");
+    			add_location(option, file$H, 93, 20, 3732);
     		},
     		m: function mount(target, anchor) {
     			insert_dev(target, option, anchor);
@@ -58617,15 +58647,17 @@ var app = (function () {
     		block,
     		id: create_each_block_13$1.name,
     		type: "each",
-    		source: "(83:20) {#each conditions.list as name}",
+    		source: "(93:20) {#each conditions.list as name}",
     		ctx
     	});
 
     	return block;
     }
 
-    // (82:16) <MultiSelect id={conditions.name} bind:value={$ui.search.project.conditions}   placeholder={conditions.placeholder} >
+    // (91:16) <MultiSelect id={conditions.name} bind:value={$ui.search.project.conditions}   placeholder={conditions.placeholder} >
     function create_default_slot_13$1(ctx) {
+    	let option;
+    	let t;
     	let each_1_anchor;
     	let each_value_13 = conditions.list;
     	validate_each_argument(each_value_13);
@@ -58637,13 +58669,25 @@ var app = (function () {
 
     	const block = {
     		c: function create() {
+    			option = element("option");
+    			t = space();
+
     			for (let i = 0; i < each_blocks.length; i += 1) {
     				each_blocks[i].c();
     			}
 
     			each_1_anchor = empty();
+    			option.disabled = true;
+    			option.selected = true;
+    			option.__value = "";
+    			option.value = option.__value;
+    			attr_dev(option, "class", "svelte-8akpg7");
+    			add_location(option, file$H, 91, 20, 3618);
     		},
     		m: function mount(target, anchor) {
+    			insert_dev(target, option, anchor);
+    			insert_dev(target, t, anchor);
+
     			for (let i = 0; i < each_blocks.length; i += 1) {
     				each_blocks[i].m(target, anchor);
     			}
@@ -58676,6 +58720,8 @@ var app = (function () {
     			}
     		},
     		d: function destroy(detaching) {
+    			if (detaching) detach_dev(option);
+    			if (detaching) detach_dev(t);
     			destroy_each(each_blocks, detaching);
     			if (detaching) detach_dev(each_1_anchor);
     		}
@@ -58685,25 +58731,25 @@ var app = (function () {
     		block,
     		id: create_default_slot_13$1.name,
     		type: "slot",
-    		source: "(82:16) <MultiSelect id={conditions.name} bind:value={$ui.search.project.conditions}   placeholder={conditions.placeholder} >",
+    		source: "(91:16) <MultiSelect id={conditions.name} bind:value={$ui.search.project.conditions}   placeholder={conditions.placeholder} >",
     		ctx
     	});
 
     	return block;
     }
 
-    // (92:20) {#each performanceObjectivesGroup.list as name}
-    function create_each_block_12$1(ctx) {
+    // (103:20) {#each performanceObjectivesGroup.list as name}
+    function create_each_block_12$2(ctx) {
     	let option;
-    	let raw_value = /*name*/ ctx[20] + "";
+    	let raw_value = /*name*/ ctx[22] + "";
 
     	const block = {
     		c: function create() {
     			option = element("option");
-    			option.__value = /*name*/ ctx[20];
+    			option.__value = /*name*/ ctx[22];
     			option.value = option.__value;
-    			attr_dev(option, "class", "svelte-1v79vcn");
-    			add_location(option, file$H, 92, 20, 3517);
+    			attr_dev(option, "class", "svelte-8akpg7");
+    			add_location(option, file$H, 103, 20, 4322);
     		},
     		m: function mount(target, anchor) {
     			insert_dev(target, option, anchor);
@@ -58717,35 +58763,49 @@ var app = (function () {
 
     	dispatch_dev("SvelteRegisterBlock", {
     		block,
-    		id: create_each_block_12$1.name,
+    		id: create_each_block_12$2.name,
     		type: "each",
-    		source: "(92:20) {#each performanceObjectivesGroup.list as name}",
+    		source: "(103:20) {#each performanceObjectivesGroup.list as name}",
     		ctx
     	});
 
     	return block;
     }
 
-    // (91:16) <MultiSelect id={performanceObjectivesGroup.name} bind:value={$ui.search.project.performanceObjectivesGroup}   placeholder={performanceObjectivesGroup.placeholder} >
-    function create_default_slot_12$1(ctx) {
+    // (101:16) <MultiSelect id={performanceObjectivesGroup.name} bind:value={$ui.search.project.performanceObjectivesGroup}   placeholder={performanceObjectivesGroup.placeholder} >
+    function create_default_slot_12$2(ctx) {
+    	let option;
+    	let t;
     	let each_1_anchor;
     	let each_value_12 = performanceObjectivesGroup.list;
     	validate_each_argument(each_value_12);
     	let each_blocks = [];
 
     	for (let i = 0; i < each_value_12.length; i += 1) {
-    		each_blocks[i] = create_each_block_12$1(get_each_context_12$1(ctx, each_value_12, i));
+    		each_blocks[i] = create_each_block_12$2(get_each_context_12$2(ctx, each_value_12, i));
     	}
 
     	const block = {
     		c: function create() {
+    			option = element("option");
+    			t = space();
+
     			for (let i = 0; i < each_blocks.length; i += 1) {
     				each_blocks[i].c();
     			}
 
     			each_1_anchor = empty();
+    			option.disabled = true;
+    			option.selected = true;
+    			option.__value = "";
+    			option.value = option.__value;
+    			attr_dev(option, "class", "svelte-8akpg7");
+    			add_location(option, file$H, 101, 20, 4192);
     		},
     		m: function mount(target, anchor) {
+    			insert_dev(target, option, anchor);
+    			insert_dev(target, t, anchor);
+
     			for (let i = 0; i < each_blocks.length; i += 1) {
     				each_blocks[i].m(target, anchor);
     			}
@@ -58759,12 +58819,12 @@ var app = (function () {
     				let i;
 
     				for (i = 0; i < each_value_12.length; i += 1) {
-    					const child_ctx = get_each_context_12$1(ctx, each_value_12, i);
+    					const child_ctx = get_each_context_12$2(ctx, each_value_12, i);
 
     					if (each_blocks[i]) {
     						each_blocks[i].p(child_ctx, dirty);
     					} else {
-    						each_blocks[i] = create_each_block_12$1(child_ctx);
+    						each_blocks[i] = create_each_block_12$2(child_ctx);
     						each_blocks[i].c();
     						each_blocks[i].m(each_1_anchor.parentNode, each_1_anchor);
     					}
@@ -58778,6 +58838,8 @@ var app = (function () {
     			}
     		},
     		d: function destroy(detaching) {
+    			if (detaching) detach_dev(option);
+    			if (detaching) detach_dev(t);
     			destroy_each(each_blocks, detaching);
     			if (detaching) detach_dev(each_1_anchor);
     		}
@@ -58785,27 +58847,27 @@ var app = (function () {
 
     	dispatch_dev("SvelteRegisterBlock", {
     		block,
-    		id: create_default_slot_12$1.name,
+    		id: create_default_slot_12$2.name,
     		type: "slot",
-    		source: "(91:16) <MultiSelect id={performanceObjectivesGroup.name} bind:value={$ui.search.project.performanceObjectivesGroup}   placeholder={performanceObjectivesGroup.placeholder} >",
+    		source: "(101:16) <MultiSelect id={performanceObjectivesGroup.name} bind:value={$ui.search.project.performanceObjectivesGroup}   placeholder={performanceObjectivesGroup.placeholder} >",
     		ctx
     	});
 
     	return block;
     }
 
-    // (101:20) {#each performanceObjectivesTheme.list as name}
+    // (113:20) {#each performanceObjectivesTheme.list as name}
     function create_each_block_11$2(ctx) {
     	let option;
-    	let raw_value = /*name*/ ctx[20] + "";
+    	let raw_value = /*name*/ ctx[22] + "";
 
     	const block = {
     		c: function create() {
     			option = element("option");
-    			option.__value = /*name*/ ctx[20];
+    			option.__value = /*name*/ ctx[22];
     			option.value = option.__value;
-    			attr_dev(option, "class", "svelte-1v79vcn");
-    			add_location(option, file$H, 101, 20, 4045);
+    			attr_dev(option, "class", "svelte-8akpg7");
+    			add_location(option, file$H, 113, 20, 4912);
     		},
     		m: function mount(target, anchor) {
     			insert_dev(target, option, anchor);
@@ -58821,15 +58883,17 @@ var app = (function () {
     		block,
     		id: create_each_block_11$2.name,
     		type: "each",
-    		source: "(101:20) {#each performanceObjectivesTheme.list as name}",
+    		source: "(113:20) {#each performanceObjectivesTheme.list as name}",
     		ctx
     	});
 
     	return block;
     }
 
-    // (100:16) <MultiSelect id={performanceObjectivesTheme.name} bind:value={$ui.search.project.performanceObjectivesTheme}   placeholder={performanceObjectivesTheme.placeholder} >
+    // (111:16) <MultiSelect id={performanceObjectivesTheme.name} bind:value={$ui.search.project.performanceObjectivesTheme}   placeholder={performanceObjectivesTheme.placeholder} >
     function create_default_slot_11$2(ctx) {
+    	let option;
+    	let t;
     	let each_1_anchor;
     	let each_value_11 = performanceObjectivesTheme.list;
     	validate_each_argument(each_value_11);
@@ -58841,13 +58905,25 @@ var app = (function () {
 
     	const block = {
     		c: function create() {
+    			option = element("option");
+    			t = space();
+
     			for (let i = 0; i < each_blocks.length; i += 1) {
     				each_blocks[i].c();
     			}
 
     			each_1_anchor = empty();
+    			option.disabled = true;
+    			option.selected = true;
+    			option.__value = "";
+    			option.value = option.__value;
+    			attr_dev(option, "class", "svelte-8akpg7");
+    			add_location(option, file$H, 111, 20, 4782);
     		},
     		m: function mount(target, anchor) {
+    			insert_dev(target, option, anchor);
+    			insert_dev(target, t, anchor);
+
     			for (let i = 0; i < each_blocks.length; i += 1) {
     				each_blocks[i].m(target, anchor);
     			}
@@ -58880,6 +58956,8 @@ var app = (function () {
     			}
     		},
     		d: function destroy(detaching) {
+    			if (detaching) detach_dev(option);
+    			if (detaching) detach_dev(t);
     			destroy_each(each_blocks, detaching);
     			if (detaching) detach_dev(each_1_anchor);
     		}
@@ -58889,15 +58967,15 @@ var app = (function () {
     		block,
     		id: create_default_slot_11$2.name,
     		type: "slot",
-    		source: "(100:16) <MultiSelect id={performanceObjectivesTheme.name} bind:value={$ui.search.project.performanceObjectivesTheme}   placeholder={performanceObjectivesTheme.placeholder} >",
+    		source: "(111:16) <MultiSelect id={performanceObjectivesTheme.name} bind:value={$ui.search.project.performanceObjectivesTheme}   placeholder={performanceObjectivesTheme.placeholder} >",
     		ctx
     	});
 
     	return block;
     }
 
-    // (117:8) {#if paneVisbility.byLocation}
-    function create_if_block_2$a(ctx) {
+    // (129:8) {#if paneVisbility.byLocation}
+    function create_if_block_3$a(ctx) {
     	let div3;
     	let div0;
     	let h40;
@@ -58923,7 +59001,7 @@ var app = (function () {
     	let current;
 
     	function multiselect0_value_binding_1(value) {
-    		/*multiselect0_value_binding_1*/ ctx[9](value);
+    		/*multiselect0_value_binding_1*/ ctx[11](value);
     	}
 
     	let multiselect0_props = {
@@ -58933,8 +59011,8 @@ var app = (function () {
     		$$scope: { ctx }
     	};
 
-    	if (/*$ui*/ ctx[1].search.project.catchment !== void 0) {
-    		multiselect0_props.value = /*$ui*/ ctx[1].search.project.catchment;
+    	if (/*$ui*/ ctx[0].search.project.catchment !== void 0) {
+    		multiselect0_props.value = /*$ui*/ ctx[0].search.project.catchment;
     	}
 
     	multiselect0 = new MultiSelect({
@@ -58945,7 +59023,7 @@ var app = (function () {
     	binding_callbacks.push(() => bind(multiselect0, 'value', multiselect0_value_binding_1));
 
     	function multiselect1_value_binding_1(value) {
-    		/*multiselect1_value_binding_1*/ ctx[10](value);
+    		/*multiselect1_value_binding_1*/ ctx[12](value);
     	}
 
     	let multiselect1_props = {
@@ -58955,8 +59033,8 @@ var app = (function () {
     		$$scope: { ctx }
     	};
 
-    	if (/*$ui*/ ctx[1].search.project.subcatchment !== void 0) {
-    		multiselect1_props.value = /*$ui*/ ctx[1].search.project.subcatchment;
+    	if (/*$ui*/ ctx[0].search.project.subcatchment !== void 0) {
+    		multiselect1_props.value = /*$ui*/ ctx[0].search.project.subcatchment;
     	}
 
     	multiselect1 = new MultiSelect({
@@ -58967,7 +59045,7 @@ var app = (function () {
     	binding_callbacks.push(() => bind(multiselect1, 'value', multiselect1_value_binding_1));
 
     	function multiselect2_value_binding_1(value) {
-    		/*multiselect2_value_binding_1*/ ctx[11](value);
+    		/*multiselect2_value_binding_1*/ ctx[13](value);
     	}
 
     	let multiselect2_props = {
@@ -58977,8 +59055,8 @@ var app = (function () {
     		$$scope: { ctx }
     	};
 
-    	if (/*$ui*/ ctx[1].search.project.locations !== void 0) {
-    		multiselect2_props.value = /*$ui*/ ctx[1].search.project.locations;
+    	if (/*$ui*/ ctx[0].search.project.locations !== void 0) {
+    		multiselect2_props.value = /*$ui*/ ctx[0].search.project.locations;
     	}
 
     	multiselect2 = new MultiSelect({
@@ -59005,23 +59083,23 @@ var app = (function () {
     			h42 = element("h4");
     			t4 = space();
     			create_component(multiselect2.$$.fragment);
-    			attr_dev(h40, "class", "svelte-1v79vcn");
-    			add_location(h40, file$H, 119, 16, 4703);
-    			attr_dev(div0, "class", "multi-select-container svelte-1v79vcn");
+    			attr_dev(h40, "class", "svelte-8akpg7");
+    			add_location(h40, file$H, 131, 16, 5570);
+    			attr_dev(div0, "class", "multi-select-container svelte-8akpg7");
     			set_style(div0, "z-index", "17");
-    			add_location(div0, file$H, 118, 12, 4629);
-    			attr_dev(h41, "class", "svelte-1v79vcn");
-    			add_location(h41, file$H, 128, 16, 5164);
-    			attr_dev(div1, "class", "multi-select-container svelte-1v79vcn");
+    			add_location(div0, file$H, 130, 12, 5496);
+    			attr_dev(h41, "class", "svelte-8akpg7");
+    			add_location(h41, file$H, 141, 16, 6093);
+    			attr_dev(div1, "class", "multi-select-container svelte-8akpg7");
     			set_style(div1, "z-index", "16");
-    			add_location(div1, file$H, 127, 12, 5090);
-    			attr_dev(h42, "class", "svelte-1v79vcn");
-    			add_location(h42, file$H, 137, 16, 5640);
-    			attr_dev(div2, "class", "multi-select-container svelte-1v79vcn");
+    			add_location(div1, file$H, 140, 12, 6019);
+    			attr_dev(h42, "class", "svelte-8akpg7");
+    			add_location(h42, file$H, 151, 16, 6631);
+    			attr_dev(div2, "class", "multi-select-container svelte-8akpg7");
     			set_style(div2, "z-index", "15");
-    			add_location(div2, file$H, 136, 12, 5566);
-    			attr_dev(div3, "class", "collapse__body svelte-1v79vcn");
-    			add_location(div3, file$H, 117, 8, 4568);
+    			add_location(div2, file$H, 150, 12, 6557);
+    			attr_dev(div3, "class", "collapse__body svelte-8akpg7");
+    			add_location(div3, file$H, 129, 8, 5435);
     		},
     		m: function mount(target, anchor) {
     			insert_dev(target, div3, anchor);
@@ -59047,39 +59125,39 @@ var app = (function () {
     		p: function update(ctx, dirty) {
     			const multiselect0_changes = {};
 
-    			if (dirty[1] & /*$$scope*/ 1048576) {
+    			if (dirty[1] & /*$$scope*/ 4194304) {
     				multiselect0_changes.$$scope = { dirty, ctx };
     			}
 
-    			if (!updating_value && dirty[0] & /*$ui*/ 2) {
+    			if (!updating_value && dirty[0] & /*$ui*/ 1) {
     				updating_value = true;
-    				multiselect0_changes.value = /*$ui*/ ctx[1].search.project.catchment;
+    				multiselect0_changes.value = /*$ui*/ ctx[0].search.project.catchment;
     				add_flush_callback(() => updating_value = false);
     			}
 
     			multiselect0.$set(multiselect0_changes);
     			const multiselect1_changes = {};
 
-    			if (dirty[1] & /*$$scope*/ 1048576) {
+    			if (dirty[1] & /*$$scope*/ 4194304) {
     				multiselect1_changes.$$scope = { dirty, ctx };
     			}
 
-    			if (!updating_value_1 && dirty[0] & /*$ui*/ 2) {
+    			if (!updating_value_1 && dirty[0] & /*$ui*/ 1) {
     				updating_value_1 = true;
-    				multiselect1_changes.value = /*$ui*/ ctx[1].search.project.subcatchment;
+    				multiselect1_changes.value = /*$ui*/ ctx[0].search.project.subcatchment;
     				add_flush_callback(() => updating_value_1 = false);
     			}
 
     			multiselect1.$set(multiselect1_changes);
     			const multiselect2_changes = {};
 
-    			if (dirty[1] & /*$$scope*/ 1048576) {
+    			if (dirty[1] & /*$$scope*/ 4194304) {
     				multiselect2_changes.$$scope = { dirty, ctx };
     			}
 
-    			if (!updating_value_2 && dirty[0] & /*$ui*/ 2) {
+    			if (!updating_value_2 && dirty[0] & /*$ui*/ 1) {
     				updating_value_2 = true;
-    				multiselect2_changes.value = /*$ui*/ ctx[1].search.project.locations;
+    				multiselect2_changes.value = /*$ui*/ ctx[0].search.project.locations;
     				add_flush_callback(() => updating_value_2 = false);
     			}
 
@@ -59117,27 +59195,27 @@ var app = (function () {
 
     	dispatch_dev("SvelteRegisterBlock", {
     		block,
-    		id: create_if_block_2$a.name,
+    		id: create_if_block_3$a.name,
     		type: "if",
-    		source: "(117:8) {#if paneVisbility.byLocation}",
+    		source: "(129:8) {#if paneVisbility.byLocation}",
     		ctx
     	});
 
     	return block;
     }
 
-    // (122:20) {#each catchments.list as name}
+    // (135:20) {#each catchments.list as name}
     function create_each_block_10$2(ctx) {
     	let option;
-    	let raw_value = /*name*/ ctx[20] + "";
+    	let raw_value = /*name*/ ctx[22] + "";
 
     	const block = {
     		c: function create() {
     			option = element("option");
-    			option.__value = /*name*/ ctx[20];
+    			option.__value = /*name*/ ctx[22];
     			option.value = option.__value;
-    			attr_dev(option, "class", "svelte-1v79vcn");
-    			add_location(option, file$H, 122, 20, 4940);
+    			attr_dev(option, "class", "svelte-8akpg7");
+    			add_location(option, file$H, 135, 20, 5869);
     		},
     		m: function mount(target, anchor) {
     			insert_dev(target, option, anchor);
@@ -59153,15 +59231,17 @@ var app = (function () {
     		block,
     		id: create_each_block_10$2.name,
     		type: "each",
-    		source: "(122:20) {#each catchments.list as name}",
+    		source: "(135:20) {#each catchments.list as name}",
     		ctx
     	});
 
     	return block;
     }
 
-    // (121:16) <MultiSelect id={catchments.name} bind:value={$ui.search.project.catchment} placeholder={catchments.placeholder} >
+    // (133:16) <MultiSelect id={catchments.name} bind:value={$ui.search.project.catchment} placeholder={catchments.placeholder} >
     function create_default_slot_10$2(ctx) {
+    	let option;
+    	let t;
     	let each_1_anchor;
     	let each_value_10 = catchments.list;
     	validate_each_argument(each_value_10);
@@ -59173,13 +59253,25 @@ var app = (function () {
 
     	const block = {
     		c: function create() {
+    			option = element("option");
+    			t = space();
+
     			for (let i = 0; i < each_blocks.length; i += 1) {
     				each_blocks[i].c();
     			}
 
     			each_1_anchor = empty();
+    			option.disabled = true;
+    			option.selected = true;
+    			option.__value = "";
+    			option.value = option.__value;
+    			attr_dev(option, "class", "svelte-8akpg7");
+    			add_location(option, file$H, 133, 20, 5755);
     		},
     		m: function mount(target, anchor) {
+    			insert_dev(target, option, anchor);
+    			insert_dev(target, t, anchor);
+
     			for (let i = 0; i < each_blocks.length; i += 1) {
     				each_blocks[i].m(target, anchor);
     			}
@@ -59212,6 +59304,8 @@ var app = (function () {
     			}
     		},
     		d: function destroy(detaching) {
+    			if (detaching) detach_dev(option);
+    			if (detaching) detach_dev(t);
     			destroy_each(each_blocks, detaching);
     			if (detaching) detach_dev(each_1_anchor);
     		}
@@ -59221,25 +59315,25 @@ var app = (function () {
     		block,
     		id: create_default_slot_10$2.name,
     		type: "slot",
-    		source: "(121:16) <MultiSelect id={catchments.name} bind:value={$ui.search.project.catchment} placeholder={catchments.placeholder} >",
+    		source: "(133:16) <MultiSelect id={catchments.name} bind:value={$ui.search.project.catchment} placeholder={catchments.placeholder} >",
     		ctx
     	});
 
     	return block;
     }
 
-    // (131:20) {#each subcatchments.list as name}
+    // (145:20) {#each subcatchments.list as name}
     function create_each_block_9$2(ctx) {
     	let option;
-    	let raw_value = /*name*/ ctx[20] + "";
+    	let raw_value = /*name*/ ctx[22] + "";
 
     	const block = {
     		c: function create() {
     			option = element("option");
-    			option.__value = /*name*/ ctx[20];
+    			option.__value = /*name*/ ctx[22];
     			option.value = option.__value;
-    			attr_dev(option, "class", "svelte-1v79vcn");
-    			add_location(option, file$H, 131, 20, 5416);
+    			attr_dev(option, "class", "svelte-8akpg7");
+    			add_location(option, file$H, 145, 20, 6407);
     		},
     		m: function mount(target, anchor) {
     			insert_dev(target, option, anchor);
@@ -59255,15 +59349,17 @@ var app = (function () {
     		block,
     		id: create_each_block_9$2.name,
     		type: "each",
-    		source: "(131:20) {#each subcatchments.list as name}",
+    		source: "(145:20) {#each subcatchments.list as name}",
     		ctx
     	});
 
     	return block;
     }
 
-    // (130:16) <MultiSelect id={subcatchments.name} bind:value={$ui.search.project.subcatchment} placeholder={subcatchments.placeholder} >
+    // (143:16) <MultiSelect id={subcatchments.name} bind:value={$ui.search.project.subcatchment} placeholder={subcatchments.placeholder} >
     function create_default_slot_9$2(ctx) {
+    	let option;
+    	let t;
     	let each_1_anchor;
     	let each_value_9 = subcatchments.list;
     	validate_each_argument(each_value_9);
@@ -59275,13 +59371,25 @@ var app = (function () {
 
     	const block = {
     		c: function create() {
+    			option = element("option");
+    			t = space();
+
     			for (let i = 0; i < each_blocks.length; i += 1) {
     				each_blocks[i].c();
     			}
 
     			each_1_anchor = empty();
+    			option.disabled = true;
+    			option.selected = true;
+    			option.__value = "";
+    			option.value = option.__value;
+    			attr_dev(option, "class", "svelte-8akpg7");
+    			add_location(option, file$H, 143, 20, 6290);
     		},
     		m: function mount(target, anchor) {
+    			insert_dev(target, option, anchor);
+    			insert_dev(target, t, anchor);
+
     			for (let i = 0; i < each_blocks.length; i += 1) {
     				each_blocks[i].m(target, anchor);
     			}
@@ -59314,6 +59422,8 @@ var app = (function () {
     			}
     		},
     		d: function destroy(detaching) {
+    			if (detaching) detach_dev(option);
+    			if (detaching) detach_dev(t);
     			destroy_each(each_blocks, detaching);
     			if (detaching) detach_dev(each_1_anchor);
     		}
@@ -59323,25 +59433,25 @@ var app = (function () {
     		block,
     		id: create_default_slot_9$2.name,
     		type: "slot",
-    		source: "(130:16) <MultiSelect id={subcatchments.name} bind:value={$ui.search.project.subcatchment} placeholder={subcatchments.placeholder} >",
+    		source: "(143:16) <MultiSelect id={subcatchments.name} bind:value={$ui.search.project.subcatchment} placeholder={subcatchments.placeholder} >",
     		ctx
     	});
 
     	return block;
     }
 
-    // (140:20) {#each locations.list as name}
+    // (155:20) {#each locations.list as name}
     function create_each_block_8$2(ctx) {
     	let option;
-    	let raw_value = /*name*/ ctx[20] + "";
+    	let raw_value = /*name*/ ctx[22] + "";
 
     	const block = {
     		c: function create() {
     			option = element("option");
-    			option.__value = /*name*/ ctx[20];
+    			option.__value = /*name*/ ctx[22];
     			option.value = option.__value;
-    			attr_dev(option, "class", "svelte-1v79vcn");
-    			add_location(option, file$H, 140, 20, 5872);
+    			attr_dev(option, "class", "svelte-8akpg7");
+    			add_location(option, file$H, 155, 20, 6925);
     		},
     		m: function mount(target, anchor) {
     			insert_dev(target, option, anchor);
@@ -59357,15 +59467,17 @@ var app = (function () {
     		block,
     		id: create_each_block_8$2.name,
     		type: "each",
-    		source: "(140:20) {#each locations.list as name}",
+    		source: "(155:20) {#each locations.list as name}",
     		ctx
     	});
 
     	return block;
     }
 
-    // (139:16) <MultiSelect id={locations.name} bind:value={$ui.search.project.locations} placeholder={locations.placeholder}>
+    // (153:16) <MultiSelect id={locations.name} bind:value={$ui.search.project.locations} placeholder={locations.placeholder}>
     function create_default_slot_8$2(ctx) {
+    	let option;
+    	let t;
     	let each_1_anchor;
     	let each_value_8 = locations.list;
     	validate_each_argument(each_value_8);
@@ -59377,13 +59489,25 @@ var app = (function () {
 
     	const block = {
     		c: function create() {
+    			option = element("option");
+    			t = space();
+
     			for (let i = 0; i < each_blocks.length; i += 1) {
     				each_blocks[i].c();
     			}
 
     			each_1_anchor = empty();
+    			option.disabled = true;
+    			option.selected = true;
+    			option.__value = "";
+    			option.value = option.__value;
+    			attr_dev(option, "class", "svelte-8akpg7");
+    			add_location(option, file$H, 153, 20, 6812);
     		},
     		m: function mount(target, anchor) {
+    			insert_dev(target, option, anchor);
+    			insert_dev(target, t, anchor);
+
     			for (let i = 0; i < each_blocks.length; i += 1) {
     				each_blocks[i].m(target, anchor);
     			}
@@ -59416,6 +59540,8 @@ var app = (function () {
     			}
     		},
     		d: function destroy(detaching) {
+    			if (detaching) detach_dev(option);
+    			if (detaching) detach_dev(t);
     			destroy_each(each_blocks, detaching);
     			if (detaching) detach_dev(each_1_anchor);
     		}
@@ -59425,15 +59551,15 @@ var app = (function () {
     		block,
     		id: create_default_slot_8$2.name,
     		type: "slot",
-    		source: "(139:16) <MultiSelect id={locations.name} bind:value={$ui.search.project.locations} placeholder={locations.placeholder}>",
+    		source: "(153:16) <MultiSelect id={locations.name} bind:value={$ui.search.project.locations} placeholder={locations.placeholder}>",
     		ctx
     	});
 
     	return block;
     }
 
-    // (156:8) {#if paneVisbility.byCharacteristics}
-    function create_if_block_1$c(ctx) {
+    // (171:8) {#if paneVisbility.byCharacteristics}
+    function create_if_block_2$a(ctx) {
     	let div5;
     	let div0;
     	let h40;
@@ -59473,7 +59599,7 @@ var app = (function () {
     	let current;
 
     	function multiselect0_value_binding_2(value) {
-    		/*multiselect0_value_binding_2*/ ctx[12](value);
+    		/*multiselect0_value_binding_2*/ ctx[14](value);
     	}
 
     	let multiselect0_props = {
@@ -59483,8 +59609,8 @@ var app = (function () {
     		$$scope: { ctx }
     	};
 
-    	if (/*$ui*/ ctx[1].search.project.initiativeType !== void 0) {
-    		multiselect0_props.value = /*$ui*/ ctx[1].search.project.initiativeType;
+    	if (/*$ui*/ ctx[0].search.project.initiativeType !== void 0) {
+    		multiselect0_props.value = /*$ui*/ ctx[0].search.project.initiativeType;
     	}
 
     	multiselect0 = new MultiSelect({
@@ -59495,7 +59621,7 @@ var app = (function () {
     	binding_callbacks.push(() => bind(multiselect0, 'value', multiselect0_value_binding_2));
 
     	function multiselect1_value_binding_2(value) {
-    		/*multiselect1_value_binding_2*/ ctx[13](value);
+    		/*multiselect1_value_binding_2*/ ctx[15](value);
     	}
 
     	let multiselect1_props = {
@@ -59505,8 +59631,8 @@ var app = (function () {
     		$$scope: { ctx }
     	};
 
-    	if (/*$ui*/ ctx[1].search.project.projectStage !== void 0) {
-    		multiselect1_props.value = /*$ui*/ ctx[1].search.project.projectStage;
+    	if (/*$ui*/ ctx[0].search.project.projectStage !== void 0) {
+    		multiselect1_props.value = /*$ui*/ ctx[0].search.project.projectStage;
     	}
 
     	multiselect1 = new MultiSelect({
@@ -59517,7 +59643,7 @@ var app = (function () {
     	binding_callbacks.push(() => bind(multiselect1, 'value', multiselect1_value_binding_2));
 
     	function multiselect2_value_binding_2(value) {
-    		/*multiselect2_value_binding_2*/ ctx[14](value);
+    		/*multiselect2_value_binding_2*/ ctx[16](value);
     	}
 
     	let multiselect2_props = {
@@ -59527,8 +59653,8 @@ var app = (function () {
     		$$scope: { ctx }
     	};
 
-    	if (/*$ui*/ ctx[1].search.project.projectClass !== void 0) {
-    		multiselect2_props.value = /*$ui*/ ctx[1].search.project.projectClass;
+    	if (/*$ui*/ ctx[0].search.project.projectClass !== void 0) {
+    		multiselect2_props.value = /*$ui*/ ctx[0].search.project.projectClass;
     	}
 
     	multiselect2 = new MultiSelect({
@@ -59539,7 +59665,7 @@ var app = (function () {
     	binding_callbacks.push(() => bind(multiselect2, 'value', multiselect2_value_binding_2));
 
     	function multiselect3_value_binding_1(value) {
-    		/*multiselect3_value_binding_1*/ ctx[15](value);
+    		/*multiselect3_value_binding_1*/ ctx[17](value);
     	}
 
     	let multiselect3_props = {
@@ -59549,8 +59675,8 @@ var app = (function () {
     		$$scope: { ctx }
     	};
 
-    	if (/*$ui*/ ctx[1].search.project.projectSize !== void 0) {
-    		multiselect3_props.value = /*$ui*/ ctx[1].search.project.projectSize;
+    	if (/*$ui*/ ctx[0].search.project.projectSize !== void 0) {
+    		multiselect3_props.value = /*$ui*/ ctx[0].search.project.projectSize;
     	}
 
     	multiselect3 = new MultiSelect({
@@ -59561,7 +59687,7 @@ var app = (function () {
     	binding_callbacks.push(() => bind(multiselect3, 'value', multiselect3_value_binding_1));
 
     	function multiselect4_value_binding(value) {
-    		/*multiselect4_value_binding*/ ctx[16](value);
+    		/*multiselect4_value_binding*/ ctx[18](value);
     	}
 
     	let multiselect4_props = {
@@ -59571,8 +59697,8 @@ var app = (function () {
     		$$scope: { ctx }
     	};
 
-    	if (/*$ui*/ ctx[1].search.project.projectScale !== void 0) {
-    		multiselect4_props.value = /*$ui*/ ctx[1].search.project.projectScale;
+    	if (/*$ui*/ ctx[0].search.project.projectScale !== void 0) {
+    		multiselect4_props.value = /*$ui*/ ctx[0].search.project.projectScale;
     	}
 
     	multiselect4 = new MultiSelect({
@@ -59609,33 +59735,33 @@ var app = (function () {
     			h44 = element("h4");
     			t8 = space();
     			create_component(multiselect4.$$.fragment);
-    			attr_dev(h40, "class", "svelte-1v79vcn");
-    			add_location(h40, file$H, 158, 16, 6588);
-    			attr_dev(div0, "class", "multi-select-container svelte-1v79vcn");
+    			attr_dev(h40, "class", "svelte-8akpg7");
+    			add_location(h40, file$H, 173, 16, 7641);
+    			attr_dev(div0, "class", "multi-select-container svelte-8akpg7");
     			set_style(div0, "z-index", "14");
-    			add_location(div0, file$H, 157, 12, 6514);
-    			attr_dev(h41, "class", "svelte-1v79vcn");
-    			add_location(h41, file$H, 166, 16, 7071);
-    			attr_dev(div1, "class", "multi-select-container svelte-1v79vcn");
+    			add_location(div0, file$H, 172, 12, 7567);
+    			attr_dev(h41, "class", "svelte-8akpg7");
+    			add_location(h41, file$H, 182, 16, 8186);
+    			attr_dev(div1, "class", "multi-select-container svelte-8akpg7");
     			set_style(div1, "z-index", "13");
-    			add_location(div1, file$H, 165, 12, 6997);
-    			attr_dev(h42, "class", "svelte-1v79vcn");
-    			add_location(h42, file$H, 174, 16, 7544);
-    			attr_dev(div2, "class", "multi-select-container svelte-1v79vcn");
+    			add_location(div1, file$H, 181, 12, 8112);
+    			attr_dev(h42, "class", "svelte-8akpg7");
+    			add_location(h42, file$H, 191, 16, 8721);
+    			attr_dev(div2, "class", "multi-select-container svelte-8akpg7");
     			set_style(div2, "z-index", "12");
-    			add_location(div2, file$H, 173, 12, 7470);
-    			attr_dev(h43, "class", "svelte-1v79vcn");
-    			add_location(h43, file$H, 182, 16, 8017);
-    			attr_dev(div3, "class", "multi-select-container svelte-1v79vcn");
+    			add_location(div2, file$H, 190, 12, 8647);
+    			attr_dev(h43, "class", "svelte-8akpg7");
+    			add_location(h43, file$H, 200, 16, 9256);
+    			attr_dev(div3, "class", "multi-select-container svelte-8akpg7");
     			set_style(div3, "z-index", "11");
-    			add_location(div3, file$H, 181, 12, 7943);
-    			attr_dev(h44, "class", "svelte-1v79vcn");
-    			add_location(h44, file$H, 190, 16, 8485);
-    			attr_dev(div4, "class", "multi-select-container svelte-1v79vcn");
+    			add_location(div3, file$H, 199, 12, 9182);
+    			attr_dev(h44, "class", "svelte-8akpg7");
+    			add_location(h44, file$H, 209, 16, 9786);
+    			attr_dev(div4, "class", "multi-select-container svelte-8akpg7");
     			set_style(div4, "z-index", "10");
-    			add_location(div4, file$H, 189, 12, 8411);
-    			attr_dev(div5, "class", "collapse__body svelte-1v79vcn");
-    			add_location(div5, file$H, 156, 8, 6453);
+    			add_location(div4, file$H, 208, 12, 9712);
+    			attr_dev(div5, "class", "collapse__body svelte-8akpg7");
+    			add_location(div5, file$H, 171, 8, 7506);
     		},
     		m: function mount(target, anchor) {
     			insert_dev(target, div5, anchor);
@@ -59673,65 +59799,65 @@ var app = (function () {
     		p: function update(ctx, dirty) {
     			const multiselect0_changes = {};
 
-    			if (dirty[1] & /*$$scope*/ 1048576) {
+    			if (dirty[1] & /*$$scope*/ 4194304) {
     				multiselect0_changes.$$scope = { dirty, ctx };
     			}
 
-    			if (!updating_value && dirty[0] & /*$ui*/ 2) {
+    			if (!updating_value && dirty[0] & /*$ui*/ 1) {
     				updating_value = true;
-    				multiselect0_changes.value = /*$ui*/ ctx[1].search.project.initiativeType;
+    				multiselect0_changes.value = /*$ui*/ ctx[0].search.project.initiativeType;
     				add_flush_callback(() => updating_value = false);
     			}
 
     			multiselect0.$set(multiselect0_changes);
     			const multiselect1_changes = {};
 
-    			if (dirty[1] & /*$$scope*/ 1048576) {
+    			if (dirty[1] & /*$$scope*/ 4194304) {
     				multiselect1_changes.$$scope = { dirty, ctx };
     			}
 
-    			if (!updating_value_1 && dirty[0] & /*$ui*/ 2) {
+    			if (!updating_value_1 && dirty[0] & /*$ui*/ 1) {
     				updating_value_1 = true;
-    				multiselect1_changes.value = /*$ui*/ ctx[1].search.project.projectStage;
+    				multiselect1_changes.value = /*$ui*/ ctx[0].search.project.projectStage;
     				add_flush_callback(() => updating_value_1 = false);
     			}
 
     			multiselect1.$set(multiselect1_changes);
     			const multiselect2_changes = {};
 
-    			if (dirty[1] & /*$$scope*/ 1048576) {
+    			if (dirty[1] & /*$$scope*/ 4194304) {
     				multiselect2_changes.$$scope = { dirty, ctx };
     			}
 
-    			if (!updating_value_2 && dirty[0] & /*$ui*/ 2) {
+    			if (!updating_value_2 && dirty[0] & /*$ui*/ 1) {
     				updating_value_2 = true;
-    				multiselect2_changes.value = /*$ui*/ ctx[1].search.project.projectClass;
+    				multiselect2_changes.value = /*$ui*/ ctx[0].search.project.projectClass;
     				add_flush_callback(() => updating_value_2 = false);
     			}
 
     			multiselect2.$set(multiselect2_changes);
     			const multiselect3_changes = {};
 
-    			if (dirty[1] & /*$$scope*/ 1048576) {
+    			if (dirty[1] & /*$$scope*/ 4194304) {
     				multiselect3_changes.$$scope = { dirty, ctx };
     			}
 
-    			if (!updating_value_3 && dirty[0] & /*$ui*/ 2) {
+    			if (!updating_value_3 && dirty[0] & /*$ui*/ 1) {
     				updating_value_3 = true;
-    				multiselect3_changes.value = /*$ui*/ ctx[1].search.project.projectSize;
+    				multiselect3_changes.value = /*$ui*/ ctx[0].search.project.projectSize;
     				add_flush_callback(() => updating_value_3 = false);
     			}
 
     			multiselect3.$set(multiselect3_changes);
     			const multiselect4_changes = {};
 
-    			if (dirty[1] & /*$$scope*/ 1048576) {
+    			if (dirty[1] & /*$$scope*/ 4194304) {
     				multiselect4_changes.$$scope = { dirty, ctx };
     			}
 
-    			if (!updating_value_4 && dirty[0] & /*$ui*/ 2) {
+    			if (!updating_value_4 && dirty[0] & /*$ui*/ 1) {
     				updating_value_4 = true;
-    				multiselect4_changes.value = /*$ui*/ ctx[1].search.project.projectScale;
+    				multiselect4_changes.value = /*$ui*/ ctx[0].search.project.projectScale;
     				add_flush_callback(() => updating_value_4 = false);
     			}
 
@@ -59775,27 +59901,27 @@ var app = (function () {
 
     	dispatch_dev("SvelteRegisterBlock", {
     		block,
-    		id: create_if_block_1$c.name,
+    		id: create_if_block_2$a.name,
     		type: "if",
-    		source: "(156:8) {#if paneVisbility.byCharacteristics}",
+    		source: "(171:8) {#if paneVisbility.byCharacteristics}",
     		ctx
     	});
 
     	return block;
     }
 
-    // (161:20) {#each initiativeType.list as name}
+    // (177:20) {#each initiativeType.list as name}
     function create_each_block_7$2(ctx) {
     	let option;
-    	let raw_value = /*name*/ ctx[20] + "";
+    	let raw_value = /*name*/ ctx[22] + "";
 
     	const block = {
     		c: function create() {
     			option = element("option");
-    			option.__value = /*name*/ ctx[20];
+    			option.__value = /*name*/ ctx[22];
     			option.value = option.__value;
-    			attr_dev(option, "class", "svelte-1v79vcn");
-    			add_location(option, file$H, 161, 20, 6848);
+    			attr_dev(option, "class", "svelte-8akpg7");
+    			add_location(option, file$H, 177, 20, 7963);
     		},
     		m: function mount(target, anchor) {
     			insert_dev(target, option, anchor);
@@ -59811,15 +59937,17 @@ var app = (function () {
     		block,
     		id: create_each_block_7$2.name,
     		type: "each",
-    		source: "(161:20) {#each initiativeType.list as name}",
+    		source: "(177:20) {#each initiativeType.list as name}",
     		ctx
     	});
 
     	return block;
     }
 
-    // (160:16) <MultiSelect id = {initiativeType.name} bind:value={$ui.search.project.initiativeType} placeholder={initiativeType.placeholder} >
+    // (175:16) <MultiSelect id = {initiativeType.name} bind:value={$ui.search.project.initiativeType} placeholder={initiativeType.placeholder} >
     function create_default_slot_7$2(ctx) {
+    	let option;
+    	let t;
     	let each_1_anchor;
     	let each_value_7 = initiativeType.list;
     	validate_each_argument(each_value_7);
@@ -59831,13 +59959,25 @@ var app = (function () {
 
     	const block = {
     		c: function create() {
+    			option = element("option");
+    			t = space();
+
     			for (let i = 0; i < each_blocks.length; i += 1) {
     				each_blocks[i].c();
     			}
 
     			each_1_anchor = empty();
+    			option.disabled = true;
+    			option.selected = true;
+    			option.__value = "";
+    			option.value = option.__value;
+    			attr_dev(option, "class", "svelte-8akpg7");
+    			add_location(option, file$H, 175, 20, 7845);
     		},
     		m: function mount(target, anchor) {
+    			insert_dev(target, option, anchor);
+    			insert_dev(target, t, anchor);
+
     			for (let i = 0; i < each_blocks.length; i += 1) {
     				each_blocks[i].m(target, anchor);
     			}
@@ -59870,6 +60010,8 @@ var app = (function () {
     			}
     		},
     		d: function destroy(detaching) {
+    			if (detaching) detach_dev(option);
+    			if (detaching) detach_dev(t);
     			destroy_each(each_blocks, detaching);
     			if (detaching) detach_dev(each_1_anchor);
     		}
@@ -59879,25 +60021,25 @@ var app = (function () {
     		block,
     		id: create_default_slot_7$2.name,
     		type: "slot",
-    		source: "(160:16) <MultiSelect id = {initiativeType.name} bind:value={$ui.search.project.initiativeType} placeholder={initiativeType.placeholder} >",
+    		source: "(175:16) <MultiSelect id = {initiativeType.name} bind:value={$ui.search.project.initiativeType} placeholder={initiativeType.placeholder} >",
     		ctx
     	});
 
     	return block;
     }
 
-    // (169:20) {#each projectStage.list as name}
+    // (186:20) {#each projectStage.list as name}
     function create_each_block_6$2(ctx) {
     	let option;
-    	let raw_value = /*name*/ ctx[20] + "";
+    	let raw_value = /*name*/ ctx[22] + "";
 
     	const block = {
     		c: function create() {
     			option = element("option");
-    			option.__value = /*name*/ ctx[20];
+    			option.__value = /*name*/ ctx[22];
     			option.value = option.__value;
-    			attr_dev(option, "class", "svelte-1v79vcn");
-    			add_location(option, file$H, 169, 20, 7321);
+    			attr_dev(option, "class", "svelte-8akpg7");
+    			add_location(option, file$H, 186, 20, 8498);
     		},
     		m: function mount(target, anchor) {
     			insert_dev(target, option, anchor);
@@ -59913,15 +60055,17 @@ var app = (function () {
     		block,
     		id: create_each_block_6$2.name,
     		type: "each",
-    		source: "(169:20) {#each projectStage.list as name}",
+    		source: "(186:20) {#each projectStage.list as name}",
     		ctx
     	});
 
     	return block;
     }
 
-    // (168:16) <MultiSelect id = {projectStage.name} bind:value={$ui.search.project.projectStage} placeholder={projectStage.placeholder} >
+    // (184:16) <MultiSelect id = {projectStage.name} bind:value={$ui.search.project.projectStage} placeholder={projectStage.placeholder} >
     function create_default_slot_6$2(ctx) {
+    	let option;
+    	let t;
     	let each_1_anchor;
     	let each_value_6 = projectStage.list;
     	validate_each_argument(each_value_6);
@@ -59933,13 +60077,25 @@ var app = (function () {
 
     	const block = {
     		c: function create() {
+    			option = element("option");
+    			t = space();
+
     			for (let i = 0; i < each_blocks.length; i += 1) {
     				each_blocks[i].c();
     			}
 
     			each_1_anchor = empty();
+    			option.disabled = true;
+    			option.selected = true;
+    			option.__value = "";
+    			option.value = option.__value;
+    			attr_dev(option, "class", "svelte-8akpg7");
+    			add_location(option, file$H, 184, 20, 8382);
     		},
     		m: function mount(target, anchor) {
+    			insert_dev(target, option, anchor);
+    			insert_dev(target, t, anchor);
+
     			for (let i = 0; i < each_blocks.length; i += 1) {
     				each_blocks[i].m(target, anchor);
     			}
@@ -59972,6 +60128,8 @@ var app = (function () {
     			}
     		},
     		d: function destroy(detaching) {
+    			if (detaching) detach_dev(option);
+    			if (detaching) detach_dev(t);
     			destroy_each(each_blocks, detaching);
     			if (detaching) detach_dev(each_1_anchor);
     		}
@@ -59981,25 +60139,25 @@ var app = (function () {
     		block,
     		id: create_default_slot_6$2.name,
     		type: "slot",
-    		source: "(168:16) <MultiSelect id = {projectStage.name} bind:value={$ui.search.project.projectStage} placeholder={projectStage.placeholder} >",
+    		source: "(184:16) <MultiSelect id = {projectStage.name} bind:value={$ui.search.project.projectStage} placeholder={projectStage.placeholder} >",
     		ctx
     	});
 
     	return block;
     }
 
-    // (177:20) {#each projectClass.list as name}
+    // (195:20) {#each projectClass.list as name}
     function create_each_block_5$2(ctx) {
     	let option;
-    	let raw_value = /*name*/ ctx[20] + "";
+    	let raw_value = /*name*/ ctx[22] + "";
 
     	const block = {
     		c: function create() {
     			option = element("option");
-    			option.__value = /*name*/ ctx[20];
+    			option.__value = /*name*/ ctx[22];
     			option.value = option.__value;
-    			attr_dev(option, "class", "svelte-1v79vcn");
-    			add_location(option, file$H, 177, 20, 7794);
+    			attr_dev(option, "class", "svelte-8akpg7");
+    			add_location(option, file$H, 195, 20, 9033);
     		},
     		m: function mount(target, anchor) {
     			insert_dev(target, option, anchor);
@@ -60015,15 +60173,17 @@ var app = (function () {
     		block,
     		id: create_each_block_5$2.name,
     		type: "each",
-    		source: "(177:20) {#each projectClass.list as name}",
+    		source: "(195:20) {#each projectClass.list as name}",
     		ctx
     	});
 
     	return block;
     }
 
-    // (176:16) <MultiSelect id = {projectClass.name} bind:value={$ui.search.project.projectClass} placeholder={projectClass.placeholder} >
+    // (193:16) <MultiSelect id = {projectClass.name} bind:value={$ui.search.project.projectClass} placeholder={projectClass.placeholder} >
     function create_default_slot_5$2(ctx) {
+    	let option;
+    	let t;
     	let each_1_anchor;
     	let each_value_5 = projectClass.list;
     	validate_each_argument(each_value_5);
@@ -60035,13 +60195,25 @@ var app = (function () {
 
     	const block = {
     		c: function create() {
+    			option = element("option");
+    			t = space();
+
     			for (let i = 0; i < each_blocks.length; i += 1) {
     				each_blocks[i].c();
     			}
 
     			each_1_anchor = empty();
+    			option.disabled = true;
+    			option.selected = true;
+    			option.__value = "";
+    			option.value = option.__value;
+    			attr_dev(option, "class", "svelte-8akpg7");
+    			add_location(option, file$H, 193, 20, 8917);
     		},
     		m: function mount(target, anchor) {
+    			insert_dev(target, option, anchor);
+    			insert_dev(target, t, anchor);
+
     			for (let i = 0; i < each_blocks.length; i += 1) {
     				each_blocks[i].m(target, anchor);
     			}
@@ -60074,6 +60246,8 @@ var app = (function () {
     			}
     		},
     		d: function destroy(detaching) {
+    			if (detaching) detach_dev(option);
+    			if (detaching) detach_dev(t);
     			destroy_each(each_blocks, detaching);
     			if (detaching) detach_dev(each_1_anchor);
     		}
@@ -60083,25 +60257,25 @@ var app = (function () {
     		block,
     		id: create_default_slot_5$2.name,
     		type: "slot",
-    		source: "(176:16) <MultiSelect id = {projectClass.name} bind:value={$ui.search.project.projectClass} placeholder={projectClass.placeholder} >",
+    		source: "(193:16) <MultiSelect id = {projectClass.name} bind:value={$ui.search.project.projectClass} placeholder={projectClass.placeholder} >",
     		ctx
     	});
 
     	return block;
     }
 
-    // (185:20) {#each projectSize.list as name}
+    // (204:20) {#each projectSize.list as name}
     function create_each_block_4$2(ctx) {
     	let option;
-    	let raw_value = /*name*/ ctx[20] + "";
+    	let raw_value = /*name*/ ctx[22] + "";
 
     	const block = {
     		c: function create() {
     			option = element("option");
-    			option.__value = /*name*/ ctx[20];
+    			option.__value = /*name*/ ctx[22];
     			option.value = option.__value;
-    			attr_dev(option, "class", "svelte-1v79vcn");
-    			add_location(option, file$H, 185, 20, 8262);
+    			attr_dev(option, "class", "svelte-8akpg7");
+    			add_location(option, file$H, 204, 20, 9563);
     		},
     		m: function mount(target, anchor) {
     			insert_dev(target, option, anchor);
@@ -60117,15 +60291,17 @@ var app = (function () {
     		block,
     		id: create_each_block_4$2.name,
     		type: "each",
-    		source: "(185:20) {#each projectSize.list as name}",
+    		source: "(204:20) {#each projectSize.list as name}",
     		ctx
     	});
 
     	return block;
     }
 
-    // (184:16) <MultiSelect id = {projectSize.name} bind:value={$ui.search.project.projectSize} placeholder={projectSize.placeholder} >
+    // (202:16) <MultiSelect id = {projectSize.name} bind:value={$ui.search.project.projectSize} placeholder={projectSize.placeholder} >
     function create_default_slot_4$2(ctx) {
+    	let option;
+    	let t;
     	let each_1_anchor;
     	let each_value_4 = projectSize.list;
     	validate_each_argument(each_value_4);
@@ -60137,13 +60313,25 @@ var app = (function () {
 
     	const block = {
     		c: function create() {
+    			option = element("option");
+    			t = space();
+
     			for (let i = 0; i < each_blocks.length; i += 1) {
     				each_blocks[i].c();
     			}
 
     			each_1_anchor = empty();
+    			option.disabled = true;
+    			option.selected = true;
+    			option.__value = "";
+    			option.value = option.__value;
+    			attr_dev(option, "class", "svelte-8akpg7");
+    			add_location(option, file$H, 202, 20, 9448);
     		},
     		m: function mount(target, anchor) {
+    			insert_dev(target, option, anchor);
+    			insert_dev(target, t, anchor);
+
     			for (let i = 0; i < each_blocks.length; i += 1) {
     				each_blocks[i].m(target, anchor);
     			}
@@ -60176,6 +60364,8 @@ var app = (function () {
     			}
     		},
     		d: function destroy(detaching) {
+    			if (detaching) detach_dev(option);
+    			if (detaching) detach_dev(t);
     			destroy_each(each_blocks, detaching);
     			if (detaching) detach_dev(each_1_anchor);
     		}
@@ -60185,25 +60375,25 @@ var app = (function () {
     		block,
     		id: create_default_slot_4$2.name,
     		type: "slot",
-    		source: "(184:16) <MultiSelect id = {projectSize.name} bind:value={$ui.search.project.projectSize} placeholder={projectSize.placeholder} >",
+    		source: "(202:16) <MultiSelect id = {projectSize.name} bind:value={$ui.search.project.projectSize} placeholder={projectSize.placeholder} >",
     		ctx
     	});
 
     	return block;
     }
 
-    // (193:20) {#each projectScale.list as name}
+    // (213:20) {#each projectScale.list as name}
     function create_each_block_3$2(ctx) {
     	let option;
-    	let raw_value = /*name*/ ctx[20] + "";
+    	let raw_value = /*name*/ ctx[22] + "";
 
     	const block = {
     		c: function create() {
     			option = element("option");
-    			option.__value = /*name*/ ctx[20];
+    			option.__value = /*name*/ ctx[22];
     			option.value = option.__value;
-    			attr_dev(option, "class", "svelte-1v79vcn");
-    			add_location(option, file$H, 193, 20, 8735);
+    			attr_dev(option, "class", "svelte-8akpg7");
+    			add_location(option, file$H, 213, 20, 10098);
     		},
     		m: function mount(target, anchor) {
     			insert_dev(target, option, anchor);
@@ -60219,15 +60409,17 @@ var app = (function () {
     		block,
     		id: create_each_block_3$2.name,
     		type: "each",
-    		source: "(193:20) {#each projectScale.list as name}",
+    		source: "(213:20) {#each projectScale.list as name}",
     		ctx
     	});
 
     	return block;
     }
 
-    // (192:16) <MultiSelect id = {projectScale.name} bind:value={$ui.search.project.projectScale} placeholder={projectScale.placeholder} >
+    // (211:16) <MultiSelect id = {projectScale.name} bind:value={$ui.search.project.projectScale} placeholder={projectScale.placeholder} >
     function create_default_slot_3$2(ctx) {
+    	let option;
+    	let t;
     	let each_1_anchor;
     	let each_value_3 = projectScale.list;
     	validate_each_argument(each_value_3);
@@ -60239,13 +60431,25 @@ var app = (function () {
 
     	const block = {
     		c: function create() {
+    			option = element("option");
+    			t = space();
+
     			for (let i = 0; i < each_blocks.length; i += 1) {
     				each_blocks[i].c();
     			}
 
     			each_1_anchor = empty();
+    			option.disabled = true;
+    			option.selected = true;
+    			option.__value = "";
+    			option.value = option.__value;
+    			attr_dev(option, "class", "svelte-8akpg7");
+    			add_location(option, file$H, 211, 20, 9982);
     		},
     		m: function mount(target, anchor) {
+    			insert_dev(target, option, anchor);
+    			insert_dev(target, t, anchor);
+
     			for (let i = 0; i < each_blocks.length; i += 1) {
     				each_blocks[i].m(target, anchor);
     			}
@@ -60278,6 +60482,8 @@ var app = (function () {
     			}
     		},
     		d: function destroy(detaching) {
+    			if (detaching) detach_dev(option);
+    			if (detaching) detach_dev(t);
     			destroy_each(each_blocks, detaching);
     			if (detaching) detach_dev(each_1_anchor);
     		}
@@ -60287,15 +60493,15 @@ var app = (function () {
     		block,
     		id: create_default_slot_3$2.name,
     		type: "slot",
-    		source: "(192:16) <MultiSelect id = {projectScale.name} bind:value={$ui.search.project.projectScale} placeholder={projectScale.placeholder} >",
+    		source: "(211:16) <MultiSelect id = {projectScale.name} bind:value={$ui.search.project.projectScale} placeholder={projectScale.placeholder} >",
     		ctx
     	});
 
     	return block;
     }
 
-    // (209:8) {#if paneVisbility.byStakeholders}
-    function create_if_block$h(ctx) {
+    // (229:8) {#if paneVisbility.byStakeholders}
+    function create_if_block_1$c(ctx) {
     	let div3;
     	let div0;
     	let h40;
@@ -60321,7 +60527,7 @@ var app = (function () {
     	let current;
 
     	function multiselect0_value_binding_3(value) {
-    		/*multiselect0_value_binding_3*/ ctx[17](value);
+    		/*multiselect0_value_binding_3*/ ctx[19](value);
     	}
 
     	let multiselect0_props = {
@@ -60331,8 +60537,8 @@ var app = (function () {
     		$$scope: { ctx }
     	};
 
-    	if (/*$ui*/ ctx[1].search.project.leadOrg !== void 0) {
-    		multiselect0_props.value = /*$ui*/ ctx[1].search.project.leadOrg;
+    	if (/*$ui*/ ctx[0].search.project.leadOrg !== void 0) {
+    		multiselect0_props.value = /*$ui*/ ctx[0].search.project.leadOrg;
     	}
 
     	multiselect0 = new MultiSelect({
@@ -60343,7 +60549,7 @@ var app = (function () {
     	binding_callbacks.push(() => bind(multiselect0, 'value', multiselect0_value_binding_3));
 
     	function multiselect1_value_binding_3(value) {
-    		/*multiselect1_value_binding_3*/ ctx[18](value);
+    		/*multiselect1_value_binding_3*/ ctx[20](value);
     	}
 
     	let multiselect1_props = {
@@ -60353,8 +60559,8 @@ var app = (function () {
     		$$scope: { ctx }
     	};
 
-    	if (/*$ui*/ ctx[1].search.project.leadOrgType !== void 0) {
-    		multiselect1_props.value = /*$ui*/ ctx[1].search.project.leadOrgType;
+    	if (/*$ui*/ ctx[0].search.project.leadOrgType !== void 0) {
+    		multiselect1_props.value = /*$ui*/ ctx[0].search.project.leadOrgType;
     	}
 
     	multiselect1 = new MultiSelect({
@@ -60365,7 +60571,7 @@ var app = (function () {
     	binding_callbacks.push(() => bind(multiselect1, 'value', multiselect1_value_binding_3));
 
     	function multiselect2_value_binding_3(value) {
-    		/*multiselect2_value_binding_3*/ ctx[19](value);
+    		/*multiselect2_value_binding_3*/ ctx[21](value);
     	}
 
     	let multiselect2_props = {
@@ -60375,8 +60581,8 @@ var app = (function () {
     		$$scope: { ctx }
     	};
 
-    	if (/*$ui*/ ctx[1].search.project.partnerOrg !== void 0) {
-    		multiselect2_props.value = /*$ui*/ ctx[1].search.project.partnerOrg;
+    	if (/*$ui*/ ctx[0].search.project.partnerOrg !== void 0) {
+    		multiselect2_props.value = /*$ui*/ ctx[0].search.project.partnerOrg;
     	}
 
     	multiselect2 = new MultiSelect({
@@ -60403,23 +60609,23 @@ var app = (function () {
     			h42 = element("h4");
     			t4 = space();
     			create_component(multiselect2.$$.fragment);
-    			attr_dev(h40, "class", "svelte-1v79vcn");
-    			add_location(h40, file$H, 211, 16, 9419);
-    			attr_dev(div0, "class", "multi-select-container svelte-1v79vcn");
+    			attr_dev(h40, "class", "svelte-8akpg7");
+    			add_location(h40, file$H, 231, 16, 10782);
+    			attr_dev(div0, "class", "multi-select-container svelte-8akpg7");
     			set_style(div0, "z-index", "9");
-    			add_location(div0, file$H, 210, 12, 9346);
-    			attr_dev(h41, "class", "svelte-1v79vcn");
-    			add_location(h41, file$H, 219, 16, 9866);
-    			attr_dev(div1, "class", "multi-select-container svelte-1v79vcn");
+    			add_location(div0, file$H, 230, 12, 10709);
+    			attr_dev(h41, "class", "svelte-8akpg7");
+    			add_location(h41, file$H, 240, 16, 11291);
+    			attr_dev(div1, "class", "multi-select-container svelte-8akpg7");
     			set_style(div1, "z-index", "8");
-    			add_location(div1, file$H, 218, 12, 9793);
-    			attr_dev(h42, "class", "svelte-1v79vcn");
-    			add_location(h42, file$H, 227, 16, 10333);
-    			attr_dev(div2, "class", "multi-select-container svelte-1v79vcn");
+    			add_location(div1, file$H, 239, 12, 11218);
+    			attr_dev(h42, "class", "svelte-8akpg7");
+    			add_location(h42, file$H, 249, 16, 11820);
+    			attr_dev(div2, "class", "multi-select-container svelte-8akpg7");
     			set_style(div2, "z-index", "7");
-    			add_location(div2, file$H, 226, 12, 10260);
-    			attr_dev(div3, "class", "collapse__body svelte-1v79vcn");
-    			add_location(div3, file$H, 209, 8, 9286);
+    			add_location(div2, file$H, 248, 12, 11747);
+    			attr_dev(div3, "class", "collapse__body svelte-8akpg7");
+    			add_location(div3, file$H, 229, 8, 10649);
     		},
     		m: function mount(target, anchor) {
     			insert_dev(target, div3, anchor);
@@ -60445,39 +60651,39 @@ var app = (function () {
     		p: function update(ctx, dirty) {
     			const multiselect0_changes = {};
 
-    			if (dirty[1] & /*$$scope*/ 1048576) {
+    			if (dirty[1] & /*$$scope*/ 4194304) {
     				multiselect0_changes.$$scope = { dirty, ctx };
     			}
 
-    			if (!updating_value && dirty[0] & /*$ui*/ 2) {
+    			if (!updating_value && dirty[0] & /*$ui*/ 1) {
     				updating_value = true;
-    				multiselect0_changes.value = /*$ui*/ ctx[1].search.project.leadOrg;
+    				multiselect0_changes.value = /*$ui*/ ctx[0].search.project.leadOrg;
     				add_flush_callback(() => updating_value = false);
     			}
 
     			multiselect0.$set(multiselect0_changes);
     			const multiselect1_changes = {};
 
-    			if (dirty[1] & /*$$scope*/ 1048576) {
+    			if (dirty[1] & /*$$scope*/ 4194304) {
     				multiselect1_changes.$$scope = { dirty, ctx };
     			}
 
-    			if (!updating_value_1 && dirty[0] & /*$ui*/ 2) {
+    			if (!updating_value_1 && dirty[0] & /*$ui*/ 1) {
     				updating_value_1 = true;
-    				multiselect1_changes.value = /*$ui*/ ctx[1].search.project.leadOrgType;
+    				multiselect1_changes.value = /*$ui*/ ctx[0].search.project.leadOrgType;
     				add_flush_callback(() => updating_value_1 = false);
     			}
 
     			multiselect1.$set(multiselect1_changes);
     			const multiselect2_changes = {};
 
-    			if (dirty[1] & /*$$scope*/ 1048576) {
+    			if (dirty[1] & /*$$scope*/ 4194304) {
     				multiselect2_changes.$$scope = { dirty, ctx };
     			}
 
-    			if (!updating_value_2 && dirty[0] & /*$ui*/ 2) {
+    			if (!updating_value_2 && dirty[0] & /*$ui*/ 1) {
     				updating_value_2 = true;
-    				multiselect2_changes.value = /*$ui*/ ctx[1].search.project.partnerOrg;
+    				multiselect2_changes.value = /*$ui*/ ctx[0].search.project.partnerOrg;
     				add_flush_callback(() => updating_value_2 = false);
     			}
 
@@ -60515,27 +60721,27 @@ var app = (function () {
 
     	dispatch_dev("SvelteRegisterBlock", {
     		block,
-    		id: create_if_block$h.name,
+    		id: create_if_block_1$c.name,
     		type: "if",
-    		source: "(209:8) {#if paneVisbility.byStakeholders}",
+    		source: "(229:8) {#if paneVisbility.byStakeholders}",
     		ctx
     	});
 
     	return block;
     }
 
-    // (214:20) {#each leadOrg.list as name}
+    // (235:20) {#each leadOrg.list as name}
     function create_each_block_2$2(ctx) {
     	let option;
-    	let raw_value = /*name*/ ctx[20] + "";
+    	let raw_value = /*name*/ ctx[22] + "";
 
     	const block = {
     		c: function create() {
     			option = element("option");
-    			option.__value = /*name*/ ctx[20];
+    			option.__value = /*name*/ ctx[22];
     			option.value = option.__value;
-    			attr_dev(option, "class", "svelte-1v79vcn");
-    			add_location(option, file$H, 214, 20, 9644);
+    			attr_dev(option, "class", "svelte-8akpg7");
+    			add_location(option, file$H, 235, 20, 11069);
     		},
     		m: function mount(target, anchor) {
     			insert_dev(target, option, anchor);
@@ -60551,15 +60757,17 @@ var app = (function () {
     		block,
     		id: create_each_block_2$2.name,
     		type: "each",
-    		source: "(214:20) {#each leadOrg.list as name}",
+    		source: "(235:20) {#each leadOrg.list as name}",
     		ctx
     	});
 
     	return block;
     }
 
-    // (213:16) <MultiSelect id = {leadOrg.name} bind:value={$ui.search.project.leadOrg} placeholder={leadOrg.placeholder} >
+    // (233:16) <MultiSelect id = {leadOrg.name} bind:value={$ui.search.project.leadOrg} placeholder={leadOrg.placeholder} >
     function create_default_slot_2$2(ctx) {
+    	let option;
+    	let t;
     	let each_1_anchor;
     	let each_value_2 = leadOrg.list;
     	validate_each_argument(each_value_2);
@@ -60571,13 +60779,25 @@ var app = (function () {
 
     	const block = {
     		c: function create() {
+    			option = element("option");
+    			t = space();
+
     			for (let i = 0; i < each_blocks.length; i += 1) {
     				each_blocks[i].c();
     			}
 
     			each_1_anchor = empty();
+    			option.disabled = true;
+    			option.selected = true;
+    			option.__value = "";
+    			option.value = option.__value;
+    			attr_dev(option, "class", "svelte-8akpg7");
+    			add_location(option, file$H, 233, 20, 10958);
     		},
     		m: function mount(target, anchor) {
+    			insert_dev(target, option, anchor);
+    			insert_dev(target, t, anchor);
+
     			for (let i = 0; i < each_blocks.length; i += 1) {
     				each_blocks[i].m(target, anchor);
     			}
@@ -60610,6 +60830,8 @@ var app = (function () {
     			}
     		},
     		d: function destroy(detaching) {
+    			if (detaching) detach_dev(option);
+    			if (detaching) detach_dev(t);
     			destroy_each(each_blocks, detaching);
     			if (detaching) detach_dev(each_1_anchor);
     		}
@@ -60619,25 +60841,25 @@ var app = (function () {
     		block,
     		id: create_default_slot_2$2.name,
     		type: "slot",
-    		source: "(213:16) <MultiSelect id = {leadOrg.name} bind:value={$ui.search.project.leadOrg} placeholder={leadOrg.placeholder} >",
+    		source: "(233:16) <MultiSelect id = {leadOrg.name} bind:value={$ui.search.project.leadOrg} placeholder={leadOrg.placeholder} >",
     		ctx
     	});
 
     	return block;
     }
 
-    // (222:20) {#each leadOrgType.list as name}
+    // (244:20) {#each leadOrgType.list as name}
     function create_each_block_1$3(ctx) {
     	let option;
-    	let raw_value = /*name*/ ctx[20] + "";
+    	let raw_value = /*name*/ ctx[22] + "";
 
     	const block = {
     		c: function create() {
     			option = element("option");
-    			option.__value = /*name*/ ctx[20];
+    			option.__value = /*name*/ ctx[22];
     			option.value = option.__value;
-    			attr_dev(option, "class", "svelte-1v79vcn");
-    			add_location(option, file$H, 222, 20, 10111);
+    			attr_dev(option, "class", "svelte-8akpg7");
+    			add_location(option, file$H, 244, 20, 11598);
     		},
     		m: function mount(target, anchor) {
     			insert_dev(target, option, anchor);
@@ -60653,15 +60875,17 @@ var app = (function () {
     		block,
     		id: create_each_block_1$3.name,
     		type: "each",
-    		source: "(222:20) {#each leadOrgType.list as name}",
+    		source: "(244:20) {#each leadOrgType.list as name}",
     		ctx
     	});
 
     	return block;
     }
 
-    // (221:16) <MultiSelect id = {leadOrgType.name} bind:value={$ui.search.project.leadOrgType} placeholder={leadOrgType.placeholder} >
+    // (242:16) <MultiSelect id = {leadOrgType.name} bind:value={$ui.search.project.leadOrgType} placeholder={leadOrgType.placeholder} >
     function create_default_slot_1$2(ctx) {
+    	let option;
+    	let t;
     	let each_1_anchor;
     	let each_value_1 = leadOrgType.list;
     	validate_each_argument(each_value_1);
@@ -60673,13 +60897,25 @@ var app = (function () {
 
     	const block = {
     		c: function create() {
+    			option = element("option");
+    			t = space();
+
     			for (let i = 0; i < each_blocks.length; i += 1) {
     				each_blocks[i].c();
     			}
 
     			each_1_anchor = empty();
+    			option.disabled = true;
+    			option.selected = true;
+    			option.__value = "";
+    			option.value = option.__value;
+    			attr_dev(option, "class", "svelte-8akpg7");
+    			add_location(option, file$H, 242, 20, 11483);
     		},
     		m: function mount(target, anchor) {
+    			insert_dev(target, option, anchor);
+    			insert_dev(target, t, anchor);
+
     			for (let i = 0; i < each_blocks.length; i += 1) {
     				each_blocks[i].m(target, anchor);
     			}
@@ -60712,6 +60948,8 @@ var app = (function () {
     			}
     		},
     		d: function destroy(detaching) {
+    			if (detaching) detach_dev(option);
+    			if (detaching) detach_dev(t);
     			destroy_each(each_blocks, detaching);
     			if (detaching) detach_dev(each_1_anchor);
     		}
@@ -60721,25 +60959,25 @@ var app = (function () {
     		block,
     		id: create_default_slot_1$2.name,
     		type: "slot",
-    		source: "(221:16) <MultiSelect id = {leadOrgType.name} bind:value={$ui.search.project.leadOrgType} placeholder={leadOrgType.placeholder} >",
+    		source: "(242:16) <MultiSelect id = {leadOrgType.name} bind:value={$ui.search.project.leadOrgType} placeholder={leadOrgType.placeholder} >",
     		ctx
     	});
 
     	return block;
     }
 
-    // (230:20) {#each partnerOrg.list as name}
+    // (253:20) {#each partnerOrg.list as name}
     function create_each_block$8(ctx) {
     	let option;
-    	let raw_value = /*name*/ ctx[20] + "";
+    	let raw_value = /*name*/ ctx[22] + "";
 
     	const block = {
     		c: function create() {
     			option = element("option");
-    			option.__value = /*name*/ ctx[20];
+    			option.__value = /*name*/ ctx[22];
     			option.value = option.__value;
-    			attr_dev(option, "class", "svelte-1v79vcn");
-    			add_location(option, file$H, 230, 20, 10573);
+    			attr_dev(option, "class", "svelte-8akpg7");
+    			add_location(option, file$H, 253, 20, 12122);
     		},
     		m: function mount(target, anchor) {
     			insert_dev(target, option, anchor);
@@ -60755,15 +60993,17 @@ var app = (function () {
     		block,
     		id: create_each_block$8.name,
     		type: "each",
-    		source: "(230:20) {#each partnerOrg.list as name}",
+    		source: "(253:20) {#each partnerOrg.list as name}",
     		ctx
     	});
 
     	return block;
     }
 
-    // (229:16) <MultiSelect id = {partnerOrg.name} bind:value={$ui.search.project.partnerOrg} placeholder={partnerOrg.placeholder} >
+    // (251:16) <MultiSelect id = {partnerOrg.name} bind:value={$ui.search.project.partnerOrg} placeholder={partnerOrg.placeholder} >
     function create_default_slot$2(ctx) {
+    	let option;
+    	let t;
     	let each_1_anchor;
     	let each_value = partnerOrg.list;
     	validate_each_argument(each_value);
@@ -60775,13 +61015,25 @@ var app = (function () {
 
     	const block = {
     		c: function create() {
+    			option = element("option");
+    			t = space();
+
     			for (let i = 0; i < each_blocks.length; i += 1) {
     				each_blocks[i].c();
     			}
 
     			each_1_anchor = empty();
+    			option.disabled = true;
+    			option.selected = true;
+    			option.__value = "";
+    			option.value = option.__value;
+    			attr_dev(option, "class", "svelte-8akpg7");
+    			add_location(option, file$H, 251, 20, 12008);
     		},
     		m: function mount(target, anchor) {
+    			insert_dev(target, option, anchor);
+    			insert_dev(target, t, anchor);
+
     			for (let i = 0; i < each_blocks.length; i += 1) {
     				each_blocks[i].m(target, anchor);
     			}
@@ -60814,6 +61066,8 @@ var app = (function () {
     			}
     		},
     		d: function destroy(detaching) {
+    			if (detaching) detach_dev(option);
+    			if (detaching) detach_dev(t);
     			destroy_each(each_blocks, detaching);
     			if (detaching) detach_dev(each_1_anchor);
     		}
@@ -60823,7 +61077,47 @@ var app = (function () {
     		block,
     		id: create_default_slot$2.name,
     		type: "slot",
-    		source: "(229:16) <MultiSelect id = {partnerOrg.name} bind:value={$ui.search.project.partnerOrg} placeholder={partnerOrg.placeholder} >",
+    		source: "(251:16) <MultiSelect id = {partnerOrg.name} bind:value={$ui.search.project.partnerOrg} placeholder={partnerOrg.placeholder} >",
+    		ctx
+    	});
+
+    	return block;
+    }
+
+    // (265:4) {#if noSearchParams > 0}
+    function create_if_block$h(ctx) {
+    	let div;
+    	let mounted;
+    	let dispose;
+
+    	const block = {
+    		c: function create() {
+    			div = element("div");
+    			div.textContent = "Clear the search parameters";
+    			attr_dev(div, "class", "clear-search-container svelte-8akpg7");
+    			add_location(div, file$H, 265, 8, 12469);
+    		},
+    		m: function mount(target, anchor) {
+    			insert_dev(target, div, anchor);
+
+    			if (!mounted) {
+    				dispose = listen_dev(div, "click", /*handleClearSearch*/ ctx[6], false, false, false);
+    				mounted = true;
+    			}
+    		},
+    		p: noop,
+    		d: function destroy(detaching) {
+    			if (detaching) detach_dev(div);
+    			mounted = false;
+    			dispose();
+    		}
+    	};
+
+    	dispatch_dev("SvelteRegisterBlock", {
+    		block,
+    		id: create_if_block$h.name,
+    		type: "if",
+    		source: "(265:4) {#if noSearchParams > 0}",
     		ctx
     	});
 
@@ -60863,14 +61157,18 @@ var app = (function () {
     	let t20;
     	let div12;
     	let button;
+    	let t22;
+    	let section_intro;
+    	let section_outro;
     	let current;
     	let mounted;
     	let dispose;
-    	let if_block0 = /*$ui*/ ctx[1].page === 'dicover' && create_if_block_4$3(ctx);
-    	let if_block1 = /*paneVisbility*/ ctx[0].byOutcomes && create_if_block_3$a(ctx);
-    	let if_block2 = /*paneVisbility*/ ctx[0].byLocation && create_if_block_2$a(ctx);
-    	let if_block3 = /*paneVisbility*/ ctx[0].byCharacteristics && create_if_block_1$c(ctx);
-    	let if_block4 = /*paneVisbility*/ ctx[0].byStakeholders && create_if_block$h(ctx);
+    	let if_block0 = /*$ui*/ ctx[0].page === 'discover' && create_if_block_5$3(ctx);
+    	let if_block1 = /*paneVisbility*/ ctx[1].byOutcomes && create_if_block_4$4(ctx);
+    	let if_block2 = /*paneVisbility*/ ctx[1].byLocation && create_if_block_3$a(ctx);
+    	let if_block3 = /*paneVisbility*/ ctx[1].byCharacteristics && create_if_block_2$a(ctx);
+    	let if_block4 = /*paneVisbility*/ ctx[1].byStakeholders && create_if_block_1$c(ctx);
+    	let if_block5 = /*noSearchParams*/ ctx[2] > 0 && create_if_block$h(ctx);
 
     	const block = {
     		c: function create() {
@@ -60920,55 +61218,57 @@ var app = (function () {
     			div12 = element("div");
     			button = element("button");
     			button.textContent = "Search for projects";
-    			attr_dev(h30, "class", "svelte-1v79vcn");
-    			add_location(h30, file$H, 64, 12, 2026);
-    			attr_dev(div0, "class", "toggle-icon down svelte-1v79vcn");
-    			add_location(div0, file$H, 65, 12, 2065);
+    			t22 = space();
+    			if (if_block5) if_block5.c();
+    			attr_dev(h30, "class", "svelte-8akpg7");
+    			add_location(h30, file$H, 73, 12, 2646);
+    			attr_dev(div0, "class", "toggle-icon down svelte-8akpg7");
+    			add_location(div0, file$H, 74, 12, 2685);
     			attr_dev(div1, "id", "byOutcomes");
-    			attr_dev(div1, "class", "collapse__header svelte-1v79vcn");
+    			attr_dev(div1, "class", "collapse__header svelte-8akpg7");
     			attr_dev(div1, "type", "button");
-    			toggle_class(div1, "selected", /*paneVisbility*/ ctx[0].byOutcomes);
-    			add_location(div1, file$H, 62, 8, 1872);
-    			attr_dev(div2, "class", "container svelte-1v79vcn");
-    			add_location(div2, file$H, 61, 4, 1838);
-    			attr_dev(h31, "class", "svelte-1v79vcn");
-    			add_location(h31, file$H, 113, 12, 4432);
-    			attr_dev(div3, "class", "toggle-icon down svelte-1v79vcn");
-    			add_location(div3, file$H, 114, 12, 4462);
+    			toggle_class(div1, "selected", /*paneVisbility*/ ctx[1].byOutcomes);
+    			add_location(div1, file$H, 71, 8, 2492);
+    			attr_dev(div2, "class", "container svelte-8akpg7");
+    			add_location(div2, file$H, 70, 4, 2458);
+    			attr_dev(h31, "class", "svelte-8akpg7");
+    			add_location(h31, file$H, 125, 12, 5299);
+    			attr_dev(div3, "class", "toggle-icon down svelte-8akpg7");
+    			add_location(div3, file$H, 126, 12, 5329);
     			attr_dev(div4, "id", "byLocation");
-    			attr_dev(div4, "class", "collapse__header svelte-1v79vcn");
+    			attr_dev(div4, "class", "collapse__header svelte-8akpg7");
     			attr_dev(div4, "type", "button");
-    			toggle_class(div4, "selected", /*paneVisbility*/ ctx[0].byLocation);
-    			add_location(div4, file$H, 111, 8, 4278);
-    			attr_dev(div5, "class", "container svelte-1v79vcn");
-    			add_location(div5, file$H, 110, 4, 4244);
-    			attr_dev(h32, "class", "svelte-1v79vcn");
-    			add_location(h32, file$H, 152, 12, 6295);
-    			attr_dev(div6, "class", "toggle-icon down svelte-1v79vcn");
-    			add_location(div6, file$H, 153, 12, 6340);
+    			toggle_class(div4, "selected", /*paneVisbility*/ ctx[1].byLocation);
+    			add_location(div4, file$H, 123, 8, 5145);
+    			attr_dev(div5, "class", "container svelte-8akpg7");
+    			add_location(div5, file$H, 122, 4, 5111);
+    			attr_dev(h32, "class", "svelte-8akpg7");
+    			add_location(h32, file$H, 167, 12, 7348);
+    			attr_dev(div6, "class", "toggle-icon down svelte-8akpg7");
+    			add_location(div6, file$H, 168, 12, 7393);
     			attr_dev(div7, "id", "byCharacteristics");
-    			attr_dev(div7, "class", "collapse__header svelte-1v79vcn");
+    			attr_dev(div7, "class", "collapse__header svelte-8akpg7");
     			attr_dev(div7, "type", "button");
-    			toggle_class(div7, "selected", /*paneVisbility*/ ctx[0].byCharacteristics);
-    			add_location(div7, file$H, 150, 8, 6127);
-    			attr_dev(div8, "class", "container svelte-1v79vcn");
-    			add_location(div8, file$H, 149, 4, 6093);
-    			attr_dev(h33, "class", "svelte-1v79vcn");
-    			add_location(h33, file$H, 205, 12, 9142);
-    			attr_dev(div9, "class", "toggle-icon down svelte-1v79vcn");
-    			add_location(div9, file$H, 206, 12, 9176);
+    			toggle_class(div7, "selected", /*paneVisbility*/ ctx[1].byCharacteristics);
+    			add_location(div7, file$H, 165, 8, 7180);
+    			attr_dev(div8, "class", "container svelte-8akpg7");
+    			add_location(div8, file$H, 164, 4, 7146);
+    			attr_dev(h33, "class", "svelte-8akpg7");
+    			add_location(h33, file$H, 225, 12, 10505);
+    			attr_dev(div9, "class", "toggle-icon down svelte-8akpg7");
+    			add_location(div9, file$H, 226, 12, 10539);
     			attr_dev(div10, "id", "byStakeholders");
-    			attr_dev(div10, "class", "collapse__header svelte-1v79vcn");
+    			attr_dev(div10, "class", "collapse__header svelte-8akpg7");
     			attr_dev(div10, "type", "button");
-    			toggle_class(div10, "selected", /*paneVisbility*/ ctx[0].byStakeholders);
-    			add_location(div10, file$H, 203, 8, 8980);
-    			attr_dev(div11, "class", "container svelte-1v79vcn");
-    			add_location(div11, file$H, 202, 4, 8946);
-    			add_location(button, file$H, 239, 8, 10796);
-    			attr_dev(div12, "class", "button-container svelte-1v79vcn");
-    			add_location(div12, file$H, 238, 4, 10755);
-    			attr_dev(section, "class", "svelte-1v79vcn");
-    			add_location(section, file$H, 51, 0, 1589);
+    			toggle_class(div10, "selected", /*paneVisbility*/ ctx[1].byStakeholders);
+    			add_location(div10, file$H, 223, 8, 10343);
+    			attr_dev(div11, "class", "container svelte-8akpg7");
+    			add_location(div11, file$H, 222, 4, 10309);
+    			add_location(button, file$H, 262, 8, 12345);
+    			attr_dev(div12, "class", "button-container svelte-8akpg7");
+    			add_location(div12, file$H, 261, 4, 12304);
+    			attr_dev(section, "class", "svelte-8akpg7");
+    			add_location(section, file$H, 58, 0, 2077);
     		},
     		l: function claim(nodes) {
     			throw new Error("options.hydrate only works if the component was compiled with the `hydratable: true` option");
@@ -61011,26 +61311,28 @@ var app = (function () {
     			append_dev(section, t20);
     			append_dev(section, div12);
     			append_dev(div12, button);
+    			append_dev(section, t22);
+    			if (if_block5) if_block5.m(section, null);
     			current = true;
 
     			if (!mounted) {
     				dispose = [
-    					listen_dev(div1, "click", /*togglePane*/ ctx[2], false, false, false),
-    					listen_dev(div4, "click", /*togglePane*/ ctx[2], false, false, false),
-    					listen_dev(div7, "click", /*togglePane*/ ctx[2], false, false, false),
-    					listen_dev(div10, "click", /*togglePane*/ ctx[2], false, false, false),
-    					listen_dev(button, "click", prevent_default(/*handleSearch*/ ctx[3]), false, true, false)
+    					listen_dev(div1, "click", /*togglePane*/ ctx[3], false, false, false),
+    					listen_dev(div4, "click", /*togglePane*/ ctx[3], false, false, false),
+    					listen_dev(div7, "click", /*togglePane*/ ctx[3], false, false, false),
+    					listen_dev(div10, "click", /*togglePane*/ ctx[3], false, false, false),
+    					listen_dev(button, "click", prevent_default(/*handleSearch*/ ctx[4]), false, true, false)
     				];
 
     				mounted = true;
     			}
     		},
     		p: function update(ctx, dirty) {
-    			if (/*$ui*/ ctx[1].page === 'dicover') {
+    			if (/*$ui*/ ctx[0].page === 'discover') {
     				if (if_block0) {
     					if_block0.p(ctx, dirty);
     				} else {
-    					if_block0 = create_if_block_4$3(ctx);
+    					if_block0 = create_if_block_5$3(ctx);
     					if_block0.c();
     					if_block0.m(section, t0);
     				}
@@ -61039,19 +61341,19 @@ var app = (function () {
     				if_block0 = null;
     			}
 
-    			if (dirty[0] & /*paneVisbility*/ 1) {
-    				toggle_class(div1, "selected", /*paneVisbility*/ ctx[0].byOutcomes);
+    			if (dirty[0] & /*paneVisbility*/ 2) {
+    				toggle_class(div1, "selected", /*paneVisbility*/ ctx[1].byOutcomes);
     			}
 
-    			if (/*paneVisbility*/ ctx[0].byOutcomes) {
+    			if (/*paneVisbility*/ ctx[1].byOutcomes) {
     				if (if_block1) {
     					if_block1.p(ctx, dirty);
 
-    					if (dirty[0] & /*paneVisbility*/ 1) {
+    					if (dirty[0] & /*paneVisbility*/ 2) {
     						transition_in(if_block1, 1);
     					}
     				} else {
-    					if_block1 = create_if_block_3$a(ctx);
+    					if_block1 = create_if_block_4$4(ctx);
     					if_block1.c();
     					transition_in(if_block1, 1);
     					if_block1.m(div2, null);
@@ -61066,19 +61368,19 @@ var app = (function () {
     				check_outros();
     			}
 
-    			if (dirty[0] & /*paneVisbility*/ 1) {
-    				toggle_class(div4, "selected", /*paneVisbility*/ ctx[0].byLocation);
+    			if (dirty[0] & /*paneVisbility*/ 2) {
+    				toggle_class(div4, "selected", /*paneVisbility*/ ctx[1].byLocation);
     			}
 
-    			if (/*paneVisbility*/ ctx[0].byLocation) {
+    			if (/*paneVisbility*/ ctx[1].byLocation) {
     				if (if_block2) {
     					if_block2.p(ctx, dirty);
 
-    					if (dirty[0] & /*paneVisbility*/ 1) {
+    					if (dirty[0] & /*paneVisbility*/ 2) {
     						transition_in(if_block2, 1);
     					}
     				} else {
-    					if_block2 = create_if_block_2$a(ctx);
+    					if_block2 = create_if_block_3$a(ctx);
     					if_block2.c();
     					transition_in(if_block2, 1);
     					if_block2.m(div5, null);
@@ -61093,19 +61395,19 @@ var app = (function () {
     				check_outros();
     			}
 
-    			if (dirty[0] & /*paneVisbility*/ 1) {
-    				toggle_class(div7, "selected", /*paneVisbility*/ ctx[0].byCharacteristics);
+    			if (dirty[0] & /*paneVisbility*/ 2) {
+    				toggle_class(div7, "selected", /*paneVisbility*/ ctx[1].byCharacteristics);
     			}
 
-    			if (/*paneVisbility*/ ctx[0].byCharacteristics) {
+    			if (/*paneVisbility*/ ctx[1].byCharacteristics) {
     				if (if_block3) {
     					if_block3.p(ctx, dirty);
 
-    					if (dirty[0] & /*paneVisbility*/ 1) {
+    					if (dirty[0] & /*paneVisbility*/ 2) {
     						transition_in(if_block3, 1);
     					}
     				} else {
-    					if_block3 = create_if_block_1$c(ctx);
+    					if_block3 = create_if_block_2$a(ctx);
     					if_block3.c();
     					transition_in(if_block3, 1);
     					if_block3.m(div8, null);
@@ -61120,19 +61422,19 @@ var app = (function () {
     				check_outros();
     			}
 
-    			if (dirty[0] & /*paneVisbility*/ 1) {
-    				toggle_class(div10, "selected", /*paneVisbility*/ ctx[0].byStakeholders);
+    			if (dirty[0] & /*paneVisbility*/ 2) {
+    				toggle_class(div10, "selected", /*paneVisbility*/ ctx[1].byStakeholders);
     			}
 
-    			if (/*paneVisbility*/ ctx[0].byStakeholders) {
+    			if (/*paneVisbility*/ ctx[1].byStakeholders) {
     				if (if_block4) {
     					if_block4.p(ctx, dirty);
 
-    					if (dirty[0] & /*paneVisbility*/ 1) {
+    					if (dirty[0] & /*paneVisbility*/ 2) {
     						transition_in(if_block4, 1);
     					}
     				} else {
-    					if_block4 = create_if_block$h(ctx);
+    					if_block4 = create_if_block_1$c(ctx);
     					if_block4.c();
     					transition_in(if_block4, 1);
     					if_block4.m(div11, null);
@@ -61146,6 +61448,19 @@ var app = (function () {
 
     				check_outros();
     			}
+
+    			if (/*noSearchParams*/ ctx[2] > 0) {
+    				if (if_block5) {
+    					if_block5.p(ctx, dirty);
+    				} else {
+    					if_block5 = create_if_block$h(ctx);
+    					if_block5.c();
+    					if_block5.m(section, null);
+    				}
+    			} else if (if_block5) {
+    				if_block5.d(1);
+    				if_block5 = null;
+    			}
     		},
     		i: function intro(local) {
     			if (current) return;
@@ -61153,6 +61468,13 @@ var app = (function () {
     			transition_in(if_block2);
     			transition_in(if_block3);
     			transition_in(if_block4);
+
+    			add_render_callback(() => {
+    				if (section_outro) section_outro.end(1);
+    				section_intro = create_in_transition(section, fly, { duration: 800, x: -100 });
+    				section_intro.start();
+    			});
+
     			current = true;
     		},
     		o: function outro(local) {
@@ -61160,6 +61482,8 @@ var app = (function () {
     			transition_out(if_block2);
     			transition_out(if_block3);
     			transition_out(if_block4);
+    			if (section_intro) section_intro.invalidate();
+    			section_outro = create_out_transition(section, fly, { duration: 200, x: -100 });
     			current = false;
     		},
     		d: function destroy(detaching) {
@@ -61169,6 +61493,8 @@ var app = (function () {
     			if (if_block2) if_block2.d();
     			if (if_block3) if_block3.d();
     			if (if_block4) if_block4.d();
+    			if (if_block5) if_block5.d();
+    			if (detaching && section_outro) section_outro.end();
     			mounted = false;
     			run_all(dispose);
     		}
@@ -61186,9 +61512,10 @@ var app = (function () {
     }
 
     function instance$I($$self, $$props, $$invalidate) {
+    	let noSearchParams;
     	let $ui;
     	validate_store(ui, 'ui');
-    	component_subscribe($$self, ui, $$value => $$invalidate(1, $ui = $$value));
+    	component_subscribe($$self, ui, $$value => $$invalidate(0, $ui = $$value));
     	let { $$slots: slots = {}, $$scope } = $$props;
     	validate_slots('ProjectSearch', slots, []);
 
@@ -61202,11 +61529,11 @@ var app = (function () {
     	function togglePane() {
     		Object.keys(paneVisbility).map(key => {
     			if (this.id !== key) {
-    				$$invalidate(0, paneVisbility[key] = false, paneVisbility);
+    				$$invalidate(1, paneVisbility[key] = false, paneVisbility);
     			}
     		});
 
-    		$$invalidate(0, paneVisbility[this.id] = !paneVisbility[this.id], paneVisbility);
+    		$$invalidate(1, paneVisbility[this.id] = !paneVisbility[this.id], paneVisbility);
     	}
 
     	function handleSearch() {
@@ -61220,13 +61547,24 @@ var app = (function () {
     				set_store_value(ui, $ui.byPage.share.projectSearch.isMade = true, $ui);
     				break;
     		}
-
     		window.scrollTo({ top: 0, behavior: 'smooth' });
     		console.log($ui.search);
     	}
 
     	function handleClose() {
     		set_store_value(ui, $ui.byPage.discover.main = 'list', $ui);
+    		window.scrollTo({ top: 0, behavior: 'smooth' });
+    	}
+
+    	function handleClearSearch() {
+    		console.log('Clearing the search');
+    		set_store_value(ui, $ui.search.project = {}, $ui);
+
+    		for (const key of Object.keys(paneVisbility)) {
+    			$$invalidate(1, paneVisbility[key] = false, paneVisbility);
+    		}
+
+    		window.scrollTo({ top: 0, behavior: 'smooth' });
     	}
     	const writable_props = [];
 
@@ -61342,6 +61680,7 @@ var app = (function () {
     	$$self.$capture_state = () => ({
     		MultiSelect,
     		slide,
+    		fly,
     		ui,
     		database,
     		keyValues,
@@ -61363,15 +61702,36 @@ var app = (function () {
     		togglePane,
     		handleSearch,
     		handleClose,
+    		handleClearSearch,
+    		noSearchParams,
     		$ui
     	});
 
+    	$$self.$inject_state = $$props => {
+    		if ('noSearchParams' in $$props) $$invalidate(2, noSearchParams = $$props.noSearchParams);
+    	};
+
+    	if ($$props && "$$inject" in $$props) {
+    		$$self.$inject_state($$props.$$inject);
+    	}
+
+    	$$self.$$.update = () => {
+    		if ($$self.$$.dirty[0] & /*$ui*/ 1) {
+    			// Keep count of search param number
+    			$$invalidate(2, noSearchParams = typeof Object.values($ui.search.project) === 'undefined'
+    			? 0
+    			: Object.values($ui.search.project).flat().length);
+    		}
+    	};
+
     	return [
-    		paneVisbility,
     		$ui,
+    		paneVisbility,
+    		noSearchParams,
     		togglePane,
     		handleSearch,
     		handleClose,
+    		handleClearSearch,
     		multiselect0_value_binding,
     		multiselect1_value_binding,
     		multiselect2_value_binding,
@@ -65545,16 +65905,12 @@ var app = (function () {
     	let t2;
     	let hr;
     	let t3;
-    	let div4;
+    	let div2;
     	let html_tag_2;
     	let raw2_value = componentContent.connect.info.searchResultsOptions + "";
     	let t4;
-    	let div3;
     	let div1;
-    	let button0;
-    	let t6;
-    	let div2;
-    	let button1;
+    	let button;
     	let mounted;
     	let dispose;
 
@@ -65569,33 +65925,23 @@ var app = (function () {
     			t2 = space();
     			hr = element("hr");
     			t3 = space();
-    			div4 = element("div");
+    			div2 = element("div");
     			html_tag_2 = new HtmlTag();
     			t4 = space();
-    			div3 = element("div");
     			div1 = element("div");
-    			button0 = element("button");
-    			button0.textContent = "Clear search";
-    			t6 = space();
-    			div2 = element("div");
-    			button1 = element("button");
-    			button1.textContent = "Search again";
+    			button = element("button");
+    			button.textContent = "Refine search";
     			html_tag.a = null;
-    			add_location(h2, file$q, 25, 4, 811);
+    			add_location(h2, file$q, 19, 4, 582);
     			html_tag_1.a = null;
-    			add_location(div0, file$q, 24, 0, 801);
-    			add_location(hr, file$q, 28, 0, 953);
+    			add_location(div0, file$q, 18, 0, 572);
+    			add_location(hr, file$q, 22, 0, 724);
     			html_tag_2.a = t4;
-    			add_location(button0, file$q, 33, 12, 1143);
-    			attr_dev(div1, "class", "button-container svelte-a54kls");
-    			add_location(div1, file$q, 32, 8, 1099);
-    			add_location(button1, file$q, 36, 12, 1263);
-    			attr_dev(div2, "class", "button-container svelte-a54kls");
-    			add_location(div2, file$q, 35, 8, 1219);
-    			attr_dev(div3, "class", "two-button-container svelte-a54kls");
-    			add_location(div3, file$q, 31, 4, 1054);
-    			attr_dev(div4, "class", "search-options");
-    			add_location(div4, file$q, 29, 0, 958);
+    			add_location(button, file$q, 26, 8, 865);
+    			attr_dev(div1, "class", "button-container svelte-11rw9zy");
+    			add_location(div1, file$q, 25, 4, 825);
+    			attr_dev(div2, "class", "search-options");
+    			add_location(div2, file$q, 23, 0, 729);
     		},
     		l: function claim(nodes) {
     			throw new Error("options.hydrate only works if the component was compiled with the `hydratable: true` option");
@@ -65610,22 +65956,14 @@ var app = (function () {
     			insert_dev(target, t2, anchor);
     			insert_dev(target, hr, anchor);
     			insert_dev(target, t3, anchor);
-    			insert_dev(target, div4, anchor);
-    			html_tag_2.m(raw2_value, div4);
-    			append_dev(div4, t4);
-    			append_dev(div4, div3);
-    			append_dev(div3, div1);
-    			append_dev(div1, button0);
-    			append_dev(div3, t6);
-    			append_dev(div3, div2);
-    			append_dev(div2, button1);
+    			insert_dev(target, div2, anchor);
+    			html_tag_2.m(raw2_value, div2);
+    			append_dev(div2, t4);
+    			append_dev(div2, div1);
+    			append_dev(div1, button);
 
     			if (!mounted) {
-    				dispose = [
-    					listen_dev(button0, "click", /*clearSearch*/ ctx[0], false, false, false),
-    					listen_dev(button1, "click", /*openSearch*/ ctx[1], false, false, false)
-    				];
-
+    				dispose = listen_dev(button, "click", /*openSearch*/ ctx[0], false, false, false);
     				mounted = true;
     			}
     		},
@@ -65637,9 +65975,9 @@ var app = (function () {
     			if (detaching) detach_dev(t2);
     			if (detaching) detach_dev(hr);
     			if (detaching) detach_dev(t3);
-    			if (detaching) detach_dev(div4);
+    			if (detaching) detach_dev(div2);
     			mounted = false;
-    			run_all(dispose);
+    			dispose();
     		}
     	};
 
@@ -65657,16 +65995,9 @@ var app = (function () {
     function instance$r($$self, $$props, $$invalidate) {
     	let $ui;
     	validate_store(ui, 'ui');
-    	component_subscribe($$self, ui, $$value => $$invalidate(2, $ui = $$value));
+    	component_subscribe($$self, ui, $$value => $$invalidate(1, $ui = $$value));
     	let { $$slots: slots = {}, $$scope } = $$props;
     	validate_slots('InfoSearchResults', slots, []);
-
-    	function clearSearch() {
-    		set_store_value(ui, $ui.byPage.connect.main = 'list', $ui);
-    		set_store_value(ui, $ui.byPage.connect.stakeholderSearch.isMade = false, $ui);
-    		window.scrollTo({ top: 0, behavior: 'smooth' });
-    		console.log('Search cleared');
-    	}
 
     	function openSearch() {
     		set_store_value(ui, $ui.byPage.connect.main = 'search', $ui);
@@ -65684,12 +66015,11 @@ var app = (function () {
     		Magnify,
     		componentContent,
     		ui,
-    		clearSearch,
     		openSearch,
     		$ui
     	});
 
-    	return [clearSearch, openSearch];
+    	return [openSearch];
     }
 
     class InfoSearchResults$1 extends SvelteComponentDev {
@@ -66305,86 +66635,93 @@ var app = (function () {
     /* src/components/byPage/connect/StakeholderSearch.svelte generated by Svelte v3.46.4 */
 
     const { Object: Object_1$1, console: console_1$9 } = globals;
+
     const file$n = "src/components/byPage/connect/StakeholderSearch.svelte";
 
     function get_each_context$4(ctx, list, i) {
     	const child_ctx = ctx.slice();
-    	child_ctx[30] = list[i];
+    	child_ctx[20] = list[i];
     	return child_ctx;
     }
 
     function get_each_context_1$1(ctx, list, i) {
     	const child_ctx = ctx.slice();
-    	child_ctx[30] = list[i];
+    	child_ctx[20] = list[i];
     	return child_ctx;
     }
 
     function get_each_context_2$1(ctx, list, i) {
     	const child_ctx = ctx.slice();
-    	child_ctx[30] = list[i];
+    	child_ctx[20] = list[i];
     	return child_ctx;
     }
 
     function get_each_context_3$1(ctx, list, i) {
     	const child_ctx = ctx.slice();
-    	child_ctx[30] = list[i];
+    	child_ctx[20] = list[i];
     	return child_ctx;
     }
 
     function get_each_context_4$1(ctx, list, i) {
     	const child_ctx = ctx.slice();
-    	child_ctx[30] = list[i];
+    	child_ctx[20] = list[i];
     	return child_ctx;
     }
 
     function get_each_context_5$1(ctx, list, i) {
     	const child_ctx = ctx.slice();
-    	child_ctx[30] = list[i];
+    	child_ctx[20] = list[i];
     	return child_ctx;
     }
 
     function get_each_context_6$1(ctx, list, i) {
     	const child_ctx = ctx.slice();
-    	child_ctx[30] = list[i];
+    	child_ctx[20] = list[i];
     	return child_ctx;
     }
 
     function get_each_context_7$1(ctx, list, i) {
     	const child_ctx = ctx.slice();
-    	child_ctx[30] = list[i];
+    	child_ctx[20] = list[i];
     	return child_ctx;
     }
 
     function get_each_context_8$1(ctx, list, i) {
     	const child_ctx = ctx.slice();
-    	child_ctx[30] = list[i];
+    	child_ctx[20] = list[i];
     	return child_ctx;
     }
 
     function get_each_context_9$1(ctx, list, i) {
     	const child_ctx = ctx.slice();
-    	child_ctx[30] = list[i];
+    	child_ctx[20] = list[i];
     	return child_ctx;
     }
 
     function get_each_context_10$1(ctx, list, i) {
     	const child_ctx = ctx.slice();
-    	child_ctx[30] = list[i];
+    	child_ctx[20] = list[i];
     	return child_ctx;
     }
 
     function get_each_context_11$1(ctx, list, i) {
     	const child_ctx = ctx.slice();
-    	child_ctx[30] = list[i];
+    	child_ctx[20] = list[i];
     	return child_ctx;
     }
 
-    // (160:8) {#if paneVisbility.byStakeholders}
-    function create_if_block_3$7(ctx) {
+    function get_each_context_12$1(ctx, list, i) {
+    	const child_ctx = ctx.slice();
+    	child_ctx[20] = list[i];
+    	return child_ctx;
+    }
+
+    // (74:8) {#if paneVisbility.byStakeholders}
+    function create_if_block_4$3(ctx) {
     	let div1;
     	let div0;
     	let h4;
-    	let raw_value = /*organisation*/ ctx[16].label + "";
+    	let raw_value = partnerOrg.label + "";
     	let t;
     	let multiselect;
     	let updating_value;
@@ -66392,18 +66729,18 @@ var app = (function () {
     	let current;
 
     	function multiselect_value_binding(value) {
-    		/*multiselect_value_binding*/ ctx[17](value);
+    		/*multiselect_value_binding*/ ctx[7](value);
     	}
 
     	let multiselect_props = {
-    		id: /*organisation*/ ctx[16].name,
-    		placeholder: /*organisation*/ ctx[16].placeholder,
-    		$$slots: { default: [create_default_slot_11$1] },
+    		id: partnerOrg.name,
+    		placeholder: partnerOrg.placeholder,
+    		$$slots: { default: [create_default_slot_12$1] },
     		$$scope: { ctx }
     	};
 
-    	if (/*$ui*/ ctx[1].search.organisation.organisation !== void 0) {
-    		multiselect_props.value = /*$ui*/ ctx[1].search.organisation.organisation;
+    	if (/*$ui*/ ctx[0].search.organisation.partnerOrg !== void 0) {
+    		multiselect_props.value = /*$ui*/ ctx[0].search.organisation.partnerOrg;
     	}
 
     	multiselect = new MultiSelect({ props: multiselect_props, $$inline: true });
@@ -66416,13 +66753,13 @@ var app = (function () {
     			h4 = element("h4");
     			t = space();
     			create_component(multiselect.$$.fragment);
-    			attr_dev(h4, "class", "svelte-k5rl9e");
-    			add_location(h4, file$n, 162, 16, 5981);
-    			attr_dev(div0, "class", "multi-select-container svelte-k5rl9e");
+    			attr_dev(h4, "class", "svelte-kelrrb");
+    			add_location(h4, file$n, 76, 16, 2937);
+    			attr_dev(div0, "class", "multi-select-container svelte-kelrrb");
     			set_style(div0, "z-index", "9");
-    			add_location(div0, file$n, 161, 12, 5908);
-    			attr_dev(div1, "class", "collapse__body svelte-k5rl9e");
-    			add_location(div1, file$n, 160, 8, 5848);
+    			add_location(div0, file$n, 75, 12, 2864);
+    			attr_dev(div1, "class", "collapse__body svelte-kelrrb");
+    			add_location(div1, file$n, 74, 8, 2804);
     		},
     		m: function mount(target, anchor) {
     			insert_dev(target, div1, anchor);
@@ -66436,13 +66773,13 @@ var app = (function () {
     		p: function update(ctx, dirty) {
     			const multiselect_changes = {};
 
-    			if (dirty[1] & /*$$scope*/ 16777216) {
+    			if (dirty[1] & /*$$scope*/ 65536) {
     				multiselect_changes.$$scope = { dirty, ctx };
     			}
 
-    			if (!updating_value && dirty[0] & /*$ui*/ 2) {
+    			if (!updating_value && dirty[0] & /*$ui*/ 1) {
     				updating_value = true;
-    				multiselect_changes.value = /*$ui*/ ctx[1].search.organisation.organisation;
+    				multiselect_changes.value = /*$ui*/ ctx[0].search.organisation.partnerOrg;
     				add_flush_callback(() => updating_value = false);
     			}
 
@@ -66474,27 +66811,436 @@ var app = (function () {
 
     	dispatch_dev("SvelteRegisterBlock", {
     		block,
-    		id: create_if_block_3$7.name,
+    		id: create_if_block_4$3.name,
     		type: "if",
-    		source: "(160:8) {#if paneVisbility.byStakeholders}",
+    		source: "(74:8) {#if paneVisbility.byStakeholders}",
     		ctx
     	});
 
     	return block;
     }
 
-    // (165:20) {#each organisation.list as name}
-    function create_each_block_11$1(ctx) {
+    // (80:20) {#each partnerOrg.list as name}
+    function create_each_block_12$1(ctx) {
     	let option;
-    	let raw_value = /*name*/ ctx[30] + "";
+    	let raw_value = /*name*/ ctx[20] + "";
 
     	const block = {
     		c: function create() {
     			option = element("option");
-    			option.__value = /*name*/ ctx[30];
+    			option.__value = /*name*/ ctx[20];
     			option.value = option.__value;
-    			attr_dev(option, "class", "svelte-k5rl9e");
-    			add_location(option, file$n, 165, 20, 6236);
+    			attr_dev(option, "class", "svelte-kelrrb");
+    			add_location(option, file$n, 80, 20, 3244);
+    		},
+    		m: function mount(target, anchor) {
+    			insert_dev(target, option, anchor);
+    			option.innerHTML = raw_value;
+    		},
+    		p: noop,
+    		d: function destroy(detaching) {
+    			if (detaching) detach_dev(option);
+    		}
+    	};
+
+    	dispatch_dev("SvelteRegisterBlock", {
+    		block,
+    		id: create_each_block_12$1.name,
+    		type: "each",
+    		source: "(80:20) {#each partnerOrg.list as name}",
+    		ctx
+    	});
+
+    	return block;
+    }
+
+    // (78:16) <MultiSelect id = {partnerOrg.name} bind:value={$ui.search.organisation.partnerOrg} placeholder={partnerOrg.placeholder} >
+    function create_default_slot_12$1(ctx) {
+    	let option;
+    	let t;
+    	let each_1_anchor;
+    	let each_value_12 = partnerOrg.list;
+    	validate_each_argument(each_value_12);
+    	let each_blocks = [];
+
+    	for (let i = 0; i < each_value_12.length; i += 1) {
+    		each_blocks[i] = create_each_block_12$1(get_each_context_12$1(ctx, each_value_12, i));
+    	}
+
+    	const block = {
+    		c: function create() {
+    			option = element("option");
+    			t = space();
+
+    			for (let i = 0; i < each_blocks.length; i += 1) {
+    				each_blocks[i].c();
+    			}
+
+    			each_1_anchor = empty();
+    			option.disabled = true;
+    			option.selected = true;
+    			option.__value = "";
+    			option.value = option.__value;
+    			attr_dev(option, "class", "svelte-kelrrb");
+    			add_location(option, file$n, 78, 20, 3130);
+    		},
+    		m: function mount(target, anchor) {
+    			insert_dev(target, option, anchor);
+    			insert_dev(target, t, anchor);
+
+    			for (let i = 0; i < each_blocks.length; i += 1) {
+    				each_blocks[i].m(target, anchor);
+    			}
+
+    			insert_dev(target, each_1_anchor, anchor);
+    		},
+    		p: function update(ctx, dirty) {
+    			if (dirty & /*partnerOrg*/ 0) {
+    				each_value_12 = partnerOrg.list;
+    				validate_each_argument(each_value_12);
+    				let i;
+
+    				for (i = 0; i < each_value_12.length; i += 1) {
+    					const child_ctx = get_each_context_12$1(ctx, each_value_12, i);
+
+    					if (each_blocks[i]) {
+    						each_blocks[i].p(child_ctx, dirty);
+    					} else {
+    						each_blocks[i] = create_each_block_12$1(child_ctx);
+    						each_blocks[i].c();
+    						each_blocks[i].m(each_1_anchor.parentNode, each_1_anchor);
+    					}
+    				}
+
+    				for (; i < each_blocks.length; i += 1) {
+    					each_blocks[i].d(1);
+    				}
+
+    				each_blocks.length = each_value_12.length;
+    			}
+    		},
+    		d: function destroy(detaching) {
+    			if (detaching) detach_dev(option);
+    			if (detaching) detach_dev(t);
+    			destroy_each(each_blocks, detaching);
+    			if (detaching) detach_dev(each_1_anchor);
+    		}
+    	};
+
+    	dispatch_dev("SvelteRegisterBlock", {
+    		block,
+    		id: create_default_slot_12$1.name,
+    		type: "slot",
+    		source: "(78:16) <MultiSelect id = {partnerOrg.name} bind:value={$ui.search.organisation.partnerOrg} placeholder={partnerOrg.placeholder} >",
+    		ctx
+    	});
+
+    	return block;
+    }
+
+    // (97:8) {#if paneVisbility.byOutcomes}
+    function create_if_block_3$7(ctx) {
+    	let div4;
+    	let div0;
+    	let h40;
+    	let raw0_value = keyValues.label + "";
+    	let t0;
+    	let multiselect0;
+    	let updating_value;
+    	let t1;
+    	let div1;
+    	let h41;
+    	let raw1_value = conditions.label + "";
+    	let t2;
+    	let multiselect1;
+    	let updating_value_1;
+    	let t3;
+    	let div2;
+    	let h42;
+    	let raw2_value = performanceObjectivesGroup.label + "";
+    	let t4;
+    	let multiselect2;
+    	let updating_value_2;
+    	let t5;
+    	let div3;
+    	let h43;
+    	let raw3_value = performanceObjectivesTheme.label + "";
+    	let t6;
+    	let multiselect3;
+    	let updating_value_3;
+    	let div4_transition;
+    	let current;
+
+    	function multiselect0_value_binding(value) {
+    		/*multiselect0_value_binding*/ ctx[8](value);
+    	}
+
+    	let multiselect0_props = {
+    		id: keyValues.name,
+    		placeholder: keyValues.placeholder,
+    		$$slots: { default: [create_default_slot_11$1] },
+    		$$scope: { ctx }
+    	};
+
+    	if (/*$ui*/ ctx[0].search.organisation.keyValues !== void 0) {
+    		multiselect0_props.value = /*$ui*/ ctx[0].search.organisation.keyValues;
+    	}
+
+    	multiselect0 = new MultiSelect({
+    			props: multiselect0_props,
+    			$$inline: true
+    		});
+
+    	binding_callbacks.push(() => bind(multiselect0, 'value', multiselect0_value_binding));
+
+    	function multiselect1_value_binding(value) {
+    		/*multiselect1_value_binding*/ ctx[9](value);
+    	}
+
+    	let multiselect1_props = {
+    		id: conditions.name,
+    		placeholder: conditions.placeholder,
+    		$$slots: { default: [create_default_slot_10$1] },
+    		$$scope: { ctx }
+    	};
+
+    	if (/*$ui*/ ctx[0].search.organisation.conditions !== void 0) {
+    		multiselect1_props.value = /*$ui*/ ctx[0].search.organisation.conditions;
+    	}
+
+    	multiselect1 = new MultiSelect({
+    			props: multiselect1_props,
+    			$$inline: true
+    		});
+
+    	binding_callbacks.push(() => bind(multiselect1, 'value', multiselect1_value_binding));
+
+    	function multiselect2_value_binding(value) {
+    		/*multiselect2_value_binding*/ ctx[10](value);
+    	}
+
+    	let multiselect2_props = {
+    		id: performanceObjectivesGroup.name,
+    		placeholder: performanceObjectivesGroup.placeholder,
+    		$$slots: { default: [create_default_slot_9$1] },
+    		$$scope: { ctx }
+    	};
+
+    	if (/*$ui*/ ctx[0].search.organisation.performanceObjectivesGroup !== void 0) {
+    		multiselect2_props.value = /*$ui*/ ctx[0].search.organisation.performanceObjectivesGroup;
+    	}
+
+    	multiselect2 = new MultiSelect({
+    			props: multiselect2_props,
+    			$$inline: true
+    		});
+
+    	binding_callbacks.push(() => bind(multiselect2, 'value', multiselect2_value_binding));
+
+    	function multiselect3_value_binding(value) {
+    		/*multiselect3_value_binding*/ ctx[11](value);
+    	}
+
+    	let multiselect3_props = {
+    		id: performanceObjectivesTheme.name,
+    		placeholder: performanceObjectivesTheme.placeholder,
+    		$$slots: { default: [create_default_slot_8$1] },
+    		$$scope: { ctx }
+    	};
+
+    	if (/*$ui*/ ctx[0].search.project.performanceObjectivesTheme !== void 0) {
+    		multiselect3_props.value = /*$ui*/ ctx[0].search.project.performanceObjectivesTheme;
+    	}
+
+    	multiselect3 = new MultiSelect({
+    			props: multiselect3_props,
+    			$$inline: true
+    		});
+
+    	binding_callbacks.push(() => bind(multiselect3, 'value', multiselect3_value_binding));
+
+    	const block = {
+    		c: function create() {
+    			div4 = element("div");
+    			div0 = element("div");
+    			h40 = element("h4");
+    			t0 = space();
+    			create_component(multiselect0.$$.fragment);
+    			t1 = space();
+    			div1 = element("div");
+    			h41 = element("h4");
+    			t2 = space();
+    			create_component(multiselect1.$$.fragment);
+    			t3 = space();
+    			div2 = element("div");
+    			h42 = element("h4");
+    			t4 = space();
+    			create_component(multiselect2.$$.fragment);
+    			t5 = space();
+    			div3 = element("div");
+    			h43 = element("h4");
+    			t6 = space();
+    			create_component(multiselect3.$$.fragment);
+    			attr_dev(h40, "class", "svelte-kelrrb");
+    			add_location(h40, file$n, 99, 16, 3928);
+    			attr_dev(div0, "class", "multi-select-container svelte-kelrrb");
+    			set_style(div0, "z-index", "21");
+    			add_location(div0, file$n, 98, 12, 3854);
+    			attr_dev(h41, "class", "svelte-kelrrb");
+    			add_location(h41, file$n, 109, 16, 4437);
+    			attr_dev(div1, "class", "multi-select-container svelte-kelrrb");
+    			set_style(div1, "z-index", "20");
+    			add_location(div1, file$n, 108, 12, 4362);
+    			attr_dev(h42, "class", "svelte-kelrrb");
+    			add_location(h42, file$n, 119, 16, 4952);
+    			attr_dev(div2, "class", "multi-select-container svelte-kelrrb");
+    			set_style(div2, "z-index", "19");
+    			add_location(div2, file$n, 118, 12, 4878);
+    			attr_dev(h43, "class", "svelte-kelrrb");
+    			add_location(h43, file$n, 128, 16, 5546);
+    			attr_dev(div3, "class", "multi-select-container svelte-kelrrb");
+    			set_style(div3, "z-index", "18");
+    			add_location(div3, file$n, 127, 12, 5472);
+    			attr_dev(div4, "class", "collapse__body svelte-kelrrb");
+    			add_location(div4, file$n, 97, 8, 3793);
+    		},
+    		m: function mount(target, anchor) {
+    			insert_dev(target, div4, anchor);
+    			append_dev(div4, div0);
+    			append_dev(div0, h40);
+    			h40.innerHTML = raw0_value;
+    			append_dev(div0, t0);
+    			mount_component(multiselect0, div0, null);
+    			append_dev(div4, t1);
+    			append_dev(div4, div1);
+    			append_dev(div1, h41);
+    			h41.innerHTML = raw1_value;
+    			append_dev(div1, t2);
+    			mount_component(multiselect1, div1, null);
+    			append_dev(div4, t3);
+    			append_dev(div4, div2);
+    			append_dev(div2, h42);
+    			h42.innerHTML = raw2_value;
+    			append_dev(div2, t4);
+    			mount_component(multiselect2, div2, null);
+    			append_dev(div4, t5);
+    			append_dev(div4, div3);
+    			append_dev(div3, h43);
+    			h43.innerHTML = raw3_value;
+    			append_dev(div3, t6);
+    			mount_component(multiselect3, div3, null);
+    			current = true;
+    		},
+    		p: function update(ctx, dirty) {
+    			const multiselect0_changes = {};
+
+    			if (dirty[1] & /*$$scope*/ 65536) {
+    				multiselect0_changes.$$scope = { dirty, ctx };
+    			}
+
+    			if (!updating_value && dirty[0] & /*$ui*/ 1) {
+    				updating_value = true;
+    				multiselect0_changes.value = /*$ui*/ ctx[0].search.organisation.keyValues;
+    				add_flush_callback(() => updating_value = false);
+    			}
+
+    			multiselect0.$set(multiselect0_changes);
+    			const multiselect1_changes = {};
+
+    			if (dirty[1] & /*$$scope*/ 65536) {
+    				multiselect1_changes.$$scope = { dirty, ctx };
+    			}
+
+    			if (!updating_value_1 && dirty[0] & /*$ui*/ 1) {
+    				updating_value_1 = true;
+    				multiselect1_changes.value = /*$ui*/ ctx[0].search.organisation.conditions;
+    				add_flush_callback(() => updating_value_1 = false);
+    			}
+
+    			multiselect1.$set(multiselect1_changes);
+    			const multiselect2_changes = {};
+
+    			if (dirty[1] & /*$$scope*/ 65536) {
+    				multiselect2_changes.$$scope = { dirty, ctx };
+    			}
+
+    			if (!updating_value_2 && dirty[0] & /*$ui*/ 1) {
+    				updating_value_2 = true;
+    				multiselect2_changes.value = /*$ui*/ ctx[0].search.organisation.performanceObjectivesGroup;
+    				add_flush_callback(() => updating_value_2 = false);
+    			}
+
+    			multiselect2.$set(multiselect2_changes);
+    			const multiselect3_changes = {};
+
+    			if (dirty[1] & /*$$scope*/ 65536) {
+    				multiselect3_changes.$$scope = { dirty, ctx };
+    			}
+
+    			if (!updating_value_3 && dirty[0] & /*$ui*/ 1) {
+    				updating_value_3 = true;
+    				multiselect3_changes.value = /*$ui*/ ctx[0].search.project.performanceObjectivesTheme;
+    				add_flush_callback(() => updating_value_3 = false);
+    			}
+
+    			multiselect3.$set(multiselect3_changes);
+    		},
+    		i: function intro(local) {
+    			if (current) return;
+    			transition_in(multiselect0.$$.fragment, local);
+    			transition_in(multiselect1.$$.fragment, local);
+    			transition_in(multiselect2.$$.fragment, local);
+    			transition_in(multiselect3.$$.fragment, local);
+
+    			add_render_callback(() => {
+    				if (!div4_transition) div4_transition = create_bidirectional_transition(div4, slide, {}, true);
+    				div4_transition.run(1);
+    			});
+
+    			current = true;
+    		},
+    		o: function outro(local) {
+    			transition_out(multiselect0.$$.fragment, local);
+    			transition_out(multiselect1.$$.fragment, local);
+    			transition_out(multiselect2.$$.fragment, local);
+    			transition_out(multiselect3.$$.fragment, local);
+    			if (!div4_transition) div4_transition = create_bidirectional_transition(div4, slide, {}, false);
+    			div4_transition.run(0);
+    			current = false;
+    		},
+    		d: function destroy(detaching) {
+    			if (detaching) detach_dev(div4);
+    			destroy_component(multiselect0);
+    			destroy_component(multiselect1);
+    			destroy_component(multiselect2);
+    			destroy_component(multiselect3);
+    			if (detaching && div4_transition) div4_transition.end();
+    		}
+    	};
+
+    	dispatch_dev("SvelteRegisterBlock", {
+    		block,
+    		id: create_if_block_3$7.name,
+    		type: "if",
+    		source: "(97:8) {#if paneVisbility.byOutcomes}",
+    		ctx
+    	});
+
+    	return block;
+    }
+
+    // (103:20) {#each keyValues.list as name}
+    function create_each_block_11$1(ctx) {
+    	let option;
+    	let raw_value = /*name*/ ctx[20] + "";
+
+    	const block = {
+    		c: function create() {
+    			option = element("option");
+    			option.__value = /*name*/ ctx[20];
+    			option.value = option.__value;
+    			attr_dev(option, "class", "svelte-kelrrb");
+    			add_location(option, file$n, 103, 20, 4228);
     		},
     		m: function mount(target, anchor) {
     			insert_dev(target, option, anchor);
@@ -66510,17 +67256,19 @@ var app = (function () {
     		block,
     		id: create_each_block_11$1.name,
     		type: "each",
-    		source: "(165:20) {#each organisation.list as name}",
+    		source: "(103:20) {#each keyValues.list as name}",
     		ctx
     	});
 
     	return block;
     }
 
-    // (164:16) <MultiSelect id = {organisation.name} bind:value={$ui.search.organisation.organisation} placeholder={organisation.placeholder} >
+    // (101:16) <MultiSelect id={keyValues.name} bind:value={$ui.search.organisation.keyValues} placeholder={keyValues.placeholder} >
     function create_default_slot_11$1(ctx) {
+    	let option;
+    	let t;
     	let each_1_anchor;
-    	let each_value_11 = /*organisation*/ ctx[16].list;
+    	let each_value_11 = keyValues.list;
     	validate_each_argument(each_value_11);
     	let each_blocks = [];
 
@@ -66530,13 +67278,25 @@ var app = (function () {
 
     	const block = {
     		c: function create() {
+    			option = element("option");
+    			t = space();
+
     			for (let i = 0; i < each_blocks.length; i += 1) {
     				each_blocks[i].c();
     			}
 
     			each_1_anchor = empty();
+    			option.disabled = true;
+    			option.selected = true;
+    			option.__value = "";
+    			option.value = option.__value;
+    			attr_dev(option, "class", "svelte-kelrrb");
+    			add_location(option, file$n, 101, 20, 4115);
     		},
     		m: function mount(target, anchor) {
+    			insert_dev(target, option, anchor);
+    			insert_dev(target, t, anchor);
+
     			for (let i = 0; i < each_blocks.length; i += 1) {
     				each_blocks[i].m(target, anchor);
     			}
@@ -66544,8 +67304,8 @@ var app = (function () {
     			insert_dev(target, each_1_anchor, anchor);
     		},
     		p: function update(ctx, dirty) {
-    			if (dirty[0] & /*organisation*/ 65536) {
-    				each_value_11 = /*organisation*/ ctx[16].list;
+    			if (dirty & /*keyValues*/ 0) {
+    				each_value_11 = keyValues.list;
     				validate_each_argument(each_value_11);
     				let i;
 
@@ -66569,6 +67329,8 @@ var app = (function () {
     			}
     		},
     		d: function destroy(detaching) {
+    			if (detaching) detach_dev(option);
+    			if (detaching) detach_dev(t);
     			destroy_each(each_blocks, detaching);
     			if (detaching) detach_dev(each_1_anchor);
     		}
@@ -66578,52 +67340,406 @@ var app = (function () {
     		block,
     		id: create_default_slot_11$1.name,
     		type: "slot",
-    		source: "(164:16) <MultiSelect id = {organisation.name} bind:value={$ui.search.organisation.organisation} placeholder={organisation.placeholder} >",
+    		source: "(101:16) <MultiSelect id={keyValues.name} bind:value={$ui.search.organisation.keyValues} placeholder={keyValues.placeholder} >",
     		ctx
     	});
 
     	return block;
     }
 
-    // (182:8) {#if paneVisbility.byOutcomes}
+    // (113:20) {#each conditions.list as name}
+    function create_each_block_10$1(ctx) {
+    	let option;
+    	let raw_value = /*name*/ ctx[20] + "";
+
+    	const block = {
+    		c: function create() {
+    			option = element("option");
+    			option.__value = /*name*/ ctx[20];
+    			option.value = option.__value;
+    			attr_dev(option, "class", "svelte-kelrrb");
+    			add_location(option, file$n, 113, 20, 4744);
+    		},
+    		m: function mount(target, anchor) {
+    			insert_dev(target, option, anchor);
+    			option.innerHTML = raw_value;
+    		},
+    		p: noop,
+    		d: function destroy(detaching) {
+    			if (detaching) detach_dev(option);
+    		}
+    	};
+
+    	dispatch_dev("SvelteRegisterBlock", {
+    		block,
+    		id: create_each_block_10$1.name,
+    		type: "each",
+    		source: "(113:20) {#each conditions.list as name}",
+    		ctx
+    	});
+
+    	return block;
+    }
+
+    // (111:16) <MultiSelect id={conditions.name} bind:value={$ui.search.organisation.conditions}   placeholder={conditions.placeholder} >
+    function create_default_slot_10$1(ctx) {
+    	let option;
+    	let t;
+    	let each_1_anchor;
+    	let each_value_10 = conditions.list;
+    	validate_each_argument(each_value_10);
+    	let each_blocks = [];
+
+    	for (let i = 0; i < each_value_10.length; i += 1) {
+    		each_blocks[i] = create_each_block_10$1(get_each_context_10$1(ctx, each_value_10, i));
+    	}
+
+    	const block = {
+    		c: function create() {
+    			option = element("option");
+    			t = space();
+
+    			for (let i = 0; i < each_blocks.length; i += 1) {
+    				each_blocks[i].c();
+    			}
+
+    			each_1_anchor = empty();
+    			option.disabled = true;
+    			option.selected = true;
+    			option.__value = "";
+    			option.value = option.__value;
+    			attr_dev(option, "class", "svelte-kelrrb");
+    			add_location(option, file$n, 111, 20, 4630);
+    		},
+    		m: function mount(target, anchor) {
+    			insert_dev(target, option, anchor);
+    			insert_dev(target, t, anchor);
+
+    			for (let i = 0; i < each_blocks.length; i += 1) {
+    				each_blocks[i].m(target, anchor);
+    			}
+
+    			insert_dev(target, each_1_anchor, anchor);
+    		},
+    		p: function update(ctx, dirty) {
+    			if (dirty & /*conditions*/ 0) {
+    				each_value_10 = conditions.list;
+    				validate_each_argument(each_value_10);
+    				let i;
+
+    				for (i = 0; i < each_value_10.length; i += 1) {
+    					const child_ctx = get_each_context_10$1(ctx, each_value_10, i);
+
+    					if (each_blocks[i]) {
+    						each_blocks[i].p(child_ctx, dirty);
+    					} else {
+    						each_blocks[i] = create_each_block_10$1(child_ctx);
+    						each_blocks[i].c();
+    						each_blocks[i].m(each_1_anchor.parentNode, each_1_anchor);
+    					}
+    				}
+
+    				for (; i < each_blocks.length; i += 1) {
+    					each_blocks[i].d(1);
+    				}
+
+    				each_blocks.length = each_value_10.length;
+    			}
+    		},
+    		d: function destroy(detaching) {
+    			if (detaching) detach_dev(option);
+    			if (detaching) detach_dev(t);
+    			destroy_each(each_blocks, detaching);
+    			if (detaching) detach_dev(each_1_anchor);
+    		}
+    	};
+
+    	dispatch_dev("SvelteRegisterBlock", {
+    		block,
+    		id: create_default_slot_10$1.name,
+    		type: "slot",
+    		source: "(111:16) <MultiSelect id={conditions.name} bind:value={$ui.search.organisation.conditions}   placeholder={conditions.placeholder} >",
+    		ctx
+    	});
+
+    	return block;
+    }
+
+    // (123:20) {#each performanceObjectivesGroup.list as name}
+    function create_each_block_9$1(ctx) {
+    	let option;
+    	let raw_value = /*name*/ ctx[20] + "";
+
+    	const block = {
+    		c: function create() {
+    			option = element("option");
+    			option.__value = /*name*/ ctx[20];
+    			option.value = option.__value;
+    			attr_dev(option, "class", "svelte-kelrrb");
+    			add_location(option, file$n, 123, 20, 5339);
+    		},
+    		m: function mount(target, anchor) {
+    			insert_dev(target, option, anchor);
+    			option.innerHTML = raw_value;
+    		},
+    		p: noop,
+    		d: function destroy(detaching) {
+    			if (detaching) detach_dev(option);
+    		}
+    	};
+
+    	dispatch_dev("SvelteRegisterBlock", {
+    		block,
+    		id: create_each_block_9$1.name,
+    		type: "each",
+    		source: "(123:20) {#each performanceObjectivesGroup.list as name}",
+    		ctx
+    	});
+
+    	return block;
+    }
+
+    // (121:16) <MultiSelect id={performanceObjectivesGroup.name} bind:value={$ui.search.organisation.performanceObjectivesGroup}   placeholder={performanceObjectivesGroup.placeholder} >
+    function create_default_slot_9$1(ctx) {
+    	let option;
+    	let t;
+    	let each_1_anchor;
+    	let each_value_9 = performanceObjectivesGroup.list;
+    	validate_each_argument(each_value_9);
+    	let each_blocks = [];
+
+    	for (let i = 0; i < each_value_9.length; i += 1) {
+    		each_blocks[i] = create_each_block_9$1(get_each_context_9$1(ctx, each_value_9, i));
+    	}
+
+    	const block = {
+    		c: function create() {
+    			option = element("option");
+    			t = space();
+
+    			for (let i = 0; i < each_blocks.length; i += 1) {
+    				each_blocks[i].c();
+    			}
+
+    			each_1_anchor = empty();
+    			option.disabled = true;
+    			option.selected = true;
+    			option.__value = "";
+    			option.value = option.__value;
+    			attr_dev(option, "class", "svelte-kelrrb");
+    			add_location(option, file$n, 121, 20, 5209);
+    		},
+    		m: function mount(target, anchor) {
+    			insert_dev(target, option, anchor);
+    			insert_dev(target, t, anchor);
+
+    			for (let i = 0; i < each_blocks.length; i += 1) {
+    				each_blocks[i].m(target, anchor);
+    			}
+
+    			insert_dev(target, each_1_anchor, anchor);
+    		},
+    		p: function update(ctx, dirty) {
+    			if (dirty & /*performanceObjectivesGroup*/ 0) {
+    				each_value_9 = performanceObjectivesGroup.list;
+    				validate_each_argument(each_value_9);
+    				let i;
+
+    				for (i = 0; i < each_value_9.length; i += 1) {
+    					const child_ctx = get_each_context_9$1(ctx, each_value_9, i);
+
+    					if (each_blocks[i]) {
+    						each_blocks[i].p(child_ctx, dirty);
+    					} else {
+    						each_blocks[i] = create_each_block_9$1(child_ctx);
+    						each_blocks[i].c();
+    						each_blocks[i].m(each_1_anchor.parentNode, each_1_anchor);
+    					}
+    				}
+
+    				for (; i < each_blocks.length; i += 1) {
+    					each_blocks[i].d(1);
+    				}
+
+    				each_blocks.length = each_value_9.length;
+    			}
+    		},
+    		d: function destroy(detaching) {
+    			if (detaching) detach_dev(option);
+    			if (detaching) detach_dev(t);
+    			destroy_each(each_blocks, detaching);
+    			if (detaching) detach_dev(each_1_anchor);
+    		}
+    	};
+
+    	dispatch_dev("SvelteRegisterBlock", {
+    		block,
+    		id: create_default_slot_9$1.name,
+    		type: "slot",
+    		source: "(121:16) <MultiSelect id={performanceObjectivesGroup.name} bind:value={$ui.search.organisation.performanceObjectivesGroup}   placeholder={performanceObjectivesGroup.placeholder} >",
+    		ctx
+    	});
+
+    	return block;
+    }
+
+    // (132:20) {#each performanceObjectivesTheme.list as name}
+    function create_each_block_8$1(ctx) {
+    	let option;
+    	let raw_value = /*name*/ ctx[20] + "";
+
+    	const block = {
+    		c: function create() {
+    			option = element("option");
+    			option.__value = /*name*/ ctx[20];
+    			option.value = option.__value;
+    			attr_dev(option, "class", "svelte-kelrrb");
+    			add_location(option, file$n, 132, 20, 5928);
+    		},
+    		m: function mount(target, anchor) {
+    			insert_dev(target, option, anchor);
+    			option.innerHTML = raw_value;
+    		},
+    		p: noop,
+    		d: function destroy(detaching) {
+    			if (detaching) detach_dev(option);
+    		}
+    	};
+
+    	dispatch_dev("SvelteRegisterBlock", {
+    		block,
+    		id: create_each_block_8$1.name,
+    		type: "each",
+    		source: "(132:20) {#each performanceObjectivesTheme.list as name}",
+    		ctx
+    	});
+
+    	return block;
+    }
+
+    // (130:16) <MultiSelect id={performanceObjectivesTheme.name} bind:value={$ui.search.project.performanceObjectivesTheme}   placeholder={performanceObjectivesTheme.placeholder} >
+    function create_default_slot_8$1(ctx) {
+    	let option;
+    	let t;
+    	let each_1_anchor;
+    	let each_value_8 = performanceObjectivesTheme.list;
+    	validate_each_argument(each_value_8);
+    	let each_blocks = [];
+
+    	for (let i = 0; i < each_value_8.length; i += 1) {
+    		each_blocks[i] = create_each_block_8$1(get_each_context_8$1(ctx, each_value_8, i));
+    	}
+
+    	const block = {
+    		c: function create() {
+    			option = element("option");
+    			t = space();
+
+    			for (let i = 0; i < each_blocks.length; i += 1) {
+    				each_blocks[i].c();
+    			}
+
+    			each_1_anchor = empty();
+    			option.disabled = true;
+    			option.selected = true;
+    			option.__value = "";
+    			option.value = option.__value;
+    			attr_dev(option, "class", "svelte-kelrrb");
+    			add_location(option, file$n, 130, 20, 5798);
+    		},
+    		m: function mount(target, anchor) {
+    			insert_dev(target, option, anchor);
+    			insert_dev(target, t, anchor);
+
+    			for (let i = 0; i < each_blocks.length; i += 1) {
+    				each_blocks[i].m(target, anchor);
+    			}
+
+    			insert_dev(target, each_1_anchor, anchor);
+    		},
+    		p: function update(ctx, dirty) {
+    			if (dirty & /*performanceObjectivesTheme*/ 0) {
+    				each_value_8 = performanceObjectivesTheme.list;
+    				validate_each_argument(each_value_8);
+    				let i;
+
+    				for (i = 0; i < each_value_8.length; i += 1) {
+    					const child_ctx = get_each_context_8$1(ctx, each_value_8, i);
+
+    					if (each_blocks[i]) {
+    						each_blocks[i].p(child_ctx, dirty);
+    					} else {
+    						each_blocks[i] = create_each_block_8$1(child_ctx);
+    						each_blocks[i].c();
+    						each_blocks[i].m(each_1_anchor.parentNode, each_1_anchor);
+    					}
+    				}
+
+    				for (; i < each_blocks.length; i += 1) {
+    					each_blocks[i].d(1);
+    				}
+
+    				each_blocks.length = each_value_8.length;
+    			}
+    		},
+    		d: function destroy(detaching) {
+    			if (detaching) detach_dev(option);
+    			if (detaching) detach_dev(t);
+    			destroy_each(each_blocks, detaching);
+    			if (detaching) detach_dev(each_1_anchor);
+    		}
+    	};
+
+    	dispatch_dev("SvelteRegisterBlock", {
+    		block,
+    		id: create_default_slot_8$1.name,
+    		type: "slot",
+    		source: "(130:16) <MultiSelect id={performanceObjectivesTheme.name} bind:value={$ui.search.project.performanceObjectivesTheme}   placeholder={performanceObjectivesTheme.placeholder} >",
+    		ctx
+    	});
+
+    	return block;
+    }
+
+    // (149:8) {#if paneVisbility.byLocation}
     function create_if_block_2$7(ctx) {
     	let div3;
     	let div0;
     	let h40;
-    	let raw0_value = /*keyValues*/ ctx[5].label + "";
+    	let raw0_value = catchments.label + "";
     	let t0;
     	let multiselect0;
     	let updating_value;
     	let t1;
     	let div1;
     	let h41;
-    	let raw1_value = /*conditions*/ ctx[6].label + "";
+    	let raw1_value = subcatchments.label + "";
     	let t2;
     	let multiselect1;
     	let updating_value_1;
     	let t3;
     	let div2;
     	let h42;
-    	let raw2_value = /*performanceObjectives*/ ctx[7].label + "";
+    	let raw2_value = locations.label + "";
     	let t4;
     	let multiselect2;
     	let updating_value_2;
     	let div3_transition;
     	let current;
 
-    	function multiselect0_value_binding(value) {
-    		/*multiselect0_value_binding*/ ctx[18](value);
+    	function multiselect0_value_binding_1(value) {
+    		/*multiselect0_value_binding_1*/ ctx[12](value);
     	}
 
     	let multiselect0_props = {
-    		id: /*keyValues*/ ctx[5].name,
-    		placeholder: /*keyValues*/ ctx[5].placeholder,
-    		$$slots: { default: [create_default_slot_10$1] },
+    		id: catchments.name,
+    		placeholder: catchments.placeholder,
+    		$$slots: { default: [create_default_slot_7$1] },
     		$$scope: { ctx }
     	};
 
-    	if (/*$ui*/ ctx[1].search.organisation.keyValues !== void 0) {
-    		multiselect0_props.value = /*$ui*/ ctx[1].search.organisation.keyValues;
+    	if (/*$ui*/ ctx[0].search.organisation.catchment !== void 0) {
+    		multiselect0_props.value = /*$ui*/ ctx[0].search.organisation.catchment;
     	}
 
     	multiselect0 = new MultiSelect({
@@ -66631,21 +67747,21 @@ var app = (function () {
     			$$inline: true
     		});
 
-    	binding_callbacks.push(() => bind(multiselect0, 'value', multiselect0_value_binding));
+    	binding_callbacks.push(() => bind(multiselect0, 'value', multiselect0_value_binding_1));
 
-    	function multiselect1_value_binding(value) {
-    		/*multiselect1_value_binding*/ ctx[19](value);
+    	function multiselect1_value_binding_1(value) {
+    		/*multiselect1_value_binding_1*/ ctx[13](value);
     	}
 
     	let multiselect1_props = {
-    		id: /*conditions*/ ctx[6].name,
-    		placeholder: /*conditions*/ ctx[6].placeholder,
-    		$$slots: { default: [create_default_slot_9$1] },
+    		id: subcatchments.name,
+    		placeholder: subcatchments.placeholder,
+    		$$slots: { default: [create_default_slot_6$1] },
     		$$scope: { ctx }
     	};
 
-    	if (/*$ui*/ ctx[1].search.organisation.conditions !== void 0) {
-    		multiselect1_props.value = /*$ui*/ ctx[1].search.organisation.conditions;
+    	if (/*$ui*/ ctx[0].search.organisation.subcatchment !== void 0) {
+    		multiselect1_props.value = /*$ui*/ ctx[0].search.organisation.subcatchment;
     	}
 
     	multiselect1 = new MultiSelect({
@@ -66653,21 +67769,21 @@ var app = (function () {
     			$$inline: true
     		});
 
-    	binding_callbacks.push(() => bind(multiselect1, 'value', multiselect1_value_binding));
+    	binding_callbacks.push(() => bind(multiselect1, 'value', multiselect1_value_binding_1));
 
-    	function multiselect2_value_binding(value) {
-    		/*multiselect2_value_binding*/ ctx[20](value);
+    	function multiselect2_value_binding_1(value) {
+    		/*multiselect2_value_binding_1*/ ctx[14](value);
     	}
 
     	let multiselect2_props = {
-    		id: /*performanceObjectives*/ ctx[7].name,
-    		placeholder: /*performanceObjectives*/ ctx[7].placeholder,
-    		$$slots: { default: [create_default_slot_8$1] },
+    		id: locations.name,
+    		placeholder: locations.placeholder,
+    		$$slots: { default: [create_default_slot_5$1] },
     		$$scope: { ctx }
     	};
 
-    	if (/*$ui*/ ctx[1].search.organisation.performanceObjectives !== void 0) {
-    		multiselect2_props.value = /*$ui*/ ctx[1].search.organisation.performanceObjectives;
+    	if (/*$ui*/ ctx[0].search.organisation.locations !== void 0) {
+    		multiselect2_props.value = /*$ui*/ ctx[0].search.organisation.locations;
     	}
 
     	multiselect2 = new MultiSelect({
@@ -66675,7 +67791,7 @@ var app = (function () {
     			$$inline: true
     		});
 
-    	binding_callbacks.push(() => bind(multiselect2, 'value', multiselect2_value_binding));
+    	binding_callbacks.push(() => bind(multiselect2, 'value', multiselect2_value_binding_1));
 
     	const block = {
     		c: function create() {
@@ -66694,23 +67810,23 @@ var app = (function () {
     			h42 = element("h4");
     			t4 = space();
     			create_component(multiselect2.$$.fragment);
-    			attr_dev(h40, "class", "svelte-k5rl9e");
-    			add_location(h40, file$n, 184, 16, 6920);
-    			attr_dev(div0, "class", "multi-select-container svelte-k5rl9e");
-    			set_style(div0, "z-index", "20");
-    			add_location(div0, file$n, 183, 12, 6846);
-    			attr_dev(h41, "class", "svelte-k5rl9e");
-    			add_location(h41, file$n, 193, 16, 7367);
-    			attr_dev(div1, "class", "multi-select-container svelte-k5rl9e");
-    			set_style(div1, "z-index", "19");
-    			add_location(div1, file$n, 192, 12, 7292);
-    			attr_dev(h42, "class", "svelte-k5rl9e");
-    			add_location(h42, file$n, 202, 16, 7820);
-    			attr_dev(div2, "class", "multi-select-container svelte-k5rl9e");
-    			set_style(div2, "z-index", "18");
-    			add_location(div2, file$n, 201, 12, 7746);
-    			attr_dev(div3, "class", "collapse__body svelte-k5rl9e");
-    			add_location(div3, file$n, 182, 8, 6785);
+    			attr_dev(h40, "class", "svelte-kelrrb");
+    			add_location(h40, file$n, 151, 16, 6595);
+    			attr_dev(div0, "class", "multi-select-container svelte-kelrrb");
+    			set_style(div0, "z-index", "17");
+    			add_location(div0, file$n, 150, 12, 6521);
+    			attr_dev(h41, "class", "svelte-kelrrb");
+    			add_location(h41, file$n, 161, 16, 7123);
+    			attr_dev(div1, "class", "multi-select-container svelte-kelrrb");
+    			set_style(div1, "z-index", "16");
+    			add_location(div1, file$n, 160, 12, 7049);
+    			attr_dev(h42, "class", "svelte-kelrrb");
+    			add_location(h42, file$n, 171, 16, 7666);
+    			attr_dev(div2, "class", "multi-select-container svelte-kelrrb");
+    			set_style(div2, "z-index", "15");
+    			add_location(div2, file$n, 170, 12, 7592);
+    			attr_dev(div3, "class", "collapse__body svelte-kelrrb");
+    			add_location(div3, file$n, 149, 8, 6460);
     		},
     		m: function mount(target, anchor) {
     			insert_dev(target, div3, anchor);
@@ -66736,39 +67852,39 @@ var app = (function () {
     		p: function update(ctx, dirty) {
     			const multiselect0_changes = {};
 
-    			if (dirty[1] & /*$$scope*/ 16777216) {
+    			if (dirty[1] & /*$$scope*/ 65536) {
     				multiselect0_changes.$$scope = { dirty, ctx };
     			}
 
-    			if (!updating_value && dirty[0] & /*$ui*/ 2) {
+    			if (!updating_value && dirty[0] & /*$ui*/ 1) {
     				updating_value = true;
-    				multiselect0_changes.value = /*$ui*/ ctx[1].search.organisation.keyValues;
+    				multiselect0_changes.value = /*$ui*/ ctx[0].search.organisation.catchment;
     				add_flush_callback(() => updating_value = false);
     			}
 
     			multiselect0.$set(multiselect0_changes);
     			const multiselect1_changes = {};
 
-    			if (dirty[1] & /*$$scope*/ 16777216) {
+    			if (dirty[1] & /*$$scope*/ 65536) {
     				multiselect1_changes.$$scope = { dirty, ctx };
     			}
 
-    			if (!updating_value_1 && dirty[0] & /*$ui*/ 2) {
+    			if (!updating_value_1 && dirty[0] & /*$ui*/ 1) {
     				updating_value_1 = true;
-    				multiselect1_changes.value = /*$ui*/ ctx[1].search.organisation.conditions;
+    				multiselect1_changes.value = /*$ui*/ ctx[0].search.organisation.subcatchment;
     				add_flush_callback(() => updating_value_1 = false);
     			}
 
     			multiselect1.$set(multiselect1_changes);
     			const multiselect2_changes = {};
 
-    			if (dirty[1] & /*$$scope*/ 16777216) {
+    			if (dirty[1] & /*$$scope*/ 65536) {
     				multiselect2_changes.$$scope = { dirty, ctx };
     			}
 
-    			if (!updating_value_2 && dirty[0] & /*$ui*/ 2) {
+    			if (!updating_value_2 && dirty[0] & /*$ui*/ 1) {
     				updating_value_2 = true;
-    				multiselect2_changes.value = /*$ui*/ ctx[1].search.organisation.performanceObjectives;
+    				multiselect2_changes.value = /*$ui*/ ctx[0].search.organisation.locations;
     				add_flush_callback(() => updating_value_2 = false);
     			}
 
@@ -66808,561 +67924,25 @@ var app = (function () {
     		block,
     		id: create_if_block_2$7.name,
     		type: "if",
-    		source: "(182:8) {#if paneVisbility.byOutcomes}",
+    		source: "(149:8) {#if paneVisbility.byLocation}",
     		ctx
     	});
 
     	return block;
     }
 
-    // (187:20) {#each keyValues.list as name}
-    function create_each_block_10$1(ctx) {
-    	let option;
-    	let raw_value = /*name*/ ctx[30] + "";
-
-    	const block = {
-    		c: function create() {
-    			option = element("option");
-    			option.__value = /*name*/ ctx[30];
-    			option.value = option.__value;
-    			attr_dev(option, "class", "svelte-k5rl9e");
-    			add_location(option, file$n, 187, 20, 7158);
-    		},
-    		m: function mount(target, anchor) {
-    			insert_dev(target, option, anchor);
-    			option.innerHTML = raw_value;
-    		},
-    		p: noop,
-    		d: function destroy(detaching) {
-    			if (detaching) detach_dev(option);
-    		}
-    	};
-
-    	dispatch_dev("SvelteRegisterBlock", {
-    		block,
-    		id: create_each_block_10$1.name,
-    		type: "each",
-    		source: "(187:20) {#each keyValues.list as name}",
-    		ctx
-    	});
-
-    	return block;
-    }
-
-    // (186:16) <MultiSelect id={keyValues.name} bind:value={$ui.search.organisation.keyValues} placeholder={keyValues.placeholder} >
-    function create_default_slot_10$1(ctx) {
-    	let each_1_anchor;
-    	let each_value_10 = /*keyValues*/ ctx[5].list;
-    	validate_each_argument(each_value_10);
-    	let each_blocks = [];
-
-    	for (let i = 0; i < each_value_10.length; i += 1) {
-    		each_blocks[i] = create_each_block_10$1(get_each_context_10$1(ctx, each_value_10, i));
-    	}
-
-    	const block = {
-    		c: function create() {
-    			for (let i = 0; i < each_blocks.length; i += 1) {
-    				each_blocks[i].c();
-    			}
-
-    			each_1_anchor = empty();
-    		},
-    		m: function mount(target, anchor) {
-    			for (let i = 0; i < each_blocks.length; i += 1) {
-    				each_blocks[i].m(target, anchor);
-    			}
-
-    			insert_dev(target, each_1_anchor, anchor);
-    		},
-    		p: function update(ctx, dirty) {
-    			if (dirty[0] & /*keyValues*/ 32) {
-    				each_value_10 = /*keyValues*/ ctx[5].list;
-    				validate_each_argument(each_value_10);
-    				let i;
-
-    				for (i = 0; i < each_value_10.length; i += 1) {
-    					const child_ctx = get_each_context_10$1(ctx, each_value_10, i);
-
-    					if (each_blocks[i]) {
-    						each_blocks[i].p(child_ctx, dirty);
-    					} else {
-    						each_blocks[i] = create_each_block_10$1(child_ctx);
-    						each_blocks[i].c();
-    						each_blocks[i].m(each_1_anchor.parentNode, each_1_anchor);
-    					}
-    				}
-
-    				for (; i < each_blocks.length; i += 1) {
-    					each_blocks[i].d(1);
-    				}
-
-    				each_blocks.length = each_value_10.length;
-    			}
-    		},
-    		d: function destroy(detaching) {
-    			destroy_each(each_blocks, detaching);
-    			if (detaching) detach_dev(each_1_anchor);
-    		}
-    	};
-
-    	dispatch_dev("SvelteRegisterBlock", {
-    		block,
-    		id: create_default_slot_10$1.name,
-    		type: "slot",
-    		source: "(186:16) <MultiSelect id={keyValues.name} bind:value={$ui.search.organisation.keyValues} placeholder={keyValues.placeholder} >",
-    		ctx
-    	});
-
-    	return block;
-    }
-
-    // (196:20) {#each conditions.list as name}
-    function create_each_block_9$1(ctx) {
-    	let option;
-    	let raw_value = /*name*/ ctx[30] + "";
-
-    	const block = {
-    		c: function create() {
-    			option = element("option");
-    			option.__value = /*name*/ ctx[30];
-    			option.value = option.__value;
-    			attr_dev(option, "class", "svelte-k5rl9e");
-    			add_location(option, file$n, 196, 20, 7612);
-    		},
-    		m: function mount(target, anchor) {
-    			insert_dev(target, option, anchor);
-    			option.innerHTML = raw_value;
-    		},
-    		p: noop,
-    		d: function destroy(detaching) {
-    			if (detaching) detach_dev(option);
-    		}
-    	};
-
-    	dispatch_dev("SvelteRegisterBlock", {
-    		block,
-    		id: create_each_block_9$1.name,
-    		type: "each",
-    		source: "(196:20) {#each conditions.list as name}",
-    		ctx
-    	});
-
-    	return block;
-    }
-
-    // (195:16) <MultiSelect id={conditions.name} bind:value={$ui.search.organisation.conditions}   placeholder={conditions.placeholder} >
-    function create_default_slot_9$1(ctx) {
-    	let each_1_anchor;
-    	let each_value_9 = /*conditions*/ ctx[6].list;
-    	validate_each_argument(each_value_9);
-    	let each_blocks = [];
-
-    	for (let i = 0; i < each_value_9.length; i += 1) {
-    		each_blocks[i] = create_each_block_9$1(get_each_context_9$1(ctx, each_value_9, i));
-    	}
-
-    	const block = {
-    		c: function create() {
-    			for (let i = 0; i < each_blocks.length; i += 1) {
-    				each_blocks[i].c();
-    			}
-
-    			each_1_anchor = empty();
-    		},
-    		m: function mount(target, anchor) {
-    			for (let i = 0; i < each_blocks.length; i += 1) {
-    				each_blocks[i].m(target, anchor);
-    			}
-
-    			insert_dev(target, each_1_anchor, anchor);
-    		},
-    		p: function update(ctx, dirty) {
-    			if (dirty[0] & /*conditions*/ 64) {
-    				each_value_9 = /*conditions*/ ctx[6].list;
-    				validate_each_argument(each_value_9);
-    				let i;
-
-    				for (i = 0; i < each_value_9.length; i += 1) {
-    					const child_ctx = get_each_context_9$1(ctx, each_value_9, i);
-
-    					if (each_blocks[i]) {
-    						each_blocks[i].p(child_ctx, dirty);
-    					} else {
-    						each_blocks[i] = create_each_block_9$1(child_ctx);
-    						each_blocks[i].c();
-    						each_blocks[i].m(each_1_anchor.parentNode, each_1_anchor);
-    					}
-    				}
-
-    				for (; i < each_blocks.length; i += 1) {
-    					each_blocks[i].d(1);
-    				}
-
-    				each_blocks.length = each_value_9.length;
-    			}
-    		},
-    		d: function destroy(detaching) {
-    			destroy_each(each_blocks, detaching);
-    			if (detaching) detach_dev(each_1_anchor);
-    		}
-    	};
-
-    	dispatch_dev("SvelteRegisterBlock", {
-    		block,
-    		id: create_default_slot_9$1.name,
-    		type: "slot",
-    		source: "(195:16) <MultiSelect id={conditions.name} bind:value={$ui.search.organisation.conditions}   placeholder={conditions.placeholder} >",
-    		ctx
-    	});
-
-    	return block;
-    }
-
-    // (205:20) {#each performanceObjectives.list as name}
-    function create_each_block_8$1(ctx) {
-    	let option;
-    	let raw_value = /*name*/ ctx[30] + "";
-
-    	const block = {
-    		c: function create() {
-    			option = element("option");
-    			option.__value = /*name*/ ctx[30];
-    			option.value = option.__value;
-    			attr_dev(option, "class", "svelte-k5rl9e");
-    			add_location(option, file$n, 205, 20, 8120);
-    		},
-    		m: function mount(target, anchor) {
-    			insert_dev(target, option, anchor);
-    			option.innerHTML = raw_value;
-    		},
-    		p: noop,
-    		d: function destroy(detaching) {
-    			if (detaching) detach_dev(option);
-    		}
-    	};
-
-    	dispatch_dev("SvelteRegisterBlock", {
-    		block,
-    		id: create_each_block_8$1.name,
-    		type: "each",
-    		source: "(205:20) {#each performanceObjectives.list as name}",
-    		ctx
-    	});
-
-    	return block;
-    }
-
-    // (204:16) <MultiSelect id={performanceObjectives.name} bind:value={$ui.search.organisation.performanceObjectives}   placeholder={performanceObjectives.placeholder} >
-    function create_default_slot_8$1(ctx) {
-    	let each_1_anchor;
-    	let each_value_8 = /*performanceObjectives*/ ctx[7].list;
-    	validate_each_argument(each_value_8);
-    	let each_blocks = [];
-
-    	for (let i = 0; i < each_value_8.length; i += 1) {
-    		each_blocks[i] = create_each_block_8$1(get_each_context_8$1(ctx, each_value_8, i));
-    	}
-
-    	const block = {
-    		c: function create() {
-    			for (let i = 0; i < each_blocks.length; i += 1) {
-    				each_blocks[i].c();
-    			}
-
-    			each_1_anchor = empty();
-    		},
-    		m: function mount(target, anchor) {
-    			for (let i = 0; i < each_blocks.length; i += 1) {
-    				each_blocks[i].m(target, anchor);
-    			}
-
-    			insert_dev(target, each_1_anchor, anchor);
-    		},
-    		p: function update(ctx, dirty) {
-    			if (dirty[0] & /*performanceObjectives*/ 128) {
-    				each_value_8 = /*performanceObjectives*/ ctx[7].list;
-    				validate_each_argument(each_value_8);
-    				let i;
-
-    				for (i = 0; i < each_value_8.length; i += 1) {
-    					const child_ctx = get_each_context_8$1(ctx, each_value_8, i);
-
-    					if (each_blocks[i]) {
-    						each_blocks[i].p(child_ctx, dirty);
-    					} else {
-    						each_blocks[i] = create_each_block_8$1(child_ctx);
-    						each_blocks[i].c();
-    						each_blocks[i].m(each_1_anchor.parentNode, each_1_anchor);
-    					}
-    				}
-
-    				for (; i < each_blocks.length; i += 1) {
-    					each_blocks[i].d(1);
-    				}
-
-    				each_blocks.length = each_value_8.length;
-    			}
-    		},
-    		d: function destroy(detaching) {
-    			destroy_each(each_blocks, detaching);
-    			if (detaching) detach_dev(each_1_anchor);
-    		}
-    	};
-
-    	dispatch_dev("SvelteRegisterBlock", {
-    		block,
-    		id: create_default_slot_8$1.name,
-    		type: "slot",
-    		source: "(204:16) <MultiSelect id={performanceObjectives.name} bind:value={$ui.search.organisation.performanceObjectives}   placeholder={performanceObjectives.placeholder} >",
-    		ctx
-    	});
-
-    	return block;
-    }
-
-    // (221:8) {#if paneVisbility.byLocation}
-    function create_if_block_1$7(ctx) {
-    	let div3;
-    	let div0;
-    	let h40;
-    	let raw0_value = /*catchments*/ ctx[8].label + "";
-    	let t0;
-    	let multiselect0;
-    	let updating_value;
-    	let t1;
-    	let div1;
-    	let h41;
-    	let raw1_value = /*subcatchments*/ ctx[9].label + "";
-    	let t2;
-    	let multiselect1;
-    	let updating_value_1;
-    	let t3;
-    	let div2;
-    	let h42;
-    	let raw2_value = /*locations*/ ctx[10].label + "";
-    	let t4;
-    	let multiselect2;
-    	let updating_value_2;
-    	let div3_transition;
-    	let current;
-
-    	function multiselect0_value_binding_1(value) {
-    		/*multiselect0_value_binding_1*/ ctx[21](value);
-    	}
-
-    	let multiselect0_props = {
-    		id: /*catchments*/ ctx[8].name,
-    		placeholder: /*catchments*/ ctx[8].placeholder,
-    		$$slots: { default: [create_default_slot_7$1] },
-    		$$scope: { ctx }
-    	};
-
-    	if (/*$ui*/ ctx[1].search.organisation.catchment !== void 0) {
-    		multiselect0_props.value = /*$ui*/ ctx[1].search.organisation.catchment;
-    	}
-
-    	multiselect0 = new MultiSelect({
-    			props: multiselect0_props,
-    			$$inline: true
-    		});
-
-    	binding_callbacks.push(() => bind(multiselect0, 'value', multiselect0_value_binding_1));
-
-    	function multiselect1_value_binding_1(value) {
-    		/*multiselect1_value_binding_1*/ ctx[22](value);
-    	}
-
-    	let multiselect1_props = {
-    		id: /*subcatchments*/ ctx[9].name,
-    		placeholder: /*subcatchments*/ ctx[9].placeholder,
-    		$$slots: { default: [create_default_slot_6$1] },
-    		$$scope: { ctx }
-    	};
-
-    	if (/*$ui*/ ctx[1].search.organisation.subcatchment !== void 0) {
-    		multiselect1_props.value = /*$ui*/ ctx[1].search.organisation.subcatchment;
-    	}
-
-    	multiselect1 = new MultiSelect({
-    			props: multiselect1_props,
-    			$$inline: true
-    		});
-
-    	binding_callbacks.push(() => bind(multiselect1, 'value', multiselect1_value_binding_1));
-
-    	function multiselect2_value_binding_1(value) {
-    		/*multiselect2_value_binding_1*/ ctx[23](value);
-    	}
-
-    	let multiselect2_props = {
-    		id: /*locations*/ ctx[10].name,
-    		placeholder: /*locations*/ ctx[10].placeholder,
-    		$$slots: { default: [create_default_slot_5$1] },
-    		$$scope: { ctx }
-    	};
-
-    	if (/*$ui*/ ctx[1].search.organisation.locations !== void 0) {
-    		multiselect2_props.value = /*$ui*/ ctx[1].search.organisation.locations;
-    	}
-
-    	multiselect2 = new MultiSelect({
-    			props: multiselect2_props,
-    			$$inline: true
-    		});
-
-    	binding_callbacks.push(() => bind(multiselect2, 'value', multiselect2_value_binding_1));
-
-    	const block = {
-    		c: function create() {
-    			div3 = element("div");
-    			div0 = element("div");
-    			h40 = element("h4");
-    			t0 = space();
-    			create_component(multiselect0.$$.fragment);
-    			t1 = space();
-    			div1 = element("div");
-    			h41 = element("h4");
-    			t2 = space();
-    			create_component(multiselect1.$$.fragment);
-    			t3 = space();
-    			div2 = element("div");
-    			h42 = element("h4");
-    			t4 = space();
-    			create_component(multiselect2.$$.fragment);
-    			attr_dev(h40, "class", "svelte-k5rl9e");
-    			add_location(h40, file$n, 223, 16, 8786);
-    			attr_dev(div0, "class", "multi-select-container svelte-k5rl9e");
-    			set_style(div0, "z-index", "17");
-    			add_location(div0, file$n, 222, 12, 8712);
-    			attr_dev(h41, "class", "svelte-k5rl9e");
-    			add_location(h41, file$n, 232, 16, 9252);
-    			attr_dev(div1, "class", "multi-select-container svelte-k5rl9e");
-    			set_style(div1, "z-index", "16");
-    			add_location(div1, file$n, 231, 12, 9178);
-    			attr_dev(h42, "class", "svelte-k5rl9e");
-    			add_location(h42, file$n, 241, 16, 9733);
-    			attr_dev(div2, "class", "multi-select-container svelte-k5rl9e");
-    			set_style(div2, "z-index", "15");
-    			add_location(div2, file$n, 240, 12, 9659);
-    			attr_dev(div3, "class", "collapse__body svelte-k5rl9e");
-    			add_location(div3, file$n, 221, 8, 8651);
-    		},
-    		m: function mount(target, anchor) {
-    			insert_dev(target, div3, anchor);
-    			append_dev(div3, div0);
-    			append_dev(div0, h40);
-    			h40.innerHTML = raw0_value;
-    			append_dev(div0, t0);
-    			mount_component(multiselect0, div0, null);
-    			append_dev(div3, t1);
-    			append_dev(div3, div1);
-    			append_dev(div1, h41);
-    			h41.innerHTML = raw1_value;
-    			append_dev(div1, t2);
-    			mount_component(multiselect1, div1, null);
-    			append_dev(div3, t3);
-    			append_dev(div3, div2);
-    			append_dev(div2, h42);
-    			h42.innerHTML = raw2_value;
-    			append_dev(div2, t4);
-    			mount_component(multiselect2, div2, null);
-    			current = true;
-    		},
-    		p: function update(ctx, dirty) {
-    			const multiselect0_changes = {};
-
-    			if (dirty[1] & /*$$scope*/ 16777216) {
-    				multiselect0_changes.$$scope = { dirty, ctx };
-    			}
-
-    			if (!updating_value && dirty[0] & /*$ui*/ 2) {
-    				updating_value = true;
-    				multiselect0_changes.value = /*$ui*/ ctx[1].search.organisation.catchment;
-    				add_flush_callback(() => updating_value = false);
-    			}
-
-    			multiselect0.$set(multiselect0_changes);
-    			const multiselect1_changes = {};
-
-    			if (dirty[1] & /*$$scope*/ 16777216) {
-    				multiselect1_changes.$$scope = { dirty, ctx };
-    			}
-
-    			if (!updating_value_1 && dirty[0] & /*$ui*/ 2) {
-    				updating_value_1 = true;
-    				multiselect1_changes.value = /*$ui*/ ctx[1].search.organisation.subcatchment;
-    				add_flush_callback(() => updating_value_1 = false);
-    			}
-
-    			multiselect1.$set(multiselect1_changes);
-    			const multiselect2_changes = {};
-
-    			if (dirty[1] & /*$$scope*/ 16777216) {
-    				multiselect2_changes.$$scope = { dirty, ctx };
-    			}
-
-    			if (!updating_value_2 && dirty[0] & /*$ui*/ 2) {
-    				updating_value_2 = true;
-    				multiselect2_changes.value = /*$ui*/ ctx[1].search.organisation.locations;
-    				add_flush_callback(() => updating_value_2 = false);
-    			}
-
-    			multiselect2.$set(multiselect2_changes);
-    		},
-    		i: function intro(local) {
-    			if (current) return;
-    			transition_in(multiselect0.$$.fragment, local);
-    			transition_in(multiselect1.$$.fragment, local);
-    			transition_in(multiselect2.$$.fragment, local);
-
-    			add_render_callback(() => {
-    				if (!div3_transition) div3_transition = create_bidirectional_transition(div3, slide, {}, true);
-    				div3_transition.run(1);
-    			});
-
-    			current = true;
-    		},
-    		o: function outro(local) {
-    			transition_out(multiselect0.$$.fragment, local);
-    			transition_out(multiselect1.$$.fragment, local);
-    			transition_out(multiselect2.$$.fragment, local);
-    			if (!div3_transition) div3_transition = create_bidirectional_transition(div3, slide, {}, false);
-    			div3_transition.run(0);
-    			current = false;
-    		},
-    		d: function destroy(detaching) {
-    			if (detaching) detach_dev(div3);
-    			destroy_component(multiselect0);
-    			destroy_component(multiselect1);
-    			destroy_component(multiselect2);
-    			if (detaching && div3_transition) div3_transition.end();
-    		}
-    	};
-
-    	dispatch_dev("SvelteRegisterBlock", {
-    		block,
-    		id: create_if_block_1$7.name,
-    		type: "if",
-    		source: "(221:8) {#if paneVisbility.byLocation}",
-    		ctx
-    	});
-
-    	return block;
-    }
-
-    // (226:20) {#each catchments.list as name}
+    // (155:20) {#each catchments.list as name}
     function create_each_block_7$1(ctx) {
     	let option;
-    	let raw_value = /*name*/ ctx[30] + "";
+    	let raw_value = /*name*/ ctx[20] + "";
 
     	const block = {
     		c: function create() {
     			option = element("option");
-    			option.__value = /*name*/ ctx[30];
+    			option.__value = /*name*/ ctx[20];
     			option.value = option.__value;
-    			attr_dev(option, "class", "svelte-k5rl9e");
-    			add_location(option, file$n, 226, 20, 9028);
+    			attr_dev(option, "class", "svelte-kelrrb");
+    			add_location(option, file$n, 155, 20, 6899);
     		},
     		m: function mount(target, anchor) {
     			insert_dev(target, option, anchor);
@@ -67378,17 +67958,19 @@ var app = (function () {
     		block,
     		id: create_each_block_7$1.name,
     		type: "each",
-    		source: "(226:20) {#each catchments.list as name}",
+    		source: "(155:20) {#each catchments.list as name}",
     		ctx
     	});
 
     	return block;
     }
 
-    // (225:16) <MultiSelect id={catchments.name} bind:value={$ui.search.organisation.catchment} placeholder={catchments.placeholder} >
+    // (153:16) <MultiSelect id={catchments.name} bind:value={$ui.search.organisation.catchment} placeholder={catchments.placeholder} >
     function create_default_slot_7$1(ctx) {
+    	let option;
+    	let t;
     	let each_1_anchor;
-    	let each_value_7 = /*catchments*/ ctx[8].list;
+    	let each_value_7 = catchments.list;
     	validate_each_argument(each_value_7);
     	let each_blocks = [];
 
@@ -67398,13 +67980,25 @@ var app = (function () {
 
     	const block = {
     		c: function create() {
+    			option = element("option");
+    			t = space();
+
     			for (let i = 0; i < each_blocks.length; i += 1) {
     				each_blocks[i].c();
     			}
 
     			each_1_anchor = empty();
+    			option.disabled = true;
+    			option.selected = true;
+    			option.__value = "";
+    			option.value = option.__value;
+    			attr_dev(option, "class", "svelte-kelrrb");
+    			add_location(option, file$n, 153, 20, 6785);
     		},
     		m: function mount(target, anchor) {
+    			insert_dev(target, option, anchor);
+    			insert_dev(target, t, anchor);
+
     			for (let i = 0; i < each_blocks.length; i += 1) {
     				each_blocks[i].m(target, anchor);
     			}
@@ -67412,8 +68006,8 @@ var app = (function () {
     			insert_dev(target, each_1_anchor, anchor);
     		},
     		p: function update(ctx, dirty) {
-    			if (dirty[0] & /*catchments*/ 256) {
-    				each_value_7 = /*catchments*/ ctx[8].list;
+    			if (dirty & /*catchments*/ 0) {
+    				each_value_7 = catchments.list;
     				validate_each_argument(each_value_7);
     				let i;
 
@@ -67437,6 +68031,8 @@ var app = (function () {
     			}
     		},
     		d: function destroy(detaching) {
+    			if (detaching) detach_dev(option);
+    			if (detaching) detach_dev(t);
     			destroy_each(each_blocks, detaching);
     			if (detaching) detach_dev(each_1_anchor);
     		}
@@ -67446,25 +68042,25 @@ var app = (function () {
     		block,
     		id: create_default_slot_7$1.name,
     		type: "slot",
-    		source: "(225:16) <MultiSelect id={catchments.name} bind:value={$ui.search.organisation.catchment} placeholder={catchments.placeholder} >",
+    		source: "(153:16) <MultiSelect id={catchments.name} bind:value={$ui.search.organisation.catchment} placeholder={catchments.placeholder} >",
     		ctx
     	});
 
     	return block;
     }
 
-    // (235:20) {#each subcatchments.list as name}
+    // (165:20) {#each subcatchments.list as name}
     function create_each_block_6$1(ctx) {
     	let option;
-    	let raw_value = /*name*/ ctx[30] + "";
+    	let raw_value = /*name*/ ctx[20] + "";
 
     	const block = {
     		c: function create() {
     			option = element("option");
-    			option.__value = /*name*/ ctx[30];
+    			option.__value = /*name*/ ctx[20];
     			option.value = option.__value;
-    			attr_dev(option, "class", "svelte-k5rl9e");
-    			add_location(option, file$n, 235, 20, 9509);
+    			attr_dev(option, "class", "svelte-kelrrb");
+    			add_location(option, file$n, 165, 20, 7442);
     		},
     		m: function mount(target, anchor) {
     			insert_dev(target, option, anchor);
@@ -67480,17 +68076,19 @@ var app = (function () {
     		block,
     		id: create_each_block_6$1.name,
     		type: "each",
-    		source: "(235:20) {#each subcatchments.list as name}",
+    		source: "(165:20) {#each subcatchments.list as name}",
     		ctx
     	});
 
     	return block;
     }
 
-    // (234:16) <MultiSelect id={subcatchments.name} bind:value={$ui.search.organisation.subcatchment} placeholder={subcatchments.placeholder} >
+    // (163:16) <MultiSelect id={subcatchments.name} bind:value={$ui.search.organisation.subcatchment} placeholder={subcatchments.placeholder} >
     function create_default_slot_6$1(ctx) {
+    	let option;
+    	let t;
     	let each_1_anchor;
-    	let each_value_6 = /*subcatchments*/ ctx[9].list;
+    	let each_value_6 = subcatchments.list;
     	validate_each_argument(each_value_6);
     	let each_blocks = [];
 
@@ -67500,13 +68098,25 @@ var app = (function () {
 
     	const block = {
     		c: function create() {
+    			option = element("option");
+    			t = space();
+
     			for (let i = 0; i < each_blocks.length; i += 1) {
     				each_blocks[i].c();
     			}
 
     			each_1_anchor = empty();
+    			option.disabled = true;
+    			option.selected = true;
+    			option.__value = "";
+    			option.value = option.__value;
+    			attr_dev(option, "class", "svelte-kelrrb");
+    			add_location(option, file$n, 163, 20, 7325);
     		},
     		m: function mount(target, anchor) {
+    			insert_dev(target, option, anchor);
+    			insert_dev(target, t, anchor);
+
     			for (let i = 0; i < each_blocks.length; i += 1) {
     				each_blocks[i].m(target, anchor);
     			}
@@ -67514,8 +68124,8 @@ var app = (function () {
     			insert_dev(target, each_1_anchor, anchor);
     		},
     		p: function update(ctx, dirty) {
-    			if (dirty[0] & /*subcatchments*/ 512) {
-    				each_value_6 = /*subcatchments*/ ctx[9].list;
+    			if (dirty & /*subcatchments*/ 0) {
+    				each_value_6 = subcatchments.list;
     				validate_each_argument(each_value_6);
     				let i;
 
@@ -67539,6 +68149,8 @@ var app = (function () {
     			}
     		},
     		d: function destroy(detaching) {
+    			if (detaching) detach_dev(option);
+    			if (detaching) detach_dev(t);
     			destroy_each(each_blocks, detaching);
     			if (detaching) detach_dev(each_1_anchor);
     		}
@@ -67548,25 +68160,25 @@ var app = (function () {
     		block,
     		id: create_default_slot_6$1.name,
     		type: "slot",
-    		source: "(234:16) <MultiSelect id={subcatchments.name} bind:value={$ui.search.organisation.subcatchment} placeholder={subcatchments.placeholder} >",
+    		source: "(163:16) <MultiSelect id={subcatchments.name} bind:value={$ui.search.organisation.subcatchment} placeholder={subcatchments.placeholder} >",
     		ctx
     	});
 
     	return block;
     }
 
-    // (244:20) {#each locations.list as name}
+    // (175:20) {#each locations.list as name}
     function create_each_block_5$1(ctx) {
     	let option;
-    	let raw_value = /*name*/ ctx[30] + "";
+    	let raw_value = /*name*/ ctx[20] + "";
 
     	const block = {
     		c: function create() {
     			option = element("option");
-    			option.__value = /*name*/ ctx[30];
+    			option.__value = /*name*/ ctx[20];
     			option.value = option.__value;
-    			attr_dev(option, "class", "svelte-k5rl9e");
-    			add_location(option, file$n, 244, 20, 9970);
+    			attr_dev(option, "class", "svelte-kelrrb");
+    			add_location(option, file$n, 175, 20, 7965);
     		},
     		m: function mount(target, anchor) {
     			insert_dev(target, option, anchor);
@@ -67582,17 +68194,19 @@ var app = (function () {
     		block,
     		id: create_each_block_5$1.name,
     		type: "each",
-    		source: "(244:20) {#each locations.list as name}",
+    		source: "(175:20) {#each locations.list as name}",
     		ctx
     	});
 
     	return block;
     }
 
-    // (243:16) <MultiSelect id={locations.name} bind:value={$ui.search.organisation.locations} placeholder={locations.placeholder}>
+    // (173:16) <MultiSelect id={locations.name} bind:value={$ui.search.organisation.locations} placeholder={locations.placeholder}>
     function create_default_slot_5$1(ctx) {
+    	let option;
+    	let t;
     	let each_1_anchor;
-    	let each_value_5 = /*locations*/ ctx[10].list;
+    	let each_value_5 = locations.list;
     	validate_each_argument(each_value_5);
     	let each_blocks = [];
 
@@ -67602,13 +68216,25 @@ var app = (function () {
 
     	const block = {
     		c: function create() {
+    			option = element("option");
+    			t = space();
+
     			for (let i = 0; i < each_blocks.length; i += 1) {
     				each_blocks[i].c();
     			}
 
     			each_1_anchor = empty();
+    			option.disabled = true;
+    			option.selected = true;
+    			option.__value = "";
+    			option.value = option.__value;
+    			attr_dev(option, "class", "svelte-kelrrb");
+    			add_location(option, file$n, 173, 20, 7852);
     		},
     		m: function mount(target, anchor) {
+    			insert_dev(target, option, anchor);
+    			insert_dev(target, t, anchor);
+
     			for (let i = 0; i < each_blocks.length; i += 1) {
     				each_blocks[i].m(target, anchor);
     			}
@@ -67616,8 +68242,8 @@ var app = (function () {
     			insert_dev(target, each_1_anchor, anchor);
     		},
     		p: function update(ctx, dirty) {
-    			if (dirty[0] & /*locations*/ 1024) {
-    				each_value_5 = /*locations*/ ctx[10].list;
+    			if (dirty & /*locations*/ 0) {
+    				each_value_5 = locations.list;
     				validate_each_argument(each_value_5);
     				let i;
 
@@ -67641,6 +68267,8 @@ var app = (function () {
     			}
     		},
     		d: function destroy(detaching) {
+    			if (detaching) detach_dev(option);
+    			if (detaching) detach_dev(t);
     			destroy_each(each_blocks, detaching);
     			if (detaching) detach_dev(each_1_anchor);
     		}
@@ -67650,47 +68278,47 @@ var app = (function () {
     		block,
     		id: create_default_slot_5$1.name,
     		type: "slot",
-    		source: "(243:16) <MultiSelect id={locations.name} bind:value={$ui.search.organisation.locations} placeholder={locations.placeholder}>",
+    		source: "(173:16) <MultiSelect id={locations.name} bind:value={$ui.search.organisation.locations} placeholder={locations.placeholder}>",
     		ctx
     	});
 
     	return block;
     }
 
-    // (260:8) {#if paneVisbility.byCharacteristics}
-    function create_if_block$9(ctx) {
+    // (191:8) {#if paneVisbility.byCharacteristics}
+    function create_if_block_1$7(ctx) {
     	let div5;
     	let div0;
     	let h40;
-    	let raw0_value = /*initiativeType*/ ctx[11].label + "";
+    	let raw0_value = initiativeType.label + "";
     	let t0;
     	let multiselect0;
     	let updating_value;
     	let t1;
     	let div1;
     	let h41;
-    	let raw1_value = /*projectStage*/ ctx[12].label + "";
+    	let raw1_value = projectStage.label + "";
     	let t2;
     	let multiselect1;
     	let updating_value_1;
     	let t3;
     	let div2;
     	let h42;
-    	let raw2_value = /*projectClass*/ ctx[13].label + "";
+    	let raw2_value = projectClass.label + "";
     	let t4;
     	let multiselect2;
     	let updating_value_2;
     	let t5;
     	let div3;
     	let h43;
-    	let raw3_value = /*projectSize*/ ctx[14].label + "";
+    	let raw3_value = projectSize.label + "";
     	let t6;
     	let multiselect3;
     	let updating_value_3;
     	let t7;
     	let div4;
     	let h44;
-    	let raw4_value = /*projectScale*/ ctx[15].label + "";
+    	let raw4_value = projectScale.label + "";
     	let t8;
     	let multiselect4;
     	let updating_value_4;
@@ -67698,18 +68326,18 @@ var app = (function () {
     	let current;
 
     	function multiselect0_value_binding_2(value) {
-    		/*multiselect0_value_binding_2*/ ctx[24](value);
+    		/*multiselect0_value_binding_2*/ ctx[15](value);
     	}
 
     	let multiselect0_props = {
-    		id: /*initiativeType*/ ctx[11].name,
-    		placeholder: /*initiativeType*/ ctx[11].placeholder,
+    		id: initiativeType.name,
+    		placeholder: initiativeType.placeholder,
     		$$slots: { default: [create_default_slot_4$1] },
     		$$scope: { ctx }
     	};
 
-    	if (/*$ui*/ ctx[1].search.organisation.initiativeType !== void 0) {
-    		multiselect0_props.value = /*$ui*/ ctx[1].search.organisation.initiativeType;
+    	if (/*$ui*/ ctx[0].search.organisation.initiativeType !== void 0) {
+    		multiselect0_props.value = /*$ui*/ ctx[0].search.organisation.initiativeType;
     	}
 
     	multiselect0 = new MultiSelect({
@@ -67720,18 +68348,18 @@ var app = (function () {
     	binding_callbacks.push(() => bind(multiselect0, 'value', multiselect0_value_binding_2));
 
     	function multiselect1_value_binding_2(value) {
-    		/*multiselect1_value_binding_2*/ ctx[25](value);
+    		/*multiselect1_value_binding_2*/ ctx[16](value);
     	}
 
     	let multiselect1_props = {
-    		id: /*projectStage*/ ctx[12].name,
-    		placeholder: /*projectStage*/ ctx[12].placeholder,
+    		id: projectStage.name,
+    		placeholder: projectStage.placeholder,
     		$$slots: { default: [create_default_slot_3$1] },
     		$$scope: { ctx }
     	};
 
-    	if (/*$ui*/ ctx[1].search.organisation.projectStage !== void 0) {
-    		multiselect1_props.value = /*$ui*/ ctx[1].search.organisation.projectStage;
+    	if (/*$ui*/ ctx[0].search.organisation.projectStage !== void 0) {
+    		multiselect1_props.value = /*$ui*/ ctx[0].search.organisation.projectStage;
     	}
 
     	multiselect1 = new MultiSelect({
@@ -67742,18 +68370,18 @@ var app = (function () {
     	binding_callbacks.push(() => bind(multiselect1, 'value', multiselect1_value_binding_2));
 
     	function multiselect2_value_binding_2(value) {
-    		/*multiselect2_value_binding_2*/ ctx[26](value);
+    		/*multiselect2_value_binding_2*/ ctx[17](value);
     	}
 
     	let multiselect2_props = {
-    		id: /*projectClass*/ ctx[13].name,
-    		placeholder: /*projectClass*/ ctx[13].placeholder,
+    		id: projectClass.name,
+    		placeholder: projectClass.placeholder,
     		$$slots: { default: [create_default_slot_2$1] },
     		$$scope: { ctx }
     	};
 
-    	if (/*$ui*/ ctx[1].search.organisation.projectClass !== void 0) {
-    		multiselect2_props.value = /*$ui*/ ctx[1].search.organisation.projectClass;
+    	if (/*$ui*/ ctx[0].search.organisation.projectClass !== void 0) {
+    		multiselect2_props.value = /*$ui*/ ctx[0].search.organisation.projectClass;
     	}
 
     	multiselect2 = new MultiSelect({
@@ -67763,19 +68391,19 @@ var app = (function () {
 
     	binding_callbacks.push(() => bind(multiselect2, 'value', multiselect2_value_binding_2));
 
-    	function multiselect3_value_binding(value) {
-    		/*multiselect3_value_binding*/ ctx[27](value);
+    	function multiselect3_value_binding_1(value) {
+    		/*multiselect3_value_binding_1*/ ctx[18](value);
     	}
 
     	let multiselect3_props = {
-    		id: /*projectSize*/ ctx[14].name,
-    		placeholder: /*projectSize*/ ctx[14].placeholder,
+    		id: projectSize.name,
+    		placeholder: projectSize.placeholder,
     		$$slots: { default: [create_default_slot_1$1] },
     		$$scope: { ctx }
     	};
 
-    	if (/*$ui*/ ctx[1].search.organisation.projectSize !== void 0) {
-    		multiselect3_props.value = /*$ui*/ ctx[1].search.organisation.projectSize;
+    	if (/*$ui*/ ctx[0].search.organisation.projectSize !== void 0) {
+    		multiselect3_props.value = /*$ui*/ ctx[0].search.organisation.projectSize;
     	}
 
     	multiselect3 = new MultiSelect({
@@ -67783,21 +68411,21 @@ var app = (function () {
     			$$inline: true
     		});
 
-    	binding_callbacks.push(() => bind(multiselect3, 'value', multiselect3_value_binding));
+    	binding_callbacks.push(() => bind(multiselect3, 'value', multiselect3_value_binding_1));
 
     	function multiselect4_value_binding(value) {
-    		/*multiselect4_value_binding*/ ctx[28](value);
+    		/*multiselect4_value_binding*/ ctx[19](value);
     	}
 
     	let multiselect4_props = {
-    		id: /*projectScale*/ ctx[15].name,
-    		placeholder: /*projectScale*/ ctx[15].placeholder,
+    		id: projectScale.name,
+    		placeholder: projectScale.placeholder,
     		$$slots: { default: [create_default_slot$1] },
     		$$scope: { ctx }
     	};
 
-    	if (/*$ui*/ ctx[1].search.organisation.projectScale !== void 0) {
-    		multiselect4_props.value = /*$ui*/ ctx[1].search.organisation.projectScale;
+    	if (/*$ui*/ ctx[0].search.organisation.projectScale !== void 0) {
+    		multiselect4_props.value = /*$ui*/ ctx[0].search.organisation.projectScale;
     	}
 
     	multiselect4 = new MultiSelect({
@@ -67834,33 +68462,33 @@ var app = (function () {
     			h44 = element("h4");
     			t8 = space();
     			create_component(multiselect4.$$.fragment);
-    			attr_dev(h40, "class", "svelte-k5rl9e");
-    			add_location(h40, file$n, 262, 16, 10686);
-    			attr_dev(div0, "class", "multi-select-container svelte-k5rl9e");
+    			attr_dev(h40, "class", "svelte-kelrrb");
+    			add_location(h40, file$n, 193, 16, 8681);
+    			attr_dev(div0, "class", "multi-select-container svelte-kelrrb");
     			set_style(div0, "z-index", "14");
-    			add_location(div0, file$n, 261, 12, 10612);
-    			attr_dev(h41, "class", "svelte-k5rl9e");
-    			add_location(h41, file$n, 270, 16, 11174);
-    			attr_dev(div1, "class", "multi-select-container svelte-k5rl9e");
+    			add_location(div0, file$n, 192, 12, 8607);
+    			attr_dev(h41, "class", "svelte-kelrrb");
+    			add_location(h41, file$n, 202, 16, 9231);
+    			attr_dev(div1, "class", "multi-select-container svelte-kelrrb");
     			set_style(div1, "z-index", "13");
-    			add_location(div1, file$n, 269, 12, 11100);
-    			attr_dev(h42, "class", "svelte-k5rl9e");
-    			add_location(h42, file$n, 278, 16, 11652);
-    			attr_dev(div2, "class", "multi-select-container svelte-k5rl9e");
+    			add_location(div1, file$n, 201, 12, 9157);
+    			attr_dev(h42, "class", "svelte-kelrrb");
+    			add_location(h42, file$n, 211, 16, 9771);
+    			attr_dev(div2, "class", "multi-select-container svelte-kelrrb");
     			set_style(div2, "z-index", "12");
-    			add_location(div2, file$n, 277, 12, 11578);
-    			attr_dev(h43, "class", "svelte-k5rl9e");
-    			add_location(h43, file$n, 286, 16, 12130);
-    			attr_dev(div3, "class", "multi-select-container svelte-k5rl9e");
+    			add_location(div2, file$n, 210, 12, 9697);
+    			attr_dev(h43, "class", "svelte-kelrrb");
+    			add_location(h43, file$n, 220, 16, 10311);
+    			attr_dev(div3, "class", "multi-select-container svelte-kelrrb");
     			set_style(div3, "z-index", "11");
-    			add_location(div3, file$n, 285, 12, 12056);
-    			attr_dev(h44, "class", "svelte-k5rl9e");
-    			add_location(h44, file$n, 294, 16, 12603);
-    			attr_dev(div4, "class", "multi-select-container svelte-k5rl9e");
+    			add_location(div3, file$n, 219, 12, 10237);
+    			attr_dev(h44, "class", "svelte-kelrrb");
+    			add_location(h44, file$n, 229, 16, 10846);
+    			attr_dev(div4, "class", "multi-select-container svelte-kelrrb");
     			set_style(div4, "z-index", "10");
-    			add_location(div4, file$n, 293, 12, 12529);
-    			attr_dev(div5, "class", "collapse__body svelte-k5rl9e");
-    			add_location(div5, file$n, 260, 8, 10551);
+    			add_location(div4, file$n, 228, 12, 10772);
+    			attr_dev(div5, "class", "collapse__body svelte-kelrrb");
+    			add_location(div5, file$n, 191, 8, 8546);
     		},
     		m: function mount(target, anchor) {
     			insert_dev(target, div5, anchor);
@@ -67898,65 +68526,65 @@ var app = (function () {
     		p: function update(ctx, dirty) {
     			const multiselect0_changes = {};
 
-    			if (dirty[1] & /*$$scope*/ 16777216) {
+    			if (dirty[1] & /*$$scope*/ 65536) {
     				multiselect0_changes.$$scope = { dirty, ctx };
     			}
 
-    			if (!updating_value && dirty[0] & /*$ui*/ 2) {
+    			if (!updating_value && dirty[0] & /*$ui*/ 1) {
     				updating_value = true;
-    				multiselect0_changes.value = /*$ui*/ ctx[1].search.organisation.initiativeType;
+    				multiselect0_changes.value = /*$ui*/ ctx[0].search.organisation.initiativeType;
     				add_flush_callback(() => updating_value = false);
     			}
 
     			multiselect0.$set(multiselect0_changes);
     			const multiselect1_changes = {};
 
-    			if (dirty[1] & /*$$scope*/ 16777216) {
+    			if (dirty[1] & /*$$scope*/ 65536) {
     				multiselect1_changes.$$scope = { dirty, ctx };
     			}
 
-    			if (!updating_value_1 && dirty[0] & /*$ui*/ 2) {
+    			if (!updating_value_1 && dirty[0] & /*$ui*/ 1) {
     				updating_value_1 = true;
-    				multiselect1_changes.value = /*$ui*/ ctx[1].search.organisation.projectStage;
+    				multiselect1_changes.value = /*$ui*/ ctx[0].search.organisation.projectStage;
     				add_flush_callback(() => updating_value_1 = false);
     			}
 
     			multiselect1.$set(multiselect1_changes);
     			const multiselect2_changes = {};
 
-    			if (dirty[1] & /*$$scope*/ 16777216) {
+    			if (dirty[1] & /*$$scope*/ 65536) {
     				multiselect2_changes.$$scope = { dirty, ctx };
     			}
 
-    			if (!updating_value_2 && dirty[0] & /*$ui*/ 2) {
+    			if (!updating_value_2 && dirty[0] & /*$ui*/ 1) {
     				updating_value_2 = true;
-    				multiselect2_changes.value = /*$ui*/ ctx[1].search.organisation.projectClass;
+    				multiselect2_changes.value = /*$ui*/ ctx[0].search.organisation.projectClass;
     				add_flush_callback(() => updating_value_2 = false);
     			}
 
     			multiselect2.$set(multiselect2_changes);
     			const multiselect3_changes = {};
 
-    			if (dirty[1] & /*$$scope*/ 16777216) {
+    			if (dirty[1] & /*$$scope*/ 65536) {
     				multiselect3_changes.$$scope = { dirty, ctx };
     			}
 
-    			if (!updating_value_3 && dirty[0] & /*$ui*/ 2) {
+    			if (!updating_value_3 && dirty[0] & /*$ui*/ 1) {
     				updating_value_3 = true;
-    				multiselect3_changes.value = /*$ui*/ ctx[1].search.organisation.projectSize;
+    				multiselect3_changes.value = /*$ui*/ ctx[0].search.organisation.projectSize;
     				add_flush_callback(() => updating_value_3 = false);
     			}
 
     			multiselect3.$set(multiselect3_changes);
     			const multiselect4_changes = {};
 
-    			if (dirty[1] & /*$$scope*/ 16777216) {
+    			if (dirty[1] & /*$$scope*/ 65536) {
     				multiselect4_changes.$$scope = { dirty, ctx };
     			}
 
-    			if (!updating_value_4 && dirty[0] & /*$ui*/ 2) {
+    			if (!updating_value_4 && dirty[0] & /*$ui*/ 1) {
     				updating_value_4 = true;
-    				multiselect4_changes.value = /*$ui*/ ctx[1].search.organisation.projectScale;
+    				multiselect4_changes.value = /*$ui*/ ctx[0].search.organisation.projectScale;
     				add_flush_callback(() => updating_value_4 = false);
     			}
 
@@ -68000,27 +68628,27 @@ var app = (function () {
 
     	dispatch_dev("SvelteRegisterBlock", {
     		block,
-    		id: create_if_block$9.name,
+    		id: create_if_block_1$7.name,
     		type: "if",
-    		source: "(260:8) {#if paneVisbility.byCharacteristics}",
+    		source: "(191:8) {#if paneVisbility.byCharacteristics}",
     		ctx
     	});
 
     	return block;
     }
 
-    // (265:20) {#each initiativeType.list as name}
+    // (197:20) {#each initiativeType.list as name}
     function create_each_block_4$1(ctx) {
     	let option;
-    	let raw_value = /*name*/ ctx[30] + "";
+    	let raw_value = /*name*/ ctx[20] + "";
 
     	const block = {
     		c: function create() {
     			option = element("option");
-    			option.__value = /*name*/ ctx[30];
+    			option.__value = /*name*/ ctx[20];
     			option.value = option.__value;
-    			attr_dev(option, "class", "svelte-k5rl9e");
-    			add_location(option, file$n, 265, 20, 10951);
+    			attr_dev(option, "class", "svelte-kelrrb");
+    			add_location(option, file$n, 197, 20, 9008);
     		},
     		m: function mount(target, anchor) {
     			insert_dev(target, option, anchor);
@@ -68036,17 +68664,19 @@ var app = (function () {
     		block,
     		id: create_each_block_4$1.name,
     		type: "each",
-    		source: "(265:20) {#each initiativeType.list as name}",
+    		source: "(197:20) {#each initiativeType.list as name}",
     		ctx
     	});
 
     	return block;
     }
 
-    // (264:16) <MultiSelect id = {initiativeType.name} bind:value={$ui.search.organisation.initiativeType} placeholder={initiativeType.placeholder} >
+    // (195:16) <MultiSelect id = {initiativeType.name} bind:value={$ui.search.organisation.initiativeType} placeholder={initiativeType.placeholder} >
     function create_default_slot_4$1(ctx) {
+    	let option;
+    	let t;
     	let each_1_anchor;
-    	let each_value_4 = /*initiativeType*/ ctx[11].list;
+    	let each_value_4 = initiativeType.list;
     	validate_each_argument(each_value_4);
     	let each_blocks = [];
 
@@ -68056,13 +68686,25 @@ var app = (function () {
 
     	const block = {
     		c: function create() {
+    			option = element("option");
+    			t = space();
+
     			for (let i = 0; i < each_blocks.length; i += 1) {
     				each_blocks[i].c();
     			}
 
     			each_1_anchor = empty();
+    			option.disabled = true;
+    			option.selected = true;
+    			option.__value = "";
+    			option.value = option.__value;
+    			attr_dev(option, "class", "svelte-kelrrb");
+    			add_location(option, file$n, 195, 20, 8890);
     		},
     		m: function mount(target, anchor) {
+    			insert_dev(target, option, anchor);
+    			insert_dev(target, t, anchor);
+
     			for (let i = 0; i < each_blocks.length; i += 1) {
     				each_blocks[i].m(target, anchor);
     			}
@@ -68070,8 +68712,8 @@ var app = (function () {
     			insert_dev(target, each_1_anchor, anchor);
     		},
     		p: function update(ctx, dirty) {
-    			if (dirty[0] & /*initiativeType*/ 2048) {
-    				each_value_4 = /*initiativeType*/ ctx[11].list;
+    			if (dirty & /*initiativeType*/ 0) {
+    				each_value_4 = initiativeType.list;
     				validate_each_argument(each_value_4);
     				let i;
 
@@ -68095,6 +68737,8 @@ var app = (function () {
     			}
     		},
     		d: function destroy(detaching) {
+    			if (detaching) detach_dev(option);
+    			if (detaching) detach_dev(t);
     			destroy_each(each_blocks, detaching);
     			if (detaching) detach_dev(each_1_anchor);
     		}
@@ -68104,25 +68748,25 @@ var app = (function () {
     		block,
     		id: create_default_slot_4$1.name,
     		type: "slot",
-    		source: "(264:16) <MultiSelect id = {initiativeType.name} bind:value={$ui.search.organisation.initiativeType} placeholder={initiativeType.placeholder} >",
+    		source: "(195:16) <MultiSelect id = {initiativeType.name} bind:value={$ui.search.organisation.initiativeType} placeholder={initiativeType.placeholder} >",
     		ctx
     	});
 
     	return block;
     }
 
-    // (273:20) {#each projectStage.list as name}
+    // (206:20) {#each projectStage.list as name}
     function create_each_block_3$1(ctx) {
     	let option;
-    	let raw_value = /*name*/ ctx[30] + "";
+    	let raw_value = /*name*/ ctx[20] + "";
 
     	const block = {
     		c: function create() {
     			option = element("option");
-    			option.__value = /*name*/ ctx[30];
+    			option.__value = /*name*/ ctx[20];
     			option.value = option.__value;
-    			attr_dev(option, "class", "svelte-k5rl9e");
-    			add_location(option, file$n, 273, 20, 11429);
+    			attr_dev(option, "class", "svelte-kelrrb");
+    			add_location(option, file$n, 206, 20, 9548);
     		},
     		m: function mount(target, anchor) {
     			insert_dev(target, option, anchor);
@@ -68138,17 +68782,19 @@ var app = (function () {
     		block,
     		id: create_each_block_3$1.name,
     		type: "each",
-    		source: "(273:20) {#each projectStage.list as name}",
+    		source: "(206:20) {#each projectStage.list as name}",
     		ctx
     	});
 
     	return block;
     }
 
-    // (272:16) <MultiSelect id = {projectStage.name} bind:value={$ui.search.organisation.projectStage} placeholder={projectStage.placeholder} >
+    // (204:16) <MultiSelect id = {projectStage.name} bind:value={$ui.search.organisation.projectStage} placeholder={projectStage.placeholder} >
     function create_default_slot_3$1(ctx) {
+    	let option;
+    	let t;
     	let each_1_anchor;
-    	let each_value_3 = /*projectStage*/ ctx[12].list;
+    	let each_value_3 = projectStage.list;
     	validate_each_argument(each_value_3);
     	let each_blocks = [];
 
@@ -68158,13 +68804,25 @@ var app = (function () {
 
     	const block = {
     		c: function create() {
+    			option = element("option");
+    			t = space();
+
     			for (let i = 0; i < each_blocks.length; i += 1) {
     				each_blocks[i].c();
     			}
 
     			each_1_anchor = empty();
+    			option.disabled = true;
+    			option.selected = true;
+    			option.__value = "";
+    			option.value = option.__value;
+    			attr_dev(option, "class", "svelte-kelrrb");
+    			add_location(option, file$n, 204, 20, 9432);
     		},
     		m: function mount(target, anchor) {
+    			insert_dev(target, option, anchor);
+    			insert_dev(target, t, anchor);
+
     			for (let i = 0; i < each_blocks.length; i += 1) {
     				each_blocks[i].m(target, anchor);
     			}
@@ -68172,8 +68830,8 @@ var app = (function () {
     			insert_dev(target, each_1_anchor, anchor);
     		},
     		p: function update(ctx, dirty) {
-    			if (dirty[0] & /*projectStage*/ 4096) {
-    				each_value_3 = /*projectStage*/ ctx[12].list;
+    			if (dirty & /*projectStage*/ 0) {
+    				each_value_3 = projectStage.list;
     				validate_each_argument(each_value_3);
     				let i;
 
@@ -68197,6 +68855,8 @@ var app = (function () {
     			}
     		},
     		d: function destroy(detaching) {
+    			if (detaching) detach_dev(option);
+    			if (detaching) detach_dev(t);
     			destroy_each(each_blocks, detaching);
     			if (detaching) detach_dev(each_1_anchor);
     		}
@@ -68206,25 +68866,25 @@ var app = (function () {
     		block,
     		id: create_default_slot_3$1.name,
     		type: "slot",
-    		source: "(272:16) <MultiSelect id = {projectStage.name} bind:value={$ui.search.organisation.projectStage} placeholder={projectStage.placeholder} >",
+    		source: "(204:16) <MultiSelect id = {projectStage.name} bind:value={$ui.search.organisation.projectStage} placeholder={projectStage.placeholder} >",
     		ctx
     	});
 
     	return block;
     }
 
-    // (281:20) {#each projectClass.list as name}
+    // (215:20) {#each projectClass.list as name}
     function create_each_block_2$1(ctx) {
     	let option;
-    	let raw_value = /*name*/ ctx[30] + "";
+    	let raw_value = /*name*/ ctx[20] + "";
 
     	const block = {
     		c: function create() {
     			option = element("option");
-    			option.__value = /*name*/ ctx[30];
+    			option.__value = /*name*/ ctx[20];
     			option.value = option.__value;
-    			attr_dev(option, "class", "svelte-k5rl9e");
-    			add_location(option, file$n, 281, 20, 11907);
+    			attr_dev(option, "class", "svelte-kelrrb");
+    			add_location(option, file$n, 215, 20, 10088);
     		},
     		m: function mount(target, anchor) {
     			insert_dev(target, option, anchor);
@@ -68240,17 +68900,19 @@ var app = (function () {
     		block,
     		id: create_each_block_2$1.name,
     		type: "each",
-    		source: "(281:20) {#each projectClass.list as name}",
+    		source: "(215:20) {#each projectClass.list as name}",
     		ctx
     	});
 
     	return block;
     }
 
-    // (280:16) <MultiSelect id = {projectClass.name} bind:value={$ui.search.organisation.projectClass} placeholder={projectClass.placeholder} >
+    // (213:16) <MultiSelect id = {projectClass.name} bind:value={$ui.search.organisation.projectClass} placeholder={projectClass.placeholder} >
     function create_default_slot_2$1(ctx) {
+    	let option;
+    	let t;
     	let each_1_anchor;
-    	let each_value_2 = /*projectClass*/ ctx[13].list;
+    	let each_value_2 = projectClass.list;
     	validate_each_argument(each_value_2);
     	let each_blocks = [];
 
@@ -68260,13 +68922,25 @@ var app = (function () {
 
     	const block = {
     		c: function create() {
+    			option = element("option");
+    			t = space();
+
     			for (let i = 0; i < each_blocks.length; i += 1) {
     				each_blocks[i].c();
     			}
 
     			each_1_anchor = empty();
+    			option.disabled = true;
+    			option.selected = true;
+    			option.__value = "";
+    			option.value = option.__value;
+    			attr_dev(option, "class", "svelte-kelrrb");
+    			add_location(option, file$n, 213, 20, 9972);
     		},
     		m: function mount(target, anchor) {
+    			insert_dev(target, option, anchor);
+    			insert_dev(target, t, anchor);
+
     			for (let i = 0; i < each_blocks.length; i += 1) {
     				each_blocks[i].m(target, anchor);
     			}
@@ -68274,8 +68948,8 @@ var app = (function () {
     			insert_dev(target, each_1_anchor, anchor);
     		},
     		p: function update(ctx, dirty) {
-    			if (dirty[0] & /*projectClass*/ 8192) {
-    				each_value_2 = /*projectClass*/ ctx[13].list;
+    			if (dirty & /*projectClass*/ 0) {
+    				each_value_2 = projectClass.list;
     				validate_each_argument(each_value_2);
     				let i;
 
@@ -68299,6 +68973,8 @@ var app = (function () {
     			}
     		},
     		d: function destroy(detaching) {
+    			if (detaching) detach_dev(option);
+    			if (detaching) detach_dev(t);
     			destroy_each(each_blocks, detaching);
     			if (detaching) detach_dev(each_1_anchor);
     		}
@@ -68308,25 +68984,25 @@ var app = (function () {
     		block,
     		id: create_default_slot_2$1.name,
     		type: "slot",
-    		source: "(280:16) <MultiSelect id = {projectClass.name} bind:value={$ui.search.organisation.projectClass} placeholder={projectClass.placeholder} >",
+    		source: "(213:16) <MultiSelect id = {projectClass.name} bind:value={$ui.search.organisation.projectClass} placeholder={projectClass.placeholder} >",
     		ctx
     	});
 
     	return block;
     }
 
-    // (289:20) {#each projectSize.list as name}
+    // (224:20) {#each projectSize.list as name}
     function create_each_block_1$1(ctx) {
     	let option;
-    	let raw_value = /*name*/ ctx[30] + "";
+    	let raw_value = /*name*/ ctx[20] + "";
 
     	const block = {
     		c: function create() {
     			option = element("option");
-    			option.__value = /*name*/ ctx[30];
+    			option.__value = /*name*/ ctx[20];
     			option.value = option.__value;
-    			attr_dev(option, "class", "svelte-k5rl9e");
-    			add_location(option, file$n, 289, 20, 12380);
+    			attr_dev(option, "class", "svelte-kelrrb");
+    			add_location(option, file$n, 224, 20, 10623);
     		},
     		m: function mount(target, anchor) {
     			insert_dev(target, option, anchor);
@@ -68342,17 +69018,19 @@ var app = (function () {
     		block,
     		id: create_each_block_1$1.name,
     		type: "each",
-    		source: "(289:20) {#each projectSize.list as name}",
+    		source: "(224:20) {#each projectSize.list as name}",
     		ctx
     	});
 
     	return block;
     }
 
-    // (288:16) <MultiSelect id = {projectSize.name} bind:value={$ui.search.organisation.projectSize} placeholder={projectSize.placeholder} >
+    // (222:16) <MultiSelect id = {projectSize.name} bind:value={$ui.search.organisation.projectSize} placeholder={projectSize.placeholder} >
     function create_default_slot_1$1(ctx) {
+    	let option;
+    	let t;
     	let each_1_anchor;
-    	let each_value_1 = /*projectSize*/ ctx[14].list;
+    	let each_value_1 = projectSize.list;
     	validate_each_argument(each_value_1);
     	let each_blocks = [];
 
@@ -68362,13 +69040,25 @@ var app = (function () {
 
     	const block = {
     		c: function create() {
+    			option = element("option");
+    			t = space();
+
     			for (let i = 0; i < each_blocks.length; i += 1) {
     				each_blocks[i].c();
     			}
 
     			each_1_anchor = empty();
+    			option.disabled = true;
+    			option.selected = true;
+    			option.__value = "";
+    			option.value = option.__value;
+    			attr_dev(option, "class", "svelte-kelrrb");
+    			add_location(option, file$n, 222, 20, 10508);
     		},
     		m: function mount(target, anchor) {
+    			insert_dev(target, option, anchor);
+    			insert_dev(target, t, anchor);
+
     			for (let i = 0; i < each_blocks.length; i += 1) {
     				each_blocks[i].m(target, anchor);
     			}
@@ -68376,8 +69066,8 @@ var app = (function () {
     			insert_dev(target, each_1_anchor, anchor);
     		},
     		p: function update(ctx, dirty) {
-    			if (dirty[0] & /*projectSize*/ 16384) {
-    				each_value_1 = /*projectSize*/ ctx[14].list;
+    			if (dirty & /*projectSize*/ 0) {
+    				each_value_1 = projectSize.list;
     				validate_each_argument(each_value_1);
     				let i;
 
@@ -68401,6 +69091,8 @@ var app = (function () {
     			}
     		},
     		d: function destroy(detaching) {
+    			if (detaching) detach_dev(option);
+    			if (detaching) detach_dev(t);
     			destroy_each(each_blocks, detaching);
     			if (detaching) detach_dev(each_1_anchor);
     		}
@@ -68410,25 +69102,25 @@ var app = (function () {
     		block,
     		id: create_default_slot_1$1.name,
     		type: "slot",
-    		source: "(288:16) <MultiSelect id = {projectSize.name} bind:value={$ui.search.organisation.projectSize} placeholder={projectSize.placeholder} >",
+    		source: "(222:16) <MultiSelect id = {projectSize.name} bind:value={$ui.search.organisation.projectSize} placeholder={projectSize.placeholder} >",
     		ctx
     	});
 
     	return block;
     }
 
-    // (297:20) {#each projectScale.list as name}
+    // (233:20) {#each projectScale.list as name}
     function create_each_block$4(ctx) {
     	let option;
-    	let raw_value = /*name*/ ctx[30] + "";
+    	let raw_value = /*name*/ ctx[20] + "";
 
     	const block = {
     		c: function create() {
     			option = element("option");
-    			option.__value = /*name*/ ctx[30];
+    			option.__value = /*name*/ ctx[20];
     			option.value = option.__value;
-    			attr_dev(option, "class", "svelte-k5rl9e");
-    			add_location(option, file$n, 297, 20, 12858);
+    			attr_dev(option, "class", "svelte-kelrrb");
+    			add_location(option, file$n, 233, 20, 11163);
     		},
     		m: function mount(target, anchor) {
     			insert_dev(target, option, anchor);
@@ -68444,17 +69136,19 @@ var app = (function () {
     		block,
     		id: create_each_block$4.name,
     		type: "each",
-    		source: "(297:20) {#each projectScale.list as name}",
+    		source: "(233:20) {#each projectScale.list as name}",
     		ctx
     	});
 
     	return block;
     }
 
-    // (296:16) <MultiSelect id = {projectScale.name} bind:value={$ui.search.organisation.projectScale} placeholder={projectScale.placeholder} >
+    // (231:16) <MultiSelect id = {projectScale.name} bind:value={$ui.search.organisation.projectScale} placeholder={projectScale.placeholder} >
     function create_default_slot$1(ctx) {
+    	let option;
+    	let t;
     	let each_1_anchor;
-    	let each_value = /*projectScale*/ ctx[15].list;
+    	let each_value = projectScale.list;
     	validate_each_argument(each_value);
     	let each_blocks = [];
 
@@ -68464,13 +69158,25 @@ var app = (function () {
 
     	const block = {
     		c: function create() {
+    			option = element("option");
+    			t = space();
+
     			for (let i = 0; i < each_blocks.length; i += 1) {
     				each_blocks[i].c();
     			}
 
     			each_1_anchor = empty();
+    			option.disabled = true;
+    			option.selected = true;
+    			option.__value = "";
+    			option.value = option.__value;
+    			attr_dev(option, "class", "svelte-kelrrb");
+    			add_location(option, file$n, 231, 20, 11047);
     		},
     		m: function mount(target, anchor) {
+    			insert_dev(target, option, anchor);
+    			insert_dev(target, t, anchor);
+
     			for (let i = 0; i < each_blocks.length; i += 1) {
     				each_blocks[i].m(target, anchor);
     			}
@@ -68478,8 +69184,8 @@ var app = (function () {
     			insert_dev(target, each_1_anchor, anchor);
     		},
     		p: function update(ctx, dirty) {
-    			if (dirty[0] & /*projectScale*/ 32768) {
-    				each_value = /*projectScale*/ ctx[15].list;
+    			if (dirty & /*projectScale*/ 0) {
+    				each_value = projectScale.list;
     				validate_each_argument(each_value);
     				let i;
 
@@ -68503,6 +69209,8 @@ var app = (function () {
     			}
     		},
     		d: function destroy(detaching) {
+    			if (detaching) detach_dev(option);
+    			if (detaching) detach_dev(t);
     			destroy_each(each_blocks, detaching);
     			if (detaching) detach_dev(each_1_anchor);
     		}
@@ -68512,7 +69220,47 @@ var app = (function () {
     		block,
     		id: create_default_slot$1.name,
     		type: "slot",
-    		source: "(296:16) <MultiSelect id = {projectScale.name} bind:value={$ui.search.organisation.projectScale} placeholder={projectScale.placeholder} >",
+    		source: "(231:16) <MultiSelect id = {projectScale.name} bind:value={$ui.search.organisation.projectScale} placeholder={projectScale.placeholder} >",
+    		ctx
+    	});
+
+    	return block;
+    }
+
+    // (245:4) {#if noSearchParams > 0}
+    function create_if_block$9(ctx) {
+    	let div;
+    	let mounted;
+    	let dispose;
+
+    	const block = {
+    		c: function create() {
+    			div = element("div");
+    			div.textContent = "Clear the search parameters";
+    			attr_dev(div, "class", "clear-search-container svelte-kelrrb");
+    			add_location(div, file$n, 245, 8, 11514);
+    		},
+    		m: function mount(target, anchor) {
+    			insert_dev(target, div, anchor);
+
+    			if (!mounted) {
+    				dispose = listen_dev(div, "click", /*handleClearSearch*/ ctx[6], false, false, false);
+    				mounted = true;
+    			}
+    		},
+    		p: noop,
+    		d: function destroy(detaching) {
+    			if (detaching) detach_dev(div);
+    			mounted = false;
+    			dispose();
+    		}
+    	};
+
+    	dispatch_dev("SvelteRegisterBlock", {
+    		block,
+    		id: create_if_block$9.name,
+    		type: "if",
+    		source: "(245:4) {#if noSearchParams > 0}",
     		ctx
     	});
 
@@ -68554,13 +69302,17 @@ var app = (function () {
     	let t21;
     	let div14;
     	let button;
+    	let t23;
+    	let section_intro;
+    	let section_outro;
     	let current;
     	let mounted;
     	let dispose;
-    	let if_block0 = /*paneVisbility*/ ctx[0].byStakeholders && create_if_block_3$7(ctx);
-    	let if_block1 = /*paneVisbility*/ ctx[0].byOutcomes && create_if_block_2$7(ctx);
-    	let if_block2 = /*paneVisbility*/ ctx[0].byLocation && create_if_block_1$7(ctx);
-    	let if_block3 = /*paneVisbility*/ ctx[0].byCharacteristics && create_if_block$9(ctx);
+    	let if_block0 = /*paneVisbility*/ ctx[1].byStakeholders && create_if_block_4$3(ctx);
+    	let if_block1 = /*paneVisbility*/ ctx[1].byOutcomes && create_if_block_3$7(ctx);
+    	let if_block2 = /*paneVisbility*/ ctx[1].byLocation && create_if_block_2$7(ctx);
+    	let if_block3 = /*paneVisbility*/ ctx[1].byCharacteristics && create_if_block_1$7(ctx);
+    	let if_block4 = /*noSearchParams*/ ctx[2] > 0 && create_if_block$9(ctx);
 
     	const block = {
     		c: function create() {
@@ -68612,59 +69364,61 @@ var app = (function () {
     			div14 = element("div");
     			button = element("button");
     			button.textContent = "Search for stakeholders";
-    			attr_dev(div0, "class", "close-button svelte-k5rl9e");
-    			add_location(div0, file$n, 147, 8, 5354);
-    			attr_dev(div1, "class", "close-container svelte-k5rl9e");
-    			add_location(div1, file$n, 146, 4, 5316);
-    			attr_dev(h30, "class", "svelte-k5rl9e");
-    			add_location(h30, file$n, 156, 12, 5700);
-    			attr_dev(div2, "class", "toggle-icon down svelte-k5rl9e");
-    			add_location(div2, file$n, 157, 12, 5738);
+    			t23 = space();
+    			if (if_block4) if_block4.c();
+    			attr_dev(div0, "class", "close-button svelte-kelrrb");
+    			add_location(div0, file$n, 60, 8, 2284);
+    			attr_dev(div1, "class", "close-container svelte-kelrrb");
+    			add_location(div1, file$n, 59, 4, 2246);
+    			attr_dev(h30, "class", "svelte-kelrrb");
+    			add_location(h30, file$n, 70, 12, 2656);
+    			attr_dev(div2, "class", "toggle-icon down svelte-kelrrb");
+    			add_location(div2, file$n, 71, 12, 2694);
     			attr_dev(div3, "id", "byStakeholders");
-    			attr_dev(div3, "class", "collapse__header svelte-k5rl9e");
+    			attr_dev(div3, "class", "collapse__header svelte-kelrrb");
     			attr_dev(div3, "type", "button");
-    			toggle_class(div3, "selected", /*paneVisbility*/ ctx[0].byStakeholders);
-    			add_location(div3, file$n, 154, 8, 5538);
-    			attr_dev(div4, "class", "container svelte-k5rl9e");
-    			add_location(div4, file$n, 153, 4, 5504);
-    			attr_dev(h31, "class", "svelte-k5rl9e");
-    			add_location(h31, file$n, 177, 12, 6639);
-    			attr_dev(div5, "class", "toggle-icon down svelte-k5rl9e");
-    			add_location(div5, file$n, 178, 12, 6678);
+    			toggle_class(div3, "selected", /*paneVisbility*/ ctx[1].byStakeholders);
+    			add_location(div3, file$n, 68, 8, 2494);
+    			attr_dev(div4, "class", "container svelte-kelrrb");
+    			add_location(div4, file$n, 67, 4, 2460);
+    			attr_dev(h31, "class", "svelte-kelrrb");
+    			add_location(h31, file$n, 92, 12, 3647);
+    			attr_dev(div5, "class", "toggle-icon down svelte-kelrrb");
+    			add_location(div5, file$n, 93, 12, 3686);
     			attr_dev(div6, "id", "byOutcomes");
-    			attr_dev(div6, "class", "collapse__header svelte-k5rl9e");
+    			attr_dev(div6, "class", "collapse__header svelte-kelrrb");
     			attr_dev(div6, "type", "button");
-    			toggle_class(div6, "selected", /*paneVisbility*/ ctx[0].byOutcomes);
-    			add_location(div6, file$n, 175, 8, 6485);
-    			attr_dev(div7, "class", "container svelte-k5rl9e");
-    			add_location(div7, file$n, 174, 4, 6451);
-    			attr_dev(h32, "class", "svelte-k5rl9e");
-    			add_location(h32, file$n, 217, 12, 8507);
-    			attr_dev(div8, "class", "toggle-icon down svelte-k5rl9e");
-    			add_location(div8, file$n, 218, 12, 8545);
+    			toggle_class(div6, "selected", /*paneVisbility*/ ctx[1].byOutcomes);
+    			add_location(div6, file$n, 90, 8, 3493);
+    			attr_dev(div7, "class", "container svelte-kelrrb");
+    			add_location(div7, file$n, 89, 4, 3459);
+    			attr_dev(h32, "class", "svelte-kelrrb");
+    			add_location(h32, file$n, 145, 12, 6316);
+    			attr_dev(div8, "class", "toggle-icon down svelte-kelrrb");
+    			add_location(div8, file$n, 146, 12, 6354);
     			attr_dev(div9, "id", "byLocation");
-    			attr_dev(div9, "class", "collapse__header svelte-k5rl9e");
+    			attr_dev(div9, "class", "collapse__header svelte-kelrrb");
     			attr_dev(div9, "type", "button");
-    			toggle_class(div9, "selected", /*paneVisbility*/ ctx[0].byLocation);
-    			add_location(div9, file$n, 215, 8, 8353);
-    			attr_dev(div10, "class", "container svelte-k5rl9e");
-    			add_location(div10, file$n, 214, 4, 8319);
-    			attr_dev(h33, "class", "svelte-k5rl9e");
-    			add_location(h33, file$n, 256, 12, 10393);
-    			attr_dev(div11, "class", "toggle-icon down svelte-k5rl9e");
-    			add_location(div11, file$n, 257, 12, 10438);
+    			toggle_class(div9, "selected", /*paneVisbility*/ ctx[1].byLocation);
+    			add_location(div9, file$n, 143, 8, 6162);
+    			attr_dev(div10, "class", "container svelte-kelrrb");
+    			add_location(div10, file$n, 142, 4, 6128);
+    			attr_dev(h33, "class", "svelte-kelrrb");
+    			add_location(h33, file$n, 187, 12, 8388);
+    			attr_dev(div11, "class", "toggle-icon down svelte-kelrrb");
+    			add_location(div11, file$n, 188, 12, 8433);
     			attr_dev(div12, "id", "byCharacteristics");
-    			attr_dev(div12, "class", "collapse__header svelte-k5rl9e");
+    			attr_dev(div12, "class", "collapse__header svelte-kelrrb");
     			attr_dev(div12, "type", "button");
-    			toggle_class(div12, "selected", /*paneVisbility*/ ctx[0].byCharacteristics);
-    			add_location(div12, file$n, 254, 8, 10225);
-    			attr_dev(div13, "class", "container svelte-k5rl9e");
-    			add_location(div13, file$n, 253, 4, 10191);
-    			add_location(button, file$n, 306, 8, 13081);
-    			attr_dev(div14, "class", "button-container svelte-k5rl9e");
-    			add_location(div14, file$n, 305, 4, 13040);
-    			attr_dev(section, "class", "svelte-k5rl9e");
-    			add_location(section, file$n, 145, 0, 5302);
+    			toggle_class(div12, "selected", /*paneVisbility*/ ctx[1].byCharacteristics);
+    			add_location(div12, file$n, 185, 8, 8220);
+    			attr_dev(div13, "class", "container svelte-kelrrb");
+    			add_location(div13, file$n, 184, 4, 8186);
+    			add_location(button, file$n, 242, 8, 11386);
+    			attr_dev(div14, "class", "button-container svelte-kelrrb");
+    			add_location(div14, file$n, 241, 4, 11345);
+    			attr_dev(section, "class", "svelte-kelrrb");
+    			add_location(section, file$n, 57, 0, 2127);
     		},
     		l: function claim(nodes) {
     			throw new Error("options.hydrate only works if the component was compiled with the `hydratable: true` option");
@@ -68708,35 +69462,37 @@ var app = (function () {
     			append_dev(section, t21);
     			append_dev(section, div14);
     			append_dev(div14, button);
+    			append_dev(section, t23);
+    			if (if_block4) if_block4.m(section, null);
     			current = true;
 
     			if (!mounted) {
     				dispose = [
-    					listen_dev(div0, "click", /*handleClose*/ ctx[4], false, false, false),
-    					listen_dev(div3, "click", /*togglePane*/ ctx[2], false, false, false),
-    					listen_dev(div6, "click", /*togglePane*/ ctx[2], false, false, false),
-    					listen_dev(div9, "click", /*togglePane*/ ctx[2], false, false, false),
-    					listen_dev(div12, "click", /*togglePane*/ ctx[2], false, false, false),
-    					listen_dev(button, "click", prevent_default(/*handleSubmit*/ ctx[3]), false, true, false)
+    					listen_dev(div0, "click", /*handleClose*/ ctx[5], false, false, false),
+    					listen_dev(div3, "click", /*togglePane*/ ctx[3], false, false, false),
+    					listen_dev(div6, "click", /*togglePane*/ ctx[3], false, false, false),
+    					listen_dev(div9, "click", /*togglePane*/ ctx[3], false, false, false),
+    					listen_dev(div12, "click", /*togglePane*/ ctx[3], false, false, false),
+    					listen_dev(button, "click", prevent_default(/*handleSubmit*/ ctx[4]), false, true, false)
     				];
 
     				mounted = true;
     			}
     		},
     		p: function update(ctx, dirty) {
-    			if (dirty[0] & /*paneVisbility*/ 1) {
-    				toggle_class(div3, "selected", /*paneVisbility*/ ctx[0].byStakeholders);
+    			if (dirty[0] & /*paneVisbility*/ 2) {
+    				toggle_class(div3, "selected", /*paneVisbility*/ ctx[1].byStakeholders);
     			}
 
-    			if (/*paneVisbility*/ ctx[0].byStakeholders) {
+    			if (/*paneVisbility*/ ctx[1].byStakeholders) {
     				if (if_block0) {
     					if_block0.p(ctx, dirty);
 
-    					if (dirty[0] & /*paneVisbility*/ 1) {
+    					if (dirty[0] & /*paneVisbility*/ 2) {
     						transition_in(if_block0, 1);
     					}
     				} else {
-    					if_block0 = create_if_block_3$7(ctx);
+    					if_block0 = create_if_block_4$3(ctx);
     					if_block0.c();
     					transition_in(if_block0, 1);
     					if_block0.m(div4, null);
@@ -68751,19 +69507,19 @@ var app = (function () {
     				check_outros();
     			}
 
-    			if (dirty[0] & /*paneVisbility*/ 1) {
-    				toggle_class(div6, "selected", /*paneVisbility*/ ctx[0].byOutcomes);
+    			if (dirty[0] & /*paneVisbility*/ 2) {
+    				toggle_class(div6, "selected", /*paneVisbility*/ ctx[1].byOutcomes);
     			}
 
-    			if (/*paneVisbility*/ ctx[0].byOutcomes) {
+    			if (/*paneVisbility*/ ctx[1].byOutcomes) {
     				if (if_block1) {
     					if_block1.p(ctx, dirty);
 
-    					if (dirty[0] & /*paneVisbility*/ 1) {
+    					if (dirty[0] & /*paneVisbility*/ 2) {
     						transition_in(if_block1, 1);
     					}
     				} else {
-    					if_block1 = create_if_block_2$7(ctx);
+    					if_block1 = create_if_block_3$7(ctx);
     					if_block1.c();
     					transition_in(if_block1, 1);
     					if_block1.m(div7, null);
@@ -68778,19 +69534,19 @@ var app = (function () {
     				check_outros();
     			}
 
-    			if (dirty[0] & /*paneVisbility*/ 1) {
-    				toggle_class(div9, "selected", /*paneVisbility*/ ctx[0].byLocation);
+    			if (dirty[0] & /*paneVisbility*/ 2) {
+    				toggle_class(div9, "selected", /*paneVisbility*/ ctx[1].byLocation);
     			}
 
-    			if (/*paneVisbility*/ ctx[0].byLocation) {
+    			if (/*paneVisbility*/ ctx[1].byLocation) {
     				if (if_block2) {
     					if_block2.p(ctx, dirty);
 
-    					if (dirty[0] & /*paneVisbility*/ 1) {
+    					if (dirty[0] & /*paneVisbility*/ 2) {
     						transition_in(if_block2, 1);
     					}
     				} else {
-    					if_block2 = create_if_block_1$7(ctx);
+    					if_block2 = create_if_block_2$7(ctx);
     					if_block2.c();
     					transition_in(if_block2, 1);
     					if_block2.m(div10, null);
@@ -68805,19 +69561,19 @@ var app = (function () {
     				check_outros();
     			}
 
-    			if (dirty[0] & /*paneVisbility*/ 1) {
-    				toggle_class(div12, "selected", /*paneVisbility*/ ctx[0].byCharacteristics);
+    			if (dirty[0] & /*paneVisbility*/ 2) {
+    				toggle_class(div12, "selected", /*paneVisbility*/ ctx[1].byCharacteristics);
     			}
 
-    			if (/*paneVisbility*/ ctx[0].byCharacteristics) {
+    			if (/*paneVisbility*/ ctx[1].byCharacteristics) {
     				if (if_block3) {
     					if_block3.p(ctx, dirty);
 
-    					if (dirty[0] & /*paneVisbility*/ 1) {
+    					if (dirty[0] & /*paneVisbility*/ 2) {
     						transition_in(if_block3, 1);
     					}
     				} else {
-    					if_block3 = create_if_block$9(ctx);
+    					if_block3 = create_if_block_1$7(ctx);
     					if_block3.c();
     					transition_in(if_block3, 1);
     					if_block3.m(div13, null);
@@ -68831,6 +69587,19 @@ var app = (function () {
 
     				check_outros();
     			}
+
+    			if (/*noSearchParams*/ ctx[2] > 0) {
+    				if (if_block4) {
+    					if_block4.p(ctx, dirty);
+    				} else {
+    					if_block4 = create_if_block$9(ctx);
+    					if_block4.c();
+    					if_block4.m(section, null);
+    				}
+    			} else if (if_block4) {
+    				if_block4.d(1);
+    				if_block4 = null;
+    			}
     		},
     		i: function intro(local) {
     			if (current) return;
@@ -68838,6 +69607,13 @@ var app = (function () {
     			transition_in(if_block1);
     			transition_in(if_block2);
     			transition_in(if_block3);
+
+    			add_render_callback(() => {
+    				if (section_outro) section_outro.end(1);
+    				section_intro = create_in_transition(section, fly, { duration: 800, x: -100 });
+    				section_intro.start();
+    			});
+
     			current = true;
     		},
     		o: function outro(local) {
@@ -68845,6 +69621,8 @@ var app = (function () {
     			transition_out(if_block1);
     			transition_out(if_block2);
     			transition_out(if_block3);
+    			if (section_intro) section_intro.invalidate();
+    			section_outro = create_out_transition(section, fly, { duration: 200, x: -100 });
     			current = false;
     		},
     		d: function destroy(detaching) {
@@ -68853,6 +69631,8 @@ var app = (function () {
     			if (if_block1) if_block1.d();
     			if (if_block2) if_block2.d();
     			if (if_block3) if_block3.d();
+    			if (if_block4) if_block4.d();
+    			if (detaching && section_outro) section_outro.end();
     			mounted = false;
     			run_all(dispose);
     		}
@@ -68870,12 +69650,10 @@ var app = (function () {
     }
 
     function instance$o($$self, $$props, $$invalidate) {
-    	let $database;
+    	let noSearchParams;
     	let $ui;
-    	validate_store(database, 'database');
-    	component_subscribe($$self, database, $$value => $$invalidate(29, $database = $$value));
     	validate_store(ui, 'ui');
-    	component_subscribe($$self, ui, $$value => $$invalidate(1, $ui = $$value));
+    	component_subscribe($$self, ui, $$value => $$invalidate(0, $ui = $$value));
     	let { $$slots: slots = {}, $$scope } = $$props;
     	validate_slots('StakeholderSearch', slots, []);
 
@@ -68889,11 +69667,11 @@ var app = (function () {
     	function togglePane() {
     		Object.keys(paneVisbility).map(key => {
     			if (this.id !== key) {
-    				$$invalidate(0, paneVisbility[key] = false, paneVisbility);
+    				$$invalidate(1, paneVisbility[key] = false, paneVisbility);
     			}
     		});
 
-    		$$invalidate(0, paneVisbility[this.id] = !paneVisbility[this.id], paneVisbility);
+    		$$invalidate(1, paneVisbility[this.id] = !paneVisbility[this.id], paneVisbility);
     		console.log(`Toggling ${this.id} vis to `, paneVisbility[this.id]);
     	}
 
@@ -68909,105 +69687,16 @@ var app = (function () {
     		window.scrollTo({ top: 0, behavior: 'smooth' });
     	}
 
-    	// DATA FOR MULTI-SELECT COMPONENTS
-    	// Waterways outcomes 
-    	const keyValues = {
-    		label: 'by key values',
-    		name: 'keyValues',
-    		list: Object.keys(hwsSchema.keyValues),
-    		searchObj: $ui.search.organisation.keyValues,
-    		placeholder: 'Use this field to select waterway key values'
-    	};
+    	function handleClearSearch() {
+    		console.log('Clearing the search');
+    		set_store_value(ui, $ui.search.organisation = {}, $ui);
 
-    	const conditions = {
-    		label: 'by waterway conditions',
-    		name: 'conditions',
-    		list: Object.keys(hwsSchema.conditions),
-    		searchObj: $ui.search.organisation.conditions,
-    		placeholder: 'Use this field to select waterway conditions'
-    	};
+    		for (const key of Object.keys(paneVisbility)) {
+    			$$invalidate(1, paneVisbility[key] = false, paneVisbility);
+    		}
 
-    	const performanceObjectives = {
-    		label: 'by performance objectives',
-    		name: 'performanceObjectives',
-    		list: Object.keys(hwsSchema.performanceObjectives),
-    		searchObj: $ui.search.organisation.pos,
-    		placeholder: 'Use this field to select performance objectives'
-    	};
-
-    	// Project location
-    	const catchments = {
-    		label: 'by catchments',
-    		name: 'catchment',
-    		list: [...locationTree.entries()].map(d => d[0]),
-    		searchObj: $ui.search.organisation.cathments,
-    		placeholder: 'Use this field to select catchments'
-    	};
-
-    	const subcatchments = {
-    		label: 'by subcatchments',
-    		name: 'subcatchment',
-    		list: [].concat(...[...locationTree.entries()].map(d => [...d[1]].map(d => d[0]))),
-    		searchObj: $ui.search.organisation.subcatchments,
-    		placeholder: 'Use this field to select subcatchments'
-    	};
-
-    	const locations = {
-    		label: 'by location',
-    		name: 'location',
-    		list: [].concat(...[...locationTree.entries()].map(d => [...d[1]].map(d => d[0]))),
-    		searchObj: $ui.search.organisation.location,
-    		placeholder: 'Use this field to select locations'
-    	};
-
-    	// Project characterships
-    	const initiativeType = {
-    		label: 'Type',
-    		name: 'initiativeType',
-    		list: projectSchema.initiativeType,
-    		searchObj: $ui.search.organisation.initiativeType,
-    		placeholder: 'Use this field to select initiative type(s)'
-    	};
-
-    	const projectStage = {
-    		label: 'Stage',
-    		name: 'projectStage',
-    		list: projectSchema.stage,
-    		searchObj: $ui.search.organisation.projectStage,
-    		placeholder: 'Use this field to select initiative project(s)'
-    	};
-
-    	const projectClass = {
-    		label: 'Class',
-    		name: 'projectClass',
-    		list: projectSchema.class,
-    		searchObj: $ui.search.organisation.projectClass,
-    		placeholder: 'Use this field to select project class(es)'
-    	};
-
-    	const projectSize = {
-    		label: 'Size',
-    		name: 'projectSize',
-    		list: projectSchema.size,
-    		searchObj: $ui.search.organisation.projectSize,
-    		placeholder: 'Use this field to select project size to filter for'
-    	};
-
-    	const projectScale = {
-    		label: 'Scale',
-    		name: 'projectScale',
-    		list: projectSchema.class,
-    		placeholder: 'Use this field to select project scale to filter for'
-    	};
-
-    	// Project stakeholders
-    	const organisation = {
-    		label: 'Organisation name',
-    		name: 'organisation',
-    		list: $database.organisations.map(d => d.name).sort(),
-    		placeholder: 'Use this field to select the name of organisation'
-    	};
-
+    		window.scrollTo({ top: 0, behavior: 'smooth' });
+    	}
     	const writable_props = [];
 
     	Object_1$1.keys($$props).forEach(key => {
@@ -69015,8 +69704,8 @@ var app = (function () {
     	});
 
     	function multiselect_value_binding(value) {
-    		if ($$self.$$.not_equal($ui.search.organisation.organisation, value)) {
-    			$ui.search.organisation.organisation = value;
+    		if ($$self.$$.not_equal($ui.search.organisation.partnerOrg, value)) {
+    			$ui.search.organisation.partnerOrg = value;
     			ui.set($ui);
     		}
     	}
@@ -69036,8 +69725,15 @@ var app = (function () {
     	}
 
     	function multiselect2_value_binding(value) {
-    		if ($$self.$$.not_equal($ui.search.organisation.performanceObjectives, value)) {
-    			$ui.search.organisation.performanceObjectives = value;
+    		if ($$self.$$.not_equal($ui.search.organisation.performanceObjectivesGroup, value)) {
+    			$ui.search.organisation.performanceObjectivesGroup = value;
+    			ui.set($ui);
+    		}
+    	}
+
+    	function multiselect3_value_binding(value) {
+    		if ($$self.$$.not_equal($ui.search.project.performanceObjectivesTheme, value)) {
+    			$ui.search.project.performanceObjectivesTheme = value;
     			ui.set($ui);
     		}
     	}
@@ -69084,7 +69780,7 @@ var app = (function () {
     		}
     	}
 
-    	function multiselect3_value_binding(value) {
+    	function multiselect3_value_binding_1(value) {
     		if ($$self.$$.not_equal($ui.search.organisation.projectSize, value)) {
     			$ui.search.organisation.projectSize = value;
     			ui.set($ui);
@@ -69100,64 +69796,77 @@ var app = (function () {
 
     	$$self.$capture_state = () => ({
     		MultiSelect,
+    		slide,
+    		fly,
     		ui,
     		database,
     		slugify,
     		capitaliseFirst,
+    		keyValues,
+    		conditions,
+    		performanceObjectivesGroup,
+    		performanceObjectivesTheme,
+    		catchments,
+    		subcatchments,
+    		locations,
+    		leadOrg,
+    		leadOrgType,
+    		partnerOrg,
+    		initiativeType,
+    		projectStage,
+    		projectClass,
+    		projectSize,
+    		projectScale,
     		hwsSchema,
     		projectSchema,
     		locationMap,
     		locationTree,
-    		slide,
     		paneVisbility,
     		togglePane,
     		handleSubmit,
     		handleClose,
-    		keyValues,
-    		conditions,
-    		performanceObjectives,
-    		catchments,
-    		subcatchments,
-    		locations,
-    		initiativeType,
-    		projectStage,
-    		projectClass,
-    		projectSize,
-    		projectScale,
-    		organisation,
-    		$database,
+    		handleClearSearch,
+    		noSearchParams,
     		$ui
     	});
 
+    	$$self.$inject_state = $$props => {
+    		if ('noSearchParams' in $$props) $$invalidate(2, noSearchParams = $$props.noSearchParams);
+    	};
+
+    	if ($$props && "$$inject" in $$props) {
+    		$$self.$inject_state($$props.$$inject);
+    	}
+
+    	$$self.$$.update = () => {
+    		if ($$self.$$.dirty[0] & /*$ui*/ 1) {
+    			// Keep count of search param number
+    			$$invalidate(2, noSearchParams = typeof Object.values($ui.search.organisation) === 'undefined'
+    			? 0
+    			: Object.values($ui.search.organisation).flat().length);
+    		}
+    	};
+
     	return [
-    		paneVisbility,
     		$ui,
+    		paneVisbility,
+    		noSearchParams,
     		togglePane,
     		handleSubmit,
     		handleClose,
-    		keyValues,
-    		conditions,
-    		performanceObjectives,
-    		catchments,
-    		subcatchments,
-    		locations,
-    		initiativeType,
-    		projectStage,
-    		projectClass,
-    		projectSize,
-    		projectScale,
-    		organisation,
+    		handleClearSearch,
     		multiselect_value_binding,
     		multiselect0_value_binding,
     		multiselect1_value_binding,
     		multiselect2_value_binding,
+    		multiselect3_value_binding,
     		multiselect0_value_binding_1,
     		multiselect1_value_binding_1,
     		multiselect2_value_binding_1,
     		multiselect0_value_binding_2,
     		multiselect1_value_binding_2,
     		multiselect2_value_binding_2,
-    		multiselect3_value_binding,
+    		multiselect3_value_binding_1,
     		multiselect4_value_binding
     	];
     }
@@ -78161,15 +78870,22 @@ var app = (function () {
     	return child_ctx;
     }
 
-    // (28:12) {#each $ui.items.pages as page (slugify(page.name)) }
+    // (27:12) {#each $ui.items.pages as page (slugify(page.name)) }
     function create_each_block(key_1, ctx) {
     	let li;
     	let div0;
-    	let raw0_value = /*page*/ ctx[2].name + "";
+
+    	let t0_value = (/*page*/ ctx[2].name.toLowerCase() === /*$ui*/ ctx[0].page
+    	? ":"
+    	: '') + "";
+
     	let t0;
+    	let html_tag;
+    	let raw0_value = /*page*/ ctx[2].name + "";
+    	let t1;
     	let div1;
     	let raw1_value = /*page*/ ctx[2].shortDesc + "";
-    	let t1;
+    	let t2;
     	let li_name_value;
     	let mounted;
     	let dispose;
@@ -78180,26 +78896,30 @@ var app = (function () {
     		c: function create() {
     			li = element("li");
     			div0 = element("div");
-    			t0 = space();
-    			div1 = element("div");
+    			t0 = text$1(t0_value);
+    			html_tag = new HtmlTag();
     			t1 = space();
-    			attr_dev(div0, "class", "menu-title svelte-lxb79m");
-    			add_location(div0, file$3, 29, 16, 1092);
-    			attr_dev(div1, "class", "menu-shortDesc svelte-lxb79m");
-    			add_location(div1, file$3, 30, 16, 1160);
+    			div1 = element("div");
+    			t2 = space();
+    			html_tag.a = null;
+    			attr_dev(div0, "class", "menu-title svelte-y2nlql");
+    			add_location(div0, file$3, 28, 16, 1042);
+    			attr_dev(div1, "class", "menu-shortDesc svelte-y2nlql");
+    			add_location(div1, file$3, 29, 16, 1158);
     			attr_dev(li, "name", li_name_value = /*page*/ ctx[2].name);
-    			attr_dev(li, "class", "svelte-lxb79m");
-    			add_location(li, file$3, 28, 12, 1030);
+    			attr_dev(li, "class", "svelte-y2nlql");
+    			add_location(li, file$3, 27, 12, 980);
     			this.first = li;
     		},
     		m: function mount(target, anchor) {
     			insert_dev(target, li, anchor);
     			append_dev(li, div0);
-    			div0.innerHTML = raw0_value;
-    			append_dev(li, t0);
+    			append_dev(div0, t0);
+    			html_tag.m(raw0_value, div0);
+    			append_dev(li, t1);
     			append_dev(li, div1);
     			div1.innerHTML = raw1_value;
-    			append_dev(li, t1);
+    			append_dev(li, t2);
 
     			if (!mounted) {
     				dispose = listen_dev(li, "click", /*switchPage*/ ctx[1], false, false, false);
@@ -78208,7 +78928,13 @@ var app = (function () {
     		},
     		p: function update(new_ctx, dirty) {
     			ctx = new_ctx;
-    			if (dirty & /*$ui*/ 1 && raw0_value !== (raw0_value = /*page*/ ctx[2].name + "")) div0.innerHTML = raw0_value;			if (dirty & /*$ui*/ 1 && raw1_value !== (raw1_value = /*page*/ ctx[2].shortDesc + "")) div1.innerHTML = raw1_value;
+
+    			if (dirty & /*$ui*/ 1 && t0_value !== (t0_value = (/*page*/ ctx[2].name.toLowerCase() === /*$ui*/ ctx[0].page
+    			? ":"
+    			: '') + "")) set_data_dev(t0, t0_value);
+
+    			if (dirty & /*$ui*/ 1 && raw0_value !== (raw0_value = /*page*/ ctx[2].name + "")) html_tag.p(raw0_value);
+    			if (dirty & /*$ui*/ 1 && raw1_value !== (raw1_value = /*page*/ ctx[2].shortDesc + "")) div1.innerHTML = raw1_value;
     			if (dirty & /*$ui*/ 1 && li_name_value !== (li_name_value = /*page*/ ctx[2].name)) {
     				attr_dev(li, "name", li_name_value);
     			}
@@ -78224,7 +78950,7 @@ var app = (function () {
     		block,
     		id: create_each_block.name,
     		type: "each",
-    		source: "(28:12) {#each $ui.items.pages as page (slugify(page.name)) }",
+    		source: "(27:12) {#each $ui.items.pages as page (slugify(page.name)) }",
     		ctx
     	});
 
@@ -78233,16 +78959,14 @@ var app = (function () {
 
     function create_fragment$4(ctx) {
     	let section;
-    	let div0;
+    	let div2;
     	let h1;
     	let t1;
+    	let div1;
+    	let div0;
+    	let t3;
     	let div3;
     	let ul;
-    	let li;
-    	let div1;
-    	let t3;
-    	let div2;
-    	let t5;
     	let each_blocks = [];
     	let each_1_lookup = new Map();
     	let section_intro;
@@ -78264,40 +78988,35 @@ var app = (function () {
     	const block = {
     		c: function create() {
     			section = element("section");
-    			div0 = element("div");
+    			div2 = element("div");
     			h1 = element("h1");
     			h1.textContent = "Navigate";
     			t1 = space();
+    			div1 = element("div");
+    			div0 = element("div");
+    			div0.textContent = "← Home";
+    			t3 = space();
     			div3 = element("div");
     			ul = element("ul");
-    			li = element("li");
-    			div1 = element("div");
-    			div1.textContent = "Home";
-    			t3 = space();
-    			div2 = element("div");
-    			div2.textContent = "Get back to where you once belonged..";
-    			t5 = space();
 
     			for (let i = 0; i < each_blocks.length; i += 1) {
     				each_blocks[i].c();
     			}
 
-    			attr_dev(h1, "class", "svelte-lxb79m");
+    			attr_dev(h1, "class", "svelte-y2nlql");
     			add_location(h1, file$3, 18, 8, 600);
-    			attr_dev(div0, "class", "title-container svelte-lxb79m");
-    			add_location(div0, file$3, 17, 5, 560);
-    			attr_dev(div1, "class", "menu-title svelte-lxb79m");
-    			add_location(div1, file$3, 24, 16, 807);
-    			attr_dev(div2, "class", "menu-shortDesc svelte-lxb79m");
-    			add_location(div2, file$3, 25, 16, 860);
-    			attr_dev(li, "name", "home");
-    			attr_dev(li, "class", "svelte-lxb79m");
-    			add_location(li, file$3, 23, 12, 750);
-    			attr_dev(ul, "class", "svelte-lxb79m");
-    			add_location(ul, file$3, 22, 8, 732);
-    			attr_dev(div3, "class", "page-nav-container svelte-lxb79m");
-    			add_location(div3, file$3, 21, 5, 689);
-    			attr_dev(section, "class", "svelte-lxb79m");
+    			attr_dev(div0, "class", "menu-title svelte-y2nlql");
+    			add_location(div0, file$3, 20, 12, 680);
+    			attr_dev(div1, "name", "home");
+    			attr_dev(div1, "class", "svelte-y2nlql");
+    			add_location(div1, file$3, 19, 8, 626);
+    			attr_dev(div2, "class", "title-container svelte-y2nlql");
+    			add_location(div2, file$3, 17, 5, 560);
+    			attr_dev(ul, "class", "svelte-y2nlql");
+    			add_location(ul, file$3, 25, 8, 897);
+    			attr_dev(div3, "class", "page-nav-container svelte-y2nlql");
+    			add_location(div3, file$3, 24, 5, 854);
+    			attr_dev(section, "class", "svelte-y2nlql");
     			add_location(section, file$3, 16, 0, 487);
     		},
     		l: function claim(nodes) {
@@ -78305,16 +79024,14 @@ var app = (function () {
     		},
     		m: function mount(target, anchor) {
     			insert_dev(target, section, anchor);
-    			append_dev(section, div0);
-    			append_dev(div0, h1);
-    			append_dev(section, t1);
+    			append_dev(section, div2);
+    			append_dev(div2, h1);
+    			append_dev(div2, t1);
+    			append_dev(div2, div1);
+    			append_dev(div1, div0);
+    			append_dev(section, t3);
     			append_dev(section, div3);
     			append_dev(div3, ul);
-    			append_dev(ul, li);
-    			append_dev(li, div1);
-    			append_dev(li, t3);
-    			append_dev(li, div2);
-    			append_dev(ul, t5);
 
     			for (let i = 0; i < each_blocks.length; i += 1) {
     				each_blocks[i].m(ul, null);
@@ -78323,7 +79040,7 @@ var app = (function () {
     			current = true;
 
     			if (!mounted) {
-    				dispose = listen_dev(li, "click", /*switchPage*/ ctx[1], false, false, false);
+    				dispose = listen_dev(div1, "click", /*switchPage*/ ctx[1], false, false, false);
     				mounted = true;
     			}
     		},
@@ -78417,8 +79134,12 @@ var app = (function () {
 
     function create_fragment$3(ctx) {
     	let section;
-    	let div;
-    	let h1;
+    	let div0;
+    	let h2;
+    	let raw0_value = componentContent.info[/*$ui*/ ctx[0].page].header + "";
+    	let t;
+    	let div1;
+    	let raw1_value = componentContent.info[/*$ui*/ ctx[0].page].content + "";
     	let section_intro;
     	let section_outro;
     	let current;
@@ -78426,27 +79147,34 @@ var app = (function () {
     	const block = {
     		c: function create() {
     			section = element("section");
-    			div = element("div");
-    			h1 = element("h1");
-    			h1.textContent = "Help";
-    			attr_dev(h1, "class", "svelte-lxb79m");
-    			add_location(h1, file$2, 10, 8, 336);
-    			attr_dev(div, "class", "title-container svelte-lxb79m");
-    			add_location(div, file$2, 9, 5, 296);
+    			div0 = element("div");
+    			h2 = element("h2");
+    			t = space();
+    			div1 = element("div");
+    			add_location(h2, file$2, 11, 8, 395);
+    			attr_dev(div0, "class", "title-container svelte-utt243");
+    			add_location(div0, file$2, 10, 5, 355);
+    			attr_dev(div1, "class", "content-container svelte-utt243");
+    			add_location(div1, file$2, 13, 5, 471);
     			attr_dev(section, "id", "help-modal");
-    			attr_dev(section, "class", "svelte-lxb79m");
-    			add_location(section, file$2, 8, 0, 205);
+    			attr_dev(section, "class", "svelte-utt243");
+    			add_location(section, file$2, 9, 0, 264);
     		},
     		l: function claim(nodes) {
     			throw new Error("options.hydrate only works if the component was compiled with the `hydratable: true` option");
     		},
     		m: function mount(target, anchor) {
     			insert_dev(target, section, anchor);
-    			append_dev(section, div);
-    			append_dev(div, h1);
+    			append_dev(section, div0);
+    			append_dev(div0, h2);
+    			h2.innerHTML = raw0_value;
+    			append_dev(section, t);
+    			append_dev(section, div1);
+    			div1.innerHTML = raw1_value;
     			current = true;
     		},
-    		p: noop,
+    		p: function update(ctx, [dirty]) {
+    			if ((!current || dirty & /*$ui*/ 1) && raw0_value !== (raw0_value = componentContent.info[/*$ui*/ ctx[0].page].header + "")) h2.innerHTML = raw0_value;			if ((!current || dirty & /*$ui*/ 1) && raw1_value !== (raw1_value = componentContent.info[/*$ui*/ ctx[0].page].content + "")) div1.innerHTML = raw1_value;		},
     		i: function intro(local) {
     			if (current) return;
 
@@ -78481,6 +79209,9 @@ var app = (function () {
     }
 
     function instance$3($$self, $$props, $$invalidate) {
+    	let $ui;
+    	validate_store(ui, 'ui');
+    	component_subscribe($$self, ui, $$value => $$invalidate(0, $ui = $$value));
     	let { $$slots: slots = {}, $$scope } = $$props;
     	validate_slots('ModalHelp', slots, []);
     	const writable_props = [];
@@ -78489,8 +79220,8 @@ var app = (function () {
     		if (!~writable_props.indexOf(key) && key.slice(0, 2) !== '$$' && key !== 'slot') console.warn(`<ModalHelp> was created with unknown prop '${key}'`);
     	});
 
-    	$$self.$capture_state = () => ({ fade, ui });
-    	return [];
+    	$$self.$capture_state = () => ({ fade, ui, componentContent, $ui });
+    	return [$ui];
     }
 
     class ModalHelp extends SvelteComponentDev {
@@ -78528,8 +79259,8 @@ var app = (function () {
     		c: function create() {
     			div = element("div");
     			if_block.c();
-    			attr_dev(div, "class", "menuButton-container svelte-z2faaq");
-    			add_location(div, file$1, 70, 4, 2310);
+    			attr_dev(div, "class", "menuButton-container svelte-1idjqij");
+    			add_location(div, file$1, 70, 4, 2317);
     		},
     		m: function mount(target, anchor) {
     			insert_dev(target, div, anchor);
@@ -78583,17 +79314,17 @@ var app = (function () {
     			attr_dev(circle, "cx", "25");
     			attr_dev(circle, "cy", "25");
     			attr_dev(circle, "r", "22.5");
-    			attr_dev(circle, "class", "svelte-z2faaq");
-    			add_location(circle, file$1, 94, 12, 3613);
+    			attr_dev(circle, "class", "svelte-1idjqij");
+    			add_location(circle, file$1, 94, 12, 3620);
     			attr_dev(text_1, "x", "25");
     			attr_dev(text_1, "y", "30");
-    			attr_dev(text_1, "class", "svelte-z2faaq");
-    			add_location(text_1, file$1, 95, 12, 3677);
+    			attr_dev(text_1, "class", "svelte-1idjqij");
+    			add_location(text_1, file$1, 95, 12, 3684);
     			attr_dev(svg, "id", "menu-icon");
-    			attr_dev(svg, "class", "nav-icon svelte-z2faaq");
+    			attr_dev(svg, "class", "nav-icon svelte-1idjqij");
     			attr_dev(svg, "width", "100%");
     			attr_dev(svg, "viewBox", "0 0 50 50");
-    			add_location(svg, file$1, 93, 8, 3497);
+    			add_location(svg, file$1, 93, 8, 3504);
     		},
     		m: function mount(target, anchor) {
     			insert_dev(target, svg, anchor);
@@ -78694,17 +79425,17 @@ var app = (function () {
     			attr_dev(circle, "cx", "25");
     			attr_dev(circle, "cy", "25");
     			attr_dev(circle, "r", "22.5");
-    			attr_dev(circle, "class", "svelte-z2faaq");
-    			add_location(circle, file$1, 86, 20, 3275);
+    			attr_dev(circle, "class", "svelte-1idjqij");
+    			add_location(circle, file$1, 86, 20, 3282);
     			attr_dev(text_1, "x", "25");
     			attr_dev(text_1, "y", "30");
-    			attr_dev(text_1, "class", "svelte-z2faaq");
-    			add_location(text_1, file$1, 87, 20, 3347);
+    			attr_dev(text_1, "class", "svelte-1idjqij");
+    			add_location(text_1, file$1, 87, 20, 3354);
     			attr_dev(svg, "id", "menu-icon");
-    			attr_dev(svg, "class", "nav-icon invert svelte-z2faaq");
+    			attr_dev(svg, "class", "nav-icon invert svelte-1idjqij");
     			attr_dev(svg, "width", "100%");
     			attr_dev(svg, "viewBox", "0 0 50 50");
-    			add_location(svg, file$1, 85, 16, 3144);
+    			add_location(svg, file$1, 85, 16, 3151);
     		},
     		m: function mount(target, anchor) {
     			insert_dev(target, svg, anchor);
@@ -78759,14 +79490,14 @@ var app = (function () {
     			attr_dev(circle, "cx", "25");
     			attr_dev(circle, "cy", "25");
     			attr_dev(circle, "r", "22.5");
-    			attr_dev(circle, "class", "svelte-z2faaq");
-    			add_location(circle, file$1, 76, 20, 2785);
+    			attr_dev(circle, "class", "svelte-1idjqij");
+    			add_location(circle, file$1, 76, 20, 2792);
     			attr_dev(svg, "id", "menu-icon");
-    			attr_dev(svg, "class", "nav-icon svelte-z2faaq");
+    			attr_dev(svg, "class", "nav-icon svelte-1idjqij");
     			attr_dev(svg, "width", "100%");
     			attr_dev(svg, "viewBox", "0 0 50 50");
     			toggle_class(svg, "invert", /*$ui*/ ctx[0].showMenuModal);
-    			add_location(svg, file$1, 75, 16, 2632);
+    			add_location(svg, file$1, 75, 16, 2639);
     		},
     		m: function mount(target, anchor) {
     			insert_dev(target, svg, anchor);
@@ -78823,8 +79554,8 @@ var app = (function () {
     			t = text$1("Close");
     			attr_dev(text_1, "x", "25");
     			attr_dev(text_1, "y", "30");
-    			attr_dev(text_1, "class", "svelte-z2faaq");
-    			add_location(text_1, file$1, 80, 20, 2982);
+    			attr_dev(text_1, "class", "svelte-1idjqij");
+    			add_location(text_1, file$1, 80, 20, 2989);
     		},
     		m: function mount(target, anchor) {
     			insert_dev(target, text_1, anchor);
@@ -78857,8 +79588,8 @@ var app = (function () {
     			t = text$1("Menu");
     			attr_dev(text_1, "x", "25");
     			attr_dev(text_1, "y", "30");
-    			attr_dev(text_1, "class", "svelte-z2faaq");
-    			add_location(text_1, file$1, 78, 20, 2902);
+    			attr_dev(text_1, "class", "svelte-1idjqij");
+    			add_location(text_1, file$1, 78, 20, 2909);
     		},
     		m: function mount(target, anchor) {
     			insert_dev(target, text_1, anchor);
@@ -78986,7 +79717,7 @@ var app = (function () {
     			svg = svg_element("svg");
     			circle = svg_element("circle");
     			text_1 = svg_element("text");
-    			t0 = text$1("Help");
+    			t0 = text$1("i");
     			t1 = space();
     			if (if_block0) if_block0.c();
     			t2 = space();
@@ -78997,23 +79728,23 @@ var app = (function () {
     			attr_dev(circle, "cx", "25");
     			attr_dev(circle, "cy", "25");
     			attr_dev(circle, "r", "22.5");
-    			attr_dev(circle, "class", "svelte-z2faaq");
-    			add_location(circle, file$1, 62, 16, 2107);
+    			attr_dev(circle, "class", "svelte-1idjqij");
+    			add_location(circle, file$1, 62, 16, 2117);
     			attr_dev(text_1, "x", "25");
-    			attr_dev(text_1, "y", "30");
-    			attr_dev(text_1, "class", "svelte-z2faaq");
-    			add_location(text_1, file$1, 63, 16, 2166);
+    			attr_dev(text_1, "y", "40");
+    			attr_dev(text_1, "class", "svelte-1idjqij");
+    			add_location(text_1, file$1, 63, 16, 2176);
     			attr_dev(svg, "id", "help-icon");
-    			attr_dev(svg, "class", "nav-icon svelte-z2faaq");
-    			attr_dev(svg, "width", "50%");
+    			attr_dev(svg, "class", "help-icon nav-icon svelte-1idjqij");
+    			attr_dev(svg, "width", "45%");
     			attr_dev(svg, "viewBox", "0 0 50 50");
     			add_location(svg, file$1, 61, 12, 2014);
     			attr_dev(div0, "id", "helpButton");
-    			attr_dev(div0, "class", "svelte-z2faaq");
+    			attr_dev(div0, "class", "svelte-1idjqij");
     			add_location(div0, file$1, 60, 8, 1899);
-    			attr_dev(div1, "class", "helpButton-container svelte-z2faaq");
+    			attr_dev(div1, "class", "helpButton-container svelte-1idjqij");
     			add_location(div1, file$1, 59, 4, 1853);
-    			attr_dev(nav, "class", "svelte-z2faaq");
+    			attr_dev(nav, "class", "svelte-1idjqij");
     			add_location(nav, file$1, 57, 0, 1789);
     		},
     		l: function claim(nodes) {

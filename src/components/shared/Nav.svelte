@@ -59,9 +59,9 @@
     <!-- Help button : top left-->
     <div class = "helpButton-container" >
         <div id="helpButton" on:mouseover={showHelpOption} on:focus={showHelpOption} on:click={openHelpModal}>
-            <svg id = "help-icon" class ="nav-icon" width = "50%" viewbox = "0 0 50 50">
+            <svg id = "help-icon" class ="help-icon nav-icon" width = "45%" viewbox = "0 0 50 50">
                 <circle cx = 25 cy = 25 r = 22.5></circle>
-                <text x = 25 y = 30>Help</text>
+                <text x = 25 y = 40>i</text>
             </svg>
         </div>
     </div>
@@ -136,7 +136,7 @@
     }
     /* Navigation icon styling */
     svg:hover{
-        text-decoration:        underline;
+        /* text-decoration:        underline; */
     }
     .nav-icon {
         cursor:                 pointer;
@@ -167,13 +167,13 @@
         top:                0;
         left:               0;
         opacity:            0;
-        height:             12.5vw;
-        width:              12.5vw; 
+        height:             7.5vw;
+        width:              7.5vw; 
         clip-path:          polygon(0 0, 100% 0, 0 100%);
-        background-color:   rgb(0, 255, 183);
+        background-color:   rgb(183, 255, 2);
         pointer-events:     none;
         transition:         200ms all;
-        transform:          translate(-2.5vw, -2.5vw)
+        transform:          translate(-1vw, -1vw)
     }
     #helpButton.active{
         cursor:             pointer;
@@ -184,11 +184,19 @@
         transform:          translate(0, 0)
     }
     #helpButton svg{
-        padding: 2.5vw;
+        padding:            8px 2.5vw 2.5vw 8px;
     }
 
     .help-icon{
-        pointer-events: none;
+        /* pointer-events: none; */
     }
-
+    .help-icon text{
+        font-family:            'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        fill:                   var(--darkGrey);
+        font-size:              40px;
+        font-weight:            100;
+        text-anchor:            middle;
+        text-transform:         lowercase;
+        text-decoration:        none;
+    }
 </style>

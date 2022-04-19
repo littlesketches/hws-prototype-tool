@@ -7,8 +7,6 @@ export { keyValues, conditions, performanceObjectivesGroup, performanceObjective
 
 
 ///// DATA OBJECTS FOR MULTI-SELECT COMPONENTS //////
-
-
     // Waterways outcomes 
     const keyValues = {
         label:          'by key values',

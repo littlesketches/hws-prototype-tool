@@ -17,17 +17,16 @@
 <section in:fade="{{duration: 500}}" out:fade="{{duration: 250}}" >
      <div class = 'title-container'>
         <h1>Navigate</h1>
-        <!-- <p>jump to different sections</p> -->
+        <div name = 'home' on:click={switchPage}>
+            <div class = 'menu-title'>&larr; Home</div>
+            <!-- <div class = 'menu-shortDesc'>Get back to where you once belonged..</div> -->
+        </div>
     </div>    
      <div class = 'page-nav-container'>
-        <ul >
-            <li name = 'home' on:click={switchPage}>
-                <div class = 'menu-title'>Home</div>
-                <div class = 'menu-shortDesc'>Get back to where you once belonged..</div>
-            </li>
+        <ul>
             {#each $ui.items.pages as page (slugify(page.name)) }
             <li name = {page.name} on:click={switchPage}>
-                <div class = 'menu-title'> {@html page.name} </div>
+                <div class = 'menu-title'>{page.name.toLowerCase() === $ui.page ? ":" : ''} {@html page.name} </div>
                 <div class = 'menu-shortDesc'>{@html page.shortDesc} </div> 
             </li>
             {/each}
@@ -52,9 +51,10 @@
         color:    #fff;
     }
     h1{
-        font-weight:    700;
-        font-size:      6vw;
+        font-weight:        700;
+        font-size:          6vw;
         margin-block-start: 0;
+        margin-block-end:   0.75rem;
     }
     .title-container{
         grid-area:     1 / 1 / 2 / 2;
@@ -65,7 +65,9 @@
         padding:        7.5vh 0;  
         margin:         1rem 7.5vh;  
     }
-
+    .title-container div{
+        cursor:     pointer;
+    }
     ul{
         margin-block-start:     0;
         margin-block-end:       0;
@@ -84,6 +86,8 @@
     li:first-child{
         padding-top: 0;
     }
+
+    .title-container div:hover,
     li:hover{
         color:          var(--modalLight)
     }

@@ -22,6 +22,7 @@
             o.selected && !value.includes(o.value) && (value = [...value, o.value]);
             options = [...options, {value: o.value, name: o.textContent}]
         });
+        value = value.filter(d => d!== '')
         value && (selected = options.reduce((obj, op) => value.includes(op.value) ? {...obj, [op.value]: op} : obj, {}));
         first = false;
     });
@@ -29,7 +30,7 @@
     $: if (!first) value = Object.values(selected).map(o => o.value);
     $: filtered = options.filter(o => inputValue ? o.name.toLowerCase().includes(inputValue.toLowerCase()) : o);
     $: if (activeOption && !filtered.includes(activeOption) || !activeOption && inputValue) activeOption = filtered[0];
-    $: placeholderText = value.length > 0 ? '' :  placeholder
+    $: placeholderText = typeof value === 'undefined' || value.length > 0 ? '' :  placeholder
 
     function add(token) {
         if (!readonly) selected[token.value] = token;
@@ -37,35 +38,35 @@
 
     function remove(value) {
         if (!readonly) {
-        const {[value]: val, ...rest} = selected;
-        selected = rest;
+            const {[value]: val, ...rest} = selected;
+            selected = rest;
         }
     };
 
     function optionsVisibility(show) {
         if (readonly) return;
         if (typeof show === 'boolean') {
-        showOptions = show;
-        show && input.focus();
+            showOptions = show;
+            show && input.focus();
         } else {
-        showOptions = !showOptions;
+            showOptions = !showOptions;
         }
         if (!showOptions) {
-        activeOption = undefined;
+            activeOption = undefined;
         }
     };
 
     function handleKeyup(e) {
         if (e.keyCode === 13) {
-        Object.keys(selected).includes(activeOption.value) ? remove(activeOption.value) : add(activeOption);
-        inputValue = '';
+            Object.keys(selected).includes(activeOption.value) ? remove(activeOption.value) : add(activeOption);
+            inputValue = '';
         }
         if ([38,40].includes(e.keyCode)) { // up and down arrows
-        const increment = e.keyCode === 38 ? -1 : 1;
-        const calcIndex = filtered.indexOf(activeOption) + increment;
-        activeOption = calcIndex < 0 ? filtered[filtered.length - 1]
-            : calcIndex === filtered.length ? filtered[0]
-            : filtered[calcIndex];
+            const increment = e.keyCode === 38 ? -1 : 1;
+            const calcIndex = filtered.indexOf(activeOption) + increment;
+            activeOption = calcIndex < 0 ? filtered[filtered.length - 1]
+                : calcIndex === filtered.length ? filtered[0]
+                : filtered[calcIndex];
         }
     };
 
@@ -75,13 +76,13 @@
 
     function handleTokenClick(e) {
         if (e.target.closest('.token-remove')) {
-        e.stopPropagation();
-        remove(e.target.closest('.token').dataset.id);
+            e.stopPropagation();
+            remove(e.target.closest('.token').dataset.id);
         } else if (e.target.closest('.remove-all')) {
-        selected = [];
-        inputValue = '';
+            selected = [];
+            inputValue = '';
         } else {
-        optionsVisibility(true);
+            optionsVisibility(true);
         }
     };
 
@@ -119,10 +120,14 @@
                 on:keyup={handleKeyup} on:blur={handleBlur}
                 placeholder={placeholderText}/>
 
-            <div class="remove-all" title="Remove All" class:hidden={!Object.keys(selected).length}>
-                <svg class="icon-clear" xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24">
-                    <path d="{iconClearPath}"/>
-                </svg>
+            <div class="remove-all-container" title="Remove All" class:hidden={!Object.keys(selected).length}>
+                <div class="remove-all-label">Clear all </div>
+                <div class="remove-all">
+                    <svg class="icon-clear" xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24">
+                        <path d="{iconClearPath}"/>
+                    </svg>
+                </div>
+
             </div>
             <svg class="dropdown-arrow" xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 18 18">
                 <path d="M5 8l4 4 4-4z"></path>
@@ -146,139 +151,152 @@
 <!-- STYLES -->
 <style>
     section {
-        background-color: white;
-        border-bottom: 1px solid hsl(0, 0%, 70%);
-        position: relative;
-        padding: 0.125rem;
+        background-color:       white;
+        border-bottom:          1px solid hsl(0, 0%, 70%);
+        position:               relative;
+        padding:                0.125rem;
     }
     section:not(.readonly):hover {
-        border-bottom-color: hsl(0, 0%, 50%);
+        border-bottom-color:    hsl(0, 0%, 50%);
     }
+    input {
+        border:                 none;
+        font-size:              0.8rem;
+        font-weight:            300;
+        line-height:            1.5rem;
+        margin:                 0;
+        outline:                none;
+        padding:                0;
+        width:                  100%;
+        min-height:             2.5rem;
+    }
+
     .tokens {
-        align-items: center;
-        display: flex;
-        flex-wrap: wrap;
-        position: relative;
+        align-items:            center;
+        display:                flex;
+        flex-wrap:              wrap;
+        position:               relative;
     }
     .tokens::after {    
-        background: none repeat scroll 0 0 transparent;
-        bottom: -1px;
-        content: "";
-        display: block;
-        height: 2px;
-        left: 50%;
-        position: absolute;
-        transition: width 0.3s ease 0s, left 0.3s ease 0s;
-        width: 0;
+        background:             none repeat scroll 0 0 transparent;
+        bottom:                 -1px;
+        content:                "";
+        display:                block;
+        height:                 2px;
+        left:                   50%;
+        position:               absolute;
+        transition:             width 0.3s ease 0s, left 0.3s ease 0s;
+        width:                  0;
     }
     .tokens.showOptions::after { 
-        width: 100%; 
-        left: 0; 
+        width:                  100%; 
+        left:                   0; 
     }
     .token {
-        align-items: center;
-        background-color: hsl(214, 17%, 92%);
-        border-radius: 1.0rem;
-        display: flex;
-        margin: .125rem .25rem .125rem 0;
-        max-height: 1.75rem;
-        padding: 0.35rem 0.5rem;
-        transition: background-color .3s;
-        white-space: nowrap;
-        font-weight: 600;
-        font-size: 0.8rem;
+        align-items:            center;
+        background-color:       hsl(214, 17%, 92%);
+        border-radius:          1.0rem;
+        display:                flex;
+        margin:                 0.125rem 0.25rem 0.125rem 0;
+        max-height:             1.75rem;
+        padding:                0.35rem 0.5rem;
+        transition:             background-color .3s;
+        white-space:            nowrap;
+        font-weight:            600;
+        font-size:              0.8rem;
     }
     .token:hover {
-        background-color: hsl(214, 15%, 88%);
+        background-color:       hsl(214, 15%, 88%);
     }
     .readonly .token {
-        color: hsl(0, 0%, 40%);
+        color:                  hsl(0, 0%, 40%);
     }
     .token-remove, .remove-all {
-        align-items: center;
-        background-color: hsl(214, 15%, 55%);
-        border-radius: 50%;
-        color: hsl(214, 17%, 92%);
-        display: flex;
-        justify-content: center;
-        height: 1.25rem;
-        margin-left: .25rem;
-        min-width: 1.25rem;
+        align-items:            center;
+        background-color:      hsl(214, 15%, 55%);
+        border-radius:          50%;
+        color:                  hsl(214, 17%, 92%);
+        display:                flex;
+        justify-content:        center;
+        height:                 1.25rem;
+        margin-left:            0.25rem;
+        min-width:              1.25rem;
     }
     .token-remove:hover, .remove-all:hover {
-        background-color: hsl(215, 21%, 43%);
-        cursor: pointer;
+        background-color:       hsl(215, 21%, 43%);
+        cursor:                 pointer;
     }
-
+    .remove-all-container{
+        display:                flex;
+        width:                  9rem;
+        justify-content:        flex-end;
+        align-items:            center;
+    }
+    .remove-all-label{
+        color:                  hsl(214, 15%, 55%);
+        font-size:              0.8rem;
+        font-weight:            500;
+        padding-right:          0.25rem;
+    }
     .actions {
-        align-items: center;
-        display: flex;
-        flex: 1;
-        min-width: 15rem;
+        align-items:            center;
+        display:                flex;
+        flex:                   1;
+        min-width:              15rem;
     }
 
-    input {
-        border: none;
-        font-size: 0.8rem;
-        font-weight: 300;
-        line-height: 1.5rem;
-        margin: 0;
-        outline: none;
-        padding: 0;
-        width: 100%;
-        min-height: 2.5rem;
-    }
 
     .dropdown-arrow path {
-        fill: hsl(0, 0%, 70%);
+        fill:                   hsl(0, 0%, 70%);
     }
     .multiselect:hover .dropdown-arrow path {
-        fill: hsl(0, 0%, 50%);
+        fill:                   hsl(0, 0%, 50%);
     }
-
     .icon-clear path {
-        fill: white;
+        fill:                   white;
     }
     .options {
-        box-shadow: 0px 2px 4px rgba(0,0,0,.1), 0px -2px 4px rgba(0,0,0,.1);
-        left: 0;
-        list-style: none;
-        margin-block-end: 0;
-        margin-block-start: 0;
-        max-height: 70vh;
-        overflow: auto;
-        padding-inline-start: 0;
-        position: absolute;
-        top: calc(100% + 1px);
-        width: 100%;
+        box-shadow:             0px 2px 4px rgba(0,0,0,.1), 0px -2px 4px rgba(0,0,0,.1);
+        left:                   0;
+        list-style:             none;
+        margin-block-end:       0;
+        margin-block-start:     0;
+        max-height:             70vh;
+        overflow:               auto;
+        padding-inline-start:   0;
+        position:               absolute;
+        top:                    calc(100% + 1px);
+        width:                  100%;
     }
     li {
-        display: block;
-        background-color: white;
-        cursor: pointer;
-        padding: .5rem;
-        width: 100%;
+        display:                block;
+        background-color:       white;
+        cursor:                 pointer;
+        padding:                0.5rem;
+        width:                  100%;
+        font-size:              0.8rem;
+        font-weight:            300;
     }
     li:last-child {
-        border-bottom-left-radius: .2rem;
-        border-bottom-right-radius: .2rem;
+        border-bottom-left-radius:  0.2rem;
+        border-bottom-right-radius: 0.2rem;
     }
     li:not(.selected):hover {
-        background-color: hsl(214, 17%, 92%);
+        background-color:       hsl(214, 17%, 92%);
     }
     li.selected {
-        background-color: hsl(192, 78%, 61%);
-        color: white;
+        background-color:       hsl(192, 78%, 61%);
+        color:                  white;
     }
     li.selected:nth-child(even) {
-        background-color: hsl(192, 78%, 61%);
-        color: white;
+        background-color:       hsl(192, 78%, 61%);
+        color:                  white;
     }
     li.active {
-        background-color: hsl(214, 17%, 88%);
+        background-color:       hsl(214, 17%, 88%);
     }
     li.selected.active, li.selected:hover {
-        background-color: hsl(192, 78%, 61%);
+        background-color:       hsl(192, 78%, 61%);
     }
     .hidden {
         display: none;

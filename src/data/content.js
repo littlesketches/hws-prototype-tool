@@ -207,7 +207,34 @@ async function getContent(){
                 feedbackHeader:         getHTML('component.manage.info.feedbackHeader'),
                 feedbackDesc:           getHTML('component.manage.info.feedbackDesc'),
             }
+        },
+        info: {
+            home:{
+                header:                 getHTML('info.home.header'),
+                content:                getHTML('info.home.content')
+            },
+            manage:{
+                header:                 getHTML('info.manage.header'),
+                content:                getHTML('info.manage.content')
+            },
+            discover:{
+                header:                 getHTML('info.discover.header'),
+                content:                getHTML('info.discover.content')
+            },
+            connect:{
+                header:                 getHTML('info.connect.header'),
+                content:                getHTML('info.connect.content')
+            },
+            share:{
+                header:                 getHTML('info.share.header'),
+                content:                getHTML('info.share.content')
+            },
+            join:{
+                header:                 getHTML('info.join.header'),
+                content:                getHTML('info.join.content')
+            }
         }
+
     }
 };
 
