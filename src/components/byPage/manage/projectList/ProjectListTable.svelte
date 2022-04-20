@@ -11,17 +11,18 @@
 
     function handleEdit(index){
         console.log('Open a new project')
-        $ui.state.focus.projectData = projects[index]
+        $ui.state.focus.projectData = projectsData[index]
         $ui.byPage.manage.overlay = 'editProject'
         console.log(projects[index])
 
-        $ui.editProject.data = projects[index]
+        $ui.editProject.data = projectsData[index]
         console.log( $ui)
     };
     function handleOpen(index){
         console.log('Open a project for viewing')
-        $ui.state.focus.projectData = projects[index]
+        $ui.state.focus.projectData = projectsData[index]
         $ui.byPage.manage.overlay = 'project'
+        window.scrollTo({top: 0, behavior: 'smooth'});
         console.log( $ui.state.focus.projectData )
     };
     function handleNewProject(index){
