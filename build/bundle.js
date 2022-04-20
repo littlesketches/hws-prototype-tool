@@ -55314,7 +55314,7 @@ var app = (function () {
     	return child_ctx;
     }
 
-    // (77:16) {#each $ui.state.focus.projectComments as comment, index (index)}
+    // (76:16) {#each $ui.state.focus.projectComments as comment, index (index)}
     function create_each_block$c(key_1, ctx) {
     	let first;
     	let comment;
@@ -55367,7 +55367,7 @@ var app = (function () {
     		block,
     		id: create_each_block$c.name,
     		type: "each",
-    		source: "(77:16) {#each $ui.state.focus.projectComments as comment, index (index)}",
+    		source: "(76:16) {#each $ui.state.focus.projectComments as comment, index (index)}",
     		ctx
     	});
 
@@ -55449,27 +55449,27 @@ var app = (function () {
     				each_blocks[i].c();
     			}
 
-    			add_location(h3, file$W, 61, 4, 2716);
-    			add_location(p, file$W, 64, 12, 2843);
-    			add_location(hr, file$W, 65, 12, 2899);
-    			add_location(h5, file$W, 66, 12, 2916);
+    			add_location(h3, file$W, 60, 4, 2681);
+    			add_location(p, file$W, 63, 12, 2808);
+    			add_location(hr, file$W, 64, 12, 2864);
+    			add_location(h5, file$W, 65, 12, 2881);
     			attr_dev(textarea, "rows", "10");
     			attr_dev(textarea, "class", "svelte-17o07kj");
-    			add_location(textarea, file$W, 68, 16, 3011);
-    			add_location(div0, file$W, 70, 20, 3132);
+    			add_location(textarea, file$W, 67, 16, 2976);
+    			add_location(div0, file$W, 69, 20, 3097);
     			attr_dev(div1, "class", "add-feedback svelte-17o07kj");
-    			add_location(div1, file$W, 69, 16, 3083);
+    			add_location(div1, file$W, 68, 16, 3048);
     			attr_dev(div2, "id", "new-comment-container");
-    			add_location(div2, file$W, 67, 12, 2960);
-    			add_location(div3, file$W, 63, 8, 2825);
+    			add_location(div2, file$W, 66, 12, 2925);
+    			add_location(div3, file$W, 62, 8, 2790);
     			attr_dev(ul, "class", "unformatted");
-    			add_location(ul, file$W, 75, 12, 3301);
+    			add_location(ul, file$W, 74, 12, 3266);
     			attr_dev(div4, "class", "comment-container");
-    			add_location(div4, file$W, 74, 8, 3255);
+    			add_location(div4, file$W, 73, 8, 3220);
     			attr_dev(div5, "class", "content svelte-17o07kj");
-    			add_location(div5, file$W, 62, 4, 2793);
+    			add_location(div5, file$W, 61, 4, 2758);
     			attr_dev(section, "class", "svelte-17o07kj");
-    			add_location(section, file$W, 59, 0, 2677);
+    			add_location(section, file$W, 58, 0, 2642);
     		},
     		l: function claim(nodes) {
     			throw new Error("options.hydrate only works if the component was compiled with the `hydratable: true` option");
@@ -55623,7 +55623,6 @@ var app = (function () {
 
     	function handleNewComment() {
     		console.log('Adding a new comment');
-    		console.log($user.details);
     		const dateNow = new Date();
 
     		set_store_value(
@@ -78871,7 +78870,7 @@ var app = (function () {
     	return child_ctx;
     }
 
-    // (50:12) {#if editable}
+    // (51:12) {#if editable}
     function create_if_block_1$4(ctx) {
     	let div;
     	let mounted;
@@ -78886,7 +78885,7 @@ var app = (function () {
     			div = element("div");
     			div.textContent = "Edit";
     			attr_dev(div, "class", "svelte-otqfn1");
-    			add_location(div, file$b, 50, 12, 1900);
+    			add_location(div, file$b, 51, 12, 1967);
     		},
     		m: function mount(target, anchor) {
     			insert_dev(target, div, anchor);
@@ -78910,14 +78909,14 @@ var app = (function () {
     		block,
     		id: create_if_block_1$4.name,
     		type: "if",
-    		source: "(50:12) {#if editable}",
+    		source: "(51:12) {#if editable}",
     		ctx
     	});
 
     	return block;
     }
 
-    // (40:4) {#each projectsData as project, index (project._id.toString())}
+    // (41:4) {#each projectsData as project, index (project._id.toString())}
     function create_each_block$2(key_1, ctx) {
     	let div6;
     	let div2;
@@ -78972,23 +78971,23 @@ var app = (function () {
     			if (!src_url_equal(img.src, img_src_value = /*project*/ ctx[10].imgURL)) attr_dev(img, "src", img_src_value);
     			attr_dev(img, "alt", "thumbanail");
     			attr_dev(img, "class", "svelte-otqfn1");
-    			add_location(img, file$b, 43, 16, 1572);
+    			add_location(img, file$b, 44, 16, 1639);
     			attr_dev(div0, "class", "thumbnail-container svelte-otqfn1");
-    			add_location(div0, file$b, 42, 12, 1520);
+    			add_location(div0, file$b, 43, 12, 1587);
     			attr_dev(div1, "class", "label svelte-otqfn1");
-    			add_location(div1, file$b, 45, 12, 1650);
+    			add_location(div1, file$b, 46, 12, 1717);
     			attr_dev(div2, "class", "row-content svelte-otqfn1");
-    			add_location(div2, file$b, 41, 8, 1482);
+    			add_location(div2, file$b, 42, 8, 1549);
     			attr_dev(div3, "class", "svelte-otqfn1");
-    			add_location(div3, file$b, 48, 12, 1810);
+    			add_location(div3, file$b, 49, 12, 1877);
     			attr_dev(div4, "class", "svelte-otqfn1");
-    			add_location(div4, file$b, 52, 12, 1981);
+    			add_location(div4, file$b, 53, 12, 2048);
     			attr_dev(div5, "class", "row-buttons svelte-otqfn1");
     			attr_dev(div5, "projectid", div5_projectid_value = /*project*/ ctx[10]._id.toString());
-    			add_location(div5, file$b, 47, 8, 1721);
+    			add_location(div5, file$b, 48, 8, 1788);
     			attr_dev(div6, "class", "row svelte-otqfn1");
     			attr_dev(div6, "name", div6_name_value = /*project*/ ctx[10]._id.toString());
-    			add_location(div6, file$b, 40, 4, 1405);
+    			add_location(div6, file$b, 41, 4, 1472);
     			this.first = div6;
     		},
     		m: function mount(target, anchor) {
@@ -79074,14 +79073,14 @@ var app = (function () {
     		block,
     		id: create_each_block$2.name,
     		type: "each",
-    		source: "(40:4) {#each projectsData as project, index (project._id.toString())}",
+    		source: "(41:4) {#each projectsData as project, index (project._id.toString())}",
     		ctx
     	});
 
     	return block;
     }
 
-    // (58:4) {#if editable}
+    // (59:4) {#if editable}
     function create_if_block$7(ctx) {
     	let div;
     	let mounted;
@@ -79092,7 +79091,7 @@ var app = (function () {
     			div = element("div");
     			div.textContent = "⊕ Add a new project";
     			attr_dev(div, "class", "add-container svelte-otqfn1");
-    			add_location(div, file$b, 58, 4, 2098);
+    			add_location(div, file$b, 59, 4, 2165);
     		},
     		m: function mount(target, anchor) {
     			insert_dev(target, div, anchor);
@@ -79114,7 +79113,7 @@ var app = (function () {
     		block,
     		id: create_if_block$7.name,
     		type: "if",
-    		source: "(58:4) {#if editable}",
+    		source: "(59:4) {#if editable}",
     		ctx
     	});
 
@@ -79151,7 +79150,7 @@ var app = (function () {
     			t = space();
     			if (if_block) if_block.c();
     			attr_dev(section, "class", "svelte-otqfn1");
-    			add_location(section, file$b, 38, 0, 1323);
+    			add_location(section, file$b, 39, 0, 1390);
     		},
     		l: function claim(nodes) {
     			throw new Error("options.hydrate only works if the component was compiled with the `hydratable: true` option");
@@ -79239,17 +79238,18 @@ var app = (function () {
 
     	function handleEdit(index) {
     		console.log('Open a new project');
-    		set_store_value(ui, $ui.state.focus.projectData = projects[index], $ui);
+    		set_store_value(ui, $ui.state.focus.projectData = projectsData[index], $ui);
     		set_store_value(ui, $ui.byPage.manage.overlay = 'editProject', $ui);
     		console.log(projects[index]);
-    		set_store_value(ui, $ui.editProject.data = projects[index], $ui);
+    		set_store_value(ui, $ui.editProject.data = projectsData[index], $ui);
     		console.log($ui);
     	}
 
     	function handleOpen(index) {
     		console.log('Open a project for viewing');
-    		set_store_value(ui, $ui.state.focus.projectData = projects[index], $ui);
+    		set_store_value(ui, $ui.state.focus.projectData = projectsData[index], $ui);
     		set_store_value(ui, $ui.byPage.manage.overlay = 'project', $ui);
+    		window.scrollTo({ top: 0, behavior: 'smooth' });
     		console.log($ui.state.focus.projectData);
     	}
 
