@@ -1,6 +1,5 @@
 <!-- HWS CONDITIONS AND VALUES BOXES-->
 <script>
-	import { onMount }      from 'svelte';
     import { ui }           from '../../../data/stores.js'
     import { hwsSchema }    from '../../../data/schema.js'
     import { slugify }      from '../../../utils/helpers.js'

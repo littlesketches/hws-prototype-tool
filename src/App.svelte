@@ -9,21 +9,24 @@
 	import Manage 		from './pages/Manage.svelte'
 	import Nav 			from './components/shared/Nav.svelte'
 	import Footer 		from './components/shared/Footer.svelte'
+	import ModalMessage from './components/shared/ModalMessage.svelte'
 	import Realm 		from './components/data/Realm.svelte'
 	import { user, ui } from './data/stores.js'	 
 	import { getContent, getMenuOptions } from './data/content.js'	 
+    import { database } from './data/dataStores.js'
 
     export let queryParams
 
 	$user.isRegistered = queryParams.get('userRegistered') === 'true' ? true : false
 	const promiseContent = getContent()
+
 </script>	
 
 
 <!------ HTMl COMPONENT MARKUP ------->
 {#await promiseContent then value}
 	<Nav/>
-	<main><!-- Main "Page: section controlled with logic selector -->
+	<main id ='main-page'><!-- Main "Page: section controlled with logic selector -->
 		{#if      $ui.page === 'home'}      <Home/>
 		{:else if $ui.page === 'discover'}  <Discover/>
 		{:else if $ui.page === 'connect'}   <Connect/>
@@ -36,6 +39,10 @@
 	{#if $ui.page !== 'home'}
 	<Footer/>
 	{/if}
+    <!-- MODAL -->
+    {#if $ui.showMessage}
+        <ModalMessage />
+    {/if}
 {/await}
 
 <!------ STYLE ------->

@@ -31,8 +31,6 @@
         stakeholders:   {},
         status:         {},
     }
-
-
 </script>
 
 <!-- COMPONENT MARKUP-->

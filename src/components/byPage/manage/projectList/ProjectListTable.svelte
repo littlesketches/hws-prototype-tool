@@ -6,9 +6,8 @@
     import { componentContent } from '../../../../data/content.js'
     import { database }         from '../../../../data/dataStores.js'
 
-    export let projects
-
-    $: projectData = projects
+    export let projectsData
+    export let editable = false
 
     function handleEdit(index){
         console.log('Open a new project')
@@ -32,13 +31,13 @@
 
     function handleDelete(index){
         console.log('Delete a project')
-        projectData = projectData.filter((d, i) => i !== index)
+        projectsData = projectsData.filter((d, i) => i !== index)
     };
 </script>
 
 <!-- COMPONENT HTML MARKUP-->
 <section>
-    {#each projectData as project, index (project._id.toString())}
+    {#each projectsData as project, index (project._id.toString())}
     <div class = 'row' name = {project._id.toString()} transition:slide>
         <div class = row-content>
             <div class = 'thumbnail-container'>
@@ -46,17 +45,21 @@
             </div>
             <div class = 'label'>{@html project.name}</div>
         </div>
-        <div class = 'row-buttons' projectID = {project._id.toString()}>
-            <div on:click={() => handleEdit(index)}>Edit</div>
+        <div class = 'row-buttons' projectID = {project._id.toString()}>            
             <div on:click={() => handleOpen(index)}>View</div>
+            {#if editable}
+            <div on:click={() => handleEdit(index)}>Edit</div>
+            {/if}
             <div on:click={() => handleDelete(index)}>Delete</div>
         </div>
     </div>
     {/each}
 
+    {#if editable}
     <div class = 'add-container' on:click={handleNewProject}>
-        Add a new project
+        &#x2295; Add a new project
     </div>
+    {/if}
 </section>
 
 

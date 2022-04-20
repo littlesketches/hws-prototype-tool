@@ -2,6 +2,7 @@
 <script>
     import { fly }  from    'svelte/transition'
     export let titleData
+console.log(titleData)
 </script>
 
 <!-- COMPONENT HTML MARKUP-->

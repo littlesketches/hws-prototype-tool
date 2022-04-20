@@ -1,6 +1,6 @@
 <!-- PROJECT DETAIL COMPONENT-->
 <script>
-	import { fly, fade }             from 'svelte/transition';
+	import { fade }             from 'svelte/transition';
     import TitleBlock           from './stakeholderPage/TitleBlock.svelte'
     import InfoPane             from './stakeholderPage/Infopane.svelte'
     import UserActions          from './stakeholderPage/UserAction.svelte'
@@ -12,7 +12,7 @@
 
 
 <!-- COMPONENT HTML MARKUP-->
-<section id = 'stakeholder-overlay' in:fly="{{x: 500, duration: 1000}}" out:fly="{{x: 500, duration: 200}}">
+<section id = 'stakeholder-overlay' in:fade="{{x: 500, duration: 1000}}" out:fade="{{x: 500, duration: 200}}">
     <TitleBlock/>
     <InfoPane/>
     <StakeholderContent/>

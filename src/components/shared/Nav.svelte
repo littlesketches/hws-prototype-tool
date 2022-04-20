@@ -37,9 +37,6 @@
         $ui.showHelpModal = true
         $ui.showNav = true
         document.getElementById('helpButton').style.opacity = "0"
-
-        console.log('Opening help modal...')
-        console.log($ui)
     };
 
     function closeHelpModal(){
@@ -59,7 +56,7 @@
     <!-- Help button : top left-->
     <div class = "helpButton-container" >
         <div id="helpButton" on:mouseover={showHelpOption} on:focus={showHelpOption} on:click={openHelpModal}>
-            <svg id = "help-icon" class ="help-icon nav-icon" width = "45%" viewbox = "0 0 50 50">
+            <svg id = "help-icon" class ="help-icon nav-icon invert" width = "45%" viewbox = "0 0 50 50">
                 <circle cx = 25 cy = 25 r = 22.5></circle>
                 <text x = 25 y = 40>i</text>
             </svg>
@@ -135,8 +132,8 @@
         pointer-events:         all;
     }
     /* Navigation icon styling */
-    svg:hover{
-        /* text-decoration:        underline; */
+    svg#menu-icon:hover{
+        text-decoration:        underline;
     }
     .nav-icon {
         cursor:                 pointer;
@@ -170,7 +167,7 @@
         height:             7.5vw;
         width:              7.5vw; 
         clip-path:          polygon(0 0, 100% 0, 0 100%);
-        background-color:   rgb(183, 255, 2);
+        background-color:   var(--darkGrey);
         pointer-events:     none;
         transition:         200ms all;
         transform:          translate(-1vw, -1vw)
@@ -185,6 +182,7 @@
     }
     #helpButton svg{
         padding:            8px 2.5vw 2.5vw 8px;
+        fill:               #fff;
     }
 
     .help-icon{

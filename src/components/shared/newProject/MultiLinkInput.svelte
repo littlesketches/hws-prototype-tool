@@ -18,7 +18,7 @@
 <!-- COMPONENT HTML MARKUP -->
 <li id = "link-container-{index+1}" transition:slide>
     <div class = 'input-container'>
-        <label for= "link-name-{index+1}">Name of resource #{@html index+1}</label>
+        <label class = 'bold' for= "link-name-{index+1}">Name of resource #{@html index+1}</label>
         <input name = "link-name-{index+1}" bind:value={item.name}/>
     </div>
     <div class = 'input-container'>
@@ -54,6 +54,9 @@
         font-weight:            300;
         padding-left:           1rem;
         align-self:             center;
+    }
+    label.bold{
+        font-weight:            600;
     }
     .input-container{
         display:                grid;

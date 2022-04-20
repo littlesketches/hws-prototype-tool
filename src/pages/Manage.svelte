@@ -1,17 +1,21 @@
 <!-- EXPLORE PAGE COMPONENT-->
 <script>
-	import { fade }         from 'svelte/transition'
-    import TitleBlock       from '../components/shared/TitleBlock.svelte'
-    import UserProjects     from '../components/byPage/manage/UserProjects.svelte'
-    import NewProject       from '../components/shared/newProject/NewProject.svelte'
-    import ProjectPage      from '../components/shared/projects/ProjectPage.svelte'
-	import { ui, user }     from '../data/stores.js'	 
-    import { database }     from '../data/dataStores.js'
-    import { getPageInfo }  from '../data/content.js'
+	import { fade }             from 'svelte/transition'
+    import TitleBlock           from '../components/shared/TitleBlock.svelte'
+    import UserSharedProjects   from '../components/byPage/manage/UserSharedProjects.svelte'
+    import UserDraftProjects    from '../components/byPage/manage/UserDraftProjects.svelte'
+    import UserWatchlist        from '../components/byPage/manage/UserWatchlist.svelte'
+    import NewsAndAlerts        from '../components/byPage/manage/NewsAndAlerts.svelte'
+    import AccountOptions       from '../components/byPage/manage/AccountOptions.svelte'
+    import NewProject           from '../components/shared/newProject/NewProject.svelte'
+    import ProjectPage          from '../components/shared/projects/ProjectPage.svelte'
+	import { ui, user }         from '../data/stores.js'	 
+    import { database }         from '../data/dataStores.js'
+    import { getPageInfo }      from '../data/content.js'
 
     const titleData = getPageInfo($ui.page)[0].TitleBlock
 
-    // Random project selections
+    // Random project selections written to the $user.data store
     function getRandomInt(min, max) {
         min = Math.ceil(min);
         max = Math.floor(max);
@@ -20,8 +24,13 @@
 
     const shuffleArray = (array) => array.sort(() => Math.random() - 0.5)
     const projectDatabase = $database.projects
-    const randProjNumber =  getRandomInt(3, 10)
-    $user.data.userProjects = shuffleArray(projectDatabase.slice(0, randProjNumber))
+    const userSharedNo =  getRandomInt(0, 7)
+    const userDraftNo =  getRandomInt(0, 7)
+    const watchListtNo =  getRandomInt(0, 10)
+
+    $user.data.sharedProjects   = shuffleArray(projectDatabase.slice(0, userSharedNo))
+    $user.data.draftProjects        = shuffleArray(projectDatabase.slice(userSharedNo, userDraftNo))
+    $user.data.watchListProjects = shuffleArray(projectDatabase.slice(userSharedNo +userDraftNo , watchListtNo))
 
 </script>
 
@@ -30,7 +39,13 @@
 <section id="manage-page"  in:fade="{{duration: 1500}}" >
     <TitleBlock {titleData}/>
     {#if !$ui.byPage.manage.overlay}
-    <UserProjects/>
+    <NewsAndAlerts/>
+    <UserSharedProjects/>
+    <UserDraftProjects/>
+    <UserWatchlist/>
+    <AccountOptions/>
+
+
     {:else if $ui.byPage.manage.overlay === 'project'}
     <ProjectPage/>
     {:else if $ui.byPage.manage.overlay === 'newProject'}

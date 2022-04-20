@@ -1,5 +1,6 @@
 <!-- HOME PAGE COMPONENT-->
 <script>
+	import { fade }         from 'svelte/transition'
 	import Title    from '../components/byPage/home/Title.svelte'
 	import Menu     from '../components/byPage/home/Menu.svelte'
     import Hero     from '../components/byPage/home/Hero.svelte'
@@ -10,7 +11,7 @@
 
 
 <!-- COMPONENT HTML MARKUP-->
-<section id="home-page">
+<section id="home-page" in:fade="{{duration: 1500}}">
     <Hero/>
     <Title/>
     <Menu/>

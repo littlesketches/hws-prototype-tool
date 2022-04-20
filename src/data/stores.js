@@ -5,9 +5,16 @@ export const user = writable({
     isLoggedIn:         true,
     isRegistered:       true,
     data: {
-        projects:               null,
-        bookmarkedProjects:     null,
-        interactions:           []
+        sharedProjects:        null,
+        draftProjects:         null,
+        watchListProjects:     null,
+        interactions:          []
+    },
+    details: {
+        firstName:      'You',
+        lastName:       '...',
+        organisation:   'Your organisation',
+        userID:         'user'
     }
 })
 
@@ -17,6 +24,48 @@ export const ui = writable({
     showNav:            false,
     showMenuModal:      false,
     showHelpModal:      false,
+    showMessage:        {     // Default is the intro to the tool message
+        type:           'message',      //message, warning, confirm
+        buttons: [
+            {
+                text:       'Explore the prototype',
+                function:   'close',
+            },
+        ],      
+        header:         '&#9888; THIS IS A PROTOTYPE &#9888; ',
+        content:        `<p>This prototype 'collaborative tool' is made to explore the concept of an online tool for waterways stakeholders to share what they're doing (or planning) in our catchments, as well their thoughts, ideas and knowledge about what's happening. 
+                        With this in mind, this early  prototype focuses on establishing core project and stakeholder "search", and project or feedback "share" features that are building blocks for more sophisticated collaborative features.</p>
+                        <p>The prototype is <strong>not a complete tool</strong> but is intended to be a more concrete and cohesive proof of concept suitable for: explaining the basic purpose of the tool itself, exploring design and development directions, and for testing and/or further co-design with real users. 
+                            The prototype is however developed as a custom application and will (hopefully) soon feature real (but not yet'real time') project data. 
+                        </p>
+                        <p>This prototype is a starting point for surfacing ideas from users about the merits of an online tool, and <strong>'what else'</strong> might be needed to turn into a useful platform to foster collaboration between waterways stakeholders to take action to protect and improve the health of our waterways.
+                        </p>
+                        <hr>
+                        <div style="display:flex; justify-content:center; text-align: center;">
+                            <div class="contact" style="width: 20%; padding:0.5rem; font-size: 0.8rem; margin:auto 0">
+                                Feedback and further info: &rarr;
+                            </div>
+                            <div class="contact" style="width: 20%; padding:0.5rem">
+                                <div>EMAIL</div>
+                                <div style="font-size: 0.8rem">Get in touch directly</div>
+                            </div>
+                            <div style="width: 20%; padding:0.5rem">
+                                <div>AIRTABLE</div>
+                                <div style="font-size: 0.8rem">Issues and suggestions</div>
+                            </div>
+                            <div style="width: 20%; padding:0.5rem">
+                                <div>FIGMA</div>
+                                <div style="font-size: 0.8rem">UI/UX design</div>
+                            </div>
+                            <div style="width: 20%; padding:0.5rem">
+                                <div>GITHUB</div>
+                                <div style="font-size: 0.8rem">Code repository</div>
+                            </div>
+                        </div>
+                        <hr>
+                        `                        
+    },
+    showMessage: null,
     items: {
         pages:              []
     },
@@ -24,7 +73,7 @@ export const ui = writable({
         project:            {},
         organisation:       {}
     },
-    newProject:             null,
+    newProject:         null,
     editProject: {
         id:                 null,
         data:               null
@@ -33,6 +82,7 @@ export const ui = writable({
         focus: {
             projectData:            null,
             stakeholderData:        null,
+            projectComments:        null
         },
         location:{
             catchment:              false,

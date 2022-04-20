@@ -200,14 +200,31 @@ async function getContent(){
             info:{
                 defaultHeader:          getHTML('component.manage.info.defaultHeader'),
                 defaultDesc:            getHTML('component.manage.info.defaultDesc'),
-                myProjectsHeader:       getHTML('component.manage.info.myProjectsHeader'),
-                myProjectsDesc:         getHTML('component.manage.info.myProjectsDesc'),
-                bookmarkedHeader:       getHTML('component.manage.info.bookmarkedHeader'),
-                bookmarkedDesc:         getHTML('component.manage.info.bookmarkedDesc'),
-                feedbackHeader:         getHTML('component.manage.info.feedbackHeader'),
-                feedbackDesc:           getHTML('component.manage.info.feedbackDesc'),
+                newsAlertHeader:        getHTML('component.manage.info.newsAlertHeader'), 
+                newsAlertDesc:          getHTML('component.manage.info.newsAlertDesc'), 
+                accountHeader:          getHTML('component.manage.info.accountHeader'), 
+                accountDesc:            getHTML('component.manage.info.accountDesc'), 
+            },
+            projects:{
+                sharedHeader:           getHTML('component.manage.projects.sharedHeader'), 
+                sharedDesc:             getHTML('component.manage.projects.sharedDesc'), 
+                draftHeader:            getHTML('component.manage.projects.draftHeader'), 
+                draftDesc:              getHTML('component.manage.projects.draftDesc'), 
+                watchlistHeader:        getHTML('component.manage.projects.watchlistHeader'), 
+                watchlistDesc:          getHTML('component.manage.projects.watchlistDesc'),
+                feedbackHeader:        getHTML('component.manage.projects.feedbackHeader'), 
+                feedbackDesc:          getHTML('component.manage.projects.feedbackDesc')
             }
         },
+
+        other: {
+            titleBlock:{
+                title:                  getHTML('page.other.TitleBlock.title'),
+                instruction:            getHTML('page.other.TitleBlock.instruction'),
+            }
+        },
+
+
         info: {
             home:{
                 header:                 getHTML('info.home.header'),
@@ -233,6 +250,19 @@ async function getContent(){
                 header:                 getHTML('info.join.header'),
                 content:                getHTML('info.join.content')
             }
+        },
+
+        messageModal: {
+            setUserPreferences:         getHTML('messageModal.setUserPreferences'),
+            updateUserDetails:          getHTML('messageModal.updateUserDetails'),
+            projectSearch:              getHTML('messageModal.projectSearch'),
+            projectMap:                 getHTML('messageModal.projectMap'),
+            stakeholderSearch:          getHTML('messageModal.stakeholderSearch'),
+            stakeholderNetwork:         getHTML('messageModal.stakeholderNetwork'),
+
+            locationSearch:             getHTML('messageModal.locationSearch'),
+            createAccount:              getHTML('messageModal.createAccount'),
+            login:                      getHTML('messageModal.login')
         }
 
     }
