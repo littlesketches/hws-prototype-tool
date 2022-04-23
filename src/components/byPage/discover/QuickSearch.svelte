@@ -8,8 +8,16 @@
     let searchInput = ''
     function handleSearch(){
         console.log('Submit search: ', searchInput)
-        $ui.byPage.discover.projectSearch.isMade = true
         window.scrollTo({top: 0, behavior: 'smooth'});
+
+        if($ui.infoModal.showNotes && componentContent.messageModal.projectSearch){
+            $ui.infoModal.message = {
+                buttons:        [{ text: 'Ok, got it!', function:  'close', }],
+                header:         `&#9888; Project search is not yet wired up..`,
+                content:         componentContent.messageModal.projectSearch
+            }
+            componentContent.messageModal.projectSearch = null
+        }
     };
 </script>
 

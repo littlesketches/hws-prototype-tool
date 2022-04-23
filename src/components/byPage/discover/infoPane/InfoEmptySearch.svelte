@@ -38,17 +38,17 @@
 <!------ STYLE ------->
 <style> 
     hr{
-        margin: 2.5rem 0 0.5rem 0;
+        margin:             2.5rem 0 0.5rem 0;
     }
     .search-container{
-        padding-bottom: 1.5rem;
+        padding-bottom:     1.5rem;
     }
     .search-box-container{
-        width: 100%;
-        position: relative;
-        display: flex;
+        position:           relative;
+        display:            flex;
+        width:              100%;
     }
     .button-container{
-        margin-top: 0.5rem;
+        margin-top:         0.5rem;
     }
 </style>

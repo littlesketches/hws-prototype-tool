@@ -2,79 +2,67 @@
 	import { fly, slide }       from 'svelte/transition'
     import Comment              from '../../../shared/feedback/Comment.svelte'
     import { ui, user }         from '../../../../data/stores.js'
+    import { database }         from '../../../../data/dataStores.js'
+    import { componentContent } from '../../../../data/content.js'
     import  DividerZagged20px   from '../../../shared/misc/DividerZagged20px.svelte'
 
     // Reactive variables
     $: projectData = $ui.state.focus.projectData
     $: newComment = ''
 
-    // Add dummy data for the project comments
-    $ui.state.focus.projectComments = [
-        { 
-            text:   'This is some comment text. This is some comment text. This is some comment text. This is some comment text. This is some comment text',
-            author: 'Someone else #1',
-            org:    'Organisation name',
-            date:   '16th March, 2020',
-            type:   'comment'
-        },
-        { 
-            text: 'This is some comment text. This is some comment text. This is some comment text.',
-            author: 'Someone else #2',
-            org:    'Organisation name',
-            date:   '16th March, 2020',
-            type:   'question'
-        },
-        { 
-            text: 'This is some comment text. This is some comment text. This is some comment text. This is some comment text. This is some comment text. This is some comment text. This is some comment text. This is some comment text. This is some comment text',
-            author: 'Someone else #3',
-            org:    'Organisation name',
-            date:   '16th March, 2020',
-            type:   'thought'
-        },
-        { 
-            text: 'This is some comment text. This is some comment text. This is some comment text. This is some comment text. This is some comment text. This is some comment text. This is some comment text. This is some comment text. This is some comment text. This is some comment text. This is some comment text. This is some comment text',
-            author: 'Someone else #2',
-            org:    'Organisation name',
-            date:   '16th March, 2020',
-            type:   'question'
-        },
-    ]
+    $ui.state.focus.projectComments = $database.interactions.filter( d => d.type === 'comment' && d.projectName === $ui.state.focus.projectData.name).sort( (a,b) => b.date - a.date)
+
+    // Get project comments data
 
     function handleNewComment(){
-        console.log('Adding a new comment')
-        const dateNow = new Date()
-        $ui.state.focus.projectComments  = [{ 
-            text:           newComment,
-            author:         `${$user.details.firstName} ${$user.details.lastName}`,
-            authorID:       $user.details.userID,
-            org:            $user.details.organisation,
-            date:           dateNow.toLocaleDateString('en-us', { year:"numeric", month:"long", day:"numeric"})
-        }, ...$ui.state.focus.projectComments ]
-    };
+        if($user.isRegistered){
+            console.log('Adding a new comment')
+            const newCommentEntry = { 
+                type:           'comment',
+                comment:        newComment,
+                user: {
+                    firstName:      $user.details.firstName,
+                    lastName:       $user.details.lastName,
+                    username:       $user.details.username, 
+                    org:            $user.details.organisation
+                },
+                date:           new Date()
+            }
 
+            $database.interactions = [newCommentEntry, ...$database.interactions]
+            $ui.state.focus.projectComments  = [newCommentEntry, ...$ui.state.focus.projectComments]
+
+        } else {
+            $ui.showMessage = {
+                buttons:        [{ text: 'Ok, got it!', function:  'close', }],
+                header:         `You'll need to log in to post a message.`,
+                content:         componentContent.messageModal.loginToComment
+            }
+        }
+    };
 </script>
 
 
 <!-- COMPONENT HTML MARKUP-->
 <section>
     <DividerZagged20px/>
-    <h3>&#8212;&#8212; What stakeholders think about {projectData.name}</h3>
+    <h3>&mdash;&mdash; What stakeholders think about {projectData.name}</h3>
     <div class = 'content'>
         <div>
-            <p>This is some text about the comments</p>
+            {@html componentContent.misc.feedbackInstruction }
             <hr>
-            <h5>Share your thoughts...</h5>
+            <h4>Have a thought to share about this project?</h4>
             <div id = "new-comment-container">
                 <textarea rows="10" bind:value={newComment}></textarea>
-                <div class = 'add-feedback'>
-                    <div on:click={handleNewComment}>Post your thoughts</div>
-                </div>
+            </div>
+            <div class = 'add-feedback'>
+                <button on:click={handleNewComment}>Post your thoughts</button>
             </div>
         </div>
         <div class = 'comment-container'>
-            <ul class='unformatted'>
-                {#each $ui.state.focus.projectComments as comment, index (index)}
-                <Comment {comment} {index}/>
+            <ul class='unformatted' transition:slide>
+                {#each $ui.state.focus.projectComments  as commentData, index (index)}
+                <Comment {commentData} {index}/>
                 {/each}
             </ul>
         </div>
@@ -103,23 +91,50 @@
         cursor:                 pointer;
         font-size:              1rem;
     }
-    .add-feedback:hover{
-        text-decoration:        underline;
-        font-weight:            700;
+    .add-feedback button{
+        width: 50%;
     }
+
+    #new-comment-container{
+        position: relative;
+    }
+    #new-comment-container:before {
+        content:                "";
+        width:                  0px;
+        height:                 0px;
+        position:               absolute;
+        border-left:            0px solid transparent;
+        border-right:           20px solid var(--userComment);
+        border-top:             0px solid var(--userComment);
+        border-bottom:          60px solid transparent;
+        left:                   50px;
+        bottom:                 -55px;
+    }
+    #new-comment-container:after {
+        content:                "";
+        width:                  0px;
+        height:                 0px;
+        position:               absolute;
+        border-left:            0px solid transparent;
+        border-right:           12px solid #fff;
+        border-top:             0px solid #fff;
+        border-bottom:          40px solid transparent;
+        left:                   54px;
+        bottom:                 -32px;
+    }
+
     textarea{
         width:                  100%;
         font-weight:            300;
-        font-size:              0.8rem;
+        font-size:              1rem;
         padding:                1.25rem;
         border-radius:          1rem;
-        margin:                 1.5rem auto;
-        border:                 4px solid var(--commentColor);
+        border:                 4px solid var(--userComment);
     }
     textarea:focus { 
         outline:                 none !important;
-        border-color:           var(--commentColor);
-        box-shadow:             0 0 10px var(--commentColor);
+        border-color:           var(--userComment);
+        box-shadow:             0 0 10px var(--userComment);
     }
 
 

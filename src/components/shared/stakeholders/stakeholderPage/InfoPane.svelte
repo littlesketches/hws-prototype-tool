@@ -5,9 +5,10 @@
     import { database }     from '../../../../data/dataStores.js'
     import { capitaliseFirst }   from '../../../../utils/helpers.js'
 
+console.log($database.projects)
     // Reactive variables
     $: stakeholderData = $ui.state.focus.stakeholderData 
-    $: leadProjects    = $database.projects.filter( d => d.stakeholders.lead.org === stakeholderData.name)
+    $: leadProjects    = $database.projects.filter( d => d.leadOrg === stakeholderData.name)
     $: leadCatchments  = [...new Set(leadProjects.map(d => d.location.catchments).flat())]
 
 </script>

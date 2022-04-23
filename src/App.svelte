@@ -19,7 +19,7 @@
 
 	$user.isRegistered = queryParams.get('userRegistered') === 'true' ? true : false
 	const promiseContent = getContent()
-
+console.log($ui.infoModal)
 </script>	
 
 
@@ -40,7 +40,7 @@
 	<Footer/>
 	{/if}
     <!-- MODAL -->
-    {#if $ui.showMessage}
+    {#if $ui.infoModal.show && $ui.infoModal.message}
         <ModalMessage />
     {/if}
 {/await}

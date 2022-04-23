@@ -25,13 +25,12 @@
     const shuffleArray = (array) => array.sort(() => Math.random() - 0.5)
     const projectDatabase = $database.projects
     const userSharedNo =  getRandomInt(0, 7)
-    const userDraftNo =  getRandomInt(0, 7)
+    const userDraftNo  =  getRandomInt(0, 7)
     const watchListtNo =  getRandomInt(0, 10)
 
     $user.data.sharedProjects   = shuffleArray(projectDatabase.slice(0, userSharedNo))
-    $user.data.draftProjects        = shuffleArray(projectDatabase.slice(userSharedNo, userDraftNo))
+    $user.data.draftProjects    = shuffleArray(projectDatabase.slice(userSharedNo, userDraftNo))
     $user.data.watchListProjects = shuffleArray(projectDatabase.slice(userSharedNo +userDraftNo , watchListtNo))
-
 </script>
 
 
@@ -44,7 +43,6 @@
     <UserDraftProjects/>
     <UserWatchlist/>
     <AccountOptions/>
-
 
     {:else if $ui.byPage.manage.overlay === 'project'}
     <ProjectPage/>

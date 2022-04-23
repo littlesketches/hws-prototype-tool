@@ -2,12 +2,16 @@
 <script>
 	import MultiLinkInput       from './MultiLinkInput.svelte';
 	import MultiSelect          from '../MultiSelect.svelte';
+	import SingleSelect         from '../SingleSelect.svelte';
 	import MultiInput           from '..//MultiInput.svelte';
+	import GenericMap           from '../map/GenericMap.svelte';
     import DividerZagged20px    from "../../shared/misc/DividerZagged20px.svelte"
 	import { fly, slide }       from 'svelte/transition'
     import { user, ui }         from '../../../data/stores.js'
     import { componentContent } from '../../../data/content.js'
-    import { keyValues, conditions, performanceObjectivesGroup, performanceObjectivesTheme, catchments, subcatchments, locations, leadOrg, leadOrgType, partnerOrg, initiativeType, projectStage, projectClass, projectSize, projectScale }  from '../../../data/multiSelect.js'
+    import { keyValues, conditions, performanceObjectivesGroup, performanceObjectivesTheme, 
+        catchments, subcatchments, locations, leadOrg, partnerOrg, 
+        projectType, projectStage, projectClass, projectSize, projectScale }  from '../../../data/selectorLists.js'
 
     export let store
 
@@ -16,7 +20,7 @@
     const iconClearPath = 'M19 6.41L17.59 5 12 10.59 6.41 5 5 6.41 10.59 12 5 17.59 6.41 19 12 13.41 17.59 19 19 17.59 13.41 12z';
 
     ////// COLLAPSIBLE SEARCH PANES ////
-	const paneVisbility= {
+	const paneVisibility= {
         description:            false,
         location:               false,
         characteristics:        false,
@@ -28,11 +32,11 @@
     }
 
     function togglePane(){
-        Object.keys(paneVisbility).map( key => {
-            if(this.id !== key){ paneVisbility[key] = false }
+        Object.keys(paneVisibility).map( key => {
+            if(this.id !== key){ paneVisibility[key] = false }
         })
-        paneVisbility[this.id] = ! paneVisbility[this.id]
-        console.log(`Toggling ${this.id} vis to `, paneVisbility[this.id])
+        paneVisibility[this.id] = ! paneVisibility[this.id]
+        console.log(`Toggling ${this.id} vis to `, paneVisibility[this.id])
     };
 
     // Save and submit form
@@ -62,7 +66,10 @@
          projectStore.links = [...projectStore.links, {name: '', url: '', description: ''}]
     };
 
+    console.log("Store", store)
+    console.log("ProjectClass", projectClass)
 
+    let type
 </script>
 
 
@@ -97,11 +104,11 @@
 
             <!--- DETAILED DESCRIPTION SECTION: COLLAPSABLE -->
             <div id="description" class="expand-header" type="button" 
-                class:selected="{paneVisbility.description}" on:click={togglePane}>
+                class:selected="{paneVisibility.description}" on:click={togglePane}>
                 <div class ='toggle-label-minor'>Tell us more about your project (optional)</div>
                 <div class="toggle-icon down">&#8595;</div>
             </div>
-            {#if paneVisbility.description}
+            {#if paneVisibility.description}
             <ul class = "collapse__body"  transition:slide="{{duration: 800}}">
                 <li>
                     <label for="shortDescription">Detailed description</label>
@@ -118,12 +125,12 @@
         <!-- Waterways impact -->
         <div class = "container">
             <div id = "hwsOutcomes" class="collapse__header top-border" type="button" 
-                class:selected="{paneVisbility.hwsOutcomes}" on:click={togglePane}>
+                class:selected="{paneVisibility.hwsOutcomes}" on:click={togglePane}>
                 <h3>Project waterway outcomes</h3>
                 <div class="toggle-icon down">&#8595;</div>
             </div>
 
-            {#if paneVisbility.hwsOutcomes}
+            {#if paneVisibility.hwsOutcomes}
             <div class = "collapse__body"  transition:slide>
                 <div class = 'multi-select-container' style="z-index:21">
                     <div class = "label centre_v" >{@html keyValues.label}</div>
@@ -171,11 +178,11 @@
         <!-- Project location -->
         <div class = "container">
             <div id = "location" class="collapse__header top-border" type="button" 
-                class:selected="{paneVisbility.location}" on:click={togglePane}>
+                class:selected="{paneVisibility.location}" on:click={togglePane}>
                 <h3> Project location</h3>
                 <div class="toggle-icon down">&#8595;</div>
             </div>
-            {#if paneVisbility.location}
+            {#if paneVisibility.location}
             <div class = "collapse__body"  transition:slide>
                 <div class = 'multi-select-container' style="z-index:17">
                     <div class = "label centre_v">{@html catchments.label}</div>
@@ -206,6 +213,7 @@
                         {/each}                
                     </MultiSelect>
                 </div>
+                <GenericMap/>
             </div>
             {/if}
         </div>
@@ -213,57 +221,41 @@
         <!-- Project classification -->
         <div class = "container">
             <div id = "characteristics" class="collapse__header top-border" type="button" 
-                class:selected="{paneVisbility.characteristics}" on:click={togglePane}>
+                class:selected="{paneVisibility.characteristics}" on:click={togglePane}>
                 <h3>Project characteristics</h3>
                 <div class="toggle-icon down">&#8595;</div>
             </div>
-            {#if paneVisbility.characteristics}
+            {#if paneVisibility.characteristics}
             <div class = "collapse__body"  transition:slide>
+
                 <div class = 'multi-select-container' style="z-index:14">
-                    <div class = "label">{@html initiativeType.label}</div>
-                    <MultiSelect id = {initiativeType.name} bind:value={projectStore.meta.type} placeholder={initiativeType.placeholder} >
-                        <option disabled selected value></option>
-                        {#each initiativeType.list as name}
-                        <option value={name}>{@html name}</option>
-                        {/each}                
-                    </MultiSelect>
+                    <div class = "label centre_v">{@html projectType.label}</div>
+                    <SingleSelect optionData = {projectType}  bind:value={projectStore.meta.type}/>
                 </div>
                 <div class = 'multi-select-container' style="z-index:13">
-                    <div class = "label">{@html projectStage.label}</div>
-                    <MultiSelect id = {projectStage.name} bind:value={projectStore.status.stage} placeholder={projectStage.placeholder} >
-                        <option disabled selected value></option>
-                        {#each projectStage.list as name}
-                        <option value={name}>{@html name}</option>
-                        {/each}                
-                    </MultiSelect>
+                    <div class = "label centre_v">{@html projectClass.label}</div>
+                    <SingleSelect optionData = {projectClass}  bind:value={projectStore.meta.class}/>
                 </div>
+
                 <div class = 'multi-select-container' style="z-index:12">
-                    <div class = "label">{@html projectClass.label}</div>
-                    <MultiSelect id = {projectClass.name} bind:value={$ui.search.project.projectClass} placeholder={projectClass.placeholder} >
-                        <option disabled selected value></option>
-                        {#each projectClass.list as name}
-                        <option value={name}>{@html name}</option>
-                        {/each}                
-                    </MultiSelect>
+                    <div class = "label centre_v">{@html projectStage.label}</div>
+                    <SingleSelect optionData = {projectStage} bind:value={projectStore.status.stage}/>
                 </div>
+                {#if projectStore.status.stage !== "" }
+                <div transition:slide>
+                    <p class = "note">Date picker TBA based on project stage </p>
+                </div>
+                {/if}
                 <div class = 'multi-select-container' style="z-index:11">
-                    <div class = "label">{@html projectSize.label}</div>
-                    <MultiSelect id = {projectSize.name} bind:value={$ui.search.project.projectSize} placeholder={projectSize.placeholder} >
-                        <option disabled selected value></option>
-                        {#each projectSize.list as name}
-                        <option value={name}>{@html name}</option>
-                        {/each}                
-                    </MultiSelect>
+                    <div class = "label centre_v">{@html projectSize.label}</div>
+                    <SingleSelect optionData = {projectSize} bind:value={projectStore.meta.size}/>
                 </div>
+
                 <div class = 'multi-select-container' style="z-index:10">
-                    <div class = "label">{@html projectScale.label}</div>
-                    <MultiSelect id = {projectScale.name} bind:value={$ui.search.project.projectScale} placeholder={projectScale.placeholder} >
-                        <option disabled selected value></option>
-                        {#each projectScale.list as name}
-                        <option value={name}>{@html name}</option>
-                        {/each}                
-                    </MultiSelect>
+                    <div class = "label centre_v">{@html projectScale.label}</div>
+                    <SingleSelect optionData = {projectScale} bind:value={projectStore.meta.scale}/>
                 </div>
+
             </div>
             {/if}
         </div>
@@ -271,33 +263,20 @@
         <!-- Stakeholders -->
         <div class = "container">
             <div id = "stakeholders" class="collapse__header top-border" type="button" 
-                class:selected="{paneVisbility.stakeholders}" on:click={togglePane}>
+                class:selected="{paneVisibility.stakeholders}" on:click={togglePane}>
                 <h3>Project stakeholders</h3>
                 <div class="toggle-icon down">&#8595;</div>
             </div>
-            {#if paneVisbility.stakeholders}
+            {#if paneVisibility.stakeholders}
             <div class = "collapse__body" transition:slide>
                 <div class = 'multi-select-container' style="z-index:9">
-                    <div class = "label">{@html leadOrg.label}</div>
-                    <MultiSelect id = {leadOrg.name} bind:value={$ui.search.project.leadOrg} placeholder={leadOrg.placeholder} >
-                        <option disabled selected value></option>
-                        {#each leadOrg.list as name}
-                        <option value={name}>{@html name}</option>
-                        {/each}                
-                    </MultiSelect>
+                    <div class = "label centre_v">{@html leadOrg.label}</div>
+                    <SingleSelect optionData = {leadOrg}  bind:value={projectStore.leadOrg}/>
                 </div>
-                <div class = 'multi-select-container' style="z-index:8">
-                    <div class = "label">{@html leadOrgType.label}</div>
-                    <MultiSelect id = {leadOrgType.name} bind:value={$ui.search.project.leadOrgType} placeholder={leadOrgType.placeholder} >
-                        <option disabled selected value></option>
-                        {#each leadOrgType.list as name}
-                        <option value={name}>{@html name}</option>
-                        {/each}                
-                    </MultiSelect>
-                </div>
+
                 <div class = 'multi-select-container' style="z-index:7">
                     <div class = "label">{@html partnerOrg.label}</div>
-                    <MultiSelect id = {partnerOrg.name} bind:value={$ui.search.project.partnerOrg} placeholder={partnerOrg.placeholder} >
+                    <MultiSelect id = {partnerOrg.name} bind:value={projectStore.partnerOrgs} placeholder={partnerOrg.placeholder} >
                         <option disabled selected value></option>
                         {#each partnerOrg.list as name}
                         <option value={name}>{@html name}</option>
@@ -311,12 +290,12 @@
         <!-- Project lessons  -->
         <div class = "container">
             <div id = "learnings" class="collapse__header top-border" type="button" 
-                class:selected="{paneVisbility.learnings}" on:click={togglePane}>
+                class:selected="{paneVisibility.learnings}" on:click={togglePane}>
                 <h3>Project learnings</h3>
                 <div class="toggle-icon down">&#8595;</div>
             </div>
 
-            {#if paneVisbility.learnings}
+            {#if paneVisibility.learnings}
             <div class = 'label margin-top'>General</div>
             <MultiInput store={projectStore.learnings.general} type = 'general' label='Add another learning'/>
             <div class = 'label margin-top'>What worked</div>
@@ -329,12 +308,12 @@
         <!-- Project links  -->
         <div class = "container">
             <div id = "links" class="collapse__header top-border" type="button" 
-                class:selected="{paneVisbility.links}" on:click={togglePane}>
+                class:selected="{paneVisibility.links}" on:click={togglePane}>
                 <h3>Links to other project resources</h3>
                 <div class="toggle-icon down">&#8595;</div>
             </div>
 
-            {#if paneVisbility.links}
+            {#if paneVisibility.links}
             <ul>
                 {#each projectStore.links as item, index}
                 <MultiLinkInput {item} {index}/>
@@ -463,7 +442,11 @@
         padding-bottom:         1rem;
         margin-right:           1rem;
     }
-
+    .note{
+        font-size:              0.8rem;
+        font-style:             italic;
+        text-align:             right;
+    }
 </style>
 
 

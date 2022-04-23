@@ -44,7 +44,6 @@
         display:                grid;
         grid-template-columns:  1fr 2fr;
         column-gap:             5vw;
-        min-height:             70vh;
     }
     .info-pane{
         display:                flex;

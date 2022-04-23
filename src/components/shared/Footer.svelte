@@ -1,10 +1,10 @@
 
 <!----- COMPONENT MARKUP ----->
 <footer class = 'tool'>
-    <div class = 'logo-tagline'>
-        An initiative to support the
+    <div>
+        <div class = 'logo-tagline'>An initiative to support the </div>
+        <img src = "./static/img/logo.svg" alt="Healthy Waterways strategy logo"/>
     </div>
-    <img src = "./static/img/logo.svg" alt="Healthy Waterways strategy logo"/>
 </footer>
 <footer class ='acknowledgement-of-country'>
     <img src="https://upload.wikimedia.org/wikipedia/commons/3/3f/Australian_Aboriginal_Flag.svg"/>
@@ -19,8 +19,8 @@
     footer.tool{
         display:            flex;
         justify-content:    flex-end;
-        padding:            1rem;
-        margin:             0 1rem;
+        padding:            1rem 1rem 0 1rem;
+        margin:             auto 1rem 0 1rem;
         border-top:         1px solid var(--lightestGrey);
     }
     .tool img{

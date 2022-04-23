@@ -15,7 +15,7 @@
 
 
 <!-- COMPONENT MARKUP-->
-<section class='page connect' in:fade="{{duration: 1500}}" >
+<section id="connect-page" class='page' in:fade="{{duration: 1500}}" >
     <!-- 1. Stakeholder cards view-->
     {#if !$ui.byPage.connect.overlay}
     <TitleBlock {titleData}/>

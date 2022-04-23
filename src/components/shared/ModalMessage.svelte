@@ -12,29 +12,29 @@
 	});
 
     function handleClose(){
-        $ui.showMessage = null
+        $ui.infoModal.message = null
         console.log($ui)
     };
 
     function handleConfirm(){
         console.log('Confirm')
-        $ui.showMessage = null
+        $ui.infoModal.message = null
     };
 
 </script>
 
 <!-- COMPONENT HTML MARKUP-->
-{#if $ui.showMessage}
+{#if $ui.infoModal.message}
 <section in:fade="{{duration: 500}}" out:fade="{{duration: 200}}" >    
     <div id =  "modal-message-container">
         <div>
-            <h1>{@html $ui.showMessage.header} </h1>
-            {@html $ui.showMessage.content}        
+            <h1>{@html $ui.infoModal.message.header} </h1>
+            {@html $ui.infoModal.message.content}        
         </div>
 
-        {#if $ui.showMessage.buttons}
+        {#if $ui.infoModal.message.buttons}
             <div class = 'button-container'>
-            {#each $ui.showMessage.buttons as button}
+            {#each $ui.infoModal.message.buttons as button}
                 <button on:click={button.function === 'close' ? handleClose : handleConfirm}>{@html button.text} </button>
             {/each}
             </div>
@@ -63,7 +63,7 @@
         padding:           3rem;
         border:          #fff 3px solid;
         border-radius:      1.5rem;
-        background:         rgba(3, 66, 77, 0.9);
+        background:         radial-gradient(circle, rgba(7, 46, 64, 0.95), rgba(0, 0, 0, 0.95) 80%);
         color:              #fff;
         display:            flex;
         flex-direction:     column;

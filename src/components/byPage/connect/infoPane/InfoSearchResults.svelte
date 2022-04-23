@@ -7,7 +7,6 @@
     // Options for "re-search"
     function openSearch(){
         $ui.byPage.connect.main = 'search'
-        $ui.byPage.connect.stakeholderSearch.isMade = false
         window.scrollTo({top: 0, behavior: 'smooth'});
         console.log('Opening search cleared')
     };
@@ -31,6 +30,7 @@
 <!------ STYLE ------->
 <style> 
     .button-container{
-        width: 100%;
+        width:              100%;
+        margin-bottom:      1.5rem;
     }
 </style>

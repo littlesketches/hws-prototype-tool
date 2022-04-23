@@ -11,7 +11,7 @@
 
 
 <!-- COMPONENT HTML MARKUP-->
-<section in:fly="{{x: -500, duration: 1500}}" out:fly="{{x: -500, duration: 150}}">
+<section id ="info-pane" in:fly="{{x: -500, duration: 1500}}" out:fly="{{x: -500, duration: 150}}">
     <DividerZagged20px/>
     <!-- 1. PROJECT DEFAULT LISTING -->
     {#if $ui.byPage.discover.main === 'list'}

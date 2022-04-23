@@ -1,6 +1,7 @@
 <script>
     import { fly }      from    'svelte/transition'
     import { ui }       from '../../../data/stores.js'
+    import { componentContent }       from '../../../data/content.js'
 
     // Switch between cards and map  
     $ui.byPage.discover.projectView = 'cards'
@@ -11,6 +12,15 @@
             item.classList.remove('selected')
         }
         this.classList.add('selected')
+
+        // Temporary info box for map
+        if($ui.byPage.discover.projectView === 'map'){
+            $ui.showMessage = {
+                buttons: [{ text: 'Ok, got it!', function:  'close', }],
+                header:         `&#9888; Map features are yet to be added`,
+                content:         componentContent.messageModal.projectMap
+            }
+        }
     };
 </script>
 

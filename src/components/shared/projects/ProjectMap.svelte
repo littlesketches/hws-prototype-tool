@@ -14,7 +14,7 @@
 <!------ STYLE ------->
 <style>
     section{
-        height:     75vh;
+        height:     60vh;
     }
     iframe{
         width:      100%;

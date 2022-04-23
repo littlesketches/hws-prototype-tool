@@ -6,12 +6,18 @@
     import { user, ui }     from '../../../data/stores.js'
 
 
-    let username, password, firstName, lastName, organisation, submitted
+    let username, password, firstName, lastName, organisation
     function handleSubmit(){
-        console.log(username, password,  lastName, organisation, submitted)
+        console.log(username, password,  lastName, organisation)
         if(firstName && lastName && username && organisation && password){
         }
+
         // Set the UI state
+        $user.details.firstName = firstName  
+        $user.details.lastName = lastName  
+        $user.details.organisation = organisation 
+        $user.details.username = username 
+
         $user.isRegistered = true
         $ui.page = 'home'
         window.scrollTo({top: 0, behavior: 'smooth'});

@@ -23,7 +23,7 @@
 
     // Reactive variables
     $: stakeholderData = $ui.state.focus.stakeholderData 
-    $: leadProjects    = $database.projects.filter( d => d.stakeholders.lead.org === stakeholderData.name)
+    $: leadProjects    = $database.projects.filter( d => d.leadOrg === stakeholderData.name)
     $: leadCatchments  = [...new Set(leadProjects.map(d => d.location.catchments).flat())]
 
     // HWS Key Values and conditions data

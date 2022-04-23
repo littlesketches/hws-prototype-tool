@@ -15,9 +15,12 @@
 
     $ui.newProject = {
         name:           null,
+        leadOrg:        '',
+        meta:           {},
         about:          {},
         contact:        {},
         hws:            {},
+        location:       {},
         learnings:        {
             general:    ['', '', ''],
             worked:     ['', '', ''],
@@ -26,10 +29,9 @@
         links:          [
             {name: '', url: '', description: ''}
         ],
-        location:       {},
-        meta:           {},
-        stakeholders:   {},
+        partnerOrgs:    [],
         status:         {},
+        record:         {}
     }
 </script>
 

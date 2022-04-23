@@ -7,8 +7,8 @@
 
     // Reactive variables
     $: stakeholderData = $ui.state.focus.stakeholderData 
-    $: leadProjects    =  $database.projects.filter( d => d.stakeholders.lead.org === stakeholderData.name).slice(0, 3)
-    $: partnerProjects  = $database.projects.filter( d => d.stakeholders.partners.indexOf(stakeholderData.name) > -1).slice(0, 3)
+    $: leadProjects    =  $database.projects.filter( d => d.leadOrg === stakeholderData.name).slice(0, 3)
+    $: partnerProjects  = $database.projects.filter( d => d.partnerOrgs.indexOf(stakeholderData.name) > -1).slice(0, 3)
 
 </script>
 
@@ -17,10 +17,10 @@
 
 <section>
     <DividerZagged20px/>
-    <h3>&#8212;&#8212; Projects {stakeholderData.name} is invovled with</h3>
+    <h3>&mdash;&mdash; Projects {stakeholderData.name} is invovled with</h3>
 
     <div class = 'group-container'>
-        <h4>&#8212; as project lead </h4>
+        <h4>&mdash; as project lead </h4>
         <div class = "card-container">
             <ul>
                 {#each leadProjects as projectData, index}
@@ -31,7 +31,7 @@
     </div>
 
     <div class = 'group-container'>
-        <h4>&#8212; as a project partner </h4>
+        <h4>&mdash; as a project partner </h4>
         <div class = "card-container">
             <ul>
                 {#each partnerProjects as projectData, index}
@@ -46,20 +46,20 @@
 <!-- STYLE -->
 <style>
     section{
-        grid-area:      8 / 1 / 9 / 3;
-        border-bottom:  1.5vh solid #000;
-        margin-top:     2rem;
-        padding-top:    1rem;
+        grid-area:              8 / 1 / 9 / 3;
+        border-bottom:          1.5vh solid var(--darkGrey);
+        margin-top:             2rem;
+        padding-top:            1rem;
     }
     .group-container{
-        display:            grid;
-        margin-bottom:      2.5vw;
+        display:                grid;
+        margin-bottom:          2.5vw;
         grid-template-columns:  1fr 3fr;        
 
     }
     .card-container{
-        display:    grid;
-        column-gap: 2.5vw;
+        display:                grid;
+        column-gap:             2.5vw;
     }
     ul{
         display:                grid;
@@ -76,11 +76,11 @@
     }
 
     h3{
-        margin-block-end: 2rem;
+        margin-block-end:       2rem;
     }
     h4{
-        margin-block-start: 0;
-        font-size:          1rem;
-        font-weight:        500;
+        margin-block-start:     0;
+        font-size:              1rem;
+        font-weight:            500;
     }
 </style>

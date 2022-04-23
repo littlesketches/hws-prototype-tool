@@ -1,6 +1,6 @@
 import * as Realm from "realm-web";
 import { getRandomStockImgPath, getRandomAbstractImgPath }  from './content.js'
-import {leadOrg, partnerOrg}      from './multiSelect.js'
+import {leadOrg, partnerOrg}      from './selectorLists.js'
 
 export { 
     app, 
@@ -37,7 +37,7 @@ const app = { // This object is created
         cluster:          'mongodb-atlas',
         db: {
             name:           'application',
-            collections:    ['projects', 'users', 'organisations']
+            collections:    ['projects', 'users', 'organisations', 'interactions']
         }
     }            
 }

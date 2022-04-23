@@ -1,14 +1,12 @@
 <!-- STAKEHOLDER SEARCH OPTIONSCOMPONENT-->
 <script>
-	import MultiSelect    from '../../shared/MultiSelect.svelte';
-	import { slide, fly }      from "svelte/transition";
-    import { ui }         from '../../../data/stores.js'
+	import MultiSelect          from '../../shared/MultiSelect.svelte';
+	import GenericMap           from '../../shared/map/GenericMap.svelte';
+	import { slide, fly }       from "svelte/transition";
+    import { ui }               from '../../../data/stores.js'
     import { database }         from '../../../data/dataStores.js'
-	import { slugify, capitaliseFirst } from '../../../utils/helpers.js'
-    import { keyValues, conditions, performanceObjectivesGroup, performanceObjectivesTheme, catchments, subcatchments, locations, leadOrg, leadOrgType, partnerOrg, initiativeType, projectStage, projectClass, projectSize, projectScale }  from '../../../data/multiSelect.js'
-
-    import { hwsSchema, projectSchema, locationMap, locationTree } from '../../../data/schema.js'
-
+    import { componentContent } from '../../../data/content.js'
+    import { keyValues, conditions, performanceObjectivesGroup, performanceObjectivesTheme, catchments, subcatchments, locations, leadOrg, leadOrgType, partnerOrg, projectType, projectStage, projectClass, projectSize, projectScale }  from '../../../data/selectorLists.js'
 
     ////// COLLAPSIBLE SEARCH PANES ////
 	const paneVisbility= {
@@ -28,7 +26,27 @@
         console.log(`Toggling ${this.id} vis to `, paneVisbility[this.id])
     };
 
-    function handleSubmit(){
+    function handleSearch(){
+        // Random project selection: To be replaced with database search
+        function getRandomInt(min, max) {
+            min = Math.ceil(min);
+            max = Math.floor(max);
+            return Math.floor(Math.random() * (max - min + 1)) + min;
+        };
+
+        const shuffleArray = (array) => array.sort(() => Math.random() - 0.5)
+        const organisationDatabase = $database.organisations
+        const randOrgNumber =  getRandomInt(0, 6)
+
+        // Temporary info box for map
+        $ui.showMessage = {
+            buttons: [{ text: 'Ok, got it!', function:  'close', }],
+            header:         `&#9888; Stakeholder search is not yet wired up..`,
+            content:         componentContent.messageModal.stakeholderSearch
+        }
+        $ui.search.organisation = shuffleArray(organisationDatabase.slice(0, randOrgNumber))
+
+
         $ui.byPage.connect.main = 'list'
         $ui.byPage.connect.stakeholderSearch.isMade = true
         window.scrollTo({top: 0, behavior: 'smooth'});
@@ -177,6 +195,7 @@
                     {/each}                
                 </MultiSelect>
             </div>
+            <GenericMap/>
         </div>
         {/if}
     </div>
@@ -191,10 +210,10 @@
         {#if paneVisbility.byCharacteristics}
         <div class = "collapse__body"  transition:slide>
             <div class = 'multi-select-container' style="z-index:14">
-                <h4>{@html initiativeType.label}</h4>
-                <MultiSelect id = {initiativeType.name} bind:value={$ui.search.organisation.initiativeType} placeholder={initiativeType.placeholder} >
+                <h4>{@html projectType.label}</h4>
+                <MultiSelect id = {projectType.name} bind:value={$ui.search.organisation.projectType} placeholder={projectType.placeholder} >
                     <option disabled selected value></option>
-                    {#each initiativeType.list as name}
+                    {#each projectType.list as name}
                     <option value={name}>{@html name}</option>
                     {/each}                
                 </MultiSelect>
@@ -240,7 +259,7 @@
     </div>
 
     <div class = "button-container">
-        <button on:click|preventDefault={handleSubmit}>Search for stakeholders</button>
+        <button on:click|preventDefault={handleSearch}>Search for stakeholders</button>
     </div>
     {#if noSearchParams > 0}
         <div class = "clear-search-container" on:click={handleClearSearch}>

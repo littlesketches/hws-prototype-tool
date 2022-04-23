@@ -4,11 +4,6 @@
     import { ui }               from '../../../../data/stores.js'
 
     // Options for "re-search"
-    function clearSearch(){
-        $ui.byPage.share.main = 'list'
-        $ui.byPage.share.projectSearch.isMade = false
-        console.log('Search cleared')
-    };
     function openSearch(){
         $ui.byPage.share.main = 'search'
         $ui.byPage.share.projectSearch.isMade = false
@@ -22,29 +17,15 @@
     <h2>{@html componentContent.share.existing.searchResultsHeader}</h2>
     {@html componentContent.share.existing.searchResultsDesc}
 </div>
-<hr>
-<div class="search-options">
-    <!-- {@html componentContent.projectInfo.searchResultsOptions} -->
-    <div class = 'two-button-container'>
-        <div class ='button-container'>
-            <button on:click={clearSearch}>Clear search</button>
-        </div>
-        <div class ='button-container'>
-            <button on:click={openSearch}>Search again</button>
-        </div>
-    </div>
+<div class ='button-container'>
+    <button on:click={openSearch}>Search again</button>
 </div>
 
 
 <!------ STYLE ------->
 <style> 
-    .two-button-container{
-        width:           100%;
-        display:         inline-flex;
-        justify-content: space-between;
-        gap:             0.5rem;
-    }
     .button-container{
         width: 100%;
+        margin-bottom: 1.5rem;;
     }
 </style>

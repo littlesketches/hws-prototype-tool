@@ -35944,24 +35944,25 @@ const projectSchema =  {
         'Pre-feasibility', 
         'Feasibility', 
         'In development', 
+        'Ongoing', 
         'Completed'
-    ],
-    class: [
+        ],
+    type: [
         'Research', 
         'Funding and facilitation', 
         'Policy', 
         'Capital works'
     ],
-    initiativeType:  [
-        'Improved planning controls',
+    class: [
         'Advocacy',
-        'Enforcement',
-        'Research and monitoring',
-        'Knowledge-sharing',
-        'Vegetation and habitat management',
         'Asset protection and renewal',
+        'Enforcement',
+        'Environmental water and diversions management',
+        'Improved planning controls',
         'Integrated stormwater management',
-        'Environmental water and diversions management'
+        'Knowledge-sharing',
+        'Research and monitoring',
+        'Vegetation and habitat management'
     ],
     size: [
         'Small', 

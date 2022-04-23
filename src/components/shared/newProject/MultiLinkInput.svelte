@@ -18,8 +18,8 @@
 <!-- COMPONENT HTML MARKUP -->
 <li id = "link-container-{index+1}" transition:slide>
     <div class = 'input-container'>
-        <label class = 'bold' for= "link-name-{index+1}">Name of resource #{@html index+1}</label>
-        <input name = "link-name-{index+1}" bind:value={item.name}/>
+        <label class = 'bold' for= "link-label-{index+1}">Name of resource #{@html index+1}</label>
+        <input name = "link-label-{index+1}" bind:value={item.label}/>
     </div>
     <div class = 'input-container'>
         <label for= "link-url-{index+1}">Website URL</label>

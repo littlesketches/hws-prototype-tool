@@ -43,7 +43,7 @@
     ul{
         font-weight:            300;
         line-height:            1.5;
-        font-size:              0.8rem;
+        /* font-size:              0.8rem; */
     	padding-inline-start:   2rem;
     }
     h5{ 

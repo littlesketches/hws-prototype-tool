@@ -54,13 +54,13 @@
         margin-block-end:       0;
         font-weight:            500;
         padding-right:          1rem;   
-        font-size: 1rem;
+        font-size:              1rem;
     }
     p, ul{
         margin-block-start:     0;
         font-weight:            300;
         line-height:            1.5;
-        font-size:              0.8rem;
+        /* font-size:              0.8rem; */
     }
     ul{ 
     	padding-inline-start:   0.75rem;

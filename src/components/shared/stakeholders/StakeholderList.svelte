@@ -7,6 +7,7 @@
     import { ui }                   from '../../../data/stores.js'
     import { database }             from '../../../data/dataStores.js'
 
+
     // Random stakeholder selection
     function getRandomInt(min, max) {
         min = Math.ceil(min);
@@ -16,8 +17,7 @@
 
     const shuffleArray = (array) => array.sort(() => Math.random() - 0.5)
     const orgDatabase = $database.organisations
-    const randStakeholderNumber =  6
-    const stakeholders = shuffleArray(orgDatabase.slice(0, randStakeholderNumber))
+    const stakeholders =  $ui.search.organisation.length > 0 ? $ui.search.project :  shuffleArray(orgDatabase.slice(0, 6))
 
 </script>
 
@@ -53,8 +53,5 @@
         margin-block-start:     0;
         margin-block-end:       0;
         padding-inline-start:   0;
-    }
-    h3{
-        margin-block-start: 0;
     }
 </style>

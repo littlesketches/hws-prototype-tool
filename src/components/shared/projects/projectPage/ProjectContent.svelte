@@ -92,7 +92,7 @@
     <!-- PROJECT LEARNINGS: optional -->
     {#if (Object.values(projectData.learnings).flat().length > 0)}
         <h3>&mdash;&mdash; Project learnings</h3>
-        <p>The follow project notes are provided by {@html projectData.stakeholders.lead.org} to help document key lessons from this project.</p>
+        <p>The follow project notes are provided by {@html projectData.leadOrg} to help document key lessons from this project.</p>
         {#if visibility.learningsDetails }
         <ProjectLearnings/>
         {/if}
@@ -109,7 +109,7 @@
     <!-- MORE INFO AND SOURCES: optional-->
     {#if (Object.values(projectData.links).length > 0)}
         <h3>&mdash;&mdash; Where to find more information</h3>
-        <p>Project information was provided from {@html projectData.stakeholders.lead.org} in {@html projectData.status.dates.lastUpdate} .</p>
+        <p>Project information was provided from {@html projectData.leadOrg} in {@html projectData.status.dates.lastUpdate} .</p>
         {#if visibility.sourcesDetails }
             <ProjectSources/>
         {/if}

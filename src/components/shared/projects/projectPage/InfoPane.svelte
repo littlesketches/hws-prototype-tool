@@ -1,11 +1,22 @@
 <!-- PROJECT PAGE INFO PANE-->
 <script>
-	import { fade }     from 'svelte/transition'
-    import { ui }       from '../../../../data/stores.js'
-    import { capitaliseFirst }       from '../../../../utils/helpers.js'
+    import GenericMap           from '../../map/GenericMap.svelte'
+	import { fade, slide }      from 'svelte/transition'
+    import { ui }               from '../../../../data/stores.js'
+    import { capitaliseFirst }  from '../../../../utils/helpers.js'
 
     // Reactive variables
     $: projectData = $ui.state.focus.projectData
+    $: mapLabel = paneVisibility.false  ? "Show map" : "Hide map"
+
+    const paneVisibility = {
+        location:       false
+    }
+
+    function togglePane(){
+        paneVisibility[this.id] = !paneVisibility[this.id]
+        console.log(`Toggling ${this.id} to `, paneVisibility[this.id])
+    };
 
 </script>
 
@@ -21,20 +32,18 @@
         <h4>&mdash;&mdash; Who's invovled?</h4> 
         <div class='info-row'>
             <div class ='info-label'>Lead organisation:</div>
-            <div class ='info-content'>
-                {@html projectData.stakeholders.lead.org}
-            </div>
+            <div class ='info-content'>{@html projectData.leadOrg}</div>
         </div>
-        {#if projectData.stakeholders.partners.length > 0}
+        {#if projectData.partnerOrgs.length > 0}
         <div class='info-row'>
-            {#if projectData.stakeholders.partners.length > 0}
+            {#if projectData.partnerOrgs.length > 1}
             <div class ='info-label'>Partners:</div>
             {:else}
             <div class ='info-label'>Partner:</div>
             {/if}
             <div class ='info-content'>
-                {#each projectData.stakeholders.partners as partner, index}
-                <span>{index === 0  ? partner :index == projectData.stakeholders.partners.length - 1 ? ` and ${partner}` : `${partner}, `} </span>
+                {#each projectData.partnerOrgs as partner, index}
+                <span>{index === 0  ? partner :index == projectData.partnerOrgs.length - 1 ? ` and ${partner}` : `${partner}, `} </span>
                 {/each}
             </div>
         </div>
@@ -115,6 +124,21 @@
                 {/each}
             </div>
         </div>
+
+        <!-- MAP CONTAINER-->
+        <GenericMap/>
+        <!-- <div class = "container">
+            <div id = "location" class="collapse__header" type="button" 
+                class:selected="{paneVisibility.location}" on:click={togglePane}>
+                <div class="toggle-label">See map</div>
+                <div class="toggle-icon down">&#8595;</div>
+            </div>
+            {#if paneVisibility.location}
+            <div class = "collapse__body"  transition:slide>
+                <GenericMap/>
+            </div>
+            {/if}
+        </div> -->
     </div>
 
 </section>
@@ -178,6 +202,35 @@
     .info-content{
         font-weight: 600;
         line-height: 1.5;
+    }
+
+    /* COLLAPSIBLE PANE STYLING */
+	.collapse__header {
+        display:            flex;
+        justify-content:    right;
+	    transition:         background 200ms ease-in-out;
+        cursor:             pointer;
+	}
+    .collapse__header{
+	    transition:         all 200ms ease-in-out;
+    }
+	.collapse__header:hover {
+        font-weight:        600;
+	}
+	.collapse__body {
+        display:            grid;
+	    padding:            0rem 0;
+	}
+    .toggle-label{
+        margin-right:       1rem;
+        font-size:          0.75rem;
+        font-weight:        300;
+    }
+    .toggle-icon{
+	    transition:         all 800ms ease-in-out;
+    }
+    .selected .toggle-icon{
+        transform:          rotate(180deg);
     }
 
 </style>

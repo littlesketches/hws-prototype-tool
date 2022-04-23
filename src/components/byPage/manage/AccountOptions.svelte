@@ -15,10 +15,12 @@
     };
 
     function openMessage(){
-        $ui.showMessage = {
-            buttons:        [{text: 'Close' , function: 'close'}],
-            header:         `&#9888; ${this.innerHTML}`,
-            content:         componentContent.messageModal[this.getAttribute('name')]
+        if($ui.infoModal.showNotes){
+            $ui.infoModal.message = {
+                buttons:        [{text: 'Close' , function: 'close'}],
+                header:         `&#9888; ${this.innerHTML}`,
+                content:         componentContent.messageModal[this.getAttribute('name')]
+            }
         }
     };
 </script>

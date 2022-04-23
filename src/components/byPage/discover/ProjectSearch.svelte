@@ -1,10 +1,12 @@
 <!-- DISCOVER PAGE COMPONENT-->
 <script>
-	import MultiSelect    from '../../shared/MultiSelect.svelte';
-	import { slide, fly }      from "svelte/transition";
-    import { ui }         from '../../../data/stores.js'
-    import { database }   from '../../../data/dataStores.js'
-    import { keyValues, conditions, performanceObjectivesGroup, performanceObjectivesTheme, catchments, subcatchments, locations, leadOrg, leadOrgType, partnerOrg, initiativeType, projectStage, projectClass, projectSize, projectScale }  from '../../../data/multiSelect.js'
+	import MultiSelect          from '../../shared/MultiSelect.svelte';
+	import GenericMap          from '../../shared/map/GenericMap.svelte';
+	import { slide, fly }       from "svelte/transition";
+    import { ui }               from '../../../data/stores.js'
+    import { database }         from '../../../data/dataStores.js'
+    import { componentContent } from '../../../data/content.js'
+    import { keyValues, conditions, performanceObjectivesGroup, performanceObjectivesTheme, catchments, subcatchments, locations, leadOrg, leadOrgType, partnerOrg, projectType, projectStage, projectClass, projectSize, projectScale }  from '../../../data/selectorLists.js'
 
     ////// COLLAPSIBLE SEARCH PANES ////
 	const paneVisbility= {
@@ -22,6 +24,36 @@
     };
 
     function handleSearch(){
+
+        //////////// TO BE REPLACED ////////////
+        // Random project selection: To be replaced with database search
+        function getRandomInt(min, max) {
+            min = Math.ceil(min);
+            max = Math.floor(max);
+            return Math.floor(Math.random() * (max - min + 1)) + min;
+        };
+
+        const shuffleArray = (array) => array.sort(() => Math.random() - 0.5)
+        const projectDatabase = $database.projects
+        const randProjNumber =  getRandomInt(0, 9)
+
+        // Temporary info box for map
+        if(componentContent.messageModal.projectSearch){
+            if($ui.infoModal.showNotes && componentContent.messageModal.projectSearch){
+                $ui.infoModal.message = {
+                    buttons:        [{ text: 'Ok, got it!', function:  'close', }],
+                    header:         `&#9888; Project search is not yet wired up..`,
+                    content:         componentContent.messageModal.projectSearch
+                }
+                componentContent.messageModal.projectSearch = null
+            }
+        }
+
+        $ui.search.project = shuffleArray(projectDatabase.slice(0, randProjNumber))
+
+        ///////////////////////////////////////////
+
+        // Set UI based on curent page
         switch($ui.page){
             case 'discover':
                 $ui.byPage.discover.main = 'list'
@@ -33,8 +65,8 @@
                 $ui.byPage.share.projectSearch.isMade = true
                 break
         };
+
         window.scrollTo({top: 0, behavior: 'smooth'});
-        console.log($ui.search)
     };
 
     function handleClose(){
@@ -56,7 +88,7 @@
 
 
 <!-- COMPONENT MARKUP-->
-<section in:fly="{{duration: 800, x: -100}}" out:fly="{{duration: 200, x: -100}}">
+<section id = 'project-search' in:fly="{{duration: 800, x: -100}}" out:fly="{{duration: 200, x: -100}}">
     <!-- Close search option-->
     {#if $ui.page === 'discover'}
     <div class='close-container'>
@@ -157,6 +189,7 @@
                     {/each}                
                 </MultiSelect>
             </div>
+            <GenericMap/>
         </div>
         {/if}
     </div>
@@ -171,10 +204,10 @@
         {#if paneVisbility.byCharacteristics}
         <div class = "collapse__body"  transition:slide>
             <div class = 'multi-select-container' style="z-index:14">
-                <h4>{@html initiativeType.label}</h4>
-                <MultiSelect id = {initiativeType.name} bind:value={$ui.search.project.initiativeType} placeholder={initiativeType.placeholder} >
+                <h4>{@html projectType.label}</h4>
+                <MultiSelect id = {projectType.name} bind:value={$ui.search.project.projectType} placeholder={projectType.placeholder} >
                     <option disabled selected value></option>
-                    {#each initiativeType.list as name}
+                    {#each projectType.list as name}
                     <option value={name}>{@html name}</option>
                     {/each}                
                 </MultiSelect>

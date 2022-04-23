@@ -21,7 +21,6 @@
         $ui.state.focus.projectData = projectData
         $ui.byPage[$ui.page].overlay = 'project'
         window.scrollTo({top: 0, behavior: 'smooth'});
-        console.log(projectData)
     };
 </script>
 
@@ -37,11 +36,11 @@
         <h3>{@html projectData.name}</h3>
 
         {#if hoverState}
-        <div class = 'desc-container' transition:fade>
+        <div class = 'desc-container' transition:fly="{{y: -10}}">
             <p>{@html projectData.about.shortDescription}</p>
-            <div class = "project-link">
-                <a>&rarr; Tap to see more</a>
-            </div>
+        </div>
+        <div class = "project-link" transition:fly="{{y: 10}}">
+            <a>&rarr; Tap to see more</a>
         </div>
         {/if}
     </div>
@@ -54,41 +53,48 @@
         outline: none;
     }
     h3{
-        padding:        0.5rem 0.5rem;
-        background:    #333;
-        color:         #fff;
-        font-size:      1vw;
-        height:         fit-content;
+        padding:            0.5rem 0.5rem;
+        background:         var(--darkGrey);
+        color:              #fff;
+        font-size:          1vw;
+        height:             fit-content;
     }
     .card{
-        display:                flex;
-        flex-direction:         column ;
-        padding:                1rem;
-        height:                 35vh;
-        filter:                 grayscale(40%) sepia(20%);
-        cursor:                 pointer;
+        display:            flex;
+        flex-direction:     column ;
+        padding:            1rem;
+        height:             35vh;
+        max-height:         25vw;
+        filter:             grayscale(40%) sepia(20%);
+        cursor:             pointer;
     }
     .card:hover{
-        filter:        grayscale(0%) sepia(0%);
+        filter:             grayscale(0%) sepia(0%);
     }
     .desc-container{
-        align-self:     flex-end;
-        background:     rgba(255, 255, 255, 0.9);
-        padding:        0.5rem;
-        font-size:      0.75vw;
-        max-height:     100%;
+        align-self:         flex-end;
+        background:         rgba(255, 255, 255, 0.9);
+        padding:            0.5rem;
+        font-size:          0.8rem;
+        max-height:         67.5%;
+        overflow:           hidden;
+        text-overflow:      ellipsis;
     }
 
     img{
-        position:       absolute;
-        top:            0;
-        left:           0;
-        width:          100%;
-        height:         100%; 
-        object-fit:     cover;
-        z-index:        -1;
+        position:           absolute;
+        top:                0;
+        left:               0;
+        width:              100%;
+        height:             100%; 
+        object-fit:         cover;
+        z-index:            -1;
     }
     .project-link{
-        font-weight:    600;
+        background:         yellow;
+        font-weight:        800;
+        font-size:          0.8rem;
+        margin-top:         auto;
+        padding:            0.25rem;
     }
 </style>

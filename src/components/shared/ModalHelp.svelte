@@ -30,16 +30,16 @@
         width:      100vw;
         height:     100vh;
         background: rgba(0, 37, 54, 0.95);
+        background: radial-gradient(circle, rgba(2, 93, 136, 0.95), rgba(0, 37, 54, 0.95) 80%);
         color:    #fff;
     }
-    h1{
+    h2{
         font-weight:    700;
-        font-size:      6vw;
-        margin-block-start: 0;
+        font-size:      3.5vw;
     }
     .title-container{
         grid-area:     1 / 1 / 2 / 2;
-        padding:       7.5vh;
+        padding:       7.5vh 0 0 7.5vh ;
     }
     .content-container{
         grid-area:      1 / 2 / 2 / 3;

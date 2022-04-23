@@ -49,10 +49,10 @@
         flex-direction: column;
     }
     .button-container{
-        margin-top: auto;
+        margin-top:         auto;
     }
     .float-bottom{
-        margin-top: 1.5rem;
+        margin-top:     1.5rem;
     }
 
 

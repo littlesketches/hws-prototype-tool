@@ -4,10 +4,8 @@
     import { ui }               from './../../../../data/stores.js'
     import Magnify              from "svelte-material-icons/Magnify.svelte";
 
-
     function openSearch(){
         $ui.byPage.discover.main = 'search'
-        $ui.byPage.discover.projectSearch.isMade = false
         window.scrollTo({top: 0, behavior: 'smooth'});
     };
 </script>
@@ -16,20 +14,24 @@
 <!-- COMPONENT HTML MARKUP-->
 <div>
     <h2>&mdash; {@html componentContent.discover.info.searchResultsHeader}</h2>
-    {@html componentContent.discover.info.searchResultsDesc}
+    {#if $ui.search.project.length > 0}
+        <p>Your search came back with {$ui.search.project.length} projects! </p>
+        {@html componentContent.discover.info.searchResultsDesc}
+    {:else}
+        <p>Unfortunatley there were no projects that met all of your search criteria.</p>
+    {/if}
 </div>
 <hr>
-<div class="search-options">
-    {@html componentContent.discover.info.searchResultsOptions}
-    <div class ='button-container'>
-        <button on:click={openSearch}>Refine search</button>
-    </div>
+<div class ='button-container'>
+    <button on:click={openSearch}>Refine search</button>
 </div>
+
 
 
 <!------ STYLE ------->
 <style> 
     .button-container{
         width:              100%;
+        margin-bottom:       1.5rem;
     }
 </style>

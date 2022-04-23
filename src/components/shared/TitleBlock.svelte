@@ -2,11 +2,10 @@
 <script>
     import { fly }  from    'svelte/transition'
     export let titleData
-console.log(titleData)
 </script>
 
 <!-- COMPONENT HTML MARKUP-->
-<section  in:fly="{{y: -500, duration: 1000}}" out:fly="{{y: -500, duration: 500}}">
+<section id="title-block" in:fly="{{y: -500, duration: 1000}}" out:fly="{{y: -500, duration: 500}}">
     <div in:fly="{{x: -100, duration: 1500}}" out:fly="{{x: -100, duration: 750}}" >
         &mdash;&mdash;&mdash; <span>{@html titleData.instruction}</span>
     </div>

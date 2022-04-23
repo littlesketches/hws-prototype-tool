@@ -4,13 +4,13 @@ import { compute_rest_props } from 'svelte/internal'
 import { ui } from './stores.js'	 
 
 export { 
+    componentContent,
     getMenuOptions, 
     getPageInfo, 
     getContent,
     getRandomStockImgPath, 
     getRandomAbstractImgPath,
-    getRandomStockSplashImgPath,
-    componentContent
+    getRandomStockSplashImgPath
 }
 
 
@@ -63,7 +63,7 @@ async function getContent(){
 
 	const data = await d3.tsv('https://docs.google.com/spreadsheets/d/e/2PACX-1vQ36HUgHmF_LDKH5Nfn6jLPyo56ygQu5vIgCqHa1md8cQCPvvSXhOGmudo_8zWftxu-Sx3lrU14Pwy4/pub?gid=0&single=true&output=tsv')
     const getHTML = (ref) => data.filter(d => d.reference === ref)[0].content;
-    console.log(data)
+    console.log("Loaded content data: ", data)
     toolName = getHTML('toolName')
 
 
@@ -127,6 +127,7 @@ async function getContent(){
             mainHeading:     `${toolName}`
         },
 
+        //  PAGES AND 
         about: {
             title:                      `${getHTML('component.about.title')} ${toolName}`,
             intro:                      getHTML('component.about.intro'),
@@ -152,7 +153,6 @@ async function getContent(){
                 mapDesc:                getHTML('component.discover.info.mapDesc'),
                 searchResultsHeader:    getHTML('component.discover.info.searchResultsHeader'),
                 searchResultsDesc:      getHTML('component.discover.info.searchResultsDesc'),
-                searchResultsOptions:   getHTML('component.discover.info.searchResultsOptions'),
             }
         },
 
@@ -217,14 +217,7 @@ async function getContent(){
             }
         },
 
-        other: {
-            titleBlock:{
-                title:                  getHTML('page.other.TitleBlock.title'),
-                instruction:            getHTML('page.other.TitleBlock.instruction'),
-            }
-        },
-
-
+        // INFO OVERLAYS
         info: {
             home:{
                 header:                 getHTML('info.home.header'),
@@ -252,6 +245,7 @@ async function getContent(){
             }
         },
 
+        // MESSAGE MODALS
         messageModal: {
             setUserPreferences:         getHTML('messageModal.setUserPreferences'),
             updateUserDetails:          getHTML('messageModal.updateUserDetails'),
@@ -259,12 +253,16 @@ async function getContent(){
             projectMap:                 getHTML('messageModal.projectMap'),
             stakeholderSearch:          getHTML('messageModal.stakeholderSearch'),
             stakeholderNetwork:         getHTML('messageModal.stakeholderNetwork'),
-
             locationSearch:             getHTML('messageModal.locationSearch'),
             createAccount:              getHTML('messageModal.createAccount'),
+            loginToComment:             getHTML('messageModal.loginToComment'),
             login:                      getHTML('messageModal.login')
-        }
+        },
 
+        // MISC COMPONENTS
+        misc: {
+            feedbackInstruction:        getHTML('component.misc.feedbackInstruction')
+        }
     }
 };
 

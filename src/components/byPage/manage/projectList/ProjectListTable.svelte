@@ -1,6 +1,6 @@
 <!-- MANAGER USER PROJECTS COMPONENT-->
 <script>
-	import { fly, slide }              from 'svelte/transition'
+	import { fly, slide }       from 'svelte/transition'
     import DividerZagged20px    from "../../../shared/misc/DividerZagged20px.svelte"
     import { ui }               from '../../../../data/stores.js'
     import { componentContent } from '../../../../data/content.js'
@@ -13,7 +13,7 @@
         console.log('Open a new project')
         $ui.state.focus.projectData = projectsData[index]
         $ui.byPage.manage.overlay = 'editProject'
-        console.log(projects[index])
+        console.log(projectsData[index])
 
         $ui.editProject.data = projectsData[index]
         console.log( $ui)

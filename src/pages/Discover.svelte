@@ -22,6 +22,7 @@
         <!-- a. Project default listing-->
         {#if $ui.byPage.discover.main === 'list'}
         <ProjectList/>
+
         <!-- b. Project search results view-->
         {:else if $ui.byPage.discover.main === 'search'}
         <ProjectSearch/>
