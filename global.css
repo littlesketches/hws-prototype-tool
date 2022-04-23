@@ -1,30 +1,33 @@
 :root {
   	--darkGrey: 		#333;
-  	--midGrey: 		#555;
+  	--midGrey: 		    #555;
   	--grey: 			#999;
   	--lightGrey: 		#aaa;
   	--lightestGrey: 	#ddd;
-  	--darkPurple: 	rgb(117, 3, 130);
+  	--darkPurple: 	    rgb(117, 3, 130);
   	--white: 			#ffffff;
-	--forestGreen:  rgb(13, 50, 50);
-	--modalLight: 		rgb(115, 232, 234);
-    --commentColor:     #00bfb6;
+	--forestGreen:      rgb(13, 50, 50);
+	--modalLight: 		#00bfb6;
+    --comment:          #aaa;
+    --userComment:     #00bfb6;
 }
 
 
 
 html, body {
-	position: 	relative;
-	width: 		100%;
-	height: 	100%;
+	position: 	        relative;
+	width: 		        100%;
+	height: 	        100%;
 }
 
 body {
-	color: 			var(--darkGrey);
-	margin: 		0;
-	box-sizing: 	border-box;
-	font-family: 	-apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Oxygen-Sans, Ubuntu, Cantarell, "Helvetica Neue", sans-serif;
-	font-size: 		1.2rem;
+	color: 			    var(--darkGrey);
+	margin: 		    0;
+	box-sizing: 	    border-box;
+	font-family: 	    -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Oxygen-Sans, Ubuntu, Cantarell, "Helvetica Neue", sans-serif;
+	font-size: 		    1.2rem;
+    display:            flex;
+    flex-flow:          column;
 }
 p{
 	line-height: 		1.5;
@@ -56,7 +59,7 @@ input, button, select, textarea {
 }
 
 input:disabled {
-	color: #ccc;
+	color:              var(--lightGrey);
 }
 
 button {
@@ -73,23 +76,20 @@ button {
 button:hover{
 	background-color:	var(--darkGrey);
 	font-weight:    	500;
-	color: 			  #fff
+	color: 			    #fff
 }
 button:disabled {
-	color: 				var(--grey);
+	color: 	            var(--grey);
 }
 button:not(:disabled):active {
-	/* background-color:  	var(--lightGrey);
-	color: 				var(--darkGrey); */
 	transform: 			scale(1.025)
 }
 button:focus {
 	border-color: 		var(--darkGrey);
 }
 
-
 .faded{
-	opacity: 0.25
+	opacity:                0.25
 }
 ul.unformatted{
 	list-style-type: 		none;
