@@ -9,10 +9,6 @@
         window.scrollTo({top: 0, behavior: 'smooth'});
     };
 
-    function showMoreRandom(){
-        $ui.byPage.discover.main = 'list'
-        window.scrollTo({top: 0, behavior: 'smooth'});
-    };
 </script>
 
 <!-- COMPONENT HTML MARKUP-->

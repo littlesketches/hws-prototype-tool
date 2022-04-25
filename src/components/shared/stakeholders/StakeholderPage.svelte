@@ -10,7 +10,7 @@
 
 
 <!-- COMPONENT HTML MARKUP-->
-<section id = 'stakeholder-overlay' in:fade="{{x: 500, duration: 1000}}" out:fade="{{x: 500, duration: 200}}">
+<section id = 'stakeholder-overlay' in:fade="{{x: 500, duration: 1000}}" out:fade="{{duration: 0}}">
     <TitleBlock/>
     <InfoPane/>
     <StakeholderContent/>
@@ -28,4 +28,5 @@
         column-gap:             10vw;
         row-gap:                2.5vw;
     }
+
 </style>

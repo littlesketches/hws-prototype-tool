@@ -1,7 +1,7 @@
 <!-- CONNECT (WITH STAKEHOLDERS) PAGE COMPONENT-->
 <script>
 	import { fade }             from 'svelte/transition'
-    import TitleBlock           from '../components/shared/TitleBlock.svelte'
+    import TitleBlock           from '../components/shared/layout/TitleBlock.svelte'
     import StakeholderList      from '../components/shared/stakeholders/StakeholderList.svelte'
     import StakeholderPage      from '../components/shared/stakeholders/StakeholderPage.svelte'
     import ProjectPage          from '../components/shared/projects/ProjectPage.svelte'

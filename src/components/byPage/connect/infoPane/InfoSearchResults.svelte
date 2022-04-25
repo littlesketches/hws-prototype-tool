@@ -8,7 +8,6 @@
     function openSearch(){
         $ui.byPage.connect.main = 'search'
         window.scrollTo({top: 0, behavior: 'smooth'});
-        console.log('Opening search cleared')
     };
 </script>
 
@@ -16,16 +15,21 @@
 <!-- COMPONENT HTML MARKUP-->
 <div>
     <h2>&mdash; {@html componentContent.connect.info.searchResultsHeader}</h2>
-    {@html componentContent.connect.info.searchResultsDesc}
+    {#if $ui.search.organisation.length > 0}
+        {#if $ui.search.organisation.length === 1}
+        <p>Your search came back with {$ui.search.organisation.length} organisation! </p>
+        {:else}
+        <p>Your search came back with {$ui.search.organisation.length} organisations! </p>
+        {/if}
+        {@html componentContent.connect.info.searchResultsDesc}
+    {:else}
+        <p>Unfortunatley there were no stakeholders that met all of your search criteria.</p>
+    {/if}
 </div>
 <hr>
-<div class="search-options">
-    {@html componentContent.connect.info.searchResultsOptions}
-    <div class ='button-container'>
-        <button on:click={openSearch}>Refine search</button>
-    </div>
+<div class ='button-container'>
+    <button on:click={openSearch}>Refine search</button>
 </div>
-
 
 <!------ STYLE ------->
 <style> 

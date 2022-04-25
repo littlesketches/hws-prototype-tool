@@ -1,7 +1,7 @@
 <!-- EXPLORE PAGE COMPONENT-->
 <script>
 	import { fade }             from 'svelte/transition'
-    import TitleBlock           from '../components/shared/TitleBlock.svelte'
+    import TitleBlock           from '../components/shared/layout/TitleBlock.svelte'
     import UserSharedProjects   from '../components/byPage/manage/UserSharedProjects.svelte'
     import UserDraftProjects    from '../components/byPage/manage/UserDraftProjects.svelte'
     import UserWatchlist        from '../components/byPage/manage/UserWatchlist.svelte'
@@ -15,7 +15,10 @@
 
     const titleData = getPageInfo($ui.page)[0].TitleBlock
 
+    ////////////////////////////////////////////////////////////////
     // Random project selections written to the $user.data store
+    ////////////////////////////////////////////////////////////////
+
     function getRandomInt(min, max) {
         min = Math.ceil(min);
         max = Math.floor(max);
@@ -35,7 +38,7 @@
 
 
 <!-- COMPONENT MARKUP-->
-<section id="manage-page"  in:fade="{{duration: 1500}}" >
+<section id="manage-page"  in:fade="{{duration: 500}}" >
     <TitleBlock {titleData}/>
     {#if !$ui.byPage.manage.overlay}
     <NewsAndAlerts/>
@@ -61,10 +64,11 @@
         row-gap:                2.5vw; 
         grid-template-areas: 
             "title"
+            "newsAndAlerts"
             "userProjects"
+            "userDraftProjects"
             "watchlistProjects"
-            "feedbackProjects"
-            "userAccount";
+            "accountOptions";
         padding:                7.5vh;
     }
 </style>

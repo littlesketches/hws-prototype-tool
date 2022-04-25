@@ -1,6 +1,8 @@
 <script>
     import { ui }         from '../../../data/stores.js'
 	import { fly }        from 'svelte/transition'
+    import { componentContent, infoModal }  from '../../../data/content.js'
+
     // Switch between cards and netowrk  
     $ui.byPage.connect.stakeholderView = 'cards' 
 
@@ -10,6 +12,12 @@
             item.classList.remove('selected')
         }
         this.classList.add('selected')
+
+        // Temporary info box for network visualisaion
+        if($ui.byPage.connect.stakeholderView === 'network' && $ui.infoModal.showNotes && componentContent.messageModal.stakeholderNetwork){
+            $ui.infoModal.message = infoModal.stakeholderNetwork
+            componentContent.messageModal.stakeholderNetwork = null
+        }
     };
 </script>
 

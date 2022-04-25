@@ -4,7 +4,7 @@
     import InfoEmptySearch      from "./infoPane/InfoEmptySearch.svelte"
     import InfoSearchResults    from "./infoPane/InfoSearchResults.svelte"
     import InfoMap              from "./infoPane/InfoMap.svelte"
-    import DividerZagged20px    from "../../shared/misc/DividerZagged20px.svelte"
+    import DividerZagged20px    from "../../shared/layout/DividerZagged20px.svelte"
     import { ui }               from '../../../data/stores.js'
     import { componentContent } from '../../../data/content.js'
 </script>

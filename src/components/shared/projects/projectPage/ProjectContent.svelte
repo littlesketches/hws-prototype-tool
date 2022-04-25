@@ -1,9 +1,9 @@
 <!-- PROJECT PAGE CONTENT PANE-->
 <script>
-    import { ui }           from '../../../../data/stores.js'
 	import { slide }        from 'svelte/transition'
-    import HWS_tags         from '../../misc/HWS_tags.svelte'
-    import HWS_boxes        from '../../misc/HWS_boxes.svelte'
+    import { ui }           from '../../../../data/stores.js'
+    import HWS_tags         from '../../forms/HWS_tags.svelte'
+    import HWS_boxes        from '../../forms/HWS_boxes.svelte'
     import ProjectSources   from './ProjectSources.svelte'
     import ProjectLearnings from './ProjectLearnings.svelte'
 
@@ -12,16 +12,16 @@
 
     // HWS Key Values and conditions data
     $: themesData = {
-        name:           "&#8212; Themes",
+        name:           "&mdash; Themes",
         array:          projectData.hws.poTheme
     }
     $: keyValuesData = {
-        name:           "&#8212; Values",
+        name:           "&mdash; Values",
         schemaName:     "keyValues",
         array:          projectData.hws.values
     }
     $: conditionsData = {
-        name:           "&#8212; Conditions",
+        name:           "&mdash; Conditions",
         schemaName:     "conditions",
         array:          projectData.hws.conditions
     }

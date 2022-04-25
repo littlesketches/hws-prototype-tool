@@ -1,7 +1,7 @@
 <!-- MANAGER USER PROJECTS COMPONENT-->
 <script>
 	import { fly, slide }       from 'svelte/transition'
-    import DividerZagged20px    from "../../../shared/misc/DividerZagged20px.svelte"
+    import DividerZagged20px    from "../../../shared/layout/DividerZagged20px.svelte"
     import { ui }               from '../../../../data/stores.js'
     import { componentContent } from '../../../../data/content.js'
     import { database }         from '../../../../data/dataStores.js'
@@ -10,13 +10,15 @@
     export let editable = false
 
     function handleEdit(index){
-        console.log('Open a new project')
+        console.log('Opening a project for editing')
         $ui.state.focus.projectData = projectsData[index]
         $ui.byPage.manage.overlay = 'editProject'
-        console.log(projectsData[index])
-
         $ui.editProject.data = projectsData[index]
-        console.log( $ui)
+        window.scrollTo({top: 0, behavior: 'smooth'});
+
+        // Hack for manually setting display
+        if(document.getElementById('new-project')) document.getElementById('new-project').style.display = ''
+
     };
     function handleOpen(index){
         console.log('Open a project for viewing')
@@ -24,10 +26,38 @@
         $ui.byPage.manage.overlay = 'project'
         window.scrollTo({top: 0, behavior: 'smooth'});
         console.log( $ui.state.focus.projectData )
+
+        // Hack for manually setting display
+        if(document.getElementById('project-overlay')) document.getElementById('project-overlay').style.display = ''
     };
     function handleNewProject(index){
         console.log('Adding a new project')
+        $ui.newProject = {
+            name:           null,
+            leadOrg:        '',
+            meta:           {},
+            about:          {},
+            contact:        {},
+            hws:            {},
+            location:       {},
+            learnings:        {
+                general:    ['', '', ''],
+                worked:     ['', '', ''],
+                failed:     ['', '', ''],
+            },
+            links:          [
+                {name: '', url: '', description: ''}
+            ],
+            partnerOrgs:    [],
+            status:         {},
+            record:         {}
+        }
+
         $ui.byPage.manage.overlay = 'newProject'
+
+        // Hack for manually setting display
+        if(document.getElementById('new-project')) document.getElementById('new-project').style.display = ''
+
     };
 
     function handleDelete(index){

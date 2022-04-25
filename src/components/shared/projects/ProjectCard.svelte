@@ -21,6 +21,9 @@
         $ui.state.focus.projectData = projectData
         $ui.byPage[$ui.page].overlay = 'project'
         window.scrollTo({top: 0, behavior: 'smooth'});
+
+        // Hack for manually setting display
+        if(document.getElementById('project-overlay')) document.getElementById('project-overlay').style.display = ''
     };
 </script>
 
@@ -91,7 +94,7 @@
         z-index:            -1;
     }
     .project-link{
-        background:         yellow;
+        background:        var(--modalLight);
         font-weight:        800;
         font-size:          0.8rem;
         margin-top:         auto;

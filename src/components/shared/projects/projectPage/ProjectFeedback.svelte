@@ -1,10 +1,10 @@
 <script>
 	import { fly, slide }       from 'svelte/transition'
     import Comment              from '../../../shared/feedback/Comment.svelte'
+    import  DividerZagged20px   from '../../../shared/layout/DividerZagged20px.svelte'
     import { ui, user }         from '../../../../data/stores.js'
     import { database }         from '../../../../data/dataStores.js'
     import { componentContent } from '../../../../data/content.js'
-    import  DividerZagged20px   from '../../../shared/misc/DividerZagged20px.svelte'
 
     // Reactive variables
     $: projectData = $ui.state.focus.projectData

@@ -29,7 +29,7 @@
         padding:        1rem;
     }
     .actions-pane span{
-        padding: 0.5rem;
+        padding:        0.5rem;
     }
 
 </style>

@@ -1,6 +1,6 @@
 <!-- Search for an existing project to feedback on-->
 <script>
-    import DividerZagged20px    from "../../shared/misc/DividerZagged20px.svelte"
+    import DividerZagged20px    from "../../shared/layout/DividerZagged20px.svelte"
     import ProjectList          from "../../shared/projects/ProjectList.svelte"
     import ProjectSearch        from "../../byPage/discover/ProjectSearch.svelte"
     import InfoEmptySearch      from "./infoPane/InfoEmptySearch.svelte"

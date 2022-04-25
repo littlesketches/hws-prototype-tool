@@ -1,10 +1,10 @@
 <!-- PROJECT PAGE CONTENT PANE-->
 <script>
+	import { slide }    from 'svelte/transition'
     import { ui }       from '../../../../data/stores.js'
     import { database } from '../../../../data/dataStores.js'
-	import { slide }    from 'svelte/transition'
-    import HWS_tags     from '../../misc/HWS_tags.svelte'
-    import HWS_boxes    from '../../misc/HWS_boxes.svelte'
+    import HWS_tags     from '../../forms/HWS_tags.svelte'
+    import HWS_boxes    from '../../forms/HWS_boxes.svelte'
     import Sources      from './Sources.svelte'
 
     // Slideable pane visibility
@@ -91,14 +91,8 @@
         grid-area:  2 / 1 / 6 / 2; 
         padding: 0 1rem;
     }
-    h3.margin-top{
-        margin-top: 3rem;
-    }
     .short-desc{
         padding-bottom:     0.5rem;
-    }
-    .short-desc p{
-        margin-block-start: 0;
     }
     /* COLLAPSIBLE PANE STYLING */
 	.collapse__header {
@@ -107,9 +101,6 @@
 	    transition:         background 200ms ease-in-out;
         cursor:             pointer;
 	}
-    .collapse__header p{
-        line-height: 1;
-    }
     .collapse__header .toggle-icon{
 	    transition: all 200ms ease-in-out;
     }
@@ -129,6 +120,4 @@
 	    padding: 0rem 0;
         display: grid;
 	}
-
-
 </style>

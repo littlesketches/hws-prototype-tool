@@ -1,11 +1,11 @@
 <!-- DISCOVER PAGE COMPONENT-->
 <script>
-	import MultiSelect          from '../../shared/MultiSelect.svelte';
-	import GenericMap          from '../../shared/map/GenericMap.svelte';
 	import { slide, fly }       from "svelte/transition";
+	import MultiSelect          from '../../shared/forms/MultiSelect.svelte';
+	import GenericMap           from '../../shared/map/GenericMap.svelte';
     import { ui }               from '../../../data/stores.js'
     import { database }         from '../../../data/dataStores.js'
-    import { componentContent } from '../../../data/content.js'
+    import { componentContent, infoModal } from '../../../data/content.js'
     import { keyValues, conditions, performanceObjectivesGroup, performanceObjectivesTheme, catchments, subcatchments, locations, leadOrg, leadOrgType, partnerOrg, projectType, projectStage, projectClass, projectSize, projectScale }  from '../../../data/selectorLists.js'
 
     ////// COLLAPSIBLE SEARCH PANES ////
@@ -37,22 +37,15 @@
         const projectDatabase = $database.projects
         const randProjNumber =  getRandomInt(0, 9)
 
-        // Temporary info box for map
-        if(componentContent.messageModal.projectSearch){
-            if($ui.infoModal.showNotes && componentContent.messageModal.projectSearch){
-                $ui.infoModal.message = {
-                    buttons:        [{ text: 'Ok, got it!', function:  'close', }],
-                    header:         `&#9888; Project search is not yet wired up..`,
-                    content:         componentContent.messageModal.projectSearch
-                }
-                componentContent.messageModal.projectSearch = null
-            }
-        }
-
         $ui.search.project = shuffleArray(projectDatabase.slice(0, randProjNumber))
 
-        ///////////////////////////////////////////
+        // Temporary info box for project search
+        if($ui.infoModal.showNotes && componentContent.messageModal.projectSearch){
+            $ui.infoModal.message = infoModal.projectSearch
+            componentContent.messageModal.projectSearch = null
+        }
 
+        ///////////////////////////////////////////
         // Set UI based on curent page
         switch($ui.page){
             case 'discover':
@@ -189,6 +182,7 @@
                     {/each}                
                 </MultiSelect>
             </div>
+            <div class = 'note'>Location searches will be 'smarter' and linked to the map view</div>
             <GenericMap/>
         </div>
         {/if}
@@ -204,19 +198,22 @@
         {#if paneVisbility.byCharacteristics}
         <div class = "collapse__body"  transition:slide>
             <div class = 'multi-select-container' style="z-index:14">
-                <h4>{@html projectType.label}</h4>
-                <MultiSelect id = {projectType.name} bind:value={$ui.search.project.projectType} placeholder={projectType.placeholder} >
-                    <option disabled selected value></option>
-                    {#each projectType.list as name}
-                    <option value={name}>{@html name}</option>
-                    {/each}                
-                </MultiSelect>
-            </div>
-            <div class = 'multi-select-container' style="z-index:13">
                 <h4>{@html projectStage.label}</h4>
                 <MultiSelect id = {projectStage.name} bind:value={$ui.search.project.projectStage} placeholder={projectStage.placeholder} >
                     <option disabled selected value></option>
                     {#each projectStage.list as name}
+                    <option value={name}>{@html name}</option>
+                    {/each}                
+                </MultiSelect>
+            </div>
+
+            <div class = 'note'>More 'by date' search characters TBA</div>
+
+            <div class = 'multi-select-container' style="z-index:15">
+                <h4>{@html projectType.label}</h4>
+                <MultiSelect id = {projectType.name} bind:value={$ui.search.project.projectType} placeholder={projectType.placeholder} >
+                    <option disabled selected value></option>
+                    {#each projectType.list as name}
                     <option value={name}>{@html name}</option>
                     {/each}                
                 </MultiSelect>
@@ -248,6 +245,8 @@
                     {/each}                
                 </MultiSelect>
             </div>
+            <div class = 'note'>Characteristics criteria to be refined on review of real project data</div>
+
         </div>
         {/if}
     </div>
@@ -377,5 +376,9 @@
 	    padding:                1rem 0rem;
         display:                grid;
 	}
-
+    .note{
+        font-size:              0.8rem;
+        font-style:             italic;
+        text-align:             right;
+    }
 </style>

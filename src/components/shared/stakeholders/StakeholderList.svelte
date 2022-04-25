@@ -1,6 +1,6 @@
 <!-- PROJECT LIST-->
 <script>
-	import { fade, fly } 	from 'svelte/transition';
+	import { fade, fly } 	        from 'svelte/transition';
     import StakeholderListHeader    from './StakeholderListHeader.svelte'
     import StakeholderCard          from './StakeholderCard.svelte'
     import StakeholderNetwork       from './StakeholderNetwork.svelte'
@@ -8,16 +8,10 @@
     import { database }             from '../../../data/dataStores.js'
 
 
-    // Random stakeholder selection
-    function getRandomInt(min, max) {
-        min = Math.ceil(min);
-        max = Math.floor(max);
-        return Math.floor(Math.random() * (max - min + 1)) + min;
-    };
-
+    // Random project selection if no serch
     const shuffleArray = (array) => array.sort(() => Math.random() - 0.5)
     const orgDatabase = $database.organisations
-    const stakeholders =  $ui.search.organisation.length > 0 ? $ui.search.project :  shuffleArray(orgDatabase.slice(0, 6))
+    const stakeholders =  $ui.search.organisation.length > 0 ? $ui.search.organisation :  shuffleArray(orgDatabase.slice(0, 6))
 
 </script>
 

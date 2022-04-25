@@ -1,19 +1,20 @@
 <!-- PROJECT ENTRY FORM-->
 <script>
-	import MultiLinkInput       from './MultiLinkInput.svelte';
-	import MultiSelect          from '../MultiSelect.svelte';
-	import SingleSelect         from '../SingleSelect.svelte';
-	import MultiInput           from '..//MultiInput.svelte';
+	import { fly, fade, slide }       from 'svelte/transition'
+	import MultiLinkInput       from '../forms/MultiLinkInput.svelte';
+	import MultiSelect          from '../forms/MultiSelect.svelte';
+	import SingleSelect         from '../forms/SingleSelect.svelte';
+	import MultiInput           from '../forms/MultiInput.svelte';
 	import GenericMap           from '../map/GenericMap.svelte';
-    import DividerZagged20px    from "../../shared/misc/DividerZagged20px.svelte"
-	import { fly, slide }       from 'svelte/transition'
+    import DividerZagged20px    from "../layout/DividerZagged20px.svelte"
     import { user, ui }         from '../../../data/stores.js'
-    import { componentContent } from '../../../data/content.js'
+    import { componentContent, infoModal } from '../../../data/content.js'
     import { keyValues, conditions, performanceObjectivesGroup, performanceObjectivesTheme, 
         catchments, subcatchments, locations, leadOrg, partnerOrg, 
         projectType, projectStage, projectClass, projectSize, projectScale }  from '../../../data/selectorLists.js'
 
     export let store
+    let type
 
     $: projectStore = store
 
@@ -66,15 +67,17 @@
          projectStore.links = [...projectStore.links, {name: '', url: '', description: ''}]
     };
 
-    console.log("Store", store)
-    console.log("ProjectClass", projectClass)
 
-    let type
+    // Temporary info box for network visualisaion
+    if($ui.infoModal.showNotes && componentContent.messageModal.newProjectPage){
+        $ui.infoModal.message = infoModal.newProjectPage
+    }    
+
 </script>
 
 
 <!-- COMPONENT HTML MARKUP-->
-<section id = "new-project" in:fly="{{y: -200, duration: 800}}" out:fly="{{y: -200, duration: 100}}">
+<section id = "new-project" in:fly="{{y: -200, duration: 800}}" out:fade="{{ duration: 0}}">
     <div class = 'info-pane'>
         <DividerZagged20px/>
         <h2>&mdash; {@html componentContent.share.new.instructionHeader}</h2>
@@ -83,7 +86,6 @@
             <DividerZagged20px/>
         </div>
     </div>
-
 
     <form class = 'newProject'>
         <!-- Project details  -->
@@ -97,7 +99,7 @@
                     <input name ="projectName" bind:value={projectStore.name} />
                 </li>
                 <li>
-                    <label  for="shortDescription">Brief description</label>
+                    <label for="shortDescription">Brief description</label>
                     <textarea name ="shortDescription" rows = "5" bind:value={projectStore.about.shortDescription}></textarea>
                 </li>
             </ul>
@@ -354,7 +356,7 @@
         margin-block-start:     1.5rem;
         margin-block-end:       0rem;
     }
-    h3, h4{
+    h3{
         margin-block-start:     0;
         margin-block-end:       0;
         padding:                0 1rem 0 0.5rem;
@@ -362,11 +364,11 @@
         font-size:              1rem;
         font-weight:            600;
     }
-    h4{
+    /* h4{
         margin-block-start:     0.75rem;        
         font-size:              1rem;
         font-weight:            600;
-    }
+    } */
     ul{
         margin-top: 1.5rem;
     }

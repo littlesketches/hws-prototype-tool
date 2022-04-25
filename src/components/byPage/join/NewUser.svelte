@@ -1,10 +1,10 @@
 <!-- NEW USER SIGN UP FORM COMPOENNT -->
 <script>
-	import  { fly, fade }    from 'svelte/transition'
-    import DividerZagged20px from '../../shared/misc/DividerZagged20px.svelte'
-    import { app }          from '../../../data/realm.js'
-    import { user, ui }     from '../../../data/stores.js'
-
+	import  { fly, fade }       from 'svelte/transition'
+    import DividerZagged20px    from '../../shared/layout/DividerZagged20px.svelte'
+    import { app }              from '../../../data/realm.js'
+    import { user, ui }         from '../../../data/stores.js'
+    import { componentContent, infoModal }       from '../../../data/content.js'
 
     let username, password, firstName, lastName, organisation
     function handleSubmit(){
@@ -12,7 +12,7 @@
         if(firstName && lastName && username && organisation && password){
         }
 
-        // Set the UI state
+        // Set the UI state: temporary
         $user.details.firstName = firstName  
         $user.details.lastName = lastName  
         $user.details.organisation = organisation 
@@ -21,6 +21,12 @@
         $user.isRegistered = true
         $ui.page = 'home'
         window.scrollTo({top: 0, behavior: 'smooth'});
+
+        // Temporary warning message 
+        if($ui.infoModal.showNotes && componentContent.messageModal.createAccount){
+            $ui.infoModal.message = infoModal.createAccount
+            componentContent.messageModal.createAccount = null
+        }
     };
 
     function switchForm(){

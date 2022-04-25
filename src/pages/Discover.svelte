@@ -1,7 +1,7 @@
 <!-- DSICOVER (PROJECTS) PAGE COMPONENT-->
 <script>
 	import { fade }         from 'svelte/transition'
-    import TitleBlock       from '../components/shared/TitleBlock.svelte'
+    import TitleBlock       from '../components/shared/layout/TitleBlock.svelte'
     import ProjectList      from '../components/shared/projects/ProjectList.svelte'
     import ProjectPage      from '../components/shared/projects/ProjectPage.svelte'
     import InfoPane         from '../components/byPage/discover/InfoPane.svelte'

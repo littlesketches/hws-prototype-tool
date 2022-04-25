@@ -1,7 +1,7 @@
 <!-- EXPLORE PAGE COMPONENT-->
 <script>
 	import { fade }         from 'svelte/transition'
-    import TitleBlock       from '../components/shared/TitleBlock.svelte'
+    import TitleBlock       from '../components/shared/layout/TitleBlock.svelte'
     import InfoPane         from '../components/byPage/join/InfoPane.svelte'
     import ImagePane        from '../components/byPage/join/ImagePane.svelte'
     import NewUser          from '../components/byPage/join/NewUser.svelte'

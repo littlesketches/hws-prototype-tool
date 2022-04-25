@@ -29,7 +29,7 @@ export const ui = writable({
 
     infoModal: {
         show:           true,      
-        showNotes:      false,       // Flag for showing development user notes
+        showNotes:      true,       // Flag for showing development user notes
         message:        {           // Default is the intro to the tool message
             buttons: [
                 {
@@ -51,25 +51,34 @@ export const ui = writable({
                                     Feedback and further info: &rarr;
                                 </div>
                                 <div class="contact" style="width: 20%; padding:0.5rem">
-                                    <div>EMAIL</div>
-                                    <div style="font-size: 0.8rem">Get in touch directly</div>
+                                    <a>
+                                        <div>EMAIL</div>
+                                        <div style="font-size: 0.8rem">Get in touch directly</div>
+                                    </a>
                                 </div>
                                 <div style="width: 20%; padding:0.5rem">
-                                    <div>AIRTABLE</div>
-                                    <div style="font-size: 0.8rem">Issues and suggestions</div>
+                                    <a>
+                                        <div>AIRTABLE</div>
+                                        <div style="font-size: 0.8rem">Issues and suggestions</div>
+                                    </a>
                                 </div>
                                 <div style="width: 20%; padding:0.5rem">
-                                    <div>FIGMA</div>
-                                    <div style="font-size: 0.8rem">UI/UX design</div>
+                                    <a>
+                                        <div>FIGMA</div>
+                                        <div style="font-size: 0.8rem">UI/UX design</div>
+                                    </a>
                                 </div>
                                 <div style="width: 20%; padding:0.5rem">
-                                    <div>GITHUB</div>
-                                    <div style="font-size: 0.8rem">Code repository</div>
+                                    <a href="https://github.com/littlesketches/mw-collab-tool-proto" target="_blank">
+                                        <div>GITHUB</div>
+                                        <div style="font-size: 0.8rem">Code repository</div>
+                                    </a>
                                 </div>
                             </div>
                             <hr>
                             `                        
-        }
+        },
+        message:        null
     },
 
     items: {
@@ -93,11 +102,6 @@ export const ui = writable({
             stakeholderData:        null,
             projectComments:        null
         },
-        location:{
-            catchment:              false,
-            subCatchment:           false,
-            location:               false
-        }
     },
     byPage:{ 
         discover: {

@@ -60,36 +60,36 @@ export { keyValues, conditions, performanceObjectivesGroup, performanceObjective
 
     // Project characterstics
     const projectType = {
-        label:              'Type',
+        label:              'by type',
         name:               'projectType',
         list:               projectSchema.type,
         placeholder:        'Use this field to select initiative type(s)',
         placeholderSingle:  'Use this field to select initiative type'
     }
     const projectStage = {
-        label:          '   Stage',
+        label:              'by stage',
         name:               'projectStage',
         list:               projectSchema.stage,
         placeholder:        'Use this field to select project stage(s)',
         placeholderSingle:  'Use this field to select project stage(s)'
     }
     const projectClass = {
-        label:              'Class',
+        label:              'by class',
         name:               'projectClass',
         list:               projectSchema.class,
         placeholder:        'Use this field to select project class(es)'
     }
     const projectSize = {
-        label:              'Size',
+        label:              'by size',
         name:               'projectSize',
         list:               projectSchema.size,
         placeholder:        'Use this field to select project size(s)',
         placeholderSingle:  'Use this field to select project size'
     }
     const projectScale = {
-        label:              'Scale',
+        label:              'by scale',
         name:               'projectScale',
-        list:               projectSchema.class,
+        list:               projectSchema.scale,
         placeholder:        'Use this field to select project scale(s)',
         placeholderSingle:  'Use this field to select project scale'
     }

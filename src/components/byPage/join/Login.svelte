@@ -1,9 +1,10 @@
 <!-- LOGIN FORM COMPOENNT -->
 <script>
-	import  { fly, fade }    from 'svelte/transition'
-    import DividerZagged20px from '../../shared/misc/DividerZagged20px.svelte'
-    import { app }               from '../../../data/realm.js'
-    import { user, ui }          from '../../../data/stores.js'
+	import  { fly, fade }       from 'svelte/transition'
+    import DividerZagged20px    from '../../shared/layout/DividerZagged20px.svelte'
+    import { app }              from '../../../data/realm.js'
+    import { user, ui }         from '../../../data/stores.js'
+    import { componentContent, infoModal }       from '../../../data/content.js'
 
     let username, password, submitted
     function handleSubmit(){
@@ -13,6 +14,13 @@
         $user.isRegistered = true
         $ui.page = 'home'
         window.scrollTo({top: 0, behavior: 'smooth'});
+
+        // Temporary warning message 
+        if($ui.infoModal.showNotes && componentContent.messageModal.login){
+            $ui.infoModal.message = infoModal.login
+            componentContent.messageModal.login = null
+        }
+
     };
     function switchForm(){
         $ui.byPage.join.form = 'newUser'
@@ -63,8 +71,5 @@
         display: flex;
         flex-direction: column;
         justify-content: space-between;
-    }
-    hr{
-        margin-top: 2rem;
     }
 </style>

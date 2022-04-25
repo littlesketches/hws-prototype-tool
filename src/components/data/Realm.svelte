@@ -26,9 +26,7 @@
 
 
 <!-- COMPONENT MARKUP -->
-{#await promise(app) then data }
-
-{/await}
+{#await promise(app) then data }{/await}
 
 <!-- STYLES -->
 <style></style>

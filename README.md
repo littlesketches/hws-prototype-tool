@@ -11,11 +11,15 @@ This repository is
 
 
 
+## Useful links
+- [GSheet Micro CMS](https://docs.google.com/spreadsheets/d/1OQ_mJ0M5Wetniye6-JrVzjiFIWqo31d8VTl4p2Ht1YU)
+
+
 
 
 <br>
 ## About the technology used
-The initial prototype is built using Svelte for initial UI/UX and data flow design and testing, and will likely be upgraded to SvelteKit in later iterations. Other libraries for data visualisation (D3.js) and mapping (ESRI Javascript SDK? )
+The initial prototype is built using Svelte for initial UI/UX and data flow design and testing, and will likely be upgraded to SvelteKit in later iterations. Other libraries for data visualisation (D3.js) and mapping (Leaflet, Mapbox or ESRI Javascript SDK? )
 
 A MongoDB database hosted with MongoDB's Atlas (cloud) service is used for data storage. And the boilerplate backend functions (e.g. authorisation and external API functions), are handled with a MongoDB Realm serverless backend. 
 

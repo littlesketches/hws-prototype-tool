@@ -10,7 +10,7 @@
 
 <!-- COMPONENT HTML MARKUP-->
 <section>
-    <div class = 'subtitle'>&#8212;&#8212;&#8212; <span>waterways stakeholder</span></div>
+    <div class = 'subtitle'>&mdash;&mdash;&mdash; <span>waterways stakeholder</span></div>
     <h1>{ @html stakeholderName }</h1>
 </section>
 

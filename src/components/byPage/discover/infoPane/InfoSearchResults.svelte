@@ -2,7 +2,6 @@
 <script>
     import { componentContent } from './../../../../data/content.js'
     import { ui }               from './../../../../data/stores.js'
-    import Magnify              from "svelte-material-icons/Magnify.svelte";
 
     function openSearch(){
         $ui.byPage.discover.main = 'search'
@@ -14,8 +13,13 @@
 <!-- COMPONENT HTML MARKUP-->
 <div>
     <h2>&mdash; {@html componentContent.discover.info.searchResultsHeader}</h2>
+    
     {#if $ui.search.project.length > 0}
+        {#if $ui.search.project.length === 1}
+        <p>Your search came back with {$ui.search.project.length} project! </p>
+        {:else}
         <p>Your search came back with {$ui.search.project.length} projects! </p>
+        {/if}
         {@html componentContent.discover.info.searchResultsDesc}
     {:else}
         <p>Unfortunatley there were no projects that met all of your search criteria.</p>

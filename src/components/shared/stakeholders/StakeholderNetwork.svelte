@@ -5,7 +5,7 @@
 </script>
 
 <!-- COMPONENT HMTL MARKUP-->
-<img src = {imageURL} alt ="tba"/>
+<img src = {imageURL} alt ="An abstract image"/>
 
 
 

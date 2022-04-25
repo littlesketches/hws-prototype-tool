@@ -1,7 +1,7 @@
 <!-- EXPLORE PAGE COMPONENT-->
 <script>
 	import { fade }         from 'svelte/transition'
-    import TitleBlock       from '../components/shared/TitleBlock.svelte'
+    import TitleBlock       from '../components/shared/layout/TitleBlock.svelte'
     import ShareNew         from '../components/byPage/share/ShareNew.svelte'
     import ShareExisting    from '../components/byPage/share/ShareExisting.svelte'
     import ShareImage       from '../components/byPage/share/ShareImage.svelte'

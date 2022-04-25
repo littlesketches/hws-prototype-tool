@@ -1,8 +1,10 @@
 <!-- COMPONENT TO HANDLE QUICK SEARCH BOX -->
 <script>
-    import QuickSearch from './QuickSearch.svelte'
-    import { ui }       from '../../../data/stores.js'
-    import Magnify      from "svelte-material-icons/Magnify.svelte";
+    import Magnify              from "svelte-material-icons/Magnify.svelte";
+    import QuickSearch          from './QuickSearch.svelte'
+    import { ui }               from '../../../data/stores.js'
+    import { componentContent, infoModal } from '../../../data/content.js'
+
 
     /* Search by project name */
     let searchInput = ''
@@ -11,11 +13,7 @@
         window.scrollTo({top: 0, behavior: 'smooth'});
 
         if($ui.infoModal.showNotes && componentContent.messageModal.projectSearch){
-            $ui.infoModal.message = {
-                buttons:        [{ text: 'Ok, got it!', function:  'close', }],
-                header:         `&#9888; Project search is not yet wired up..`,
-                content:         componentContent.messageModal.projectSearch
-            }
+            $ui.infoModal.message = infoModal.projectSearch
             componentContent.messageModal.projectSearch = null
         }
     };
@@ -50,6 +48,6 @@
 
     }
     .input-icon:hover{
-        color: rgb(181, 15, 181);
+        color:         var(--userComment)
     }
 </style>

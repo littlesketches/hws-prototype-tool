@@ -1,7 +1,7 @@
 <!-- COMPONENT FOR SIMILAR PROJECTS-->
 <script>
     import ProjectCard          from '../../projects/ProjectCard.svelte'
-    import DividerZagged20px    from '../../misc/DividerZagged20px.svelte'
+    import DividerZagged20px    from '../../layout/DividerZagged20px.svelte'
     import { ui }               from '../../../../data/stores.js'
     import { database }         from '../../../../data/dataStores.js'
 

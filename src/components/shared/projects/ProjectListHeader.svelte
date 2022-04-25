@@ -1,7 +1,7 @@
 <script>
     import { fly }      from    'svelte/transition'
     import { ui }       from '../../../data/stores.js'
-    import { componentContent }       from '../../../data/content.js'
+    import { componentContent, infoModal }       from '../../../data/content.js'
 
     // Switch between cards and map  
     $ui.byPage.discover.projectView = 'cards'
@@ -14,13 +14,11 @@
         this.classList.add('selected')
 
         // Temporary info box for map
-        if($ui.byPage.discover.projectView === 'map'){
-            $ui.showMessage = {
-                buttons: [{ text: 'Ok, got it!', function:  'close', }],
-                header:         `&#9888; Map features are yet to be added`,
-                content:         componentContent.messageModal.projectMap
-            }
+        if($ui.byPage.discover.projectView === 'map' && $ui.infoModal.showNotes && componentContent.messageModal.projectMap){
+            $ui.infoModal.message = infoModal.projectMap
+            componentContent.messageModal.projectMap = null
         }
+
     };
 </script>
 
@@ -35,13 +33,11 @@
     </div>
         
     <div class = "switch-container">
-        <div on:click={switchView} name="cards" 
-            class = 'icon-container cards selected' type = 'button'>
+        <div on:click={switchView} name="cards" class = 'icon-container cards selected' type = 'button'>
             Cards
         </div>
         <div class = "icon-divider">|</div>
-        <div on:click={switchView} name="map" 
-            class = 'icon-container map' type = 'button'>
+        <div on:click={switchView} name="map" class = 'icon-container map' type = 'button'>
             Map
         </div>
     </div>

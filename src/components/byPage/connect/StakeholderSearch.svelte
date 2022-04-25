@@ -1,11 +1,11 @@
 <!-- STAKEHOLDER SEARCH OPTIONSCOMPONENT-->
 <script>
-	import MultiSelect          from '../../shared/MultiSelect.svelte';
-	import GenericMap           from '../../shared/map/GenericMap.svelte';
 	import { slide, fly }       from "svelte/transition";
+	import MultiSelect          from '../../shared/forms/MultiSelect.svelte';
+	import GenericMap           from '../../shared/map/GenericMap.svelte';
     import { ui }               from '../../../data/stores.js'
     import { database }         from '../../../data/dataStores.js'
-    import { componentContent } from '../../../data/content.js'
+    import { componentContent, infoModal } from '../../../data/content.js'
     import { keyValues, conditions, performanceObjectivesGroup, performanceObjectivesTheme, catchments, subcatchments, locations, leadOrg, leadOrgType, partnerOrg, projectType, projectStage, projectClass, projectSize, projectScale }  from '../../../data/selectorLists.js'
 
     ////// COLLAPSIBLE SEARCH PANES ////
@@ -36,17 +36,19 @@
 
         const shuffleArray = (array) => array.sort(() => Math.random() - 0.5)
         const organisationDatabase = $database.organisations
-        const randOrgNumber =  getRandomInt(0, 6)
+        const randOrgNumber =  getRandomInt(1, 6)
 
-        // Temporary info box for map
-        $ui.showMessage = {
-            buttons: [{ text: 'Ok, got it!', function:  'close', }],
-            header:         `&#9888; Stakeholder search is not yet wired up..`,
-            content:         componentContent.messageModal.stakeholderSearch
+        // Temporary info box for stakehoder search
+        if($ui.infoModal.showNotes && componentContent.messageModal.stakeholderSearch){
+            $ui.infoModal.message = infoModal.stakeholderSearch
+            componentContent.messageModal.stakeholderSearch = null
         }
+
         $ui.search.organisation = shuffleArray(organisationDatabase.slice(0, randOrgNumber))
 
+        ///////////////////////////////////////////
 
+        // Set UI based on curent page
         $ui.byPage.connect.main = 'list'
         $ui.byPage.connect.stakeholderSearch.isMade = true
         window.scrollTo({top: 0, behavior: 'smooth'});

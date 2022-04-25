@@ -6,7 +6,7 @@
     import { ui }            from '../../../data/stores.js'
     import { database }      from '../../../data/dataStores.js'
 
-    // Random project selection if no serach
+    // Random project selection if no serch
     const shuffleArray = (array) => array.sort(() => Math.random() - 0.5)
     const projectDatabase = $database.projects
     const projects = $ui.search.project.length > 0 ? $ui.search.project : shuffleArray(projectDatabase).slice(0, 6)
@@ -33,6 +33,7 @@
 <style>
     section{
         grid-area:              main;
+        z-index:                10;
     }
     ul{
         display:                grid;

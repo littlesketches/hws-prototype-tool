@@ -1,7 +1,7 @@
 <!-- COMPONENT FOR SIMILAR PROJECTS-->
 <script>
     import ProjectCard       from '../ProjectCard.svelte'
-    import DividerZagged20px from '../../misc/DividerZagged20px.svelte'
+    import DividerZagged20px from '../../layout/DividerZagged20px.svelte'
     import { ui }            from '../../../../data/stores.js'
     import { database }      from '../../../../data/dataStores.js'
 
@@ -21,15 +21,14 @@
 
 
 <!-- COMPONENT HTML MARKUP-->
-
-<section>
+<section id = "similar-projects">
     <DividerZagged20px/>
-    <h3>&#8212;&#8212; Similar projects to {projectData.name}</h3>
+    <h3>&mdash;&mdash; Similar projects to {projectData.name}</h3>
 
     <div class = 'group-container'>
-        <h4>&#8212; by waterways impact </h4>
+        <h4>&mdash; by waterways impact </h4>
         <div class = "card-container">
-            <ul>
+            <ul class = "unformatted">
                 {#each simImpactProjects as projectData, index}
                 <ProjectCard {projectData} {index} />
                 {/each}
@@ -38,9 +37,9 @@
     </div>
 
     <div class = 'group-container'>
-        <h4>&#8212; by projectType </h4>
+        <h4>&mdash; by projectType </h4>
         <div class = "card-container">
-            <ul>
+            <ul class = "unformatted">
                 {#each simProjectType as projectData, index}
                 <ProjectCard {projectData} {index} />
                 {/each}
@@ -49,9 +48,9 @@
     </div>
 
     <div class = 'group-container'>
-        <h4>&#8212; by location </h4>
+        <h4>&mdash; by location </h4>
         <div class = "card-container">
-            <ul>
+            <ul class = "unformatted">
                 {#each simLocationProjects as projectData, index}
                 <ProjectCard {projectData} {index} />
                 {/each}
@@ -60,9 +59,9 @@
     </div>
 
     <div class = 'group-container'>
-        <h4>&#8212; by project lead </h4>
+        <h4>&mdash; by project lead </h4>
         <div class = "card-container">
-            <ul>
+            <ul class = "unformatted">
                 {#each simLeadProjects as projectData, index}
                 <ProjectCard {projectData} {index} />
                 {/each}
@@ -75,20 +74,19 @@
 <!-- STYLE -->
 <style>
     section{
-        grid-area:      8 / 1 / 9 / 3;
-        border-bottom:     1.5vh solid #000;
-        margin-top:     2rem;
-        padding-top:    1rem;
+        grid-area:              8 / 1 / 9 / 3;
+        border-bottom:          1.5vh solid var(--darkGrey);
+        margin-top:             2rem;
+        padding-top:            1rem;
     }
     .group-container{
-        display:            grid;
-        margin-bottom:      2.5vw;
+        display:                grid;
+        margin-bottom:          2.5vw;
         grid-template-columns:  1fr 3fr;        
-
     }
     .card-container{
-        display:    grid;
-        column-gap: 2.5vw;
+        display:                grid;
+        column-gap:             2.5vw;
     }
     ul{
         display:                grid;
@@ -96,20 +94,13 @@
         width:                  100%;
         column-gap:             2.5vw;        
         row-gap:                2.5vw;   
-        list-style-type:        none;
-        border:                 0;
-        margin:                 0;
-        margin-block-start:     0;
-        margin-block-end:       0;
-        padding-inline-start:   0;
     }
-
     h3{
-        margin-block-end: 2rem;
+        margin-block-end:       2rem;
     }
     h4{
-        margin-block-start: 0;
-        font-size:          1rem;
-        font-weight:        500;
+        margin-block-start:     0;
+        font-size:              1rem;
+        font-weight:            500;
     }
 </style>

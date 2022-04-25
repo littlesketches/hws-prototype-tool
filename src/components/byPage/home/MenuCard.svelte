@@ -1,5 +1,5 @@
 <script>
-	import { ui }       from '../../../data/stores.js'
+	import { ui }           from '../../../data/stores.js'
     import {fade, fly}     from 'svelte/transition';
 
     export let pageData
@@ -7,10 +7,9 @@
 
     function switchPage(){
         $ui.page = this.getAttribute('name').toLowerCase()
-        $ui.showNav = true
+        $ui.state.showNav = true
     };
 </script>
-
 
 <!-- HTML -->
 <div class = 'card card-{index}' name={pageData.name}
@@ -28,21 +27,22 @@
 <!-- STYLES-->
 <style>
     hr{
-        border:         none;
-        border-top:     3px solid;
-        width:          10%;
-        margin:         0 auto;
+        border:             none;
+        border-top:         3px solid;
+        width:              10%;
+        margin:             0 auto;
     }
     h3{
-        font-size:      2.2vw;
-        margin-top:     0;
-        margin-bottom:  0.5rem;
-        text-transform: lowercase;
-        letter-spacing: 0.05rem;
+        font-size:          2.2vw;
+        margin-top:         0;
+        margin-bottom:      0.5rem;
+        text-transform:     lowercase;
+        letter-spacing:     0.05rem;
     }
     p{
-        font-size:      1.15vw;
-        line-height:    1.35;
+        font-size:          1.15vw;
+        line-height:        1.35;
+        font-weight:        400;
     }
     .card{
         width:              12.5vw;
@@ -61,10 +61,10 @@
         border-radius:      2rem 2rem 2rem 0rem;
     }
     .card:hover{
-        color:          #fff;
-        background:     rgba(0, 0, 0, 0.7);
-        border-color:   #fff;
-        font-weight:     500;
-        transform:      scale(1.15);
+        color:              #fff;
+        background:         rgba(0, 0, 0, 0.7);
+        border:             solid 3px #fff;
+        font-weight:        500;
+        transform:          scale(1.15);
     }
 </style>

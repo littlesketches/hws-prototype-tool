@@ -1,7 +1,7 @@
 <!-- DISCOVER PAGE INFO PANE COMPONENT-->
 <script>
 	import { fly }              from 'svelte/transition'
-    import DividerZagged20px    from "../../shared/misc/DividerZagged20px.svelte"
+    import DividerZagged20px    from "../../shared/layout/DividerZagged20px.svelte"
     import { ui }               from '../../../data/stores.js'
     import { componentContent } from '../../../data/content.js'
 </script>

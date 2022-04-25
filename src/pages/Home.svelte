@@ -1,12 +1,14 @@
 <!-- HOME PAGE COMPONENT-->
 <script>
-	import { fade }         from 'svelte/transition'
-	import Title    from '../components/byPage/home/Title.svelte'
-	import Menu     from '../components/byPage/home/Menu.svelte'
-    import Hero     from '../components/byPage/home/Hero.svelte'
-	import { ui }   from '../data/stores.js'	
+	import { fade }     from 'svelte/transition'
+	import { ui }       from '../data/stores.js'	
+	import Title        from '../components/byPage/home/Title.svelte'
+	import Menu         from '../components/byPage/home/Menu.svelte'
+    import Hero         from '../components/byPage/home/Hero.svelte'
+    import AboutArrow   from '../components/byPage/home/AboutArrow.svelte'
 
-    $ui.showNav = false
+
+    $ui.state.showNav = false
 </script>
 
 
@@ -15,6 +17,7 @@
     <Hero/>
     <Title/>
     <Menu/>
+    <AboutArrow/>
 </section>
 
 
