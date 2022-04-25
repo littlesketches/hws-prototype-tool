@@ -5,7 +5,7 @@
 	import MultiSelect          from '../forms/MultiSelect.svelte';
 	import SingleSelect         from '../forms/SingleSelect.svelte';
 	import MultiInput           from '../forms/MultiInput.svelte';
-	import GenericMap           from '../map/GenericMap.svelte';
+	import LeafletMap           from '../map/LeafletMap.svelte';
     import DividerZagged20px    from "../layout/DividerZagged20px.svelte"
     import { user, ui }         from '../../../data/stores.js'
     import { componentContent, infoModal } from '../../../data/content.js'
@@ -215,7 +215,7 @@
                         {/each}                
                     </MultiSelect>
                 </div>
-                <GenericMap/>
+                <LeafletMap/>
             </div>
             {/if}
         </div>

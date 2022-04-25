@@ -1,4 +1,5 @@
 import App from './App.svelte';
+import 'leaflet/dist/leaflet.css';
 
 const queryParams = new URLSearchParams(window.location.search)
 

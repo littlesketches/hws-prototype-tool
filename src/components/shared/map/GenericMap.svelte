@@ -1,4 +1,4 @@
-<!-- PROJECT LIST-->
+<!-- PROJECT MAP-->
 <script>
 	import { fade }    from 'svelte/transition'
 	import { ui } from '../../../data/stores.js'	 

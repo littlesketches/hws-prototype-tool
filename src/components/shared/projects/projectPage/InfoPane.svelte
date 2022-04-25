@@ -1,6 +1,6 @@
 <!-- PROJECT PAGE INFO PANE-->
 <script>
-    import GenericMap           from '../../map/GenericMap.svelte'
+    import LeafletMap           from '../../map/LeafletMap.svelte'
 	import { fade, slide }      from 'svelte/transition'
     import { ui }               from '../../../../data/stores.js'
     import { capitaliseFirst }  from '../../../../utils/helpers.js'
@@ -126,7 +126,7 @@
         </div>
 
         <!-- MAP CONTAINER-->
-        <GenericMap/>
+        <LeafletMap/>
         <!-- <div class = "container">
             <div id = "location" class="collapse__header" type="button" 
                 class:selected="{paneVisibility.location}" on:click={togglePane}>

@@ -2,7 +2,8 @@
 <script>
     import ProjectListHeader from './ProjectListHeader.svelte'
     import ProjectCard       from './ProjectCard.svelte'
-    import ProjectMap        from './ProjectMap.svelte'
+    import ProjectMap        from '../map/ProjectMap.svelte'
+    import LeafletMap        from '../map/LeafletMap.svelte'
     import { ui }            from '../../../data/stores.js'
     import { database }      from '../../../data/dataStores.js'
 
@@ -24,7 +25,7 @@
     </ul>
     
     {:else}
-    <ProjectMap/> 
+    <LeafletMap/> 
     {/if}
     
 </section>

@@ -4,6 +4,7 @@ import resolve from '@rollup/plugin-node-resolve';
 import livereload from 'rollup-plugin-livereload';
 import { terser } from 'rollup-plugin-terser';
 import css from 'rollup-plugin-css-only';
+import postcss from 'rollup-plugin-postcss';
 
 const production = !process.env.ROLLUP_WATCH;
 
@@ -40,12 +41,21 @@ export default {
 		svelte({
 			compilerOptions: {
 				// enable run-time checks when not in production
-				dev: !production
-			}
+				dev: !production,
+			},
+            emitCss: true
 		}),
+
 		// we'll extract any component CSS out into
 		// a separate file - better for performance
-		css({ output: 'bundle.css' }),
+		// css({ 
+        //     output: 'bundle.css' 
+        // }),
+        postcss({
+            extract: true,
+            output: 'bundle.css' 
+        }),
+
 
 		// If you have external dependencies installed from
 		// npm, you'll most likely need these plugins. In

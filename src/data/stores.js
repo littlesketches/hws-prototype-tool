@@ -22,11 +22,49 @@ export const user = writable({
 export const ui = writable({
     toolName:           null,
     page:               'home',
+    state: {
+        showNav:                false,
+        showMenuModal:          false,
+        showHelpModal:          false,
+        focus: {
+            projectData:            null,
+            stakeholderData:        null,
+            projectComments:        null
+        },
+    },
+    byPage:{ 
+        discover: {
+            main:                   'list',         // Project "list" or "search"
+            overlay:                 false,         // Whether the project details overlay page is showing    
+            projectView:            'cards',        // Project "cards" or "map"
+            projectSearch: {
+                isMade:             false,
+            }
+        },
+        connect: {
+            main:                   'list',         // Connection by "list" or "search"
+            overlay:                false,          // Whether the stakeholder/project overlay page is showing    
+            stakeholderView:        'cards',        // Project "cards" or "network"
+            stakeholderSearch: {
+                isMade:             false,
+            }
+        },
+        share: {
+            main:                   'search',      // Project "list" or "search"
+            overlay:                false,         // "newProject", "projectSearch", or "project"
+            projectView:            'cards',       // Project "cards" or "map"
+            projectSearch: {
+                isMade:             false,
+            }
+        },
+        join: {
+            form:                   'newUser'       // 'newUser' or  'login'
+        },
+        manage: {
+            overlay:                false,         // "newProject", "editProject" or "project"
+        }
 
-    showNav:            false,
-    showMenuModal:      false,
-    showHelpModal:      false,
-
+    },
     infoModal: {
         show:           true,      
         showNotes:      true,       // Flag for showing development user notes
@@ -78,9 +116,13 @@ export const ui = writable({
                             <hr>
                             `                        
         },
-        message:        null
+        // message:        null
     },
-
+    map:{
+        style:          'tonerBG',
+        attribution:    false,
+        data:           {}
+    },
     items: {
         pages:              []
     },
@@ -92,48 +134,5 @@ export const ui = writable({
     editProject: {
         id:                     null,
         data:                   null
-    },
-    state: {
-        showNav:                false,
-        showMenuModal:          false,
-        showHelpModal:          false,
-        focus: {
-            projectData:            null,
-            stakeholderData:        null,
-            projectComments:        null
-        },
-    },
-    byPage:{ 
-        discover: {
-            main:                   'list',         // Project "list" or "search"
-            overlay:                 false,         // Whether the project details overlay page is showing    
-            projectView:            'cards',        // Project "cards" or "map"
-            projectSearch: {
-                isMade:             false,
-            }
-        },
-        connect: {
-            main:                   'list',         // Connection by "list" or "search"
-            overlay:                false,          // Whether the stakeholder/project overlay page is showing    
-            stakeholderView:        'cards',        // Project "cards" or "network"
-            stakeholderSearch: {
-                isMade:             false,
-            }
-        },
-        share: {
-            main:                   'search',      // Project "list" or "search"
-            overlay:                false,         // "newProject", "projectSearch", or "project"
-            projectView:            'cards',       // Project "cards" or "map"
-            projectSearch: {
-                isMade:             false,
-            }
-        },
-        join: {
-            form:                   'newUser'       // 'newUser' or  'login'
-        },
-        manage: {
-            overlay:                false,         // "newProject", "editProject" or "project"
-        }
-
     }
 })
