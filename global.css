@@ -91,6 +91,10 @@ button:focus {
 .faded{
 	opacity:                0.25
 }
+section.manage.hidden{
+    display:                none;
+}
+
 ul.unformatted{
 	list-style-type: 		none;
 	border: 				0;
