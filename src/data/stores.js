@@ -86,28 +86,28 @@ export const ui = writable({
                             <hr>
                             <div style="display:flex; justify-content:center; text-align: center;">
                                 <div class="contact" style="width: 20%; padding:0.5rem; font-size: 0.8rem; margin:auto 0">
-                                    Feedback and further info: &rarr;
+                                    Feedback and further info (TBA): &rarr;
                                 </div>
                                 <div class="contact" style="width: 20%; padding:0.5rem">
-                                    <a>
+                                    <a style="color: #fff">
                                         <div>EMAIL</div>
                                         <div style="font-size: 0.8rem">Get in touch directly</div>
                                     </a>
                                 </div>
                                 <div style="width: 20%; padding:0.5rem">
-                                    <a>
+                                    <a style="color: #fff">
                                         <div>AIRTABLE</div>
                                         <div style="font-size: 0.8rem">Issues and suggestions</div>
                                     </a>
                                 </div>
                                 <div style="width: 20%; padding:0.5rem">
-                                    <a>
+                                    <a style="color: #fff">
                                         <div>FIGMA</div>
                                         <div style="font-size: 0.8rem">UI/UX design</div>
                                     </a>
                                 </div>
                                 <div style="width: 20%; padding:0.5rem">
-                                    <a href="https://github.com/littlesketches/mw-collab-tool-proto" target="_blank">
+                                    <a href="https://github.com/littlesketches/mw-collab-tool-proto" target="_blank" style="color: #fff">
                                         <div>GITHUB</div>
                                         <div style="font-size: 0.8rem">Code repository</div>
                                     </a>
