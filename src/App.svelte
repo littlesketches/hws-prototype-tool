@@ -7,9 +7,9 @@
 	import Share 		from './pages/Share.svelte'
 	import Join 		from './pages/Join.svelte'
 	import Manage 		from './pages/Manage.svelte'
-	import Nav 			from './components/shared/Nav.svelte'
-	import Footer 		from './components/shared/Footer.svelte'
-	import ModalMessage from './components/shared/ModalMessage.svelte'
+	import Nav 			from './components/shared/ui/Nav.svelte'
+	import ModalMessage from './components/shared/ui/ModalMessage.svelte'
+	import Footer 		from './components/shared/layout/Footer.svelte'
 	import Realm 		from './components/data/Realm.svelte'
 	import { user, ui } from './data/stores.js'	 
 	import { getContent, getMenuOptions } from './data/content.js'	 
@@ -19,7 +19,7 @@
 
 	$user.isRegistered = queryParams.get('userRegistered') === 'true' ? true : false
 	const promiseContent = getContent()
-console.log($ui.infoModal)
+
 </script>	
 
 

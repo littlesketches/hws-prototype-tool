@@ -1,5 +1,5 @@
-import * as d3 from 'd3'
-import { csvParse } from 'd3'
+// import * as d3 from 'd3'
+import { tsv } from 'd3'
 import { compute_rest_props } from 'svelte/internal'
 import { ui } from './stores.js'	 
 
@@ -10,10 +10,11 @@ export {
     getContent,
     getRandomStockImgPath, 
     getRandomAbstractImgPath,
-    getRandomStockSplashImgPath
+    getRandomStockSplashImgPath,
+    infoModal
 }
 
-
+let infoModal
 ///// EXPORTED METHODS /////
 function getMenuOptions(user){
     if(user.isRegistered){
@@ -61,7 +62,7 @@ let pages = {} , componentContent = {}
 
 async function getContent(){
 
-	const data = await d3.tsv('https://docs.google.com/spreadsheets/d/e/2PACX-1vQ36HUgHmF_LDKH5Nfn6jLPyo56ygQu5vIgCqHa1md8cQCPvvSXhOGmudo_8zWftxu-Sx3lrU14Pwy4/pub?gid=0&single=true&output=tsv')
+	const data = await tsv('https://docs.google.com/spreadsheets/d/e/2PACX-1vQ36HUgHmF_LDKH5Nfn6jLPyo56ygQu5vIgCqHa1md8cQCPvvSXhOGmudo_8zWftxu-Sx3lrU14Pwy4/pub?gid=0&single=true&output=tsv')
     const getHTML = (ref) => data.filter(d => d.reference === ref)[0].content;
     console.log("Loaded content data: ", data)
     toolName = getHTML('toolName')
@@ -129,16 +130,19 @@ async function getContent(){
 
         //  PAGES AND 
         about: {
-            title:                      `${getHTML('component.about.title')} ${toolName}`,
-            intro:                      getHTML('component.about.intro'),
-            section_01_title:           getHTML('component.about.section_01_title'),   
-            section_01_description:     getHTML('component.about.section_01_description'),   
-            section_02_title:           getHTML('component.about.section_02_title'),  
-            section_02_description:     getHTML('component.about.section_02_description'),  
-            section_03_title:           getHTML('component.about.section_03_title'),   
-            section_03_description:     getHTML('component.about.section_03_description'),  
-            section_04_title:           getHTML('component.about.section_04_title'),    
-            section_04_description:     getHTML('component.about.section_04_description')
+            title:                          getHTML('component.about.title'),
+            intro:                          getHTML('component.about.intro'),
+            section_01_title:               getHTML('component.about.section_01_title'),   
+            section_01_description:         getHTML('component.about.section_01_description'),   
+            section_02_title:               getHTML('component.about.section_02_title'),  
+            section_02_description:         getHTML('component.about.section_02_description'),  
+            section_03_title:               getHTML('component.about.section_03_title'),   
+            section_03_description:         getHTML('component.about.section_03_description'),  
+            section_04_title:               getHTML('component.about.section_04_title'),    
+            section_04_description:         getHTML('component.about.section_04_description'),
+            section_05_title:               getHTML('component.about.section_05_title'),    
+            section_05_description_A:       getHTML('component.about.section_05_description_A'),
+            section_05_description_B:       getHTML('component.about.section_05_description_B')
         },
 
         discover: {
@@ -168,7 +172,6 @@ async function getContent(){
                 networkDesc:            getHTML('component.connect.info.networkDesc'),
                 searchResultsHeader:    getHTML('component.connect.info.searchResultsHeader'),
                 searchResultsDesc:      getHTML('component.connect.info.searchResultsDesc'),
-                searchResultsOptions:   getHTML('component.connect.info.searchResultsOptions'),
             }
         },
 
@@ -247,16 +250,22 @@ async function getContent(){
 
         // MESSAGE MODALS
         messageModal: {
+            aboutOtherResources:        getHTML('messageModal.aboutOtherResources'),
+            aboutToolHelp:              getHTML('messageModal.aboutToolHelp'),
+            aboutToolGovernance:        getHTML('messageModal.aboutToolGovernance'),
             setUserPreferences:         getHTML('messageModal.setUserPreferences'),
             updateUserDetails:          getHTML('messageModal.updateUserDetails'),
             projectSearch:              getHTML('messageModal.projectSearch'),
             projectMap:                 getHTML('messageModal.projectMap'),
             stakeholderSearch:          getHTML('messageModal.stakeholderSearch'),
             stakeholderNetwork:         getHTML('messageModal.stakeholderNetwork'),
-            locationSearch:             getHTML('messageModal.locationSearch'),
             createAccount:              getHTML('messageModal.createAccount'),
             loginToComment:             getHTML('messageModal.loginToComment'),
-            login:                      getHTML('messageModal.login')
+            login:                      getHTML('messageModal.login'),
+            newProjectSavePost:         getHTML('messageModal.newProjectSavePost'),
+            projectPage:                getHTML('messageModal.projectPage'),
+            orgPage:                    getHTML('messageModal.orgPage'),
+            newProjectPage:             getHTML('messageModal.newProjectPage'),
         },
 
         // MISC COMPONENTS
@@ -264,6 +273,64 @@ async function getContent(){
             feedbackInstruction:        getHTML('component.misc.feedbackInstruction')
         }
     }
+
+    // 3. Create infomodal content
+
+    infoModal = {
+        toolGovernance: {
+            buttons:        [{ text: 'Ok, got it!', function:  'close', }],
+            header:         `About the development and governance of the Tool.`,
+            content:         componentContent.messageModal.aboutToolGovernance
+        },
+        otherResources: {
+            buttons:        [{ text: 'Ok, got it!', function:  'close', }],
+            header:         `Other resources`,
+            content:         componentContent.messageModal.aboutOtherResources
+        },
+        toolGuidance: {
+            buttons:        [{ text: 'Ok, got it!', function:  'close', }],
+            header:         `About help and guidance in the Tool.`,
+            content:         componentContent.messageModal.aboutToolGovernance
+        },
+        projectSearch: {
+            buttons:        [{ text: 'Ok, got it!', function:  'close', }],
+            header:         `&#9888; Project search is not fully functional`,
+            content:         componentContent.messageModal.projectSearch
+        },
+        projectMap: {
+            buttons:        [{ text: 'Ok, got it!', function:  'close', }],
+            header:         `&#9888; Map features are yet to be added`,
+            content:         componentContent.messageModal.projectMap
+        },
+        stakeholderSearch: {
+            buttons:        [{ text: 'Ok, got it!', function:  'close', }],
+            header:         `&#9888; Stakeholder search is not fully functional`,
+            content:         componentContent.messageModal.stakeholderSearch
+        },
+        stakeholderNetwork: {
+            buttons:        [{ text: 'Ok, got it!', function:  'close', }],
+            header:         `&#9888; Stakeholder network visualisation is not functional`,
+            content:         componentContent.messageModal.stakeholderNetwork
+        },
+        createAccount: {
+            buttons:        [{ text: 'Ok, got it!', function:  'close', }],
+            header:         `&#9888; Create and account is not fully functional`,
+            content:         componentContent.messageModal.createAccount
+        },
+        login: {
+            buttons:        [{ text: 'Ok, got it!', function:  'close', }],
+            header:         `&#9888; Login is "faked"`,
+            content:         componentContent.messageModal.login
+        },
+        newProjectPage: {
+            buttons:        [{ text: 'Ok, got it!', function:  'close', }],
+            header:         `&#9888; Adding/editing a project is not fully functional"`,
+            content:         componentContent.messageModal.newProjectPage
+        }
+
+    }
+
+
 };
 
 
