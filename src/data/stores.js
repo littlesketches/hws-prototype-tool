@@ -102,7 +102,7 @@ export const ui = writable({
                                     </a>
                                 </div>
                                 <div style="width: 20%; padding:0.5rem; cursor:pointer">
-                                    <a style = "color: #fff" >
+                                    <a style = "color: #fff" href="https://www.figma.com/file/Kp2lrQynVAIS5tAlMy8whO/Collaborative-Tool-Wireframe-design" target="_blank">
                                         <div style="font-size: 3rem">&#x2692;</div>
                                         <div style="font-size: 0.8rem">UI/UX wireframes + feedback (Figma)</div>
                                     </a>

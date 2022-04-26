@@ -51,7 +51,7 @@
     <!-- Help button : top left-->
     <div class = "helpButton-container" >
         <div id="helpButton" on:mouseover={showHelpOption} on:focus={showHelpOption} on:click={openHelpModal}>
-            <svg id = "help-icon" class ="help-icon nav-icon invert" width = "45%" viewbox = "0 0 50 50">
+            <svg id = "help-icon" class ="help-icon nav-icon" width = "45%" viewbox = "0 0 50 50">
                 <circle cx = 25 cy = 25 r = 22.5></circle>
                 <text x = 25 y = 40>i</text>
             </svg>
@@ -81,7 +81,7 @@
                 </svg>        
             {/if}
 
-        <!-- B. Close any page  overlay-->
+        <!-- B. Close any page overlay-->
         {:else}
         <svg id = "menu-icon" class ="nav-icon" width = "100%" viewbox = "0 0 50 50" on:click={closeModalPage}>
             <circle cx = 25 cy = 25 r = 22.5></circle>         
@@ -161,7 +161,7 @@
         height:             7.5vw;
         width:              7.5vw; 
         clip-path:          polygon(0 0, 100% 0, 0 100%);
-        background-color:   var(--darkGrey);
+        background-color:   rgb(226, 255, 36);
         pointer-events:     none;
         transition:         200ms all;
         transform:          translate(-1vw, -1vw)
@@ -176,7 +176,7 @@
     }
     #helpButton svg{
         padding:            8px 2.5vw 2.5vw 8px;
-        fill:               #fff;
+        fill:               var(--darkGrey);
     }
 
     .help-icon{
