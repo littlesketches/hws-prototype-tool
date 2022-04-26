@@ -76,40 +76,41 @@ export const ui = writable({
                 },
             ],      
             header:         '&#9888; THIS IS A PROTOTYPE &#9888; ',
-            content:        `<p>This prototype 'collaborative tool' is made to explore the concept of an online tool for waterways stakeholders to share what they're doing (or planning) in our catchments, as well their thoughts, ideas and knowledge about what's happening. 
-                            With this in mind, this early  prototype focuses on establishing core project and stakeholder "search", and project or feedback "share" features that are building blocks for more sophisticated collaborative features.</p>
+            content:        `<p>This 'prototype collaborative tool' is made to explore the concept of an online tool for all waterways stakeholders to share what they're doing or planning to do (that we simply term as 'projects'), as well their thoughts and knowledge about what else is happening.                             
+                            This early prototype focuses on establishing core features for project and stakeholder "search", and for "sharing" new projects or feedback.
+                            We think of these as building blocks for more sophisticated collaborative features that might be later co-designed with users of the Tool.</p>
                             <p>The prototype is <strong>not a complete tool</strong> but is intended to be a more concrete and cohesive proof of concept suitable for: explaining the basic purpose of the tool itself, exploring design and development directions, and for testing and/or further co-design with real users. 
                                 The prototype is however developed as a custom application and will (hopefully) soon feature real (but not yet'real time') project data. 
                             </p>
                             <p>This prototype is a starting point for surfacing ideas from users about the merits of an online tool, and <strong>'what else'</strong> might be needed to turn into a useful platform to foster collaboration between waterways stakeholders to take action to protect and improve the health of our waterways.
                             </p>
                             <hr>
-                            <div style="display:flex; justify-content:center; text-align: center;">
+                            <div style="display:flex; justify-content:center; text-align: center; color: #fff">
                                 <div class="contact" style="width: 20%; padding:0.5rem; font-size: 0.8rem; margin:auto 0">
-                                    Feedback and further info (TBA): &rarr;
+                                    Feedback and further info: &rarr;
                                 </div>
-                                <div class="contact" style="width: 20%; padding:0.5rem">
-                                    <a style="color: #fff">
-                                        <div>EMAIL</div>
-                                        <div style="font-size: 0.8rem">Get in touch directly</div>
+                                <div style="width: 20%; padding:0.5rem; cursor:pointer">
+                                    <a style = "color: #fff" href="mailto:Gail.Hall@melbournewater.com.au?subject=MW Collaborative Tool Prototype&cc=brendan@littlesketch.es">
+                                        <div style="font-size: 3rem">&#9993;</div>
+                                        <div style="font-size: 0.8rem">Email the prototype team directly</div>
                                     </a>
                                 </div>
-                                <div style="width: 20%; padding:0.5rem">
-                                    <a style="color: #fff">
-                                        <div>AIRTABLE</div>
-                                        <div style="font-size: 0.8rem">Issues and suggestions</div>
+                                <div style="width: 20%; padding:0.5rem; cursor:pointer">
+                                    <a style = "color: #fff" >
+                                       <div style="font-size: 3rem">&quest;</div>
+                                        <div style="font-size: 0.8rem">Issues and suggestions (Airtable)</div>
                                     </a>
                                 </div>
-                                <div style="width: 20%; padding:0.5rem">
-                                    <a style="color: #fff">
-                                        <div>FIGMA</div>
-                                        <div style="font-size: 0.8rem">UI/UX design</div>
+                                <div style="width: 20%; padding:0.5rem; cursor:pointer">
+                                    <a style = "color: #fff" >
+                                        <div style="font-size: 3rem">&#x2692;</div>
+                                        <div style="font-size: 0.8rem">UI/UX wireframes + feedback (Figma)</div>
                                     </a>
                                 </div>
-                                <div style="width: 20%; padding:0.5rem">
-                                    <a href="https://github.com/littlesketches/mw-collab-tool-proto" target="_blank" style="color: #fff">
-                                        <div>GITHUB</div>
-                                        <div style="font-size: 0.8rem">Code repository</div>
+                                <div style="width: 20%; padding:0.5rem; cursor:pointer">
+                                    <a style = "color: #fff"  href="https://github.com/littlesketches/mw-collab-tool-proto" target="_blank">
+                                        <div style="font-size: 3rem">< /></div>
+                                        <div style="font-size: 0.8rem">Code repository + documentation (Github)</div>
                                     </a>
                                 </div>
                             </div>

@@ -64,7 +64,7 @@
         <!-- A. Menu and help modal -->
         {#if !$ui.byPage.discover.overlay && !$ui.byPage.connect.overlay && !$ui.byPage.share.overlay  && !$ui.byPage.manage.overlay }            
             <!-- 1. Toggle the modal menu-->
-            {#if !$ui.state.yshowHelpModal}
+            {#if !$ui.state.showHelpModal}
                 <svg id = "menu-icon" class ="nav-icon" width = "100%" viewbox = "0 0 50 50" on:click={toggleMenu} class:invert={$ui.state.showMenuModal}>
                     <circle cx = 25 cy = 25 r = 22.5></circle>         
                     {#if !$ui.state.showMenuModal}

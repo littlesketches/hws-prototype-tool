@@ -2,7 +2,7 @@
 <script>
 	import { slide, fly }       from "svelte/transition";
 	import MultiSelect          from '../../shared/forms/MultiSelect.svelte';
-	import GenericMap           from '../../shared/map/GenericMap.svelte';
+	import LeafletMap           from '../../shared/map/LeafletMap.svelte';
     import { ui }               from '../../../data/stores.js'
     import { database }         from '../../../data/dataStores.js'
     import { componentContent, infoModal } from '../../../data/content.js'
@@ -183,7 +183,7 @@
                 </MultiSelect>
             </div>
             <div class = 'note'>Location searches will be 'smarter' and linked to the map view</div>
-            <GenericMap/>
+            <LeafletMap/>
         </div>
         {/if}
     </div>
