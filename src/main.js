@@ -17,13 +17,10 @@ base('content').select({
     records.forEach(record => airtableData.push(record.fields) )
     fetchNextPage()
 }, async function done(err) {
-    console.log(airtableData)
-
     app = new App({
         target: document.body,
         props: {airtableData, queryParams}, 
     });
-
 
     if (err) { console.error(err); return; }
 })
