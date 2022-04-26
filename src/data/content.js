@@ -1,4 +1,3 @@
-// import * as d3 from 'd3'
 import { tsv } from 'd3'
 import { compute_rest_props } from 'svelte/internal'
 import { ui } from './stores.js'	 
@@ -60,13 +59,14 @@ function getRandomStockSplashImgPath(index){
 let toolName = 'Collaborative tool'
 let pages = {} , componentContent = {}
 
-async function getContent(){
+async function getContent(data){
+    // Google sheets (if Airtable not used)
+	// const data = await tsv('https://docs.google.com/spreadsheets/d/e/2PACX-1vQ36HUgHmF_LDKH5Nfn6jLPyo56ygQu5vIgCqHa1md8cQCPvvSXhOGmudo_8zWftxu-Sx3lrU14Pwy4/pub?gid=0&single=true&output=tsv')
 
-	const data = await tsv('https://docs.google.com/spreadsheets/d/e/2PACX-1vQ36HUgHmF_LDKH5Nfn6jLPyo56ygQu5vIgCqHa1md8cQCPvvSXhOGmudo_8zWftxu-Sx3lrU14Pwy4/pub?gid=0&single=true&output=tsv')
     const getHTML = (ref) => data.filter(d => d.reference === ref)[0].content;
     console.log("Loaded content data: ", data)
-    toolName = getHTML('toolName')
 
+    toolName = getHTML('toolName')
 
     // 1. Extract and shape the "Pages section" content
     pages = {
@@ -119,7 +119,6 @@ async function getContent(){
             }
         ]
     }
-
 
     // 2. Extract and shape "Component" content 
     componentContent = {
@@ -275,7 +274,6 @@ async function getContent(){
     }
 
     // 3. Create infomodal content
-
     infoModal = {
         toolGovernance: {
             buttons:        [{ text: 'Ok, got it!', function:  'close', }],
@@ -329,8 +327,6 @@ async function getContent(){
         }
 
     }
-
-
 };
 
 

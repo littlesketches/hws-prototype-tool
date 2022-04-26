@@ -12,13 +12,15 @@
 	import Footer 		from './components/shared/layout/Footer.svelte'
 	import Realm 		from './components/data/Realm.svelte'
 	import { user, ui } from './data/stores.js'	 
-	import { getContent, getMenuOptions } from './data/content.js'	 
+	import { getContent,  getMenuOptions } from './data/content.js'	 
     import { database } from './data/dataStores.js'
 
     export let queryParams
+    export let airtableData
 
+    console.log(airtableData, queryParams)
 	$user.isRegistered = queryParams.get('userRegistered') === 'true' ? true : false
-	const promiseContent = getContent()
+	const promiseContent = getContent(airtableData)
 
 </script>	
 
