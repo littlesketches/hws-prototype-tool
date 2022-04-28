@@ -13,7 +13,7 @@ const base = new airtable({apiKey:'key3EFjfpM7LqvZGK'}).base('app33PA35zad9gevY'
 const airtableData = []
 
 base('content').select({
-    maxRecords: 100,
+    maxRecords: 200,
     view: "Grid view"
 }).eachPage(function page(records, fetchNextPage) {
     records.forEach(record => airtableData.push(record.fields) )
