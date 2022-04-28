@@ -209,7 +209,7 @@
 
             <div class = 'note'>More 'by date' search characters TBA</div>
 
-            <div class = 'multi-select-container' style="z-index:15">
+            <div class = 'multi-select-container' style="z-index:13">
                 <h4>{@html projectType.label}</h4>
                 <MultiSelect id = {projectType.name} bind:value={$ui.search.project.projectType} placeholder={projectType.placeholder} >
                     <option disabled selected value></option>

@@ -17,7 +17,7 @@
 
     export let queryParams
     export let airtableData
-
+    
 	$user.isRegistered = queryParams.get('userRegistered') === 'true' ? true : false
 	const promiseContent = getContent(airtableData)
 

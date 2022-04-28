@@ -18,6 +18,8 @@
         console.log(`Toggling ${this.id} to `, paneVisibility[this.id])
     };
 
+    console.log($ui.state.focus.projectData)
+    console.log($ui.state.focus.projectData.status.stage)
 </script>
 
 
@@ -59,7 +61,7 @@
             <div class ='info-label'>Status:</div>
             <div class ='info-content'>{capitaliseFirst(projectData.status.stage)}</div>
         </div>
-        {#if projectData.status.stage === 'complete' || projectData.status.stage === 'ongoing'}
+        {#if projectData.status.stage === 'Complete' || projectData.status.stage === 'Operational'}
         <div class='info-row'>
             <div class ='info-label'>Completion date:</div>
             <div class ='info-content'>{projectData.status.dates.completion}</div>

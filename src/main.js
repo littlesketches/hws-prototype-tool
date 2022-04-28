@@ -3,15 +3,17 @@ import 'leaflet/dist/leaflet.css';
 import airtable from 'airtable'
 
 export {app} 
-
-const queryParams = new URLSearchParams(window.location.search)
 let app
 
-// Airtable 
+const queryParams = new URLSearchParams(window.location.search)
+
+
+// Airtable CMS
 const base = new airtable({apiKey:'key3EFjfpM7LqvZGK'}).base('app33PA35zad9gevY');
 const airtableData = []
+
 base('content').select({
-    maxRecords: 110,
+    maxRecords: 100,
     view: "Grid view"
 }).eachPage(function page(records, fetchNextPage) {
     records.forEach(record => airtableData.push(record.fields) )

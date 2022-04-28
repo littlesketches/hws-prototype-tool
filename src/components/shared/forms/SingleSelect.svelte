@@ -8,9 +8,7 @@
     onMount( () =>{
         document.getElementsByTagName('select').value = ""
     })
-
 </script>
-
 
 
 <!-- COMPONENT HTML MARKUP -->

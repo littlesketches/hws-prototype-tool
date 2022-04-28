@@ -1,6 +1,6 @@
 <!-- PROJECT ENTRY FORM-->
 <script>
-	import { fly, fade, slide }       from 'svelte/transition'
+	import { fly, fade, slide } from 'svelte/transition'
 	import MultiLinkInput       from '../forms/MultiLinkInput.svelte';
 	import MultiSelect          from '../forms/MultiSelect.svelte';
 	import SingleSelect         from '../forms/SingleSelect.svelte';

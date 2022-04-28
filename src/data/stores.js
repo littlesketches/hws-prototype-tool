@@ -109,7 +109,7 @@ export const ui = writable({
                                 </div>
                                 <div style="width: 20%; padding:0.5rem; cursor:pointer">
                                     <a style = "color: #fff"  href="https://github.com/littlesketches/mw-collab-tool-proto" target="_blank">
-                                        <div style="font-size: 3rem">< /></div>
+                                        <div style="font-size: 2rem; padding-top: 0.75rem; padding-bottom: 0.45rem">< /></div>
                                         <div style="font-size: 0.8rem">Code repository + documentation (Github)</div>
                                     </a>
                                 </div>

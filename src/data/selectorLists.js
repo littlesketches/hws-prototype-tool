@@ -62,36 +62,37 @@ export { keyValues, conditions, performanceObjectivesGroup, performanceObjective
     const projectType = {
         label:              'by type',
         name:               'projectType',
-        list:               projectSchema.type,
+        list:               projectSchema.type.map(d => d.name),
         placeholder:        'Use this field to select initiative type(s)',
-        placeholderSingle:  'Use this field to select initiative type'
+        placeholderSingle:  'Use this field to select a initiative type'
     }
     const projectStage = {
         label:              'by stage',
         name:               'projectStage',
-        list:               projectSchema.stage,
+        list:               projectSchema.stage.map(d => d.name),
         placeholder:        'Use this field to select project stage(s)',
-        placeholderSingle:  'Use this field to select project stage(s)'
+        placeholderSingle:  'Use this field to select a project stage'
     }
     const projectClass = {
         label:              'by class',
         name:               'projectClass',
-        list:               projectSchema.class,
-        placeholder:        'Use this field to select project class(es)'
+        list:               projectSchema.class.map(d => d.name),
+        placeholder:        'Use this field to select project class(es)',
+        placeholderSingle:  'Use this field to select a project class'
     }
     const projectSize = {
         label:              'by size',
         name:               'projectSize',
         list:               projectSchema.size,
         placeholder:        'Use this field to select project size(s)',
-        placeholderSingle:  'Use this field to select project size'
+        placeholderSingle:  'Use this field to select a project size'
     }
     const projectScale = {
         label:              'by scale',
         name:               'projectScale',
         list:               projectSchema.scale,
         placeholder:        'Use this field to select project scale(s)',
-        placeholderSingle:  'Use this field to select project scale'
+        placeholderSingle:  'Use this field to select a project scale'
     }
 
     // Project stakeholders

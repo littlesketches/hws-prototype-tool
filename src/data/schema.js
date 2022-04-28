@@ -35937,32 +35937,115 @@ const projectSchema =  {
         'Other insutitions and landowners', 
         'Private development organisations'
     ],
-    stage: [
-        'Idea', 
-        'Concept', 
-        'Research', 
-        'Pre-feasibility', 
-        'Feasibility', 
-        'In development', 
-        'Ongoing', 
-        'Completed'
-        ],
+    stage: [ 
+        {   
+            stageIndex: 0,
+            name: 'Idea', 
+            description: "Concepts and early stage ideas that have not yet been explored in any form of research and/or exploration",
+            date: 'optional'
+
+        },   
+        {   
+            stageIndex: 1,
+            name: 'Research: pre-feasibility', 
+            description: "A project idea being actively explored to for its desirability and technical feasibility",
+            date: 'optional'
+        },  
+        {   
+            stageIndex: 2,
+            name: 'Research: feasibility', 
+            description: `A project that has satisfied the pre-feasibility stage and is now being explored for practical application in the local context.
+                A compelling 'business case' with community support is a  common outcome. `,
+            date: 'optional'
+        },  
+        {
+            stageIndex: 3,
+            name:  'Planned', 
+            description: 'A project that is supported and funded that will no',
+            date: 'required'        
+        },
+        {
+            stageIndex: 4,
+            name:  'Under construction', 
+            description: 'A capital works project currently being built',
+            date: 'required'        
+        },
+        {
+            stageIndex: 5,
+            name:  'Completed', 
+            description: 'A one off project (e.g. an event) that has now been completed', // Completed?
+            date: 'required'        
+        },
+        {
+            stageIndex: 5,
+            name:  'Operational', 
+            description: 'A project that is now in operation', // Completed?
+            date: 'required'        
+        }
+    ],
     type: [
-        'Research', 
-        'Funding and facilitation', 
-        'Policy', 
-        'Capital works'
+        {
+            name: 'Building and capital works',
+            description: 'tba'
+        },
+        {
+            name: 'Community programs and activities',
+            description: 'tba'
+        },
+        {
+            name: 'Maintenance works',
+            description: 'tba'
+        },
+        {
+            name: 'Research',
+            description: 'tba'
+        },
+        {
+            name: 'Funding and facilitation',
+            description: 'tba'
+        },
+        {
+            name: 'Policy and funding',
+            description: 'tba'
+        }
     ],
     class: [
-        'Advocacy',
-        'Asset protection and renewal',
-        'Enforcement',
-        'Environmental water and diversions management',
-        'Improved planning controls',
-        'Integrated stormwater management',
-        'Knowledge-sharing',
-        'Research and monitoring',
-        'Vegetation and habitat management'
+        {
+            name: 'Advocacy',
+            description: 'tba'
+        },
+        {
+            name: 'Asset protection and renewal',
+            description: 'tba'
+        },
+        {
+            name: 'Enforcement',
+            description: 'tba'
+        },
+        {
+            name: 'Environmental water and diversions management',
+            description: 'tba'
+        },
+        {
+            name: 'Improved planning controls',
+            description: 'tba'
+        },
+        {
+            name: 'Integrated stormwater management',
+            description: 'tba'
+        },
+        {
+            name: 'Knowledge-sharing',
+            description: 'tba'
+        },
+        {
+            name: 'Research and monitoring',
+            description: 'tba'
+        },
+        {
+            name: 'Vegetation and habitat management',
+            description: 'tba'
+        }
     ],
     size: [
         'Small', 
@@ -35973,7 +36056,7 @@ const projectSchema =  {
         'Sub-catchment', 
         'Catchment', 
         'Multiple catchments'
-    ],
+    ]
 }
 
 const locationMapped = {
