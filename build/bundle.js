@@ -102829,7 +102829,7 @@ var app = (function (exports) {
     const airtableData = [];
 
     base('content').select({
-        maxRecords: 100,
+        maxRecords: 200,
         view: "Grid view"
     }).eachPage(function page(records, fetchNextPage) {
         records.forEach(record => airtableData.push(record.fields) );
