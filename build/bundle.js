@@ -1361,7 +1361,7 @@ var app = (function (exports) {
                                 </div>
                                 <div style="width: 20%; padding:0.5rem; cursor:pointer">
                                     <a style = "color: #fff"  href="https://github.com/littlesketches/mw-collab-tool-proto" target="_blank">
-                                        <div style="font-size: 3rem">< /></div>
+                                        <div style="font-size: 2rem; padding-top: 0.75rem; padding-bottom: 0.45rem">< /></div>
                                         <div style="font-size: 0.8rem">Code repository + documentation (Github)</div>
                                     </a>
                                 </div>
@@ -47085,32 +47085,115 @@ var app = (function (exports) {
             'Other insutitions and landowners', 
             'Private development organisations'
         ],
-        stage: [
-            'Idea', 
-            'Concept', 
-            'Research', 
-            'Pre-feasibility', 
-            'Feasibility', 
-            'In development', 
-            'Ongoing', 
-            'Completed'
-            ],
+        stage: [ 
+            {   
+                stageIndex: 0,
+                name: 'Idea', 
+                description: "Concepts and early stage ideas that have not yet been explored in any form of research and/or exploration",
+                date: 'optional'
+
+            },   
+            {   
+                stageIndex: 1,
+                name: 'Research: pre-feasibility', 
+                description: "A project idea being actively explored to for its desirability and technical feasibility",
+                date: 'optional'
+            },  
+            {   
+                stageIndex: 2,
+                name: 'Research: feasibility', 
+                description: `A project that has satisfied the pre-feasibility stage and is now being explored for practical application in the local context.
+                A compelling 'business case' with community support is a  common outcome. `,
+                date: 'optional'
+            },  
+            {
+                stageIndex: 3,
+                name:  'Planned', 
+                description: 'A project that is supported and funded that will no',
+                date: 'required'        
+            },
+            {
+                stageIndex: 4,
+                name:  'Under construction', 
+                description: 'A capital works project currently being built',
+                date: 'required'        
+            },
+            {
+                stageIndex: 5,
+                name:  'Completed', 
+                description: 'A one off project (e.g. an event) that has now been completed', // Completed?
+                date: 'required'        
+            },
+            {
+                stageIndex: 5,
+                name:  'Operational', 
+                description: 'A project that is now in operation', // Completed?
+                date: 'required'        
+            }
+        ],
         type: [
-            'Research', 
-            'Funding and facilitation', 
-            'Policy', 
-            'Capital works'
+            {
+                name: 'Building and capital works',
+                description: 'tba'
+            },
+            {
+                name: 'Community programs and activities',
+                description: 'tba'
+            },
+            {
+                name: 'Maintenance works',
+                description: 'tba'
+            },
+            {
+                name: 'Research',
+                description: 'tba'
+            },
+            {
+                name: 'Funding and facilitation',
+                description: 'tba'
+            },
+            {
+                name: 'Policy and funding',
+                description: 'tba'
+            }
         ],
         class: [
-            'Advocacy',
-            'Asset protection and renewal',
-            'Enforcement',
-            'Environmental water and diversions management',
-            'Improved planning controls',
-            'Integrated stormwater management',
-            'Knowledge-sharing',
-            'Research and monitoring',
-            'Vegetation and habitat management'
+            {
+                name: 'Advocacy',
+                description: 'tba'
+            },
+            {
+                name: 'Asset protection and renewal',
+                description: 'tba'
+            },
+            {
+                name: 'Enforcement',
+                description: 'tba'
+            },
+            {
+                name: 'Environmental water and diversions management',
+                description: 'tba'
+            },
+            {
+                name: 'Improved planning controls',
+                description: 'tba'
+            },
+            {
+                name: 'Integrated stormwater management',
+                description: 'tba'
+            },
+            {
+                name: 'Knowledge-sharing',
+                description: 'tba'
+            },
+            {
+                name: 'Research and monitoring',
+                description: 'tba'
+            },
+            {
+                name: 'Vegetation and habitat management',
+                description: 'tba'
+            }
         ],
         size: [
             'Small', 
@@ -47121,7 +47204,7 @@ var app = (function (exports) {
             'Sub-catchment', 
             'Catchment', 
             'Multiple catchments'
-        ],
+        ]
     };
 
     ({
@@ -47763,36 +47846,37 @@ var app = (function (exports) {
         const projectType = {
             label:              'by type',
             name:               'projectType',
-            list:               projectSchema.type,
+            list:               projectSchema.type.map(d => d.name),
             placeholder:        'Use this field to select initiative type(s)',
-            placeholderSingle:  'Use this field to select initiative type'
+            placeholderSingle:  'Use this field to select a initiative type'
         };
         const projectStage = {
             label:              'by stage',
             name:               'projectStage',
-            list:               projectSchema.stage,
+            list:               projectSchema.stage.map(d => d.name),
             placeholder:        'Use this field to select project stage(s)',
-            placeholderSingle:  'Use this field to select project stage(s)'
+            placeholderSingle:  'Use this field to select a project stage'
         };
         const projectClass = {
             label:              'by class',
             name:               'projectClass',
-            list:               projectSchema.class,
-            placeholder:        'Use this field to select project class(es)'
+            list:               projectSchema.class.map(d => d.name),
+            placeholder:        'Use this field to select project class(es)',
+            placeholderSingle:  'Use this field to select a project class'
         };
         const projectSize = {
             label:              'by size',
             name:               'projectSize',
             list:               projectSchema.size,
             placeholder:        'Use this field to select project size(s)',
-            placeholderSingle:  'Use this field to select project size'
+            placeholderSingle:  'Use this field to select a project size'
         };
         const projectScale = {
             label:              'by scale',
             name:               'projectScale',
             list:               projectSchema.scale,
             placeholder:        'Use this field to select project scale(s)',
-            placeholderSingle:  'Use this field to select project scale'
+            placeholderSingle:  'Use this field to select a project scale'
         };
 
         // Project stakeholders
@@ -66675,7 +66759,7 @@ var app = (function (exports) {
     	return child_ctx;
     }
 
-    // (37:8) {#if projectData.partnerOrgs.length > 0}
+    // (39:8) {#if projectData.partnerOrgs.length > 0}
     function create_if_block_5$5(ctx) {
     	let div1;
     	let t;
@@ -66708,9 +66792,9 @@ var app = (function (exports) {
     			}
 
     			attr_dev(div0, "class", "info-content svelte-1tw49j1");
-    			add_location(div0, file$17, 43, 12, 1400);
+    			add_location(div0, file$17, 45, 12, 1503);
     			attr_dev(div1, "class", "info-row svelte-1tw49j1");
-    			add_location(div1, file$17, 37, 8, 1169);
+    			add_location(div1, file$17, 39, 8, 1272);
     		},
     		m: function mount(target, anchor) {
     			insert_dev(target, div1, anchor);
@@ -66768,14 +66852,14 @@ var app = (function (exports) {
     		block,
     		id: create_if_block_5$5.name,
     		type: "if",
-    		source: "(37:8) {#if projectData.partnerOrgs.length > 0}",
+    		source: "(39:8) {#if projectData.partnerOrgs.length > 0}",
     		ctx
     	});
 
     	return block;
     }
 
-    // (41:12) {:else}
+    // (43:12) {:else}
     function create_else_block_5(ctx) {
     	let div;
 
@@ -66784,7 +66868,7 @@ var app = (function (exports) {
     			div = element("div");
     			div.textContent = "Partner:";
     			attr_dev(div, "class", "info-label svelte-1tw49j1");
-    			add_location(div, file$17, 41, 12, 1330);
+    			add_location(div, file$17, 43, 12, 1433);
     		},
     		m: function mount(target, anchor) {
     			insert_dev(target, div, anchor);
@@ -66798,14 +66882,14 @@ var app = (function (exports) {
     		block,
     		id: create_else_block_5.name,
     		type: "else",
-    		source: "(41:12) {:else}",
+    		source: "(43:12) {:else}",
     		ctx
     	});
 
     	return block;
     }
 
-    // (39:12) {#if projectData.partnerOrgs.length > 1}
+    // (41:12) {#if projectData.partnerOrgs.length > 1}
     function create_if_block_6$3(ctx) {
     	let div;
 
@@ -66814,7 +66898,7 @@ var app = (function (exports) {
     			div = element("div");
     			div.textContent = "Partners:";
     			attr_dev(div, "class", "info-label svelte-1tw49j1");
-    			add_location(div, file$17, 39, 12, 1257);
+    			add_location(div, file$17, 41, 12, 1360);
     		},
     		m: function mount(target, anchor) {
     			insert_dev(target, div, anchor);
@@ -66828,14 +66912,14 @@ var app = (function (exports) {
     		block,
     		id: create_if_block_6$3.name,
     		type: "if",
-    		source: "(39:12) {#if projectData.partnerOrgs.length > 1}",
+    		source: "(41:12) {#if projectData.partnerOrgs.length > 1}",
     		ctx
     	});
 
     	return block;
     }
 
-    // (45:16) {#each projectData.partnerOrgs as partner, index}
+    // (47:16) {#each projectData.partnerOrgs as partner, index}
     function create_each_block_4$3(ctx) {
     	let span;
 
@@ -66853,7 +66937,7 @@ var app = (function (exports) {
     			span = element("span");
     			t0 = text(t0_value);
     			t1 = space();
-    			add_location(span, file$17, 45, 16, 1510);
+    			add_location(span, file$17, 47, 16, 1613);
     		},
     		m: function mount(target, anchor) {
     			insert_dev(target, span, anchor);
@@ -66876,14 +66960,14 @@ var app = (function (exports) {
     		block,
     		id: create_each_block_4$3.name,
     		type: "each",
-    		source: "(45:16) {#each projectData.partnerOrgs as partner, index}",
+    		source: "(47:16) {#each projectData.partnerOrgs as partner, index}",
     		ctx
     	});
 
     	return block;
     }
 
-    // (67:8) {:else}
+    // (69:8) {:else}
     function create_else_block_4(ctx) {
     	let div2;
     	let div0;
@@ -66901,11 +66985,11 @@ var app = (function (exports) {
     			div1 = element("div");
     			t2 = text(t2_value);
     			attr_dev(div0, "class", "info-label svelte-1tw49j1");
-    			add_location(div0, file$17, 68, 12, 2531);
+    			add_location(div0, file$17, 70, 12, 2638);
     			attr_dev(div1, "class", "info-content svelte-1tw49j1");
-    			add_location(div1, file$17, 69, 12, 2586);
+    			add_location(div1, file$17, 71, 12, 2693);
     			attr_dev(div2, "class", "info-row svelte-1tw49j1");
-    			add_location(div2, file$17, 67, 8, 2496);
+    			add_location(div2, file$17, 69, 8, 2603);
     		},
     		m: function mount(target, anchor) {
     			insert_dev(target, div2, anchor);
@@ -66926,14 +67010,14 @@ var app = (function (exports) {
     		block,
     		id: create_else_block_4.name,
     		type: "else",
-    		source: "(67:8) {:else}",
+    		source: "(69:8) {:else}",
     		ctx
     	});
 
     	return block;
     }
 
-    // (62:8) {#if projectData.status.stage === 'complete' || projectData.status.stage === 'ongoing'}
+    // (64:8) {#if projectData.status.stage === 'Complete' || projectData.status.stage === 'Operational'}
     function create_if_block_4$6(ctx) {
     	let div2;
     	let div0;
@@ -66951,11 +67035,11 @@ var app = (function (exports) {
     			div1 = element("div");
     			t2 = text(t2_value);
     			attr_dev(div0, "class", "info-label svelte-1tw49j1");
-    			add_location(div0, file$17, 63, 12, 2326);
+    			add_location(div0, file$17, 65, 12, 2433);
     			attr_dev(div1, "class", "info-content svelte-1tw49j1");
-    			add_location(div1, file$17, 64, 12, 2386);
+    			add_location(div1, file$17, 66, 12, 2493);
     			attr_dev(div2, "class", "info-row svelte-1tw49j1");
-    			add_location(div2, file$17, 62, 8, 2291);
+    			add_location(div2, file$17, 64, 8, 2398);
     		},
     		m: function mount(target, anchor) {
     			insert_dev(target, div2, anchor);
@@ -66976,14 +67060,14 @@ var app = (function (exports) {
     		block,
     		id: create_if_block_4$6.name,
     		type: "if",
-    		source: "(62:8) {#if projectData.status.stage === 'complete' || projectData.status.stage === 'ongoing'}",
+    		source: "(64:8) {#if projectData.status.stage === 'Complete' || projectData.status.stage === 'Operational'}",
     		ctx
     	});
 
     	return block;
     }
 
-    // (79:12) {:else}
+    // (81:12) {:else}
     function create_else_block_3(ctx) {
     	let div;
 
@@ -66992,7 +67076,7 @@ var app = (function (exports) {
     			div = element("div");
     			div.textContent = "Location:";
     			attr_dev(div, "class", "info-label svelte-1tw49j1");
-    			add_location(div, file$17, 79, 12, 2946);
+    			add_location(div, file$17, 81, 12, 3053);
     		},
     		m: function mount(target, anchor) {
     			insert_dev(target, div, anchor);
@@ -67006,14 +67090,14 @@ var app = (function (exports) {
     		block,
     		id: create_else_block_3.name,
     		type: "else",
-    		source: "(79:12) {:else}",
+    		source: "(81:12) {:else}",
     		ctx
     	});
 
     	return block;
     }
 
-    // (77:12) {#if projectData.location.locations.length > 1 }
+    // (79:12) {#if projectData.location.locations.length > 1 }
     function create_if_block_3$d(ctx) {
     	let div;
 
@@ -67022,7 +67106,7 @@ var app = (function (exports) {
     			div = element("div");
     			div.textContent = "Locations:";
     			attr_dev(div, "class", "info-label svelte-1tw49j1");
-    			add_location(div, file$17, 77, 12, 2872);
+    			add_location(div, file$17, 79, 12, 2979);
     		},
     		m: function mount(target, anchor) {
     			insert_dev(target, div, anchor);
@@ -67036,14 +67120,14 @@ var app = (function (exports) {
     		block,
     		id: create_if_block_3$d.name,
     		type: "if",
-    		source: "(77:12) {#if projectData.location.locations.length > 1 }",
+    		source: "(79:12) {#if projectData.location.locations.length > 1 }",
     		ctx
     	});
 
     	return block;
     }
 
-    // (83:16) {#each projectData.location.locations as location, index}
+    // (85:16) {#each projectData.location.locations as location, index}
     function create_each_block_3$4(ctx) {
     	let span;
 
@@ -67059,7 +67143,7 @@ var app = (function (exports) {
     		c: function create() {
     			span = element("span");
     			t = text(t_value);
-    			add_location(span, file$17, 83, 16, 3135);
+    			add_location(span, file$17, 85, 16, 3242);
     		},
     		m: function mount(target, anchor) {
     			insert_dev(target, span, anchor);
@@ -67081,14 +67165,14 @@ var app = (function (exports) {
     		block,
     		id: create_each_block_3$4.name,
     		type: "each",
-    		source: "(83:16) {#each projectData.location.locations as location, index}",
+    		source: "(85:16) {#each projectData.location.locations as location, index}",
     		ctx
     	});
 
     	return block;
     }
 
-    // (92:12) {:else}
+    // (94:12) {:else}
     function create_else_block_2$1(ctx) {
     	let div;
 
@@ -67097,7 +67181,7 @@ var app = (function (exports) {
     			div = element("div");
     			div.textContent = "Subcatchment:";
     			attr_dev(div, "class", "info-label svelte-1tw49j1");
-    			add_location(div, file$17, 92, 12, 3525);
+    			add_location(div, file$17, 94, 12, 3632);
     		},
     		m: function mount(target, anchor) {
     			insert_dev(target, div, anchor);
@@ -67111,14 +67195,14 @@ var app = (function (exports) {
     		block,
     		id: create_else_block_2$1.name,
     		type: "else",
-    		source: "(92:12) {:else}",
+    		source: "(94:12) {:else}",
     		ctx
     	});
 
     	return block;
     }
 
-    // (90:12) {#if $ui.state.focus.projectData.location.subCatchments.length > 1 }
+    // (92:12) {#if $ui.state.focus.projectData.location.subCatchments.length > 1 }
     function create_if_block_2$f(ctx) {
     	let div;
 
@@ -67127,7 +67211,7 @@ var app = (function (exports) {
     			div = element("div");
     			div.textContent = "Subcatchments:";
     			attr_dev(div, "class", "info-label svelte-1tw49j1");
-    			add_location(div, file$17, 90, 12, 3447);
+    			add_location(div, file$17, 92, 12, 3554);
     		},
     		m: function mount(target, anchor) {
     			insert_dev(target, div, anchor);
@@ -67141,14 +67225,14 @@ var app = (function (exports) {
     		block,
     		id: create_if_block_2$f.name,
     		type: "if",
-    		source: "(90:12) {#if $ui.state.focus.projectData.location.subCatchments.length > 1 }",
+    		source: "(92:12) {#if $ui.state.focus.projectData.location.subCatchments.length > 1 }",
     		ctx
     	});
 
     	return block;
     }
 
-    // (96:16) {#each projectData.location.subCatchments as subcatchment, index}
+    // (98:16) {#each projectData.location.subCatchments as subcatchment, index}
     function create_each_block_2$5(ctx) {
     	let span;
 
@@ -67166,7 +67250,7 @@ var app = (function (exports) {
     			span = element("span");
     			t0 = text(t0_value);
     			t1 = space();
-    			add_location(span, file$17, 96, 16, 3726);
+    			add_location(span, file$17, 98, 16, 3833);
     		},
     		m: function mount(target, anchor) {
     			insert_dev(target, span, anchor);
@@ -67189,14 +67273,14 @@ var app = (function (exports) {
     		block,
     		id: create_each_block_2$5.name,
     		type: "each",
-    		source: "(96:16) {#each projectData.location.subCatchments as subcatchment, index}",
+    		source: "(98:16) {#each projectData.location.subCatchments as subcatchment, index}",
     		ctx
     	});
 
     	return block;
     }
 
-    // (105:12) {:else}
+    // (107:12) {:else}
     function create_else_block_1$5(ctx) {
     	let div;
 
@@ -67205,7 +67289,7 @@ var app = (function (exports) {
     			div = element("div");
     			div.textContent = "Catchment:";
     			attr_dev(div, "class", "info-label svelte-1tw49j1");
-    			add_location(div, file$17, 105, 12, 4111);
+    			add_location(div, file$17, 107, 12, 4218);
     		},
     		m: function mount(target, anchor) {
     			insert_dev(target, div, anchor);
@@ -67219,14 +67303,14 @@ var app = (function (exports) {
     		block,
     		id: create_else_block_1$5.name,
     		type: "else",
-    		source: "(105:12) {:else}",
+    		source: "(107:12) {:else}",
     		ctx
     	});
 
     	return block;
     }
 
-    // (103:12) {#if projectData.location.catchments.length > 1 }
+    // (105:12) {#if projectData.location.catchments.length > 1 }
     function create_if_block_1$m(ctx) {
     	let div;
 
@@ -67235,7 +67319,7 @@ var app = (function (exports) {
     			div = element("div");
     			div.textContent = "Catchments:";
     			attr_dev(div, "class", "info-label svelte-1tw49j1");
-    			add_location(div, file$17, 103, 12, 4036);
+    			add_location(div, file$17, 105, 12, 4143);
     		},
     		m: function mount(target, anchor) {
     			insert_dev(target, div, anchor);
@@ -67249,14 +67333,14 @@ var app = (function (exports) {
     		block,
     		id: create_if_block_1$m.name,
     		type: "if",
-    		source: "(103:12) {#if projectData.location.catchments.length > 1 }",
+    		source: "(105:12) {#if projectData.location.catchments.length > 1 }",
     		ctx
     	});
 
     	return block;
     }
 
-    // (109:16) {#each projectData.location.catchments as catchment, index}
+    // (111:16) {#each projectData.location.catchments as catchment, index}
     function create_each_block_1$7(ctx) {
     	let span;
 
@@ -67272,7 +67356,7 @@ var app = (function (exports) {
     		c: function create() {
     			span = element("span");
     			t = text(t_value);
-    			add_location(span, file$17, 109, 16, 4303);
+    			add_location(span, file$17, 111, 16, 4410);
     		},
     		m: function mount(target, anchor) {
     			insert_dev(target, span, anchor);
@@ -67294,14 +67378,14 @@ var app = (function (exports) {
     		block,
     		id: create_each_block_1$7.name,
     		type: "each",
-    		source: "(109:16) {#each projectData.location.catchments as catchment, index}",
+    		source: "(111:16) {#each projectData.location.catchments as catchment, index}",
     		ctx
     	});
 
     	return block;
     }
 
-    // (118:12) {:else}
+    // (120:12) {:else}
     function create_else_block$a(ctx) {
     	let div;
 
@@ -67310,7 +67394,7 @@ var app = (function (exports) {
     			div = element("div");
     			div.textContent = "Local Government:";
     			attr_dev(div, "class", "info-label svelte-1tw49j1");
-    			add_location(div, file$17, 118, 12, 4681);
+    			add_location(div, file$17, 120, 12, 4788);
     		},
     		m: function mount(target, anchor) {
     			insert_dev(target, div, anchor);
@@ -67324,14 +67408,14 @@ var app = (function (exports) {
     		block,
     		id: create_else_block$a.name,
     		type: "else",
-    		source: "(118:12) {:else}",
+    		source: "(120:12) {:else}",
     		ctx
     	});
 
     	return block;
     }
 
-    // (116:12) {#if projectData.location.locations.length > 1 }
+    // (118:12) {#if projectData.location.locations.length > 1 }
     function create_if_block$v(ctx) {
     	let div;
 
@@ -67340,7 +67424,7 @@ var app = (function (exports) {
     			div = element("div");
     			div.textContent = "Local Governments:";
     			attr_dev(div, "class", "info-label svelte-1tw49j1");
-    			add_location(div, file$17, 116, 12, 4599);
+    			add_location(div, file$17, 118, 12, 4706);
     		},
     		m: function mount(target, anchor) {
     			insert_dev(target, div, anchor);
@@ -67354,14 +67438,14 @@ var app = (function (exports) {
     		block,
     		id: create_if_block$v.name,
     		type: "if",
-    		source: "(116:12) {#if projectData.location.locations.length > 1 }",
+    		source: "(118:12) {#if projectData.location.locations.length > 1 }",
     		ctx
     	});
 
     	return block;
     }
 
-    // (122:16) {#each projectData.location.locations as location, index}
+    // (124:16) {#each projectData.location.locations as location, index}
     function create_each_block$i(ctx) {
     	let span;
 
@@ -67377,7 +67461,7 @@ var app = (function (exports) {
     		c: function create() {
     			span = element("span");
     			t = text(t_value);
-    			add_location(span, file$17, 122, 16, 4878);
+    			add_location(span, file$17, 124, 16, 4985);
     		},
     		m: function mount(target, anchor) {
     			insert_dev(target, span, anchor);
@@ -67399,7 +67483,7 @@ var app = (function (exports) {
     		block,
     		id: create_each_block$i.name,
     		type: "each",
-    		source: "(122:16) {#each projectData.location.locations as location, index}",
+    		source: "(124:16) {#each projectData.location.locations as location, index}",
     		ctx
     	});
 
@@ -67461,7 +67545,7 @@ var app = (function (exports) {
     	let if_block0 = /*projectData*/ ctx[1].partnerOrgs.length > 0 && create_if_block_5$5(ctx);
 
     	function select_block_type_1(ctx, dirty) {
-    		if (/*projectData*/ ctx[1].status.stage === 'complete' || /*projectData*/ ctx[1].status.stage === 'ongoing') return create_if_block_4$6;
+    		if (/*projectData*/ ctx[1].status.stage === 'Complete' || /*projectData*/ ctx[1].status.stage === 'Operational') return create_if_block_4$6;
     		return create_else_block_4;
     	}
 
@@ -67613,53 +67697,53 @@ var app = (function (exports) {
     			t28 = space();
     			create_component(leafletmap.$$.fragment);
     			attr_dev(h3, "class", "svelte-1tw49j1");
-    			add_location(h3, file$17, 26, 8, 767);
+    			add_location(h3, file$17, 28, 8, 870);
     			attr_dev(div0, "class", "info-pane-header svelte-1tw49j1");
-    			add_location(div0, file$17, 25, 4, 726);
+    			add_location(div0, file$17, 27, 4, 829);
     			attr_dev(h40, "class", "svelte-1tw49j1");
-    			add_location(h40, file$17, 31, 8, 890);
+    			add_location(h40, file$17, 33, 8, 993);
     			attr_dev(div1, "class", "info-label svelte-1tw49j1");
-    			add_location(div1, file$17, 33, 12, 974);
+    			add_location(div1, file$17, 35, 12, 1077);
     			attr_dev(div2, "class", "info-content svelte-1tw49j1");
-    			add_location(div2, file$17, 34, 12, 1036);
+    			add_location(div2, file$17, 36, 12, 1139);
     			attr_dev(div3, "class", "info-row svelte-1tw49j1");
-    			add_location(div3, file$17, 32, 8, 939);
+    			add_location(div3, file$17, 34, 8, 1042);
     			attr_dev(h41, "class", "svelte-1tw49j1");
-    			add_location(h41, file$17, 52, 8, 1768);
+    			add_location(h41, file$17, 54, 8, 1871);
     			attr_dev(div4, "class", "info-label svelte-1tw49j1");
-    			add_location(div4, file$17, 54, 12, 1855);
+    			add_location(div4, file$17, 56, 12, 1958);
     			attr_dev(div5, "class", "info-content svelte-1tw49j1");
-    			add_location(div5, file$17, 55, 12, 1912);
+    			add_location(div5, file$17, 57, 12, 2015);
     			attr_dev(div6, "class", "info-row svelte-1tw49j1");
-    			add_location(div6, file$17, 53, 8, 1820);
+    			add_location(div6, file$17, 55, 8, 1923);
     			attr_dev(div7, "class", "info-label svelte-1tw49j1");
-    			add_location(div7, file$17, 58, 12, 2044);
+    			add_location(div7, file$17, 60, 12, 2147);
     			attr_dev(div8, "class", "info-content svelte-1tw49j1");
-    			add_location(div8, file$17, 59, 12, 2095);
+    			add_location(div8, file$17, 61, 12, 2198);
     			attr_dev(div9, "class", "info-row svelte-1tw49j1");
-    			add_location(div9, file$17, 57, 8, 2009);
+    			add_location(div9, file$17, 59, 8, 2112);
     			attr_dev(h42, "class", "svelte-1tw49j1");
-    			add_location(h42, file$17, 74, 8, 2730);
+    			add_location(h42, file$17, 76, 8, 2837);
     			attr_dev(div10, "class", "info-content svelte-1tw49j1");
-    			add_location(div10, file$17, 81, 12, 3017);
+    			add_location(div10, file$17, 83, 12, 3124);
     			attr_dev(div11, "class", "info-row svelte-1tw49j1");
-    			add_location(div11, file$17, 75, 8, 2776);
+    			add_location(div11, file$17, 77, 8, 2883);
     			attr_dev(div12, "class", "info-content svelte-1tw49j1");
-    			add_location(div12, file$17, 94, 12, 3600);
+    			add_location(div12, file$17, 96, 12, 3707);
     			attr_dev(div13, "class", "info-row svelte-1tw49j1");
-    			add_location(div13, file$17, 88, 8, 3331);
+    			add_location(div13, file$17, 90, 8, 3438);
     			attr_dev(div14, "class", "info-content svelte-1tw49j1");
-    			add_location(div14, file$17, 107, 12, 4183);
+    			add_location(div14, file$17, 109, 12, 4290);
     			attr_dev(div15, "class", "info-row svelte-1tw49j1");
-    			add_location(div15, file$17, 101, 8, 3939);
+    			add_location(div15, file$17, 103, 8, 4046);
     			attr_dev(div16, "class", "info-content svelte-1tw49j1");
-    			add_location(div16, file$17, 120, 12, 4760);
+    			add_location(div16, file$17, 122, 12, 4867);
     			attr_dev(div17, "class", "info-row svelte-1tw49j1");
-    			add_location(div17, file$17, 114, 8, 4503);
+    			add_location(div17, file$17, 116, 8, 4610);
     			attr_dev(div18, "class", "info-pane-content svelte-1tw49j1");
-    			add_location(div18, file$17, 29, 4, 801);
+    			add_location(div18, file$17, 31, 4, 904);
     			attr_dev(section, "class", "svelte-1tw49j1");
-    			add_location(section, file$17, 24, 0, 712);
+    			add_location(section, file$17, 26, 0, 815);
     		},
     		l: function claim(nodes) {
     			throw new Error("options.hydrate only works if the component was compiled with the `hydratable: true` option");
@@ -67957,6 +68041,8 @@ var app = (function (exports) {
     		$$invalidate(2, paneVisibility[this.id] = !paneVisibility[this.id], paneVisibility);
     		console.log(`Toggling ${this.id} to `, paneVisibility[this.id]);
     	}
+    	console.log($ui.state.focus.projectData);
+    	console.log($ui.state.focus.projectData.status.stage);
     	const writable_props = [];
 
     	Object.keys($$props).forEach(key => {
@@ -77022,7 +77108,7 @@ var app = (function (exports) {
     			attr_dev(h41, "class", "svelte-1f5tlhh");
     			add_location(h41, file$L, 212, 16, 9482);
     			attr_dev(div2, "class", "multi-select-container svelte-1f5tlhh");
-    			set_style(div2, "z-index", "15");
+    			set_style(div2, "z-index", "13");
     			add_location(div2, file$L, 211, 12, 9408);
     			attr_dev(h42, "class", "svelte-1f5tlhh");
     			add_location(h42, file$L, 221, 16, 10012);
@@ -89095,7 +89181,7 @@ var app = (function (exports) {
     	return child_ctx;
     }
 
-    // (20:8) {#each optionData.list as option}
+    // (18:8) {#each optionData.list as option}
     function create_each_block$5(ctx) {
     	let option;
     	let raw_value = /*option*/ ctx[3] + "";
@@ -89107,7 +89193,7 @@ var app = (function (exports) {
     			option.__value = option_value_value = /*option*/ ctx[3];
     			option.value = option.__value;
     			attr_dev(option, "class", "svelte-mwpv7t");
-    			add_location(option, file$k, 20, 12, 506);
+    			add_location(option, file$k, 18, 12, 504);
     		},
     		m: function mount(target, anchor) {
     			insert_dev(target, option, anchor);
@@ -89129,7 +89215,7 @@ var app = (function (exports) {
     		block,
     		id: create_each_block$5.name,
     		type: "each",
-    		source: "(20:8) {#each optionData.list as option}",
+    		source: "(18:8) {#each optionData.list as option}",
     		ctx
     	});
 
@@ -89178,21 +89264,21 @@ var app = (function (exports) {
     			option.selected = true;
     			option.hidden = true;
     			attr_dev(option, "class", "svelte-mwpv7t");
-    			add_location(option, file$k, 18, 8, 362);
+    			add_location(option, file$k, 16, 8, 360);
     			attr_dev(select, "class", "svelte-mwpv7t");
     			if (/*value*/ ctx[0] === void 0) add_render_callback(() => /*select_change_handler*/ ctx[2].call(select));
-    			add_location(select, file$k, 17, 4, 326);
+    			add_location(select, file$k, 15, 4, 324);
     			attr_dev(path, "d", "M5 8l4 4 4-4z");
     			attr_dev(path, "class", "svelte-mwpv7t");
-    			add_location(path, file$k, 24, 8, 704);
+    			add_location(path, file$k, 22, 8, 702);
     			attr_dev(svg, "class", "dropdown-arrow svelte-mwpv7t");
     			attr_dev(svg, "xmlns", "http://www.w3.org/2000/svg");
     			attr_dev(svg, "width", "18");
     			attr_dev(svg, "height", "18");
     			attr_dev(svg, "viewBox", "0 0 18 18");
-    			add_location(svg, file$k, 23, 4, 589);
+    			add_location(svg, file$k, 21, 4, 587);
     			attr_dev(section, "class", "svelte-mwpv7t");
-    			add_location(section, file$k, 16, 0, 312);
+    			add_location(section, file$k, 14, 0, 310);
     		},
     		l: function claim(nodes) {
     			throw new Error("options.hydrate only works if the component was compiled with the `hydratable: true` option");
@@ -89845,20 +89931,20 @@ var app = (function (exports) {
     			textarea1 = element("textarea");
     			attr_dev(label0, "for", "shortDescription");
     			attr_dev(label0, "class", "svelte-1xob3lb");
-    			add_location(label0, file$i, 115, 20, 4530);
+    			add_location(label0, file$i, 115, 20, 4524);
     			attr_dev(textarea0, "name", "shortDescription");
     			attr_dev(textarea0, "rows", "20");
-    			add_location(textarea0, file$i, 116, 20, 4609);
-    			add_location(li0, file$i, 114, 16, 4505);
+    			add_location(textarea0, file$i, 116, 20, 4603);
+    			add_location(li0, file$i, 114, 16, 4499);
     			attr_dev(label1, "for", "projectHistory");
     			attr_dev(label1, "class", "svelte-1xob3lb");
-    			add_location(label1, file$i, 119, 20, 4779);
+    			add_location(label1, file$i, 119, 20, 4773);
     			attr_dev(textarea1, "name", "projectHistory");
     			attr_dev(textarea1, "rows", "20");
-    			add_location(textarea1, file$i, 120, 20, 4852);
-    			add_location(li1, file$i, 118, 16, 4754);
+    			add_location(textarea1, file$i, 120, 20, 4846);
+    			add_location(li1, file$i, 118, 16, 4748);
     			attr_dev(ul, "class", "collapse__body svelte-1xob3lb");
-    			add_location(ul, file$i, 113, 12, 4421);
+    			add_location(ul, file$i, 113, 12, 4415);
     		},
     		m: function mount(target, anchor) {
     			insert_dev(target, ul, anchor);
@@ -90071,27 +90157,27 @@ var app = (function (exports) {
     			t6 = space();
     			create_component(multiselect3.$$.fragment);
     			attr_dev(div0, "class", "label centre_v svelte-1xob3lb");
-    			add_location(div0, file$i, 137, 20, 5595);
+    			add_location(div0, file$i, 137, 20, 5589);
     			attr_dev(div1, "class", "multi-select-container svelte-1xob3lb");
     			set_style(div1, "z-index", "21");
-    			add_location(div1, file$i, 136, 16, 5517);
+    			add_location(div1, file$i, 136, 16, 5511);
     			attr_dev(div2, "class", "label centre_v svelte-1xob3lb");
-    			add_location(div2, file$i, 147, 20, 6159);
+    			add_location(div2, file$i, 147, 20, 6153);
     			attr_dev(div3, "class", "multi-select-container svelte-1xob3lb");
     			set_style(div3, "z-index", "20");
-    			add_location(div3, file$i, 146, 16, 6080);
+    			add_location(div3, file$i, 146, 16, 6074);
     			attr_dev(div4, "class", "label centre_v svelte-1xob3lb");
-    			add_location(div4, file$i, 157, 20, 6729);
+    			add_location(div4, file$i, 157, 20, 6723);
     			attr_dev(div5, "class", "multi-select-container svelte-1xob3lb");
     			set_style(div5, "z-index", "19");
-    			add_location(div5, file$i, 156, 16, 6651);
+    			add_location(div5, file$i, 156, 16, 6645);
     			attr_dev(div6, "class", "label centre_v svelte-1xob3lb");
-    			add_location(div6, file$i, 167, 20, 7361);
+    			add_location(div6, file$i, 167, 20, 7355);
     			attr_dev(div7, "class", "multi-select-container svelte-1xob3lb");
     			set_style(div7, "z-index", "18");
-    			add_location(div7, file$i, 166, 16, 7283);
+    			add_location(div7, file$i, 166, 16, 7277);
     			attr_dev(div8, "class", "collapse__body svelte-1xob3lb");
-    			add_location(div8, file$i, 135, 12, 5452);
+    			add_location(div8, file$i, 135, 12, 5446);
     		},
     		m: function mount(target, anchor) {
     			insert_dev(target, div8, anchor);
@@ -90228,7 +90314,7 @@ var app = (function (exports) {
     			option = element("option");
     			option.__value = /*name*/ ctx[32];
     			option.value = option.__value;
-    			add_location(option, file$i, 141, 24, 5930);
+    			add_location(option, file$i, 141, 24, 5924);
     		},
     		m: function mount(target, anchor) {
     			insert_dev(target, option, anchor);
@@ -90278,7 +90364,7 @@ var app = (function (exports) {
     			option.selected = true;
     			option.__value = "";
     			option.value = option.__value;
-    			add_location(option, file$i, 139, 24, 5809);
+    			add_location(option, file$i, 139, 24, 5803);
     		},
     		m: function mount(target, anchor) {
     			insert_dev(target, option, anchor);
@@ -90344,7 +90430,7 @@ var app = (function (exports) {
     			option = element("option");
     			option.__value = /*name*/ ctx[32];
     			option.value = option.__value;
-    			add_location(option, file$i, 151, 24, 6501);
+    			add_location(option, file$i, 151, 24, 6495);
     		},
     		m: function mount(target, anchor) {
     			insert_dev(target, option, anchor);
@@ -90394,7 +90480,7 @@ var app = (function (exports) {
     			option.selected = true;
     			option.__value = "";
     			option.value = option.__value;
-    			add_location(option, file$i, 149, 24, 6379);
+    			add_location(option, file$i, 149, 24, 6373);
     		},
     		m: function mount(target, anchor) {
     			insert_dev(target, option, anchor);
@@ -90460,7 +90546,7 @@ var app = (function (exports) {
     			option = element("option");
     			option.__value = /*name*/ ctx[32];
     			option.value = option.__value;
-    			add_location(option, file$i, 161, 24, 7133);
+    			add_location(option, file$i, 161, 24, 7127);
     		},
     		m: function mount(target, anchor) {
     			insert_dev(target, option, anchor);
@@ -90510,7 +90596,7 @@ var app = (function (exports) {
     			option.selected = true;
     			option.__value = "";
     			option.value = option.__value;
-    			add_location(option, file$i, 159, 24, 6995);
+    			add_location(option, file$i, 159, 24, 6989);
     		},
     		m: function mount(target, anchor) {
     			insert_dev(target, option, anchor);
@@ -90576,7 +90662,7 @@ var app = (function (exports) {
     			option = element("option");
     			option.__value = /*name*/ ctx[32];
     			option.value = option.__value;
-    			add_location(option, file$i, 171, 24, 7765);
+    			add_location(option, file$i, 171, 24, 7759);
     		},
     		m: function mount(target, anchor) {
     			insert_dev(target, option, anchor);
@@ -90626,7 +90712,7 @@ var app = (function (exports) {
     			option.selected = true;
     			option.__value = "";
     			option.value = option.__value;
-    			add_location(option, file$i, 169, 24, 7627);
+    			add_location(option, file$i, 169, 24, 7621);
     		},
     		m: function mount(target, anchor) {
     			insert_dev(target, option, anchor);
@@ -90797,22 +90883,22 @@ var app = (function (exports) {
     			t5 = space();
     			create_component(leafletmap.$$.fragment);
     			attr_dev(div0, "class", "label centre_v svelte-1xob3lb");
-    			add_location(div0, file$i, 189, 20, 8504);
+    			add_location(div0, file$i, 189, 20, 8498);
     			attr_dev(div1, "class", "multi-select-container svelte-1xob3lb");
     			set_style(div1, "z-index", "17");
-    			add_location(div1, file$i, 188, 16, 8426);
+    			add_location(div1, file$i, 188, 16, 8420);
     			attr_dev(div2, "class", "label centre_v svelte-1xob3lb");
-    			add_location(div2, file$i, 199, 20, 9094);
+    			add_location(div2, file$i, 199, 20, 9088);
     			attr_dev(div3, "class", "multi-select-container svelte-1xob3lb");
     			set_style(div3, "z-index", "16");
-    			add_location(div3, file$i, 198, 16, 9016);
+    			add_location(div3, file$i, 198, 16, 9010);
     			attr_dev(div4, "class", "label centre_v svelte-1xob3lb");
-    			add_location(div4, file$i, 209, 20, 9699);
+    			add_location(div4, file$i, 209, 20, 9693);
     			attr_dev(div5, "class", "multi-select-container svelte-1xob3lb");
     			set_style(div5, "z-index", "15");
-    			add_location(div5, file$i, 208, 16, 9621);
+    			add_location(div5, file$i, 208, 16, 9615);
     			attr_dev(div6, "class", "collapse__body svelte-1xob3lb");
-    			add_location(div6, file$i, 187, 12, 8361);
+    			add_location(div6, file$i, 187, 12, 8355);
     		},
     		m: function mount(target, anchor) {
     			insert_dev(target, div6, anchor);
@@ -90932,7 +91018,7 @@ var app = (function (exports) {
     			option = element("option");
     			option.__value = /*name*/ ctx[32];
     			option.value = option.__value;
-    			add_location(option, file$i, 193, 24, 8850);
+    			add_location(option, file$i, 193, 24, 8844);
     		},
     		m: function mount(target, anchor) {
     			insert_dev(target, option, anchor);
@@ -90982,7 +91068,7 @@ var app = (function (exports) {
     			option.selected = true;
     			option.__value = "";
     			option.value = option.__value;
-    			add_location(option, file$i, 191, 24, 8728);
+    			add_location(option, file$i, 191, 24, 8722);
     		},
     		m: function mount(target, anchor) {
     			insert_dev(target, option, anchor);
@@ -91048,7 +91134,7 @@ var app = (function (exports) {
     			option = element("option");
     			option.__value = /*name*/ ctx[32];
     			option.value = option.__value;
-    			add_location(option, file$i, 203, 24, 9455);
+    			add_location(option, file$i, 203, 24, 9449);
     		},
     		m: function mount(target, anchor) {
     			insert_dev(target, option, anchor);
@@ -91098,7 +91184,7 @@ var app = (function (exports) {
     			option.selected = true;
     			option.__value = "";
     			option.value = option.__value;
-    			add_location(option, file$i, 201, 24, 9330);
+    			add_location(option, file$i, 201, 24, 9324);
     		},
     		m: function mount(target, anchor) {
     			insert_dev(target, option, anchor);
@@ -91164,7 +91250,7 @@ var app = (function (exports) {
     			option = element("option");
     			option.__value = /*name*/ ctx[32];
     			option.value = option.__value;
-    			add_location(option, file$i, 213, 24, 10040);
+    			add_location(option, file$i, 213, 24, 10034);
     		},
     		m: function mount(target, anchor) {
     			insert_dev(target, option, anchor);
@@ -91214,7 +91300,7 @@ var app = (function (exports) {
     			option.selected = true;
     			option.__value = "";
     			option.value = option.__value;
-    			add_location(option, file$i, 211, 24, 9919);
+    			add_location(option, file$i, 211, 24, 9913);
     		},
     		m: function mount(target, anchor) {
     			insert_dev(target, option, anchor);
@@ -91427,32 +91513,32 @@ var app = (function (exports) {
     			t9 = space();
     			create_component(singleselect4.$$.fragment);
     			attr_dev(div0, "class", "label centre_v svelte-1xob3lb");
-    			add_location(div0, file$i, 233, 20, 10859);
+    			add_location(div0, file$i, 233, 20, 10853);
     			attr_dev(div1, "class", "multi-select-container svelte-1xob3lb");
     			set_style(div1, "z-index", "14");
-    			add_location(div1, file$i, 232, 16, 10781);
+    			add_location(div1, file$i, 232, 16, 10775);
     			attr_dev(div2, "class", "label centre_v svelte-1xob3lb");
-    			add_location(div2, file$i, 237, 20, 11138);
+    			add_location(div2, file$i, 237, 20, 11132);
     			attr_dev(div3, "class", "multi-select-container svelte-1xob3lb");
     			set_style(div3, "z-index", "13");
-    			add_location(div3, file$i, 236, 16, 11060);
+    			add_location(div3, file$i, 236, 16, 11054);
     			attr_dev(div4, "class", "label centre_v svelte-1xob3lb");
-    			add_location(div4, file$i, 242, 20, 11421);
+    			add_location(div4, file$i, 242, 20, 11415);
     			attr_dev(div5, "class", "multi-select-container svelte-1xob3lb");
     			set_style(div5, "z-index", "12");
-    			add_location(div5, file$i, 241, 16, 11343);
+    			add_location(div5, file$i, 241, 16, 11337);
     			attr_dev(div6, "class", "label centre_v svelte-1xob3lb");
-    			add_location(div6, file$i, 251, 20, 11926);
+    			add_location(div6, file$i, 251, 20, 11920);
     			attr_dev(div7, "class", "multi-select-container svelte-1xob3lb");
     			set_style(div7, "z-index", "11");
-    			add_location(div7, file$i, 250, 16, 11848);
+    			add_location(div7, file$i, 250, 16, 11842);
     			attr_dev(div8, "class", "label centre_v svelte-1xob3lb");
-    			add_location(div8, file$i, 256, 20, 12205);
+    			add_location(div8, file$i, 256, 20, 12199);
     			attr_dev(div9, "class", "multi-select-container svelte-1xob3lb");
     			set_style(div9, "z-index", "10");
-    			add_location(div9, file$i, 255, 16, 12127);
+    			add_location(div9, file$i, 255, 16, 12121);
     			attr_dev(div10, "class", "collapse__body svelte-1xob3lb");
-    			add_location(div10, file$i, 230, 12, 10715);
+    			add_location(div10, file$i, 230, 12, 10709);
     		},
     		m: function mount(target, anchor) {
     			insert_dev(target, div10, anchor);
@@ -91621,8 +91707,8 @@ var app = (function (exports) {
     			p = element("p");
     			p.textContent = "Date picker TBA based on project stage";
     			attr_dev(p, "class", "note svelte-1xob3lb");
-    			add_location(p, file$i, 247, 20, 11725);
-    			add_location(div, file$i, 246, 16, 11682);
+    			add_location(p, file$i, 247, 20, 11719);
+    			add_location(div, file$i, 246, 16, 11676);
     		},
     		m: function mount(target, anchor) {
     			insert_dev(target, div, anchor);
@@ -91728,17 +91814,17 @@ var app = (function (exports) {
     			t2 = space();
     			create_component(multiselect.$$.fragment);
     			attr_dev(div0, "class", "label centre_v svelte-1xob3lb");
-    			add_location(div0, file$i, 274, 20, 13008);
+    			add_location(div0, file$i, 274, 20, 13002);
     			attr_dev(div1, "class", "multi-select-container svelte-1xob3lb");
     			set_style(div1, "z-index", "9");
-    			add_location(div1, file$i, 273, 16, 12931);
+    			add_location(div1, file$i, 273, 16, 12925);
     			attr_dev(div2, "class", "label svelte-1xob3lb");
-    			add_location(div2, file$i, 279, 20, 13277);
+    			add_location(div2, file$i, 279, 20, 13271);
     			attr_dev(div3, "class", "multi-select-container svelte-1xob3lb");
     			set_style(div3, "z-index", "7");
-    			add_location(div3, file$i, 278, 16, 13200);
+    			add_location(div3, file$i, 278, 16, 13194);
     			attr_dev(div4, "class", "collapse__body svelte-1xob3lb");
-    			add_location(div4, file$i, 272, 12, 12867);
+    			add_location(div4, file$i, 272, 12, 12861);
     		},
     		m: function mount(target, anchor) {
     			insert_dev(target, div4, anchor);
@@ -91827,7 +91913,7 @@ var app = (function (exports) {
     			option = element("option");
     			option.__value = /*name*/ ctx[32];
     			option.value = option.__value;
-    			add_location(option, file$i, 283, 24, 13608);
+    			add_location(option, file$i, 283, 24, 13602);
     		},
     		m: function mount(target, anchor) {
     			insert_dev(target, option, anchor);
@@ -91877,7 +91963,7 @@ var app = (function (exports) {
     			option.selected = true;
     			option.__value = "";
     			option.value = option.__value;
-    			add_location(option, file$i, 281, 24, 13486);
+    			add_location(option, file$i, 281, 24, 13480);
     		},
     		m: function mount(target, anchor) {
     			insert_dev(target, option, anchor);
@@ -91992,11 +92078,11 @@ var app = (function (exports) {
     			t7 = space();
     			create_component(multiinput2.$$.fragment);
     			attr_dev(div0, "class", "label margin-top svelte-1xob3lb");
-    			add_location(div0, file$i, 300, 12, 14224);
+    			add_location(div0, file$i, 300, 12, 14218);
     			attr_dev(div1, "class", "label margin-top svelte-1xob3lb");
-    			add_location(div1, file$i, 302, 12, 14393);
+    			add_location(div1, file$i, 302, 12, 14387);
     			attr_dev(div2, "class", "label margin-top svelte-1xob3lb");
-    			add_location(div2, file$i, 304, 12, 14565);
+    			add_location(div2, file$i, 304, 12, 14559);
     		},
     		m: function mount(target, anchor) {
     			insert_dev(target, div0, anchor);
@@ -92096,10 +92182,10 @@ var app = (function (exports) {
     			div0 = element("div");
     			div0.textContent = "⊕ add another resource";
     			attr_dev(ul, "class", "svelte-1xob3lb");
-    			add_location(ul, file$i, 318, 12, 15181);
-    			add_location(div0, file$i, 324, 16, 15392);
+    			add_location(ul, file$i, 318, 12, 15175);
+    			add_location(div0, file$i, 324, 16, 15386);
     			attr_dev(div1, "class", "add-container svelte-1xob3lb");
-    			add_location(div1, file$i, 323, 12, 15347);
+    			add_location(div1, file$i, 323, 12, 15341);
     		},
     		m: function mount(target, anchor) {
     			insert_dev(target, ul, anchor);
@@ -92447,118 +92533,118 @@ var app = (function (exports) {
     			button1.textContent = "Post your project";
     			html_tag.a = null;
     			attr_dev(h2, "class", "svelte-1xob3lb");
-    			add_location(h2, file$i, 82, 8, 3046);
+    			add_location(h2, file$i, 82, 8, 3040);
     			html_tag_1.a = t3;
     			attr_dev(div0, "class", "float-bottom svelte-1xob3lb");
-    			add_location(div0, file$i, 84, 8, 3183);
+    			add_location(div0, file$i, 84, 8, 3177);
     			attr_dev(div1, "class", "info-pane svelte-1xob3lb");
-    			add_location(div1, file$i, 80, 4, 2983);
+    			add_location(div1, file$i, 80, 4, 2977);
     			attr_dev(h30, "class", "svelte-1xob3lb");
-    			add_location(h30, file$i, 92, 12, 3399);
+    			add_location(h30, file$i, 92, 12, 3393);
     			attr_dev(div2, "class", "collapse__header selected svelte-1xob3lb");
-    			add_location(div2, file$i, 91, 8, 3346);
+    			add_location(div2, file$i, 91, 8, 3340);
     			attr_dev(label0, "class", "centre_v svelte-1xob3lb");
     			attr_dev(label0, "for", "projectName");
-    			add_location(label0, file$i, 97, 20, 3534);
+    			add_location(label0, file$i, 97, 20, 3528);
     			attr_dev(input, "name", "projectName");
-    			add_location(input, file$i, 98, 20, 3619);
-    			add_location(li0, file$i, 96, 16, 3509);
+    			add_location(input, file$i, 98, 20, 3613);
+    			add_location(li0, file$i, 96, 16, 3503);
     			attr_dev(label1, "for", "shortDescription");
     			attr_dev(label1, "class", "svelte-1xob3lb");
-    			add_location(label1, file$i, 101, 20, 3743);
+    			add_location(label1, file$i, 101, 20, 3737);
     			attr_dev(textarea, "name", "shortDescription");
     			attr_dev(textarea, "rows", "5");
-    			add_location(textarea, file$i, 102, 20, 3819);
-    			add_location(li1, file$i, 100, 16, 3718);
+    			add_location(textarea, file$i, 102, 20, 3813);
+    			add_location(li1, file$i, 100, 16, 3712);
     			attr_dev(ul, "class", "svelte-1xob3lb");
-    			add_location(ul, file$i, 95, 12, 3488);
+    			add_location(ul, file$i, 95, 12, 3482);
     			attr_dev(div3, "class", "toggle-label-minor svelte-1xob3lb");
-    			add_location(div3, file$i, 109, 16, 4203);
+    			add_location(div3, file$i, 109, 16, 4197);
     			attr_dev(div4, "class", "toggle-icon down svelte-1xob3lb");
-    			add_location(div4, file$i, 110, 16, 4301);
+    			add_location(div4, file$i, 110, 16, 4295);
     			attr_dev(div5, "id", "description");
     			attr_dev(div5, "class", "expand-header svelte-1xob3lb");
     			attr_dev(div5, "type", "button");
     			toggle_class(div5, "selected", /*paneVisibility*/ ctx[0].description);
-    			add_location(div5, file$i, 107, 12, 4043);
+    			add_location(div5, file$i, 107, 12, 4037);
     			attr_dev(div6, "class", "container");
-    			add_location(div6, file$i, 94, 8, 3450);
+    			add_location(div6, file$i, 94, 8, 3444);
     			attr_dev(h31, "class", "svelte-1xob3lb");
-    			add_location(h31, file$i, 130, 16, 5280);
+    			add_location(h31, file$i, 130, 16, 5274);
     			attr_dev(div7, "class", "toggle-icon down svelte-1xob3lb");
-    			add_location(div7, file$i, 131, 16, 5331);
+    			add_location(div7, file$i, 131, 16, 5325);
     			attr_dev(div8, "id", "hwsOutcomes");
     			attr_dev(div8, "class", "collapse__header top-border svelte-1xob3lb");
     			attr_dev(div8, "type", "button");
     			toggle_class(div8, "selected", /*paneVisibility*/ ctx[0].hwsOutcomes);
-    			add_location(div8, file$i, 128, 12, 5104);
+    			add_location(div8, file$i, 128, 12, 5098);
     			attr_dev(div9, "class", "container");
-    			add_location(div9, file$i, 127, 8, 5066);
+    			add_location(div9, file$i, 127, 8, 5060);
     			attr_dev(h32, "class", "svelte-1xob3lb");
-    			add_location(h32, file$i, 183, 16, 8201);
+    			add_location(h32, file$i, 183, 16, 8195);
     			attr_dev(div10, "class", "toggle-icon down svelte-1xob3lb");
-    			add_location(div10, file$i, 184, 16, 8244);
+    			add_location(div10, file$i, 184, 16, 8238);
     			attr_dev(div11, "id", "location");
     			attr_dev(div11, "class", "collapse__header top-border svelte-1xob3lb");
     			attr_dev(div11, "type", "button");
     			toggle_class(div11, "selected", /*paneVisibility*/ ctx[0].location);
-    			add_location(div11, file$i, 181, 12, 8031);
+    			add_location(div11, file$i, 181, 12, 8025);
     			attr_dev(div12, "class", "container");
-    			add_location(div12, file$i, 180, 8, 7993);
+    			add_location(div12, file$i, 180, 8, 7987);
     			attr_dev(h33, "class", "svelte-1xob3lb");
-    			add_location(h33, file$i, 226, 16, 10542);
+    			add_location(h33, file$i, 226, 16, 10536);
     			attr_dev(div13, "class", "toggle-icon down svelte-1xob3lb");
-    			add_location(div13, file$i, 227, 16, 10591);
+    			add_location(div13, file$i, 227, 16, 10585);
     			attr_dev(div14, "id", "characteristics");
     			attr_dev(div14, "class", "collapse__header top-border svelte-1xob3lb");
     			attr_dev(div14, "type", "button");
     			toggle_class(div14, "selected", /*paneVisibility*/ ctx[0].characteristics);
-    			add_location(div14, file$i, 224, 12, 10358);
+    			add_location(div14, file$i, 224, 12, 10352);
     			attr_dev(div15, "class", "container");
-    			add_location(div15, file$i, 223, 8, 10320);
+    			add_location(div15, file$i, 223, 8, 10314);
     			attr_dev(h34, "class", "svelte-1xob3lb");
-    			add_location(h34, file$i, 268, 16, 12700);
+    			add_location(h34, file$i, 268, 16, 12694);
     			attr_dev(div16, "class", "toggle-icon down svelte-1xob3lb");
-    			add_location(div16, file$i, 269, 16, 12746);
+    			add_location(div16, file$i, 269, 16, 12740);
     			attr_dev(div17, "id", "stakeholders");
     			attr_dev(div17, "class", "collapse__header top-border svelte-1xob3lb");
     			attr_dev(div17, "type", "button");
     			toggle_class(div17, "selected", /*paneVisibility*/ ctx[0].stakeholders);
-    			add_location(div17, file$i, 266, 12, 12522);
+    			add_location(div17, file$i, 266, 12, 12516);
     			attr_dev(div18, "class", "container");
-    			add_location(div18, file$i, 265, 8, 12484);
+    			add_location(div18, file$i, 265, 8, 12478);
     			attr_dev(h35, "class", "svelte-1xob3lb");
-    			add_location(h35, file$i, 295, 16, 14062);
+    			add_location(h35, file$i, 295, 16, 14056);
     			attr_dev(div19, "class", "toggle-icon down svelte-1xob3lb");
-    			add_location(div19, file$i, 296, 16, 14105);
+    			add_location(div19, file$i, 296, 16, 14099);
     			attr_dev(div20, "id", "learnings");
     			attr_dev(div20, "class", "collapse__header top-border svelte-1xob3lb");
     			attr_dev(div20, "type", "button");
     			toggle_class(div20, "selected", /*paneVisibility*/ ctx[0].learnings);
-    			add_location(div20, file$i, 293, 12, 13890);
+    			add_location(div20, file$i, 293, 12, 13884);
     			attr_dev(div21, "class", "container");
-    			add_location(div21, file$i, 292, 8, 13852);
+    			add_location(div21, file$i, 292, 8, 13846);
     			attr_dev(h36, "class", "svelte-1xob3lb");
-    			add_location(h36, file$i, 313, 16, 15008);
+    			add_location(h36, file$i, 313, 16, 15002);
     			attr_dev(div22, "class", "toggle-icon down svelte-1xob3lb");
-    			add_location(div22, file$i, 314, 16, 15066);
+    			add_location(div22, file$i, 314, 16, 15060);
     			attr_dev(div23, "id", "links");
     			attr_dev(div23, "class", "collapse__header top-border svelte-1xob3lb");
     			attr_dev(div23, "type", "button");
     			toggle_class(div23, "selected", /*paneVisibility*/ ctx[0].links);
-    			add_location(div23, file$i, 311, 12, 14844);
+    			add_location(div23, file$i, 311, 12, 14838);
     			attr_dev(div24, "class", "container");
-    			add_location(div24, file$i, 310, 8, 14806);
+    			add_location(div24, file$i, 310, 8, 14800);
     			attr_dev(button0, "class", "draft");
-    			add_location(button0, file$i, 331, 12, 15604);
-    			add_location(button1, file$i, 332, 12, 15700);
+    			add_location(button0, file$i, 331, 12, 15598);
+    			add_location(button1, file$i, 332, 12, 15694);
     			attr_dev(div25, "class", "button-container svelte-1xob3lb");
-    			add_location(div25, file$i, 330, 8, 15559);
+    			add_location(div25, file$i, 330, 8, 15553);
     			attr_dev(form, "class", "newProject");
-    			add_location(form, file$i, 89, 4, 3276);
+    			add_location(form, file$i, 89, 4, 3270);
     			attr_dev(section, "id", "new-project");
     			attr_dev(section, "class", "svelte-1xob3lb");
-    			add_location(section, file$i, 79, 0, 2886);
+    			add_location(section, file$i, 79, 0, 2880);
     		},
     		l: function claim(nodes) {
     			throw new Error("options.hydrate only works if the component was compiled with the `hydratable: true` option");
@@ -98448,7 +98534,7 @@ var app = (function (exports) {
     			if (if_block2) if_block2.c();
     			if_block2_anchor = empty();
     			attr_dev(main, "id", "main-page");
-    			add_location(main, file, 29, 1, 1050);
+    			add_location(main, file, 29, 1, 1054);
     		},
     		m: function mount(target, anchor) {
     			mount_component(nav, target, anchor);
@@ -102733,14 +102819,17 @@ var app = (function (exports) {
 
     var airtable = /*@__PURE__*/getDefaultExportFromCjs(airtable_umd);
 
-    const queryParams = new URLSearchParams(window.location.search);
     exports.app = void 0;
 
-    // Airtable 
+    const queryParams = new URLSearchParams(window.location.search);
+
+
+    // Airtable CMS
     const base = new airtable({apiKey:'key3EFjfpM7LqvZGK'}).base('app33PA35zad9gevY');
     const airtableData = [];
+
     base('content').select({
-        maxRecords: 110,
+        maxRecords: 100,
         view: "Grid view"
     }).eachPage(function page(records, fetchNextPage) {
         records.forEach(record => airtableData.push(record.fields) );
