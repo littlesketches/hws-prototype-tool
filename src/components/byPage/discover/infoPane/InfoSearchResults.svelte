@@ -14,11 +14,11 @@
 <div>
     <h2>&mdash; {@html componentContent.discover.info.searchResultsHeader}</h2>
     
-    {#if $ui.search.project.length > 0}
-        {#if $ui.search.project.length === 1}
-        <p>Your search came back with {$ui.search.project.length} project! </p>
+    {#if $ui.search.results.project.length > 0}
+        {#if $ui.search.results.project.length === 1}
+        <p>Your search came back with {$ui.search.results.project.length} project! </p>
         {:else}
-        <p>Your search came back with {$ui.search.project.length} projects! </p>
+        <p>Your search came back with {$ui.search.results.project.length} projects! </p>
         {/if}
         {@html componentContent.discover.info.searchResultsDesc}
     {:else}

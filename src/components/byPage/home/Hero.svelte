@@ -1,6 +1,6 @@
 <!-- PARALLAX HERO BG COMPONENT WITH "ABOUT" && "FOOTER" COMPONENTS EMBEDDED -->
 <script>
-	import  { fade } from 'svelte/transition'
+	import { fade } from 'svelte/transition'
     import About    from './About.svelte'
     import Footer   from '../../shared/layout/Footer.svelte'
 
@@ -39,8 +39,8 @@
     }
 	.parallax-container {
 		position:   	fixed;
-		width:      	2400px;
-		height:     	712px;
+		width:      	100vw;
+		/* height:     	712px; */
 		height:     	100vh;
 		left:       	50%;
 		transform:  	translate(-50%,0);

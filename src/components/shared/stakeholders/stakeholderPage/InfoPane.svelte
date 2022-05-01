@@ -1,21 +1,21 @@
-<!-- PROJECT PAGE INFO PANE-->
+<!-- STAKEHOLDER PAGE INFO PANE-->
 <script>
 	import { fade }         from 'svelte/transition'
     import { ui }           from '../../../../data/stores.js'
     import { database }     from '../../../../data/dataStores.js'
-    import { capitaliseFirst }   from '../../../../utils/helpers.js'
+    import { app }          from '../../../../data/realm.js'
 
-console.log($database.projects)
+    export let leadProjects = []
+    export let leadCatchments = []
+
     // Reactive variables
     $: stakeholderData = $ui.state.focus.stakeholderData 
-    $: leadProjects    = $database.projects.filter( d => d.leadOrg === stakeholderData.name)
-    $: leadCatchments  = [...new Set(leadProjects.map(d => d.location.catchments).flat())]
 
 </script>
 
 
 <!-- COMPONENT HTML MARKUP-->
-<section>
+<section id = "info-pane">
     <div class = 'info-pane-header'>
         <h3>key info</h3>
     </div>
@@ -84,7 +84,6 @@ console.log($database.projects)
         </div>
     </div>
 </section>
-
 <!-- STYLES-->
 <style>
    section{

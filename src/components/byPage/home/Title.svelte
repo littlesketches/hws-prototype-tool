@@ -5,14 +5,14 @@
 
 
 <!-- COMPONENT MARKUP-->
-    <section class = "title-content">
-        <h3 in:fly="{{y: -50, duration: 1000}}" >
-            { @html componentContent.title.subHeading } 
-        </h3>
-        <h1 in:fly="{{y: -100, duration: 1000}}">
-            { @html componentContent.title.mainHeading}
-        </h1>    
-    </section>
+<section class = "title-content">
+    <h3 in:fly="{{y: -50, duration: 1000}}" >
+        { @html componentContent.title.subHeading } 
+    </h3>
+    <h1 in:fly="{{y: -100, duration: 1000}}">
+        { @html componentContent.title.mainHeading}
+    </h1>    
+</section>
 
 
 <!------ STYLE ------->

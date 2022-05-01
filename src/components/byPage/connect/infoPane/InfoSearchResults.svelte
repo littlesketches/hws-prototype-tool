@@ -15,11 +15,11 @@
 <!-- COMPONENT HTML MARKUP-->
 <div>
     <h2>&mdash; {@html componentContent.connect.info.searchResultsHeader}</h2>
-    {#if $ui.search.organisation.length > 0}
-        {#if $ui.search.organisation.length === 1}
-        <p>Your search came back with {$ui.search.organisation.length} organisation! </p>
+    {#if $ui.search.results.organisation.length > 0}
+        {#if $ui.search.results.organisation.length === 1}
+        <p>Your search came back with {$ui.search.results.organisation.length} organisation! </p>
         {:else}
-        <p>Your search came back with {$ui.search.organisation.length} organisations! </p>
+        <p>Your search came back with {$ui.search.results.organisation.length} organisations! </p>
         {/if}
         {@html componentContent.connect.info.searchResultsDesc}
     {:else}

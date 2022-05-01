@@ -13,7 +13,7 @@
     // HWS Key Values and conditions data
     $: themesData = {
         name:           "&mdash; Themes",
-        array:          projectData.hws.poTheme
+        array:          projectData.hws.poThemes
     }
     $: keyValuesData = {
         name:           "&mdash; Values",

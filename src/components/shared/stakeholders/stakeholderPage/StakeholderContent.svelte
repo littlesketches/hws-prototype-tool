@@ -7,6 +7,8 @@
     import HWS_boxes    from '../../forms/HWS_boxes.svelte'
     import Sources      from './Sources.svelte'
 
+    export let leadProjects = []
+
     // Slideable pane visibility
     const visibility = {
         hwsDetails:         false,
@@ -23,13 +25,11 @@
 
     // Reactive variables
     $: stakeholderData = $ui.state.focus.stakeholderData 
-    $: leadProjects    = $database.projects.filter( d => d.leadOrg === stakeholderData.name)
-    $: leadCatchments  = [...new Set(leadProjects.map(d => d.location.catchments).flat())]
 
     // HWS Key Values and conditions data
     $: themesData = {
         name:           "&#8212; Themes",
-        array:          [...new Set(leadProjects.map(d => d.hws.poTheme).flat())]
+        array:          [...new Set(leadProjects.map(d => d.hws.poThemes).flat())]
     }
     $: keyValuesData = {
         name:           "&#8212; Values",

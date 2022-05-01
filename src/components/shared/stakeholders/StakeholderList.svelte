@@ -11,7 +11,7 @@
     // Random project selection if no serch
     const shuffleArray = (array) => array.sort(() => Math.random() - 0.5)
     const orgDatabase = $database.organisations
-    const stakeholders =  $ui.search.organisation.length > 0 ? $ui.search.organisation :  shuffleArray(orgDatabase.slice(0, 6))
+    const stakeholders =  $ui.search.results.organisation.length > 0 ? $ui.search.results.organisation :  shuffleArray(orgDatabase.slice(0, 6))
 
 </script>
 

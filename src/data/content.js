@@ -56,7 +56,8 @@ function getRandomStockSplashImgPath(index){
 
 
 ////////// CONTENT //////////
-let toolName = 'Collaborative tool'
+
+let toolName = 'Implementation hub'
 let pages = {} , componentContent = {}
 
 async function getContent(data){
@@ -124,7 +125,8 @@ async function getContent(data){
     componentContent = {
         title: {
             subHeading:      getHTML('toolSubHeader'),
-            mainHeading:     `${toolName}`
+            mainHeading:     `${toolName}`,
+            tagline:         getHTML('toolTagline')
         },
 
         //  PAGES AND 
@@ -328,7 +330,6 @@ async function getContent(data){
 
     }
 };
-
 
 /* Stock image filenames */
 const stockWaterwaysImgNames = [

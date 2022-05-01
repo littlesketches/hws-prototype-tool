@@ -2,11 +2,14 @@
 <script>
 	import { slide, fly }       from "svelte/transition";
 	import MultiSelect          from '../../shared/forms/MultiSelect.svelte';
-	import LeafletMap           from '../../shared/map/LeafletMap.svelte';
+	import LeafletMap           from '../../shared/map/Map.svelte';
     import { ui }               from '../../../data/stores.js'
     import { database }         from '../../../data/dataStores.js'
+    import { app }              from '../../../data/realm.js'
     import { componentContent, infoModal } from '../../../data/content.js'
     import { keyValues, conditions, performanceObjectivesGroup, performanceObjectivesTheme, catchments, subcatchments, locations, leadOrg, leadOrgType, partnerOrg, projectType, projectStage, projectClass, projectSize, projectScale }  from '../../../data/selectorLists.js'
+
+    export let newSearch = true
 
     ////// COLLAPSIBLE SEARCH PANES ////
 	const paneVisbility= {
@@ -26,17 +29,50 @@
         console.log(`Toggling ${this.id} vis to `, paneVisbility[this.id])
     };
 
-    function handleSearch(){
-        // Random project selection: To be replaced with database search
-        function getRandomInt(min, max) {
-            min = Math.ceil(min);
-            max = Math.floor(max);
-            return Math.floor(Math.random() * (max - min + 1)) + min;
-        };
 
-        const shuffleArray = (array) => array.sort(() => Math.random() - 0.5)
-        const organisationDatabase = $database.organisations
-        const randOrgNumber =  getRandomInt(1, 6)
+    ////// SEARCH PROJECTION OBJECT /////
+    if(newSearch){
+        $ui.search.criteria.organisation = {
+            name:               [],
+            meta: {
+                type:           [],
+            },
+            project: {
+                hws: {
+                    poThemes:       [],
+                    conditions:     [],
+                    values:         [],
+                },
+                meta: {
+                    type:           [],
+                    class:          [],
+                    scale:          [],
+                },
+                status: {
+                    stage:          []
+                },
+                location: {
+                    catchments:     [],
+                    subCatchments:  [],
+                    locations:      [],
+                }
+            }
+        }
+    }
+
+    async function handleSearch(){
+        // Setup query
+        const query = {}
+        if($ui.search.criteria.organisation.name.length > 0)               query["name"]     = {$in: $ui.search.criteria.organisation.name}
+        if($ui.search.criteria.organisation.meta.type.length > 0)          query["meta.type"] = {$in: $ui.search.criteria.organisation.meta.type}
+
+        const projection = {}
+
+        console.log(query)
+        console.log(app.data.collections.organisations)
+        $ui.search.results.organisation  = await app.data.collections.organisations.find(query, projection)
+        console.log("Realm search results: ", $ui.search.results.organisation )
+
 
         // Temporary info box for stakehoder search
         if($ui.infoModal.showNotes && componentContent.messageModal.stakeholderSearch){
@@ -44,7 +80,7 @@
             componentContent.messageModal.stakeholderSearch = null
         }
 
-        $ui.search.organisation = shuffleArray(organisationDatabase.slice(0, randOrgNumber))
+        // $ui.search.organisation = shuffleArray(organisationDatabase.slice(0, randOrgNumber))
 
         ///////////////////////////////////////////
 
@@ -69,7 +105,7 @@
 
 
     // Keep count of search param number
-    $: noSearchParams = typeof Object.values($ui.search.organisation) === 'undefined' ? 0 : Object.values($ui.search.organisation).flat().length
+    $: noSearchParams = typeof Object.values($ui.search.results.organisation) === 'undefined' ? 0 : Object.values($ui.search.results.organisation).flat().length
    
 </script>
 
@@ -93,16 +129,28 @@
         </div>
         {#if paneVisbility.byStakeholders}
         <div class = "collapse__body" transition:slide>
-            <div class = 'multi-select-container' style="z-index:9">
-                <h4>{@html partnerOrg.label}</h4>
-                <MultiSelect id = {partnerOrg.name} bind:value={$ui.search.organisation.partnerOrg} placeholder={partnerOrg.placeholder} >
+            <div class = 'multi-select-container' style="z-index:20">
+                <h4>{@html leadOrg.label}</h4>
+                <MultiSelect id = {leadOrg.name} bind:value={$ui.search.criteria.organisation.name} placeholder={leadOrg.placeholder} >
                     <option disabled selected value></option>
-                    {#each partnerOrg.list as name}
+                    {#each leadOrg.list as name}
                     <option value={name}>{@html name}</option>
                     {/each}                
                 </MultiSelect>
             </div>
         </div>
+        <div class = "collapse__body" transition:slide>
+            <div class = 'multi-select-container' style="z-index:19">
+                <h4>{@html leadOrgType.label}</h4>
+                <MultiSelect id = {leadOrgType.name} bind:value={$ui.search.criteria.organisation.meta.type} placeholder={leadOrgType.placeholder} >
+                    <option disabled selected value></option>
+                    {#each leadOrgType.list as name}
+                    <option value={name}>{@html name}</option>
+                    {/each}                
+                </MultiSelect>
+            </div>
+        </div>
+
         {/if}
     </div>
 
@@ -116,9 +164,9 @@
 
         {#if paneVisbility.byOutcomes}
         <div class = "collapse__body"  transition:slide>
-            <div class = 'multi-select-container' style="z-index:21">
+            <div class = 'multi-select-container' style="z-index:18">
                 <h4>{@html keyValues.label}</h4>
-                <MultiSelect id={keyValues.name} bind:value={$ui.search.organisation.keyValues} placeholder={keyValues.placeholder} >
+                <MultiSelect id={keyValues.name} bind:value={$ui.search.criteria.organisation.project.hws.values} placeholder={keyValues.placeholder} >
                     <option disabled selected value></option>
                     {#each keyValues.list as name}
                     <option value={name}>{@html name}</option>
@@ -126,9 +174,9 @@
                 </MultiSelect>
             </div>
 
-            <div class = 'multi-select-container'  style="z-index:20">
+            <div class = 'multi-select-container'  style="z-index:17">
                 <h4>{@html conditions.label}</h4>
-                <MultiSelect id={conditions.name} bind:value={$ui.search.organisation.conditions}   placeholder={conditions.placeholder} >
+                <MultiSelect id={conditions.name} bind:value={$ui.search.criteria.organisation.project.hws.conditions}   placeholder={conditions.placeholder} >
                     <option disabled selected value></option>
                     {#each conditions.list as name}
                     <option value={name}>{@html name}</option>
@@ -136,18 +184,9 @@
                 </MultiSelect>
             </div>
 
-            <div class = 'multi-select-container' style="z-index:19">
-                <h4>{@html performanceObjectivesGroup.label}</h4>
-                <MultiSelect id={performanceObjectivesGroup.name} bind:value={$ui.search.organisation.performanceObjectivesGroup}   placeholder={performanceObjectivesGroup.placeholder} >
-                    <option disabled selected value></option>
-                    {#each performanceObjectivesGroup.list as name}
-                    <option value={name}>{@html name}</option>
-                    {/each}
-                </MultiSelect>
-            </div>
-            <div class = 'multi-select-container' style="z-index:18">
+            <div class = 'multi-select-container' style="z-index:16">
                 <h4>{@html performanceObjectivesTheme.label}</h4>
-                <MultiSelect id={performanceObjectivesTheme.name} bind:value={$ui.search.project.performanceObjectivesTheme}   placeholder={performanceObjectivesTheme.placeholder} >
+                <MultiSelect id={performanceObjectivesTheme.name} bind:value={$ui.search.criteria.organisation.project.hws.poThemes}   placeholder={performanceObjectivesTheme.placeholder} >
                     <option disabled selected value></option>
                     {#each performanceObjectivesTheme.list as name}
                     <option value={name}>{@html name}</option>
@@ -168,9 +207,9 @@
         </div>
         {#if paneVisbility.byLocation}
         <div class = "collapse__body"  transition:slide>
-            <div class = 'multi-select-container' style="z-index:17">
+            <div class = 'multi-select-container' style="z-index:15">
                 <h4>{@html catchments.label}</h4>
-                <MultiSelect id={catchments.name} bind:value={$ui.search.organisation.catchment} placeholder={catchments.placeholder} >
+                <MultiSelect id={catchments.name} bind:value={$ui.search.criteria.organisation.project.location.catchments} placeholder={catchments.placeholder} >
                     <option disabled selected value></option>
                     {#each catchments.list as name}
                     <option value={name}>{@html name}</option>
@@ -178,9 +217,9 @@
                 </MultiSelect>
             </div>
 
-            <div class = 'multi-select-container' style="z-index:16">
+            <div class = 'multi-select-container' style="z-index:14">
                 <h4>{@html subcatchments.label}</h4>
-                <MultiSelect id={subcatchments.name} bind:value={$ui.search.organisation.subcatchment} placeholder={subcatchments.placeholder} >
+                <MultiSelect id={subcatchments.name} bind:value={$ui.search.criteria.organisation.project.location.subCatchments} placeholder={subcatchments.placeholder} >
                     <option disabled selected value></option>
                     {#each subcatchments.list as name}
                     <option value={name}>{@html name}</option>
@@ -188,9 +227,9 @@
                 </MultiSelect>
             </div>
 
-            <div class = 'multi-select-container' style="z-index:15">
+            <div class = 'multi-select-container' style="z-index:13">
                 <h4>{@html locations.label}</h4>
-                <MultiSelect id={locations.name} bind:value={$ui.search.organisation.locations} placeholder={locations.placeholder}>
+                <MultiSelect id={locations.name} bind:value={$ui.search.criteria.organisation.project.location.locations} placeholder={locations.placeholder}>
                     <option disabled selected value></option>
                     {#each locations.list as name}
                     <option value={name}>{@html name}</option>
@@ -211,45 +250,36 @@
         </div>
         {#if paneVisbility.byCharacteristics}
         <div class = "collapse__body"  transition:slide>
-            <div class = 'multi-select-container' style="z-index:14">
-                <h4>{@html projectType.label}</h4>
-                <MultiSelect id = {projectType.name} bind:value={$ui.search.organisation.projectType} placeholder={projectType.placeholder} >
-                    <option disabled selected value></option>
-                    {#each projectType.list as name}
-                    <option value={name}>{@html name}</option>
-                    {/each}                
-                </MultiSelect>
-            </div>
-            <div class = 'multi-select-container' style="z-index:13">
+            <div class = 'multi-select-container' style="z-index:12">
                 <h4>{@html projectStage.label}</h4>
-                <MultiSelect id = {projectStage.name} bind:value={$ui.search.organisation.projectStage} placeholder={projectStage.placeholder} >
+                <MultiSelect id = {projectStage.name} bind:value={$ui.search.criteria.organisation.project.status.stage} placeholder={projectStage.placeholder} >
                     <option disabled selected value></option>
                     {#each projectStage.list as name}
                     <option value={name}>{@html name}</option>
                     {/each}                
                 </MultiSelect>
             </div>
-            <div class = 'multi-select-container' style="z-index:12">
+            <div class = 'multi-select-container' style="z-index:11">
+                <h4>{@html projectType.label}</h4>
+                <MultiSelect id = {projectType.name} bind:value={$ui.search.criteria.organisation.project.meta.type} placeholder={projectType.placeholder} >
+                    <option disabled selected value></option>
+                    {#each projectType.list as name}
+                    <option value={name}>{@html name}</option>
+                    {/each}                
+                </MultiSelect>
+            </div>
+            <div class = 'multi-select-container' style="z-index:10">
                 <h4>{@html projectClass.label}</h4>
-                <MultiSelect id = {projectClass.name} bind:value={$ui.search.organisation.projectClass} placeholder={projectClass.placeholder} >
+                <MultiSelect id = {projectClass.name} bind:value={$ui.search.criteria.organisation.project.meta.class} placeholder={projectClass.placeholder} >
                     <option disabled selected value></option>
                     {#each projectClass.list as name}
                     <option value={name}>{@html name}</option>
                     {/each}                
                 </MultiSelect>
             </div>
-            <div class = 'multi-select-container' style="z-index:11">
-                <h4>{@html projectSize.label}</h4>
-                <MultiSelect id = {projectSize.name} bind:value={$ui.search.organisation.projectSize} placeholder={projectSize.placeholder} >
-                    <option disabled selected value></option>
-                    {#each projectSize.list as name}
-                    <option value={name}>{@html name}</option>
-                    {/each}                
-                </MultiSelect>
-            </div>
-            <div class = 'multi-select-container' style="z-index:10">
+            <div class = 'multi-select-container' style="z-index:9">
                 <h4>{@html projectScale.label}</h4>
-                <MultiSelect id = {projectScale.name} bind:value={$ui.search.organisation.projectScale} placeholder={projectScale.placeholder} >
+                <MultiSelect id = {projectScale.name} bind:value={$ui.search.criteria.organisation.project.meta.scale} placeholder={projectScale.placeholder} >
                     <option disabled selected value></option>
                     {#each projectScale.list as name}
                     <option value={name}>{@html name}</option>

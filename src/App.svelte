@@ -16,10 +16,56 @@
     import { database } from './data/dataStores.js'
 
     export let queryParams
-    export let airtableData
+    export let contentData
     
 	$user.isRegistered = queryParams.get('userRegistered') === 'true' ? true : false
-	const promiseContent = getContent(airtableData)
+	const promiseContent = getContent(contentData)
+
+    // Intro Modal
+    if($ui.infoModal.showNotes){
+        $ui.infoModal.message = {
+            buttons:        [
+                {
+                    text:       'Explore the prototype',
+                    function:   'close',
+                }
+            ],
+            header:     '&#9888; THIS IS A PROTOTYPE &#9888; ',
+            content:    `${contentData.filter(d => d.reference === 'messageModal.toolIntro')[0].content}
+                        <hr>
+                        <div style="display:flex; justify-content:center; text-align: center; color: #fff">
+                            <div class="contact" style="width: 20%; padding:0.5rem; font-size: 0.8rem; margin:auto 0">
+                                Feedback and further info: &rarr;
+                            </div>
+                            <div style="width: 20%; padding:0.5rem; cursor:pointer">
+                                <a style = "color: #fff" href="mailto:Gail.Hall@melbournewater.com.au?subject=Healthy Waterways Implementation Hub Prototype&cc=brendan@littlesketch.es">
+                                    <div style="font-size: 3rem">&#9993;</div>
+                                    <div style="font-size: 0.8rem">Email the prototype team directly</div>
+                                </a>
+                            </div>
+                            <div style="width: 20%; padding:0.5rem; cursor:pointer">
+                                <a style = "color: #fff" >
+                                    <div style="font-size: 3rem">&quest;</div>
+                                    <div style="font-size: 0.8rem">Issues and suggestions (Airtable)</div>
+                                </a>
+                            </div>
+                            <div style="width: 20%; padding:0.5rem; cursor:pointer">
+                                <a style = "color: #fff" href="https://www.figma.com/file/Kp2lrQynVAIS5tAlMy8whO/Prototype-wireframe-design?node-id=0%3A1" target="_blank">
+                                    <div style="font-size: 3rem">&#x2692;</div>
+                                    <div style="font-size: 0.8rem">UI/UX wireframes + feedback (Figma)</div>
+                                </a>
+                            </div>
+                            <div style="width: 20%; padding:0.5rem; cursor:pointer">
+                                <a style = "color: #fff"  href="https://littlesketches.github.io/hws-prototype-tool/" target="_blank">
+                                    <div style="font-size: 2rem; padding-top: 0.75rem; padding-bottom: 0.45rem">< /></div>
+                                    <div style="font-size: 0.8rem">Code repository + documentation (Github)</div>
+                                </a>
+                            </div>
+                        </div>
+                        <hr>
+                        `    
+        }
+    }
 
 </script>	
 

@@ -1148,6 +1148,14 @@ var app = (function (exports) {
         $capture_state() { }
         $inject_state() { }
     }
+    function loop_guard(timeout) {
+        const start = Date.now();
+        return () => {
+            if (Date.now() - start > timeout) {
+                throw new Error('Infinite loop detected');
+            }
+        };
+    }
 
     function cubicOut(t) {
         const f = t - 1.0;
@@ -1319,69 +1327,35 @@ var app = (function (exports) {
         },
         infoModal: {
             show:           true,      
-            showNotes:      true,       // Flag for showing development user notes
-            message:        {           // Default is the intro to the tool message
-                buttons: [
-                    {
-                        text:       'Explore the prototype',
-                        function:   'close',
-                    },
-                ],      
-                header:         '&#9888; THIS IS A PROTOTYPE &#9888; ',
-                content:        `<p>This 'prototype collaborative tool' is made to explore the concept of an online tool for all waterways stakeholders to share what they're doing or planning to do (that we simply term as 'projects'), as well their thoughts and knowledge about what else is happening.                             
-                            This early prototype focuses on establishing core features for project and stakeholder "search", and for "sharing" new projects or feedback.
-                            We think of these as building blocks for more sophisticated collaborative features that might be later co-designed with users of the Tool.</p>
-                            <p>The prototype is <strong>not a complete tool</strong> but is intended to be a more concrete and cohesive proof of concept suitable for: explaining the basic purpose of the tool itself, exploring design and development directions, and for testing and/or further co-design with real users. 
-                                The prototype is however developed as a custom application and will (hopefully) soon feature real (but not yet'real time') project data. 
-                            </p>
-                            <p>This prototype is a starting point for surfacing ideas from users about the merits of an online tool, and <strong>'what else'</strong> might be needed to turn into a useful platform to foster collaboration between waterways stakeholders to take action to protect and improve the health of our waterways.
-                            </p>
-                            <hr>
-                            <div style="display:flex; justify-content:center; text-align: center; color: #fff">
-                                <div class="contact" style="width: 20%; padding:0.5rem; font-size: 0.8rem; margin:auto 0">
-                                    Feedback and further info: &rarr;
-                                </div>
-                                <div style="width: 20%; padding:0.5rem; cursor:pointer">
-                                    <a style = "color: #fff" href="mailto:Gail.Hall@melbournewater.com.au?subject=MW Collaborative Tool Prototype&cc=brendan@littlesketch.es">
-                                        <div style="font-size: 3rem">&#9993;</div>
-                                        <div style="font-size: 0.8rem">Email the prototype team directly</div>
-                                    </a>
-                                </div>
-                                <div style="width: 20%; padding:0.5rem; cursor:pointer">
-                                    <a style = "color: #fff" >
-                                       <div style="font-size: 3rem">&quest;</div>
-                                        <div style="font-size: 0.8rem">Issues and suggestions (Airtable)</div>
-                                    </a>
-                                </div>
-                                <div style="width: 20%; padding:0.5rem; cursor:pointer">
-                                    <a style = "color: #fff" href="https://www.figma.com/file/Kp2lrQynVAIS5tAlMy8whO/Collaborative-Tool-Wireframe-design" target="_blank">
-                                        <div style="font-size: 3rem">&#x2692;</div>
-                                        <div style="font-size: 0.8rem">UI/UX wireframes + feedback (Figma)</div>
-                                    </a>
-                                </div>
-                                <div style="width: 20%; padding:0.5rem; cursor:pointer">
-                                    <a style = "color: #fff"  href="https://github.com/littlesketches/mw-collab-tool-proto" target="_blank">
-                                        <div style="font-size: 2rem; padding-top: 0.75rem; padding-bottom: 0.45rem">< /></div>
-                                        <div style="font-size: 0.8rem">Code repository + documentation (Github)</div>
-                                    </a>
-                                </div>
-                            </div>
-                            <hr>
-                            `                        
-            },
-            // message:        null
+            showNotes:      false,       // Flag for showing development user notes
+            message:        null
         },
         map:{
+            context:        null,
             style:          'tonerBG',
             attribution:    false,
-            data:           {}
+            data:           {
+                focus: {
+                    catchments:         null,
+                    subCatchments:      null
+
+                }
+
+            }
         },
         items: {
             pages:              []
         },
         search: {
-            project:            [],
-            organisation:       []
+            criteria: {
+                project:                null,
+                organisation:           null,
+            },
+            results: {
+                project:            [],
+                organisation:       []
+            }
+
         },
         newProject:             null,
         editProject: {
@@ -1510,7 +1484,8 @@ var app = (function (exports) {
     }
 
     ////////// CONTENT //////////
-    let toolName = 'Collaborative tool';
+
+    let toolName = 'Implementation hub';
     let pages = {} , componentContent$1 = {};
 
     async function getContent(data){
@@ -1578,7 +1553,8 @@ var app = (function (exports) {
         componentContent$1 = {
             title: {
                 subHeading:      getHTML('toolSubHeader'),
-                mainHeading:     `${toolName}`
+                mainHeading:     `${toolName}`,
+                tagline:         getHTML('toolTagline')
             },
 
             //  PAGES AND 
@@ -1782,7 +1758,6 @@ var app = (function (exports) {
 
         };
     }
-
     /* Stock image filenames */
     const stockWaterwaysImgNames = [
         "pexels-our-life-in-pixels-7044614.jpg",
@@ -1902,7 +1877,7 @@ var app = (function (exports) {
     ];
 
     /* src/components/byPage/home/Title.svelte generated by Svelte v3.46.4 */
-    const file$1r = "src/components/byPage/home/Title.svelte";
+    const file$1q = "src/components/byPage/home/Title.svelte";
 
     function create_fragment$1t(ctx) {
     	let section;
@@ -1921,11 +1896,11 @@ var app = (function (exports) {
     			t = space();
     			h1 = element("h1");
     			attr_dev(h3, "class", "svelte-1y0yq6s");
-    			add_location(h3, file$1r, 8, 8, 218);
+    			add_location(h3, file$1q, 8, 4, 210);
     			attr_dev(h1, "class", "svelte-1y0yq6s");
-    			add_location(h1, file$1r, 11, 8, 339);
+    			add_location(h1, file$1q, 11, 4, 319);
     			attr_dev(section, "class", "title-content svelte-1y0yq6s");
-    			add_location(section, file$1r, 7, 4, 176);
+    			add_location(section, file$1q, 7, 0, 172);
     		},
     		l: function claim(nodes) {
     			throw new Error("options.hydrate only works if the component was compiled with the `hydratable: true` option");
@@ -1999,7 +1974,7 @@ var app = (function (exports) {
     }
 
     /* src/components/byPage/home/MenuCard.svelte generated by Svelte v3.46.4 */
-    const file$1q = "src/components/byPage/home/MenuCard.svelte";
+    const file$1p = "src/components/byPage/home/MenuCard.svelte";
 
     function create_fragment$1s(ctx) {
     	let div1;
@@ -2027,15 +2002,15 @@ var app = (function (exports) {
     			div0 = element("div");
     			p = element("p");
     			attr_dev(h3, "class", "svelte-xmlyfh");
-    			add_location(h3, file$1q, 18, 4, 480);
+    			add_location(h3, file$1p, 18, 4, 480);
     			attr_dev(hr, "class", "svelte-xmlyfh");
-    			add_location(hr, file$1q, 19, 4, 515);
+    			add_location(hr, file$1p, 19, 4, 515);
     			attr_dev(p, "class", "svelte-xmlyfh");
-    			add_location(p, file$1q, 21, 8, 538);
-    			add_location(div0, file$1q, 20, 4, 524);
+    			add_location(p, file$1p, 21, 8, 538);
+    			add_location(div0, file$1p, 20, 4, 524);
     			attr_dev(div1, "class", div1_class_value = "card card-" + /*index*/ ctx[1] + " svelte-xmlyfh");
     			attr_dev(div1, "name", div1_name_value = /*pageData*/ ctx[0].name);
-    			add_location(div1, file$1q, 14, 0, 316);
+    			add_location(div1, file$1p, 14, 0, 316);
     		},
     		l: function claim(nodes) {
     			throw new Error("options.hydrate only works if the component was compiled with the `hydratable: true` option");
@@ -47814,7 +47789,7 @@ var app = (function (exports) {
         };
 
         const performanceObjectivesTheme = {
-            label:              'by performance objective theme',
+            label:              'by theme',
             name:               'performanceObjectiveTheme',
             list:               [... new Set(Object.values(hwsSchema.performanceObjectives).map(d => d.themes).flat().sort()) ],
             placeholder:        'Use this field to select performance objectives themes'
@@ -47850,6 +47825,7 @@ var app = (function (exports) {
             placeholder:        'Use this field to select initiative type(s)',
             placeholderSingle:  'Use this field to select a initiative type'
         };
+
         const projectStage = {
             label:              'by stage',
             name:               'projectStage',
@@ -47857,6 +47833,7 @@ var app = (function (exports) {
             placeholder:        'Use this field to select project stage(s)',
             placeholderSingle:  'Use this field to select a project stage'
         };
+
         const projectClass = {
             label:              'by class',
             name:               'projectClass',
@@ -47864,6 +47841,7 @@ var app = (function (exports) {
             placeholder:        'Use this field to select project class(es)',
             placeholderSingle:  'Use this field to select a project class'
         };
+
         const projectSize = {
             label:              'by size',
             name:               'projectSize',
@@ -47871,6 +47849,7 @@ var app = (function (exports) {
             placeholder:        'Use this field to select project size(s)',
             placeholderSingle:  'Use this field to select a project size'
         };
+
         const projectScale = {
             label:              'by scale',
             name:               'projectScale',
@@ -47887,12 +47866,14 @@ var app = (function (exports) {
             placeholder:        'Use this field to select the name of lead organisation(s)',
             placeholderSingle:  'Use this field to select the lead organisation'
         };
+
         const partnerOrg = {
             label:              'Partner organisation(s)',
             name:               'partnerOrg',
             list:               null,
             placeholder:        'Use this field to select the name of a partner organisation(s)'
         };
+
         const leadOrgType = {
             label:              'Lead organisation type',
             name:               'leadOrgType',
@@ -47925,9 +47906,11 @@ var app = (function (exports) {
             }
         }            
     };
+    /////////////////////////////////////////////////////////////////
+    /////  Connect to MongoDB Realm backend and Atlas databases
+    /////////////////////////////////////////////////////////////////
 
-    // Functions to connect to MongoDB Realm backend and Atlas databases
-    async function initRealm(app){
+    async function initRealm(app ){
         console.log('Initialising the Realm app...');
         app.realm = new App$1({ id: app.config.realmID});
     }
@@ -47957,6 +47940,21 @@ var app = (function (exports) {
             app.realm.removeUser(user);
         }
     }
+    /////////////////////////////////////////////////////////////////
+    ///// Query the database collections
+    /////////////////////////////////////////////////////////////////
+
+    async function searchProjects(query = {}, projection = {} ){
+
+        console.log(app.data.collections.projects);
+        console.log(query);
+        console.log(projection);
+
+        return await app.data.collections.projects
+            .find(query, projection)
+
+    }
+
     ////////////////////////////////////////
 
     async function setupLocalStore(app, store){
@@ -47981,9 +47979,7 @@ var app = (function (exports) {
     }
     async function addDefaultImages(store){
         console.log('Adding default image URLs...');
-        for( const item of store.projects){
-            item.imgURL = getRandomStockImgPath();
-        }
+
         for( const item of store.organisations){
             item.imgURL = getRandomAbstractImgPath();
         }
@@ -48005,7 +48001,7 @@ var app = (function (exports) {
     const capitaliseFirst = (string) => string.charAt(0).toUpperCase() + string.slice(1);
 
     /* src/components/byPage/home/Menu.svelte generated by Svelte v3.46.4 */
-    const file$1p = "src/components/byPage/home/Menu.svelte";
+    const file$1o = "src/components/byPage/home/Menu.svelte";
 
     function get_each_context$l(ctx, list, i) {
     	const child_ctx = ctx.slice();
@@ -48035,7 +48031,7 @@ var app = (function (exports) {
     			t3 = text(t3_value);
     			t4 = text("!");
     			attr_dev(h3, "class", "user-label svelte-1ne3h6h");
-    			add_location(h3, file$1p, 14, 8, 538);
+    			add_location(h3, file$1o, 14, 8, 538);
     		},
     		m: function mount(target, anchor) {
     			insert_dev(target, h3, anchor);
@@ -48165,9 +48161,9 @@ var app = (function (exports) {
     			}
 
     			attr_dev(div, "class", "menu-container svelte-1ne3h6h");
-    			add_location(div, file$1p, 16, 4, 683);
+    			add_location(div, file$1o, 16, 4, 683);
     			attr_dev(section, "class", "svelte-1ne3h6h");
-    			add_location(section, file$1p, 12, 0, 491);
+    			add_location(section, file$1o, 12, 0, 491);
     		},
     		l: function claim(nodes) {
     			throw new Error("options.hydrate only works if the component was compiled with the `hydratable: true` option");
@@ -48298,7 +48294,7 @@ var app = (function (exports) {
 
     /* src/components/byPage/home/About.svelte generated by Svelte v3.46.4 */
 
-    const file$1o = "src/components/byPage/home/About.svelte";
+    const file$1n = "src/components/byPage/home/About.svelte";
 
     function create_fragment$1q(ctx) {
     	let section;
@@ -48465,101 +48461,101 @@ var app = (function (exports) {
     			span2 = element("span");
     			span2.textContent = "here →";
     			attr_dev(h1, "class", "svelte-b3ojm1");
-    			add_location(h1, file$1o, 20, 12, 681);
+    			add_location(h1, file$1n, 20, 12, 681);
     			attr_dev(div0, "class", "content-oxx svelte-b3ojm1");
-    			add_location(div0, file$1o, 19, 8, 641);
+    			add_location(div0, file$1n, 19, 8, 641);
     			html_tag.a = t1;
     			attr_dev(span0, "class", "link-info svelte-b3ojm1");
     			attr_dev(span0, "modal", "toolGovernance");
-    			add_location(span0, file$1o, 24, 86, 920);
+    			add_location(span0, file$1n, 24, 86, 920);
     			attr_dev(p0, "class", "svelte-b3ojm1");
-    			add_location(p0, file$1o, 24, 12, 846);
+    			add_location(p0, file$1n, 24, 12, 846);
     			attr_dev(div1, "class", "content-xox svelte-b3ojm1");
-    			add_location(div1, file$1o, 22, 8, 756);
+    			add_location(div1, file$1n, 22, 8, 756);
     			if (!src_url_equal(img0.src, img0_src_value = getRandomStockImgPath())) attr_dev(img0, "src", img0_src_value);
     			attr_dev(img0, "alt", "Stock");
     			attr_dev(img0, "class", "svelte-b3ojm1");
-    			add_location(img0, file$1o, 27, 12, 1083);
+    			add_location(img0, file$1n, 27, 12, 1083);
     			attr_dev(div2, "class", "content-xxo svelte-b3ojm1");
-    			add_location(div2, file$1o, 26, 8, 1042);
+    			add_location(div2, file$1n, 26, 8, 1042);
     			attr_dev(div3, "class", "about-section-3col svelte-b3ojm1");
-    			add_location(div3, file$1o, 18, 4, 597);
+    			add_location(div3, file$1n, 18, 4, 597);
     			if (!src_url_equal(img1.src, img1_src_value = getRandomStockImgPath())) attr_dev(img1, "src", img1_src_value);
     			attr_dev(img1, "alt", "Stock");
     			attr_dev(img1, "class", "svelte-b3ojm1");
-    			add_location(img1, file$1o, 33, 12, 1286);
+    			add_location(img1, file$1n, 33, 12, 1286);
     			attr_dev(div4, "class", "content-xox svelte-b3ojm1");
-    			add_location(div4, file$1o, 32, 8, 1246);
+    			add_location(div4, file$1n, 32, 8, 1246);
     			attr_dev(h20, "class", "svelte-b3ojm1");
-    			add_location(h20, file$1o, 36, 12, 1402);
+    			add_location(h20, file$1n, 36, 12, 1402);
     			html_tag_1.a = null;
     			attr_dev(div5, "class", "content-oxx svelte-b3ojm1");
-    			add_location(div5, file$1o, 35, 8, 1362);
+    			add_location(div5, file$1n, 35, 8, 1362);
     			attr_dev(h21, "class", "svelte-b3ojm1");
-    			add_location(h21, file$1o, 40, 12, 1598);
+    			add_location(h21, file$1n, 40, 12, 1598);
     			html_tag_2.a = null;
     			attr_dev(div6, "class", "content-xxo svelte-b3ojm1");
-    			add_location(div6, file$1o, 39, 8, 1558);
+    			add_location(div6, file$1n, 39, 8, 1558);
     			attr_dev(div7, "class", "about-section-3col svelte-b3ojm1");
-    			add_location(div7, file$1o, 31, 4, 1202);
+    			add_location(div7, file$1n, 31, 4, 1202);
     			attr_dev(h22, "class", "svelte-b3ojm1");
-    			add_location(h22, file$1o, 47, 12, 1867);
+    			add_location(h22, file$1n, 47, 12, 1867);
     			html_tag_3.a = null;
     			attr_dev(div8, "class", "content-xox svelte-b3ojm1");
-    			add_location(div8, file$1o, 46, 8, 1827);
+    			add_location(div8, file$1n, 46, 8, 1827);
     			if (!src_url_equal(img2.src, img2_src_value = getRandomStockImgPath())) attr_dev(img2, "src", img2_src_value);
     			attr_dev(img2, "alt", "Stock");
     			attr_dev(img2, "class", "svelte-b3ojm1");
-    			add_location(img2, file$1o, 51, 12, 2062);
+    			add_location(img2, file$1n, 51, 12, 2062);
     			attr_dev(div9, "class", "content-oxx svelte-b3ojm1");
-    			add_location(div9, file$1o, 50, 8, 2022);
+    			add_location(div9, file$1n, 50, 8, 2022);
     			if (!src_url_equal(img3.src, img3_src_value = getRandomStockImgPath())) attr_dev(img3, "src", img3_src_value);
     			attr_dev(img3, "alt", "Stock");
     			attr_dev(img3, "class", "svelte-b3ojm1");
-    			add_location(img3, file$1o, 54, 12, 2178);
+    			add_location(img3, file$1n, 54, 12, 2178);
     			attr_dev(div10, "class", "content-xxo svelte-b3ojm1");
-    			add_location(div10, file$1o, 53, 8, 2138);
+    			add_location(div10, file$1n, 53, 8, 2138);
     			attr_dev(div11, "class", "about-section-3col svelte-b3ojm1");
-    			add_location(div11, file$1o, 45, 4, 1783);
+    			add_location(div11, file$1n, 45, 4, 1783);
     			if (!src_url_equal(img4.src, img4_src_value = getRandomStockImgPath())) attr_dev(img4, "src", img4_src_value);
     			attr_dev(img4, "alt", "Stock");
     			attr_dev(img4, "class", "svelte-b3ojm1");
-    			add_location(img4, file$1o, 60, 12, 2346);
+    			add_location(img4, file$1n, 60, 12, 2346);
     			attr_dev(div12, "class", "content-xoo svelte-b3ojm1");
-    			add_location(div12, file$1o, 59, 8, 2306);
+    			add_location(div12, file$1n, 59, 8, 2306);
     			attr_dev(h23, "class", "svelte-b3ojm1");
-    			add_location(h23, file$1o, 63, 12, 2462);
+    			add_location(h23, file$1n, 63, 12, 2462);
     			html_tag_4.a = null;
     			attr_dev(div13, "class", "content-oxx svelte-b3ojm1");
-    			add_location(div13, file$1o, 62, 8, 2422);
+    			add_location(div13, file$1n, 62, 8, 2422);
     			attr_dev(div14, "class", "about-section-3col svelte-b3ojm1");
-    			add_location(div14, file$1o, 58, 4, 2262);
+    			add_location(div14, file$1n, 58, 4, 2262);
     			if (!src_url_equal(img5.src, img5_src_value = getRandomStockImgPath())) attr_dev(img5, "src", img5_src_value);
     			attr_dev(img5, "alt", "Stock");
     			attr_dev(img5, "class", "svelte-b3ojm1");
-    			add_location(img5, file$1o, 70, 12, 2709);
+    			add_location(img5, file$1n, 70, 12, 2709);
     			attr_dev(div15, "class", "content-oox svelte-b3ojm1");
-    			add_location(div15, file$1o, 69, 8, 2669);
+    			add_location(div15, file$1n, 69, 8, 2669);
     			attr_dev(h24, "class", "svelte-b3ojm1");
-    			add_location(h24, file$1o, 73, 12, 2824);
+    			add_location(h24, file$1n, 73, 12, 2824);
     			html_tag_5.a = t20;
     			attr_dev(span1, "class", "link-info svelte-b3ojm1");
     			attr_dev(span1, "modal", "toolGuidance");
-    			add_location(span1, file$1o, 75, 73, 3031);
+    			add_location(span1, file$1n, 75, 73, 3031);
     			attr_dev(p1, "class", "svelte-b3ojm1");
-    			add_location(p1, file$1o, 75, 12, 2970);
+    			add_location(p1, file$1n, 75, 12, 2970);
     			html_tag_6.a = t24;
     			attr_dev(span2, "class", "link-info svelte-b3ojm1");
     			attr_dev(span2, "modal", "otherResources");
-    			add_location(span2, file$1o, 77, 68, 3266);
+    			add_location(span2, file$1n, 77, 68, 3266);
     			attr_dev(p2, "class", "svelte-b3ojm1");
-    			add_location(p2, file$1o, 77, 12, 3210);
+    			add_location(p2, file$1n, 77, 12, 3210);
     			attr_dev(div16, "class", "content-xxo svelte-b3ojm1");
-    			add_location(div16, file$1o, 72, 8, 2784);
+    			add_location(div16, file$1n, 72, 8, 2784);
     			attr_dev(div17, "class", "about-section-3col svelte-b3ojm1");
-    			add_location(div17, file$1o, 68, 4, 2625);
+    			add_location(div17, file$1n, 68, 4, 2625);
     			attr_dev(section, "class", "about-section");
-    			add_location(section, file$1o, 16, 0, 536);
+    			add_location(section, file$1n, 16, 0, 536);
     		},
     		l: function claim(nodes) {
     			throw new Error("options.hydrate only works if the component was compiled with the `hydratable: true` option");
@@ -48717,7 +48713,7 @@ var app = (function (exports) {
 
     /* src/components/shared/layout/Footer.svelte generated by Svelte v3.46.4 */
 
-    const file$1n = "src/components/shared/layout/Footer.svelte";
+    const file$1m = "src/components/shared/layout/Footer.svelte";
 
     function create_fragment$1p(ctx) {
     	let footer0;
@@ -48753,26 +48749,26 @@ var app = (function (exports) {
     			div2 = element("div");
     			div2.textContent = "Melbourne Water respectfully acknowledges Aboriginal and Torres Strait Islander peoples as the Traditional Owners and custodians of the land and water on which all Australians rely. We pay our respects to Wurundjeri, Bunurong and Wadawurrung, their Elders past, present and future, as Traditional Owners and the custodians of the land and water on which we rely and operate.";
     			attr_dev(div0, "class", "logo-tagline svelte-1s6vi0y");
-    			add_location(div0, file$1n, 3, 8, 74);
+    			add_location(div0, file$1m, 3, 8, 74);
     			if (!src_url_equal(img0.src, img0_src_value = "./static/img/logo.svg")) attr_dev(img0, "src", img0_src_value);
     			attr_dev(img0, "alt", "Healthy Waterways strategy logo");
     			attr_dev(img0, "class", "svelte-1s6vi0y");
-    			add_location(img0, file$1n, 4, 8, 146);
-    			add_location(div1, file$1n, 2, 4, 60);
+    			add_location(img0, file$1m, 4, 8, 146);
+    			add_location(div1, file$1m, 2, 4, 60);
     			attr_dev(footer0, "class", "tool svelte-1s6vi0y");
-    			add_location(footer0, file$1n, 1, 0, 32);
+    			add_location(footer0, file$1m, 1, 0, 32);
     			if (!src_url_equal(img1.src, img1_src_value = "https://upload.wikimedia.org/wikipedia/commons/3/3f/Australian_Aboriginal_Flag.svg")) attr_dev(img1, "src", img1_src_value);
     			attr_dev(img1, "alt", "Flag of Aboriginal Australia");
     			attr_dev(img1, "class", "svelte-1s6vi0y");
-    			add_location(img1, file$1n, 8, 4, 291);
+    			add_location(img1, file$1m, 8, 4, 291);
     			if (!src_url_equal(img2.src, img2_src_value = "https://upload.wikimedia.org/wikipedia/en/1/1d/Flag_of_the_Torres_Strait_Islanders.svg")) attr_dev(img2, "src", img2_src_value);
     			attr_dev(img2, "alt", "Flag of he Torres Strait Islanders");
     			attr_dev(img2, "class", "svelte-1s6vi0y");
-    			add_location(img2, file$1n, 9, 4, 426);
+    			add_location(img2, file$1m, 9, 4, 426);
     			attr_dev(div2, "class", "acknowledgement-of-country-text svelte-1s6vi0y");
-    			add_location(div2, file$1n, 10, 4, 571);
+    			add_location(div2, file$1m, 10, 4, 571);
     			attr_dev(footer1, "class", "acknowledgement-of-country svelte-1s6vi0y");
-    			add_location(footer1, file$1n, 7, 0, 242);
+    			add_location(footer1, file$1m, 7, 0, 242);
     		},
     		l: function claim(nodes) {
     			throw new Error("options.hydrate only works if the component was compiled with the `hydratable: true` option");
@@ -48839,7 +48835,7 @@ var app = (function (exports) {
     }
 
     /* src/components/byPage/home/Hero.svelte generated by Svelte v3.46.4 */
-    const file$1m = "src/components/byPage/home/Hero.svelte";
+    const file$1l = "src/components/byPage/home/Hero.svelte";
 
     function get_each_context$k(ctx, list, i) {
     	const child_ctx = ctx.slice();
@@ -48860,8 +48856,8 @@ var app = (function (exports) {
     			set_style(img, "transform", "translate(0," + -/*y*/ ctx[0] * /*layer*/ ctx[3] / (/*layers*/ ctx[1].length - 1) + "px)");
     			if (!src_url_equal(img.src, img_src_value = "./static/img/parallax/parallax" + /*layer*/ ctx[3] + ".png")) attr_dev(img, "src", img_src_value);
     			attr_dev(img, "alt", "parallax layer " + /*layer*/ ctx[3]);
-    			attr_dev(img, "class", "svelte-141majn");
-    			add_location(img, file$1m, 17, 2, 461);
+    			attr_dev(img, "class", "svelte-1jb17ul");
+    			add_location(img, file$1l, 17, 2, 460);
     		},
     		m: function mount(target, anchor) {
     			insert_dev(target, img, anchor);
@@ -48942,14 +48938,14 @@ var app = (function (exports) {
     			create_component(about.$$.fragment);
     			t1 = space();
     			create_component(footer.$$.fragment);
-    			attr_dev(div0, "class", "parallax-container svelte-141majn");
-    			add_location(div0, file$1m, 15, 4, 391);
-    			attr_dev(div1, "class", "about-container svelte-141majn");
-    			add_location(div1, file$1m, 26, 8, 799);
-    			attr_dev(div2, "class", "content svelte-141majn");
-    			add_location(div2, file$1m, 25, 4, 769);
-    			attr_dev(section, "class", "svelte-141majn");
-    			add_location(section, file$1m, 14, 0, 377);
+    			attr_dev(div0, "class", "parallax-container svelte-1jb17ul");
+    			add_location(div0, file$1l, 15, 4, 390);
+    			attr_dev(div1, "class", "about-container svelte-1jb17ul");
+    			add_location(div1, file$1l, 26, 8, 798);
+    			attr_dev(div2, "class", "content svelte-1jb17ul");
+    			add_location(div2, file$1l, 25, 4, 768);
+    			attr_dev(section, "class", "svelte-1jb17ul");
+    			add_location(section, file$1l, 14, 0, 376);
     		},
     		l: function claim(nodes) {
     			throw new Error("options.hydrate only works if the component was compiled with the `hydratable: true` option");
@@ -49096,7 +49092,7 @@ var app = (function (exports) {
 
     /* src/components/byPage/home/AboutArrow.svelte generated by Svelte v3.46.4 */
 
-    const file$1l = "src/components/byPage/home/AboutArrow.svelte";
+    const file$1k = "src/components/byPage/home/AboutArrow.svelte";
 
     function create_fragment$1n(ctx) {
     	let section;
@@ -49118,20 +49114,20 @@ var app = (function (exports) {
     			path0 = svg_element("path");
     			path1 = svg_element("path");
     			attr_dev(h3, "class", "down-label svelte-c4c0ul");
-    			add_location(h3, file$1l, 3, 4, 77);
+    			add_location(h3, file$1k, 3, 4, 77);
     			attr_dev(path0, "d", "M34.98 13.775 18.75 30.006 2.518 13.776a1.036 1.036 0 1 0-1.462 1.47l16.963 16.962c.405.4 1.057.4 1.463 0l16.963-16.963a1.038 1.038 0 0 0-1.463-1.47z");
-    			add_location(path0, file$1l, 6, 12, 234);
+    			add_location(path0, file$1k, 6, 12, 234);
     			attr_dev(path1, "d", "M18.018 23.727c.406.4 1.057.4 1.463 0L36.444 6.765a1.038 1.038 0 0 0-1.463-1.47L18.751 21.51 2.518 5.294a1.037 1.037 0 1 0-1.463 1.47Z");
-    			add_location(path1, file$1l, 7, 12, 408);
+    			add_location(path1, file$1k, 7, 12, 408);
     			attr_dev(svg, "id", "down-button");
     			attr_dev(svg, "viewBox", "0 0 37.5 37.5");
     			attr_dev(svg, "width", "100%");
     			attr_dev(svg, "class", "svelte-c4c0ul");
-    			add_location(svg, file$1l, 5, 8, 160);
+    			add_location(svg, file$1k, 5, 8, 160);
     			attr_dev(div, "class", "down-icon-container svelte-c4c0ul");
-    			add_location(div, file$1l, 4, 4, 116);
+    			add_location(div, file$1k, 4, 4, 116);
     			attr_dev(section, "class", "down-container svelte-c4c0ul");
-    			add_location(section, file$1l, 2, 0, 39);
+    			add_location(section, file$1k, 2, 0, 39);
     		},
     		l: function claim(nodes) {
     			throw new Error("options.hydrate only works if the component was compiled with the `hydratable: true` option");
@@ -49191,7 +49187,7 @@ var app = (function (exports) {
     }
 
     /* src/pages/Home.svelte generated by Svelte v3.46.4 */
-    const file$1k = "src/pages/Home.svelte";
+    const file$1j = "src/pages/Home.svelte";
 
     function create_fragment$1m(ctx) {
     	let section;
@@ -49221,7 +49217,7 @@ var app = (function (exports) {
     			create_component(aboutarrow.$$.fragment);
     			attr_dev(section, "id", "home-page");
     			attr_dev(section, "class", "svelte-1502oan");
-    			add_location(section, file$1k, 15, 0, 481);
+    			add_location(section, file$1j, 15, 0, 481);
     		},
     		l: function claim(nodes) {
     			throw new Error("options.hydrate only works if the component was compiled with the `hydratable: true` option");
@@ -49322,7 +49318,7 @@ var app = (function (exports) {
     }
 
     /* src/components/shared/layout/TitleBlock.svelte generated by Svelte v3.46.4 */
-    const file$1j = "src/components/shared/layout/TitleBlock.svelte";
+    const file$1i = "src/components/shared/layout/TitleBlock.svelte";
 
     function create_fragment$1l(ctx) {
     	let section;
@@ -49353,17 +49349,17 @@ var app = (function (exports) {
     			span1.textContent = ":";
     			html_tag = new HtmlTag();
     			attr_dev(span0, "class", "svelte-5hde9y");
-    			add_location(span0, file$1j, 9, 30, 372);
+    			add_location(span0, file$1i, 9, 30, 372);
     			attr_dev(div, "class", "svelte-5hde9y");
-    			add_location(div, file$1j, 8, 4, 261);
+    			add_location(div, file$1i, 8, 4, 261);
     			attr_dev(span1, "class", "svelte-5hde9y");
-    			add_location(span1, file$1j, 11, 8, 434);
+    			add_location(span1, file$1i, 11, 8, 434);
     			html_tag.a = null;
     			attr_dev(h1, "class", "svelte-5hde9y");
-    			add_location(h1, file$1j, 11, 4, 430);
+    			add_location(h1, file$1i, 11, 4, 430);
     			attr_dev(section, "id", "title-block");
     			attr_dev(section, "class", "svelte-5hde9y");
-    			add_location(section, file$1j, 7, 0, 156);
+    			add_location(section, file$1i, 7, 0, 156);
     		},
     		l: function claim(nodes) {
     			throw new Error("options.hydrate only works if the component was compiled with the `hydratable: true` option");
@@ -49482,7 +49478,7 @@ var app = (function (exports) {
     }
 
     /* src/components/shared/projects/ProjectListHeader.svelte generated by Svelte v3.46.4 */
-    const file$1i = "src/components/shared/projects/ProjectListHeader.svelte";
+    const file$1h = "src/components/shared/projects/ProjectListHeader.svelte";
 
     // (30:8) {:else}
     function create_else_block$c(ctx) {
@@ -49493,7 +49489,7 @@ var app = (function (exports) {
     			h4 = element("h4");
     			h4.textContent = "—— Project locations";
     			attr_dev(h4, "class", "svelte-ezju5a");
-    			add_location(h4, file$1i, 30, 8, 1116);
+    			add_location(h4, file$1h, 30, 8, 1116);
     		},
     		m: function mount(target, anchor) {
     			insert_dev(target, h4, anchor);
@@ -49523,7 +49519,7 @@ var app = (function (exports) {
     			h4 = element("h4");
     			h4.textContent = "—— Project menu";
     			attr_dev(h4, "class", "svelte-ezju5a");
-    			add_location(h4, file$1i, 28, 8, 1055);
+    			add_location(h4, file$1h, 28, 8, 1055);
     		},
     		m: function mount(target, anchor) {
     			insert_dev(target, h4, anchor);
@@ -49583,21 +49579,21 @@ var app = (function (exports) {
     			t4 = space();
     			div3 = element("div");
     			div3.textContent = "Map";
-    			add_location(div0, file$1i, 26, 4, 980);
+    			add_location(div0, file$1h, 26, 4, 980);
     			attr_dev(div1, "name", "cards");
     			attr_dev(div1, "class", "icon-container cards selected svelte-ezju5a");
     			attr_dev(div1, "type", "button");
-    			add_location(div1, file$1i, 35, 8, 1237);
+    			add_location(div1, file$1h, 35, 8, 1237);
     			attr_dev(div2, "class", "icon-divider svelte-ezju5a");
-    			add_location(div2, file$1i, 38, 8, 1375);
+    			add_location(div2, file$1h, 38, 8, 1375);
     			attr_dev(div3, "name", "map");
     			attr_dev(div3, "class", "icon-container map svelte-ezju5a");
     			attr_dev(div3, "type", "button");
-    			add_location(div3, file$1i, 39, 8, 1419);
+    			add_location(div3, file$1h, 39, 8, 1419);
     			attr_dev(div4, "class", "switch-container svelte-ezju5a");
-    			add_location(div4, file$1i, 34, 4, 1196);
+    			add_location(div4, file$1h, 34, 4, 1196);
     			attr_dev(section, "class", "svelte-ezju5a");
-    			add_location(section, file$1i, 25, 0, 894);
+    			add_location(section, file$1h, 25, 0, 894);
     		},
     		l: function claim(nodes) {
     			throw new Error("options.hydrate only works if the component was compiled with the `hydratable: true` option");
@@ -49728,8 +49724,8 @@ var app = (function (exports) {
 
     /* src/components/shared/projects/ProjectCard.svelte generated by Svelte v3.46.4 */
 
-    const { console: console_1$l } = globals;
-    const file$1h = "src/components/shared/projects/ProjectCard.svelte";
+    const { console: console_1$k } = globals;
+    const file$1g = "src/components/shared/projects/ProjectCard.svelte";
 
     // (41:8) {#if hoverState}
     function create_if_block$A(ctx) {
@@ -49751,12 +49747,12 @@ var app = (function (exports) {
     			div1 = element("div");
     			a = element("a");
     			a.textContent = "→ Tap to see more";
-    			add_location(p, file$1h, 42, 12, 1566);
+    			add_location(p, file$1g, 42, 12, 1634);
     			attr_dev(div0, "class", "desc-container svelte-1pemu1a");
-    			add_location(div0, file$1h, 41, 8, 1495);
-    			add_location(a, file$1h, 45, 12, 1707);
+    			add_location(div0, file$1g, 41, 8, 1563);
+    			add_location(a, file$1g, 45, 12, 1775);
     			attr_dev(div1, "class", "project-link svelte-1pemu1a");
-    			add_location(div1, file$1h, 44, 8, 1639);
+    			add_location(div1, file$1g, 44, 8, 1707);
     		},
     		m: function mount(target, anchor) {
     			insert_dev(target, div0, anchor);
@@ -49839,14 +49835,14 @@ var app = (function (exports) {
     			if (!src_url_equal(img.src, img_src_value = /*projectData*/ ctx[0].imgURL)) attr_dev(img, "src", img_src_value);
     			attr_dev(img, "alt", "tba");
     			attr_dev(img, "class", "svelte-1pemu1a");
-    			add_location(img, file$1h, 37, 8, 1375);
+    			add_location(img, file$1g, 37, 8, 1443);
     			attr_dev(h3, "class", "svelte-1pemu1a");
-    			add_location(h3, file$1h, 38, 8, 1427);
+    			add_location(h3, file$1g, 38, 8, 1495);
     			attr_dev(div, "id", `card-${/*id*/ ctx[3]}`);
     			attr_dev(div, "class", "card svelte-1pemu1a");
-    			add_location(div, file$1h, 32, 4, 1161);
+    			add_location(div, file$1g, 32, 4, 1229);
     			attr_dev(li, "class", "svelte-1pemu1a");
-    			add_location(li, file$1h, 31, 0, 1033);
+    			add_location(li, file$1g, 31, 0, 1101);
     		},
     		l: function claim(nodes) {
     			throw new Error("options.hydrate only works if the component was compiled with the `hydratable: true` option");
@@ -49994,13 +49990,13 @@ var app = (function (exports) {
     		set_store_value(ui, $ui.byPage[$ui.page].overlay = 'project', $ui);
     		window.scrollTo({ top: 0, behavior: 'smooth' });
 
-    		// Hack for manually setting display
+    		// Hack for manually re-setting display: see the Nav component which sets overlays to hidden when closed
     		if (document.getElementById('project-overlay')) document.getElementById('project-overlay').style.display = '';
     	}
     	const writable_props = ['projectData', 'index'];
 
     	Object.keys($$props).forEach(key => {
-    		if (!~writable_props.indexOf(key) && key.slice(0, 2) !== '$$' && key !== 'slot') console_1$l.warn(`<ProjectCard> was created with unknown prop '${key}'`);
+    		if (!~writable_props.indexOf(key) && key.slice(0, 2) !== '$$' && key !== 'slot') console_1$k.warn(`<ProjectCard> was created with unknown prop '${key}'`);
     	});
 
     	$$self.$$set = $$props => {
@@ -50052,11 +50048,11 @@ var app = (function (exports) {
     		const props = options.props || {};
 
     		if (/*projectData*/ ctx[0] === undefined && !('projectData' in props)) {
-    			console_1$l.warn("<ProjectCard> was created without expected prop 'projectData'");
+    			console_1$k.warn("<ProjectCard> was created without expected prop 'projectData'");
     		}
 
     		if (/*index*/ ctx[1] === undefined && !('index' in props)) {
-    			console_1$l.warn("<ProjectCard> was created without expected prop 'index'");
+    			console_1$k.warn("<ProjectCard> was created without expected prop 'index'");
     		}
     	}
 
@@ -50074,101 +50070,6 @@ var app = (function (exports) {
 
     	set index(value) {
     		throw new Error("<ProjectCard>: Props cannot be set directly on the component instance unless compiling with 'accessors: true' or '<svelte:options accessors/>'");
-    	}
-    }
-
-    /* src/components/shared/map/ProjectMap.svelte generated by Svelte v3.46.4 */
-    const file$1g = "src/components/shared/map/ProjectMap.svelte";
-
-    function create_fragment$1i(ctx) {
-    	let section;
-    	let iframe;
-    	let iframe_src_value;
-    	let section_intro;
-    	let section_outro;
-    	let current;
-
-    	const block = {
-    		c: function create() {
-    			section = element("section");
-    			iframe = element("iframe");
-    			attr_dev(iframe, "frameborder", "0");
-    			attr_dev(iframe, "scrolling", "no");
-    			attr_dev(iframe, "marginheight", "0");
-    			attr_dev(iframe, "marginwidth", "0");
-    			attr_dev(iframe, "alt", "A placeholder map");
-    			if (!src_url_equal(iframe.src, iframe_src_value = "https://www.openstreetmap.org/export/embed.html?bbox=144.3501162528992%2C-38.22939875284671%2C145.52839994430545%2C-37.35035595234929&layer=hot")) attr_dev(iframe, "src", iframe_src_value);
-    			attr_dev(iframe, "class", "svelte-hzl2d8");
-    			add_location(iframe, file$1g, 8, 4, 246);
-    			attr_dev(section, "class", "svelte-hzl2d8");
-    			add_location(section, file$1g, 7, 0, 158);
-    		},
-    		l: function claim(nodes) {
-    			throw new Error("options.hydrate only works if the component was compiled with the `hydratable: true` option");
-    		},
-    		m: function mount(target, anchor) {
-    			insert_dev(target, section, anchor);
-    			append_dev(section, iframe);
-    			current = true;
-    		},
-    		p: noop,
-    		i: function intro(local) {
-    			if (current) return;
-
-    			add_render_callback(() => {
-    				if (section_outro) section_outro.end(1);
-    				section_intro = create_in_transition(section, fly, { x: -500, duration: 1000 });
-    				section_intro.start();
-    			});
-
-    			current = true;
-    		},
-    		o: function outro(local) {
-    			if (section_intro) section_intro.invalidate();
-    			section_outro = create_out_transition(section, fly, { x: -500, duration: 300 });
-    			current = false;
-    		},
-    		d: function destroy(detaching) {
-    			if (detaching) detach_dev(section);
-    			if (detaching && section_outro) section_outro.end();
-    		}
-    	};
-
-    	dispatch_dev("SvelteRegisterBlock", {
-    		block,
-    		id: create_fragment$1i.name,
-    		type: "component",
-    		source: "",
-    		ctx
-    	});
-
-    	return block;
-    }
-
-    function instance$1i($$self, $$props, $$invalidate) {
-    	let { $$slots: slots = {}, $$scope } = $$props;
-    	validate_slots('ProjectMap', slots, []);
-    	const writable_props = [];
-
-    	Object.keys($$props).forEach(key => {
-    		if (!~writable_props.indexOf(key) && key.slice(0, 2) !== '$$' && key !== 'slot') console.warn(`<ProjectMap> was created with unknown prop '${key}'`);
-    	});
-
-    	$$self.$capture_state = () => ({ fly, ui });
-    	return [];
-    }
-
-    class ProjectMap extends SvelteComponentDev {
-    	constructor(options) {
-    		super(options);
-    		init(this, options, instance$1i, create_fragment$1i, safe_not_equal, {});
-
-    		dispatch_dev("SvelteRegisterComponent", {
-    			component: this,
-    			tagName: "ProjectMap",
-    			options,
-    			id: create_fragment$1i.name
-    		});
     	}
     }
 
@@ -64405,7 +64306,7 @@ var app = (function (exports) {
     	return block;
     }
 
-    function create_fragment$1h(ctx) {
+    function create_fragment$1i(ctx) {
     	let div;
     	let current;
     	let mounted;
@@ -64476,7 +64377,7 @@ var app = (function (exports) {
 
     	dispatch_dev("SvelteRegisterBlock", {
     		block,
-    		id: create_fragment$1h.name,
+    		id: create_fragment$1i.name,
     		type: "component",
     		source: "",
     		ctx
@@ -64485,7 +64386,7 @@ var app = (function (exports) {
     	return block;
     }
 
-    function instance$1h($$self, $$props, $$invalidate) {
+    function instance$1i($$self, $$props, $$invalidate) {
     	let { $$slots: slots = {}, $$scope } = $$props;
     	validate_slots('LeafletMap', slots, ['default']);
     	let { options = {} } = $$props;
@@ -64554,13 +64455,13 @@ var app = (function (exports) {
     class LeafletMap extends SvelteComponentDev {
     	constructor(options) {
     		super(options);
-    		init(this, options, instance$1h, create_fragment$1h, safe_not_equal, { options: 2, events: 3, getMap: 4 });
+    		init(this, options, instance$1i, create_fragment$1i, safe_not_equal, { options: 2, events: 3, getMap: 4 });
 
     		dispatch_dev("SvelteRegisterComponent", {
     			component: this,
     			tagName: "LeafletMap",
     			options,
-    			id: create_fragment$1h.name
+    			id: create_fragment$1i.name
     		});
     	}
 
@@ -64650,7 +64551,7 @@ var app = (function (exports) {
     	return block;
     }
 
-    function create_fragment$1g(ctx) {
+    function create_fragment$1h(ctx) {
     	let div;
     	let current;
     	let if_block = /*circle*/ ctx[0] && create_if_block$y(ctx);
@@ -64710,7 +64611,7 @@ var app = (function (exports) {
 
     	dispatch_dev("SvelteRegisterBlock", {
     		block,
-    		id: create_fragment$1g.name,
+    		id: create_fragment$1h.name,
     		type: "component",
     		source: "",
     		ctx
@@ -64719,7 +64620,7 @@ var app = (function (exports) {
     	return block;
     }
 
-    function instance$1g($$self, $$props, $$invalidate) {
+    function instance$1h($$self, $$props, $$invalidate) {
     	let { $$slots: slots = {}, $$scope } = $$props;
     	validate_slots('Circle', slots, ['default']);
     	const { getMap } = getContext(leafletSrc);
@@ -64901,7 +64802,7 @@ var app = (function (exports) {
     	constructor(options) {
     		super(options);
 
-    		init(this, options, instance$1g, create_fragment$1g, safe_not_equal, {
+    		init(this, options, instance$1h, create_fragment$1h, safe_not_equal, {
     			latLng: 1,
     			radius: 2,
     			color: 3,
@@ -64924,7 +64825,7 @@ var app = (function (exports) {
     			component: this,
     			tagName: "Circle",
     			options,
-    			id: create_fragment$1g.name
+    			id: create_fragment$1h.name
     		});
 
     		const { ctx } = this.$$;
@@ -65125,7 +65026,7 @@ var app = (function (exports) {
     	return block;
     }
 
-    function create_fragment$1f(ctx) {
+    function create_fragment$1g(ctx) {
     	let div;
     	let current;
     	let if_block = /*geojson*/ ctx[0] && create_if_block$x(ctx);
@@ -65185,7 +65086,7 @@ var app = (function (exports) {
 
     	dispatch_dev("SvelteRegisterBlock", {
     		block,
-    		id: create_fragment$1f.name,
+    		id: create_fragment$1g.name,
     		type: "component",
     		source: "",
     		ctx
@@ -65194,7 +65095,7 @@ var app = (function (exports) {
     	return block;
     }
 
-    function instance$1f($$self, $$props, $$invalidate) {
+    function instance$1g($$self, $$props, $$invalidate) {
     	let { $$slots: slots = {}, $$scope } = $$props;
     	validate_slots('GeoJSON', slots, ['default']);
     	const { getMap } = getContext(leafletSrc);
@@ -65281,7 +65182,7 @@ var app = (function (exports) {
     	constructor(options) {
     		super(options);
 
-    		init(this, options, instance$1f, create_fragment$1f, safe_not_equal, {
+    		init(this, options, instance$1g, create_fragment$1g, safe_not_equal, {
     			url: 1,
     			options: 2,
     			events: 3,
@@ -65292,7 +65193,7 @@ var app = (function (exports) {
     			component: this,
     			tagName: "GeoJSON",
     			options,
-    			id: create_fragment$1f.name
+    			id: create_fragment$1g.name
     		});
 
     		const { ctx } = this.$$;
@@ -65339,7 +65240,7 @@ var app = (function (exports) {
     /* node_modules/svelte-leafletjs/src/components/Popup.svelte generated by Svelte v3.46.4 */
     const file$1c = "node_modules/svelte-leafletjs/src/components/Popup.svelte";
 
-    function create_fragment$1e(ctx) {
+    function create_fragment$1f(ctx) {
     	let div1;
     	let div0;
     	let current;
@@ -65403,7 +65304,7 @@ var app = (function (exports) {
 
     	dispatch_dev("SvelteRegisterBlock", {
     		block,
-    		id: create_fragment$1e.name,
+    		id: create_fragment$1f.name,
     		type: "component",
     		source: "",
     		ctx
@@ -65412,7 +65313,7 @@ var app = (function (exports) {
     	return block;
     }
 
-    function instance$1e($$self, $$props, $$invalidate) {
+    function instance$1f($$self, $$props, $$invalidate) {
     	let { $$slots: slots = {}, $$scope } = $$props;
     	validate_slots('Popup', slots, ['default']);
     	const { getLayer } = getContext(leafletSrc.Layer);
@@ -65498,13 +65399,13 @@ var app = (function (exports) {
     class Popup extends SvelteComponentDev {
     	constructor(options) {
     		super(options);
-    		init(this, options, instance$1e, create_fragment$1e, safe_not_equal, { events: 1, options: 2, getPopup: 3 });
+    		init(this, options, instance$1f, create_fragment$1f, safe_not_equal, { events: 1, options: 2, getPopup: 3 });
 
     		dispatch_dev("SvelteRegisterComponent", {
     			component: this,
     			tagName: "Popup",
     			options,
-    			id: create_fragment$1e.name
+    			id: create_fragment$1f.name
     		});
     	}
 
@@ -65535,7 +65436,7 @@ var app = (function (exports) {
 
     /* node_modules/svelte-leafletjs/src/components/TileLayer.svelte generated by Svelte v3.46.4 */
 
-    function create_fragment$1d(ctx) {
+    function create_fragment$1e(ctx) {
     	const block = {
     		c: noop,
     		l: function claim(nodes) {
@@ -65550,7 +65451,7 @@ var app = (function (exports) {
 
     	dispatch_dev("SvelteRegisterBlock", {
     		block,
-    		id: create_fragment$1d.name,
+    		id: create_fragment$1e.name,
     		type: "component",
     		source: "",
     		ctx
@@ -65559,7 +65460,7 @@ var app = (function (exports) {
     	return block;
     }
 
-    function instance$1d($$self, $$props, $$invalidate) {
+    function instance$1e($$self, $$props, $$invalidate) {
     	let { $$slots: slots = {}, $$scope } = $$props;
     	validate_slots('TileLayer', slots, []);
     	const { getMap } = getContext(leafletSrc);
@@ -65656,7 +65557,7 @@ var app = (function (exports) {
     	constructor(options) {
     		super(options);
 
-    		init(this, options, instance$1d, create_fragment$1d, safe_not_equal, {
+    		init(this, options, instance$1e, create_fragment$1e, safe_not_equal, {
     			url: 0,
     			wms: 1,
     			opacity: 2,
@@ -65670,7 +65571,7 @@ var app = (function (exports) {
     			component: this,
     			tagName: "TileLayer",
     			options,
-    			id: create_fragment$1d.name
+    			id: create_fragment$1e.name
     		});
 
     		const { ctx } = this.$$;
@@ -65741,7 +65642,7 @@ var app = (function (exports) {
     /* node_modules/svelte-leafletjs/src/components/Tooltip.svelte generated by Svelte v3.46.4 */
     const file$1b = "node_modules/svelte-leafletjs/src/components/Tooltip.svelte";
 
-    function create_fragment$1c(ctx) {
+    function create_fragment$1d(ctx) {
     	let div1;
     	let div0;
     	let current;
@@ -65805,7 +65706,7 @@ var app = (function (exports) {
 
     	dispatch_dev("SvelteRegisterBlock", {
     		block,
-    		id: create_fragment$1c.name,
+    		id: create_fragment$1d.name,
     		type: "component",
     		source: "",
     		ctx
@@ -65814,7 +65715,7 @@ var app = (function (exports) {
     	return block;
     }
 
-    function instance$1c($$self, $$props, $$invalidate) {
+    function instance$1d($$self, $$props, $$invalidate) {
     	let { $$slots: slots = {}, $$scope } = $$props;
     	validate_slots('Tooltip', slots, ['default']);
     	const { getLayer } = getContext(leafletSrc.Layer);
@@ -65900,13 +65801,13 @@ var app = (function (exports) {
     class Tooltip extends SvelteComponentDev {
     	constructor(options) {
     		super(options);
-    		init(this, options, instance$1c, create_fragment$1c, safe_not_equal, { events: 1, options: 2, getTooltip: 3 });
+    		init(this, options, instance$1d, create_fragment$1d, safe_not_equal, { events: 1, options: 2, getTooltip: 3 });
 
     		dispatch_dev("SvelteRegisterComponent", {
     			component: this,
     			tagName: "Tooltip",
     			options,
-    			id: create_fragment$1c.name
+    			id: create_fragment$1d.name
     		});
     	}
 
@@ -65999,66 +65900,132 @@ var app = (function (exports) {
 
     LeafletRotatedMarkersExtension.install();
 
-    /* src/components/shared/map/LeafletMap.svelte generated by Svelte v3.46.4 */
+    /* src/components/shared/map/MapContext.svelte generated by Svelte v3.46.4 */
 
-    const { console: console_1$k } = globals;
+    function create_fragment$1c(ctx) {
+    	const block = {
+    		c: noop,
+    		l: function claim(nodes) {
+    			throw new Error("options.hydrate only works if the component was compiled with the `hydratable: true` option");
+    		},
+    		m: noop,
+    		p: noop,
+    		i: noop,
+    		o: noop,
+    		d: noop
+    	};
 
-    const file$1a = "src/components/shared/map/LeafletMap.svelte";
+    	dispatch_dev("SvelteRegisterBlock", {
+    		block,
+    		id: create_fragment$1c.name,
+    		type: "component",
+    		source: "",
+    		ctx
+    	});
 
-    // (59:4) <LeafletMap bind:this={leafletMap} options={mapOptions}>
+    	return block;
+    }
+
+    function instance$1c($$self, $$props, $$invalidate) {
+    	let $ui;
+    	validate_store(ui, 'ui');
+    	component_subscribe($$self, ui, $$value => $$invalidate(0, $ui = $$value));
+    	let { $$slots: slots = {}, $$scope } = $$props;
+    	validate_slots('MapContext', slots, []);
+    	const { getMap } = getContext(leafletSrc);
+    	set_store_value(ui, $ui.map.context = getMap(), $ui);
+    	const writable_props = [];
+
+    	Object.keys($$props).forEach(key => {
+    		if (!~writable_props.indexOf(key) && key.slice(0, 2) !== '$$' && key !== 'slot') console.warn(`<MapContext> was created with unknown prop '${key}'`);
+    	});
+
+    	$$self.$capture_state = () => ({ getContext, ui, L: leafletSrc, getMap, $ui });
+    	return [];
+    }
+
+    class MapContext extends SvelteComponentDev {
+    	constructor(options) {
+    		super(options);
+    		init(this, options, instance$1c, create_fragment$1c, safe_not_equal, {});
+
+    		dispatch_dev("SvelteRegisterComponent", {
+    			component: this,
+    			tagName: "MapContext",
+    			options,
+    			id: create_fragment$1c.name
+    		});
+    	}
+    }
+
+    /* src/components/shared/map/Map.svelte generated by Svelte v3.46.4 */
+    const file$1a = "src/components/shared/map/Map.svelte";
+
+    // (151:4) <LeafletMap bind:this={leafletMap} options={mapOptions}>
     function create_default_slot$3(ctx) {
+    	let mapcontext;
+    	let t0;
     	let tilelayer;
-    	let t;
+    	let t1;
     	let geojson;
     	let current;
+    	mapcontext = new MapContext({ $$inline: true });
 
     	tilelayer = new TileLayer({
     			props: {
-    				url: /*tileUrl*/ ctx[4][/*$ui*/ ctx[1].map.style],
-    				options: /*tileLayerOptions*/ ctx[5]
+    				url: /*tileUrl*/ ctx[3][/*$ui*/ ctx[1].map.style],
+    				options: /*tileLayerOptions*/ ctx[4]
     			},
     			$$inline: true
     		});
 
     	geojson = new GeoJSON({
     			props: {
-    				url: /*geoLayers*/ ctx[3].HWS_SubCathcmnets,
-    				options: /*geoJsonOptions*/ ctx[6]
+    				url: /*geoLayers*/ ctx[5].HWS_SubCatchments,
+    				options: /*subCatchmentOptions*/ ctx[6]
     			},
     			$$inline: true
     		});
 
     	const block = {
     		c: function create() {
+    			create_component(mapcontext.$$.fragment);
+    			t0 = space();
     			create_component(tilelayer.$$.fragment);
-    			t = space();
+    			t1 = space();
     			create_component(geojson.$$.fragment);
     		},
     		m: function mount(target, anchor) {
+    			mount_component(mapcontext, target, anchor);
+    			insert_dev(target, t0, anchor);
     			mount_component(tilelayer, target, anchor);
-    			insert_dev(target, t, anchor);
+    			insert_dev(target, t1, anchor);
     			mount_component(geojson, target, anchor);
     			current = true;
     		},
     		p: function update(ctx, dirty) {
     			const tilelayer_changes = {};
-    			if (dirty & /*$ui*/ 2) tilelayer_changes.url = /*tileUrl*/ ctx[4][/*$ui*/ ctx[1].map.style];
+    			if (dirty & /*$ui*/ 2) tilelayer_changes.url = /*tileUrl*/ ctx[3][/*$ui*/ ctx[1].map.style];
     			tilelayer.$set(tilelayer_changes);
     		},
     		i: function intro(local) {
     			if (current) return;
+    			transition_in(mapcontext.$$.fragment, local);
     			transition_in(tilelayer.$$.fragment, local);
     			transition_in(geojson.$$.fragment, local);
     			current = true;
     		},
     		o: function outro(local) {
+    			transition_out(mapcontext.$$.fragment, local);
     			transition_out(tilelayer.$$.fragment, local);
     			transition_out(geojson.$$.fragment, local);
     			current = false;
     		},
     		d: function destroy(detaching) {
+    			destroy_component(mapcontext, detaching);
+    			if (detaching) detach_dev(t0);
     			destroy_component(tilelayer, detaching);
-    			if (detaching) detach_dev(t);
+    			if (detaching) detach_dev(t1);
     			destroy_component(geojson, detaching);
     		}
     	};
@@ -66067,7 +66034,7 @@ var app = (function (exports) {
     		block,
     		id: create_default_slot$3.name,
     		type: "slot",
-    		source: "(59:4) <LeafletMap bind:this={leafletMap} options={mapOptions}>",
+    		source: "(151:4) <LeafletMap bind:this={leafletMap} options={mapOptions}>",
     		ctx
     	});
 
@@ -66086,15 +66053,15 @@ var app = (function (exports) {
     	};
 
     	leafletmap = new LeafletMap({ props: leafletmap_props, $$inline: true });
-    	/*leafletmap_binding*/ ctx[7](leafletmap);
+    	/*leafletmap_binding*/ ctx[8](leafletmap);
 
     	const block = {
     		c: function create() {
     			section = element("section");
     			create_component(leafletmap.$$.fragment);
     			attr_dev(section, "id", "map");
-    			attr_dev(section, "class", "svelte-29bqc4");
-    			add_location(section, file$1a, 57, 0, 2121);
+    			attr_dev(section, "class", "svelte-6u9128");
+    			add_location(section, file$1a, 149, 0, 4767);
     		},
     		l: function claim(nodes) {
     			throw new Error("options.hydrate only works if the component was compiled with the `hydratable: true` option");
@@ -66107,7 +66074,7 @@ var app = (function (exports) {
     		p: function update(ctx, [dirty]) {
     			const leafletmap_changes = {};
 
-    			if (dirty & /*$$scope, $ui*/ 258) {
+    			if (dirty & /*$$scope, $ui*/ 4098) {
     				leafletmap_changes.$$scope = { dirty, ctx };
     			}
 
@@ -66124,7 +66091,7 @@ var app = (function (exports) {
     		},
     		d: function destroy(detaching) {
     			if (detaching) detach_dev(section);
-    			/*leafletmap_binding*/ ctx[7](null);
+    			/*leafletmap_binding*/ ctx[8](null);
     			destroy_component(leafletmap);
     		}
     	};
@@ -66145,17 +66112,22 @@ var app = (function (exports) {
     	validate_store(ui, 'ui');
     	component_subscribe($$self, ui, $$value => $$invalidate(1, $ui = $$value));
     	let { $$slots: slots = {}, $$scope } = $$props;
-    	validate_slots('LeafletMap', slots, []);
+    	validate_slots('Map', slots, []);
 
+    	let { focus = {
+    		points: [],
+    		catchments: null,
+    		subCatchments: []
+    	} } = $$props;
+
+    	let leafletMap;
+
+    	// MAP OPTIONS NAD TILES
     	const mapOptions = {
     		center: [-38.0, 145.1],
     		zoom: 8,
+    		minZoom: 7,
     		attributionControl: false
-    	};
-
-    	const geoLayers = {
-    		majorCatchments: './static/spatial/catchments-major.geojson',
-    		HWS_SubCathcmnets: './static/spatial/HWS2018_Subcatchment_Boundaries.json'
     	};
 
     	const tileUrl = {
@@ -66173,29 +66145,102 @@ var app = (function (exports) {
     	}; // attribution: "© OpenStreetMap contributors",
     	// attribution: "'Map tiles by <a href="http://stamen.com">Stamen Design</a>, <a href="http://creativecommons.org/licenses/by/3.0">CC BY 3.0</a> &mdash; Map data &copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'",
 
-    	const geoJsonOptions = {
-    		style(geoJsonFeature) {
-    			// console.log('style', geoJsonFeature);
-    			return {
-    				color: '#444',
-    				stroke: true,
-    				weight: 0.25,
-    				fillColor: '#ddd',
-    				fillOpacity: 0.3
-    			};
+    	// LAYER SHAPE FILES AND STYLING
+    	const geoLayers = {
+    		majorCatchments: './static/spatial/catchments-major.geojson',
+    		HWS_SubCatchments: './static/spatial/HWS2018_Subcatchment_Boundaries.json'
+    	};
+
+    	const styles = {
+    		water: {
+    			color: 'aqua',
+    			stroke: true,
+    			weight: 0.25,
+    			fillColor: 'aqua',
+    			fillOpacity: 1
     		},
-    		onEachFeature(feature, layer) {
-    			console.log("Catchmennt: ", feature.properties.CATCHMENT);
-    			console.log("SubCatchment: ", feature.properties.SUBCATCHMENT);
-    			console.log('Feature and layer', feature, layer);
+    		default: {
+    			color: '#fff',
+    			stroke: true,
+    			weight: 1,
+    			fillColor: '#ddd',
+    			fillOpacity: 0.3
+    		},
+    		hover: { fillOpacity: 0.8, fillColor: '#000' },
+    		active: {
+    			color: 'yellow',
+    			stroke: true,
+    			weight: 0.25,
+    			fillColor: 'yellow',
+    			fillOpacity: 0.8
     		}
     	};
 
-    	let leafletMap;
-    	const writable_props = [];
+    	// LAYER INTERACTIVITY METHODS
+    	const prevLayer = { hovered: null, clicked: null };
+
+    	const layerMethods = {
+    		mouseover(e) {
+    			if (this !== prevLayer.clicked) {
+    				this.setStyle({
+    					fillOpacity: styles.hover.fillOpacity,
+    					fillColor: styles.hover.fillColor
+    				});
+
+    				prevLayer.hovered = this;
+    			}
+    		},
+    		mouseout(e) {
+    			if (prevLayer.hovered) {
+    				prevLayer.hovered.setStyle({
+    					fillOpacity: styles.default.fillOpacity,
+    					fillColor: styles.default.fillColor
+    				});
+    			}
+    		},
+    		click(e) {
+    			if (prevLayer.clicked) {
+    				prevLayer.clicked.setStyle({
+    					fillOpacity: styles.default.fillOpacity,
+    					fillColor: styles.default.fillColor
+    				});
+    			}
+
+    			this.setStyle({
+    				fillOpacity: styles.active.fillOpacity,
+    				fillColor: styles.active.fillColor
+    			});
+
+    			$ui.map.context.fitBounds(this.getBounds(), { padding: [25, 25] });
+    			prevLayer.hovered = null;
+    			prevLayer.clicked = this;
+    		}
+    	};
+
+    	// SUB CATCHMENT LAYER
+    	const subCatchmentOptions = {
+    		style(feature) {
+    			return focus.subCatchments.indexOf(feature.properties.SUBCATCHMENT) > -1
+    			? styles.active
+    			: styles.default;
+    		},
+    		onEachFeature(feature, layer) {
+    			layer.on({
+    				mouseover: layerMethods.mouseover, // console.log("Catchment: ", feature.properties.CATCHMENT);
+    				// console.log('Feature and layer', feature, layer);
+    				mouseout: layerMethods.mouseout,
+    				click: layerMethods.click
+    			});
+
+    			layer.bindTooltip(feature.properties.SUBCATCHMENT).openTooltip();
+    		}, // console.log("Catchment: ", feature.properties.CATCHMENT);
+    		
+    	};
+
+    	const writable_props = ['focus'];
 
     	Object.keys($$props).forEach(key => {
-    		if (!~writable_props.indexOf(key) && key.slice(0, 2) !== '$$' && key !== 'slot') console_1$k.warn(`<LeafletMap> was created with unknown prop '${key}'`);
+    		if (!~writable_props.indexOf(key) && key.slice(0, 2) !== '$$' && key !== 'slot') console.warn(`<Map> was created with unknown prop '${key}'`);
     	});
 
     	function leafletmap_binding($$value) {
@@ -66205,7 +66250,12 @@ var app = (function (exports) {
     		});
     	}
 
+    	$$self.$$set = $$props => {
+    		if ('focus' in $$props) $$invalidate(7, focus = $$props.focus);
+    	};
+
     	$$self.$capture_state = () => ({
+    		getContext,
     		fade,
     		ui,
     		LeafletMap,
@@ -66214,16 +66264,24 @@ var app = (function (exports) {
     		Tooltip,
     		Popup,
     		Circle,
+    		loop_guard,
+    		L: leafletSrc,
+    		MapContext,
+    		focus,
+    		leafletMap,
     		mapOptions,
-    		geoLayers,
     		tileUrl,
     		tileLayerOptions,
-    		geoJsonOptions,
-    		leafletMap,
+    		geoLayers,
+    		styles,
+    		prevLayer,
+    		layerMethods,
+    		subCatchmentOptions,
     		$ui
     	});
 
     	$$self.$inject_state = $$props => {
+    		if ('focus' in $$props) $$invalidate(7, focus = $$props.focus);
     		if ('leafletMap' in $$props) $$invalidate(0, leafletMap = $$props.leafletMap);
     	};
 
@@ -66235,73 +66293,73 @@ var app = (function (exports) {
     		leafletMap,
     		$ui,
     		mapOptions,
-    		geoLayers,
     		tileUrl,
     		tileLayerOptions,
-    		geoJsonOptions,
+    		geoLayers,
+    		subCatchmentOptions,
+    		focus,
     		leafletmap_binding
     	];
     }
 
-    class LeafletMap_1 extends SvelteComponentDev {
+    class Map$1 extends SvelteComponentDev {
     	constructor(options) {
     		super(options);
-    		init(this, options, instance$1b, create_fragment$1b, safe_not_equal, {});
+    		init(this, options, instance$1b, create_fragment$1b, safe_not_equal, { focus: 7 });
 
     		dispatch_dev("SvelteRegisterComponent", {
     			component: this,
-    			tagName: "LeafletMap_1",
+    			tagName: "Map",
     			options,
     			id: create_fragment$1b.name
     		});
     	}
+
+    	get focus() {
+    		throw new Error("<Map>: Props cannot be read directly from the component instance unless compiling with 'accessors: true' or '<svelte:options accessors/>'");
+    	}
+
+    	set focus(value) {
+    		throw new Error("<Map>: Props cannot be set directly on the component instance unless compiling with 'accessors: true' or '<svelte:options accessors/>'");
+    	}
     }
-
-    // Data store objects: temporarily loaded
-
-    const database = writable({
-        projects:               null,
-        users:                  null,
-        organisations:          null,
-        interactions:           null
-    });
 
     /* src/components/shared/projects/ProjectList.svelte generated by Svelte v3.46.4 */
     const file$19 = "src/components/shared/projects/ProjectList.svelte";
 
     function get_each_context$j(ctx, list, i) {
     	const child_ctx = ctx.slice();
-    	child_ctx[5] = list[i];
-    	child_ctx[7] = i;
+    	child_ctx[2] = list[i];
+    	child_ctx[4] = i;
     	return child_ctx;
     }
 
-    // (27:4) {:else}
+    // (25:4) {:else}
     function create_else_block$b(ctx) {
-    	let leafletmap;
+    	let map;
     	let current;
-    	leafletmap = new LeafletMap_1({ $$inline: true });
+    	map = new Map$1({ $$inline: true });
 
     	const block = {
     		c: function create() {
-    			create_component(leafletmap.$$.fragment);
+    			create_component(map.$$.fragment);
     		},
     		m: function mount(target, anchor) {
-    			mount_component(leafletmap, target, anchor);
+    			mount_component(map, target, anchor);
     			current = true;
     		},
     		p: noop,
     		i: function intro(local) {
     			if (current) return;
-    			transition_in(leafletmap.$$.fragment, local);
+    			transition_in(map.$$.fragment, local);
     			current = true;
     		},
     		o: function outro(local) {
-    			transition_out(leafletmap.$$.fragment, local);
+    			transition_out(map.$$.fragment, local);
     			current = false;
     		},
     		d: function destroy(detaching) {
-    			destroy_component(leafletmap, detaching);
+    			destroy_component(map, detaching);
     		}
     	};
 
@@ -66309,16 +66367,18 @@ var app = (function (exports) {
     		block,
     		id: create_else_block$b.name,
     		type: "else",
-    		source: "(27:4) {:else}",
+    		source: "(25:4) {:else}",
     		ctx
     	});
 
     	return block;
     }
 
-    // (20:4) {#if $ui.byPage.discover.projectView === 'cards'}
+    // (16:4) {#if $ui.byPage.discover.projectView === 'cards'}
     function create_if_block$w(ctx) {
     	let ul;
+    	let t;
+    	let if_block_anchor;
     	let current;
     	let each_value = /*projects*/ ctx[1];
     	validate_each_argument(each_value);
@@ -66332,6 +66392,8 @@ var app = (function (exports) {
     		each_blocks[i] = null;
     	});
 
+    	let if_block = /*$ui*/ ctx[0].search.results.project.length > 9 && create_if_block_1$n(ctx);
+
     	const block = {
     		c: function create() {
     			ul = element("ul");
@@ -66340,8 +66402,11 @@ var app = (function (exports) {
     				each_blocks[i].c();
     			}
 
-    			attr_dev(ul, "class", "unformatted svelte-1kw5b00");
-    			add_location(ul, file$19, 20, 4, 836);
+    			t = space();
+    			if (if_block) if_block.c();
+    			if_block_anchor = empty();
+    			attr_dev(ul, "class", "unformatted svelte-7yishz");
+    			add_location(ul, file$19, 16, 4, 602);
     		},
     		m: function mount(target, anchor) {
     			insert_dev(target, ul, anchor);
@@ -66350,6 +66415,9 @@ var app = (function (exports) {
     				each_blocks[i].m(ul, null);
     			}
 
+    			insert_dev(target, t, anchor);
+    			if (if_block) if_block.m(target, anchor);
+    			insert_dev(target, if_block_anchor, anchor);
     			current = true;
     		},
     		p: function update(ctx, dirty) {
@@ -66380,6 +66448,17 @@ var app = (function (exports) {
 
     				check_outros();
     			}
+
+    			if (/*$ui*/ ctx[0].search.results.project.length > 9) {
+    				if (if_block) ; else {
+    					if_block = create_if_block_1$n(ctx);
+    					if_block.c();
+    					if_block.m(if_block_anchor.parentNode, if_block_anchor);
+    				}
+    			} else if (if_block) {
+    				if_block.d(1);
+    				if_block = null;
+    			}
     		},
     		i: function intro(local) {
     			if (current) return;
@@ -66402,6 +66481,9 @@ var app = (function (exports) {
     		d: function destroy(detaching) {
     			if (detaching) detach_dev(ul);
     			destroy_each(each_blocks, detaching);
+    			if (detaching) detach_dev(t);
+    			if (if_block) if_block.d(detaching);
+    			if (detaching) detach_dev(if_block_anchor);
     		}
     	};
 
@@ -66409,22 +66491,22 @@ var app = (function (exports) {
     		block,
     		id: create_if_block$w.name,
     		type: "if",
-    		source: "(20:4) {#if $ui.byPage.discover.projectView === 'cards'}",
+    		source: "(16:4) {#if $ui.byPage.discover.projectView === 'cards'}",
     		ctx
     	});
 
     	return block;
     }
 
-    // (22:8) {#each  projects as projectData, index}
+    // (18:8) {#each  projects as projectData, index}
     function create_each_block$j(ctx) {
     	let projectcard;
     	let current;
 
     	projectcard = new ProjectCard({
     			props: {
-    				projectData: /*projectData*/ ctx[5],
-    				index: /*index*/ ctx[7]
+    				projectData: /*projectData*/ ctx[2],
+    				index: /*index*/ ctx[4]
     			},
     			$$inline: true
     		});
@@ -66456,7 +66538,37 @@ var app = (function (exports) {
     		block,
     		id: create_each_block$j.name,
     		type: "each",
-    		source: "(22:8) {#each  projects as projectData, index}",
+    		source: "(18:8) {#each  projects as projectData, index}",
+    		ctx
+    	});
+
+    	return block;
+    }
+
+    // (22:4) {#if $ui.search.results.project.length > 9}
+    function create_if_block_1$n(ctx) {
+    	let div;
+
+    	const block = {
+    		c: function create() {
+    			div = element("div");
+    			div.textContent = "Page selector for more results TBA";
+    			attr_dev(div, "class", "page-selector-container svelte-7yishz");
+    			add_location(div, file$19, 22, 4, 801);
+    		},
+    		m: function mount(target, anchor) {
+    			insert_dev(target, div, anchor);
+    		},
+    		d: function destroy(detaching) {
+    			if (detaching) detach_dev(div);
+    		}
+    	};
+
+    	dispatch_dev("SvelteRegisterBlock", {
+    		block,
+    		id: create_if_block_1$n.name,
+    		type: "if",
+    		source: "(22:4) {#if $ui.search.results.project.length > 9}",
     		ctx
     	});
 
@@ -66489,8 +66601,8 @@ var app = (function (exports) {
     			t = space();
     			if_block.c();
     			attr_dev(section, "id", "project-list");
-    			attr_dev(section, "class", "svelte-1kw5b00");
-    			add_location(section, file$19, 17, 0, 720);
+    			attr_dev(section, "class", "svelte-7yishz");
+    			add_location(section, file$19, 13, 0, 486);
     		},
     		l: function claim(nodes) {
     			throw new Error("options.hydrate only works if the component was compiled with the `hydratable: true` option");
@@ -66560,19 +66672,14 @@ var app = (function (exports) {
 
     function instance$1a($$self, $$props, $$invalidate) {
     	let $ui;
-    	let $database;
     	validate_store(ui, 'ui');
     	component_subscribe($$self, ui, $$value => $$invalidate(0, $ui = $$value));
-    	validate_store(database, 'database');
-    	component_subscribe($$self, database, $$value => $$invalidate(2, $database = $$value));
     	let { $$slots: slots = {}, $$scope } = $$props;
     	validate_slots('ProjectList', slots, []);
-    	const shuffleArray = array => array.sort(() => Math.random() - 0.5);
-    	const projectDatabase = $database.projects;
 
-    	const projects = $ui.search.project.length > 0
-    	? $ui.search.project
-    	: shuffleArray(projectDatabase).slice(0, 6);
+    	const projects = $ui.search.results.project.length > 0
+    	? $ui.search.results.project.slice(0, 9)
+    	: [];
 
     	const writable_props = [];
 
@@ -66583,15 +66690,11 @@ var app = (function (exports) {
     	$$self.$capture_state = () => ({
     		ProjectListHeader,
     		ProjectCard,
-    		ProjectMap,
-    		LeafletMap: LeafletMap_1,
+    		Map: Map$1,
     		ui,
-    		database,
-    		shuffleArray,
-    		projectDatabase,
+    		searchProjects,
     		projects,
-    		$ui,
-    		$database
+    		$ui
     	});
 
     	return [$ui, projects];
@@ -66759,7 +66862,7 @@ var app = (function (exports) {
     	return child_ctx;
     }
 
-    // (39:8) {#if projectData.partnerOrgs.length > 0}
+    // (36:8) {#if projectData.partnerOrgs.length > 0}
     function create_if_block_5$5(ctx) {
     	let div1;
     	let t;
@@ -66792,9 +66895,9 @@ var app = (function (exports) {
     			}
 
     			attr_dev(div0, "class", "info-content svelte-1tw49j1");
-    			add_location(div0, file$17, 45, 12, 1503);
+    			add_location(div0, file$17, 42, 12, 1392);
     			attr_dev(div1, "class", "info-row svelte-1tw49j1");
-    			add_location(div1, file$17, 39, 8, 1272);
+    			add_location(div1, file$17, 36, 8, 1161);
     		},
     		m: function mount(target, anchor) {
     			insert_dev(target, div1, anchor);
@@ -66852,14 +66955,14 @@ var app = (function (exports) {
     		block,
     		id: create_if_block_5$5.name,
     		type: "if",
-    		source: "(39:8) {#if projectData.partnerOrgs.length > 0}",
+    		source: "(36:8) {#if projectData.partnerOrgs.length > 0}",
     		ctx
     	});
 
     	return block;
     }
 
-    // (43:12) {:else}
+    // (40:12) {:else}
     function create_else_block_5(ctx) {
     	let div;
 
@@ -66868,7 +66971,7 @@ var app = (function (exports) {
     			div = element("div");
     			div.textContent = "Partner:";
     			attr_dev(div, "class", "info-label svelte-1tw49j1");
-    			add_location(div, file$17, 43, 12, 1433);
+    			add_location(div, file$17, 40, 12, 1322);
     		},
     		m: function mount(target, anchor) {
     			insert_dev(target, div, anchor);
@@ -66882,14 +66985,14 @@ var app = (function (exports) {
     		block,
     		id: create_else_block_5.name,
     		type: "else",
-    		source: "(43:12) {:else}",
+    		source: "(40:12) {:else}",
     		ctx
     	});
 
     	return block;
     }
 
-    // (41:12) {#if projectData.partnerOrgs.length > 1}
+    // (38:12) {#if projectData.partnerOrgs.length > 1}
     function create_if_block_6$3(ctx) {
     	let div;
 
@@ -66898,7 +67001,7 @@ var app = (function (exports) {
     			div = element("div");
     			div.textContent = "Partners:";
     			attr_dev(div, "class", "info-label svelte-1tw49j1");
-    			add_location(div, file$17, 41, 12, 1360);
+    			add_location(div, file$17, 38, 12, 1249);
     		},
     		m: function mount(target, anchor) {
     			insert_dev(target, div, anchor);
@@ -66912,14 +67015,14 @@ var app = (function (exports) {
     		block,
     		id: create_if_block_6$3.name,
     		type: "if",
-    		source: "(41:12) {#if projectData.partnerOrgs.length > 1}",
+    		source: "(38:12) {#if projectData.partnerOrgs.length > 1}",
     		ctx
     	});
 
     	return block;
     }
 
-    // (47:16) {#each projectData.partnerOrgs as partner, index}
+    // (44:16) {#each projectData.partnerOrgs as partner, index}
     function create_each_block_4$3(ctx) {
     	let span;
 
@@ -66937,7 +67040,7 @@ var app = (function (exports) {
     			span = element("span");
     			t0 = text(t0_value);
     			t1 = space();
-    			add_location(span, file$17, 47, 16, 1613);
+    			add_location(span, file$17, 44, 16, 1502);
     		},
     		m: function mount(target, anchor) {
     			insert_dev(target, span, anchor);
@@ -66960,14 +67063,14 @@ var app = (function (exports) {
     		block,
     		id: create_each_block_4$3.name,
     		type: "each",
-    		source: "(47:16) {#each projectData.partnerOrgs as partner, index}",
+    		source: "(44:16) {#each projectData.partnerOrgs as partner, index}",
     		ctx
     	});
 
     	return block;
     }
 
-    // (69:8) {:else}
+    // (66:8) {:else}
     function create_else_block_4(ctx) {
     	let div2;
     	let div0;
@@ -66985,11 +67088,11 @@ var app = (function (exports) {
     			div1 = element("div");
     			t2 = text(t2_value);
     			attr_dev(div0, "class", "info-label svelte-1tw49j1");
-    			add_location(div0, file$17, 70, 12, 2638);
+    			add_location(div0, file$17, 67, 12, 2527);
     			attr_dev(div1, "class", "info-content svelte-1tw49j1");
-    			add_location(div1, file$17, 71, 12, 2693);
+    			add_location(div1, file$17, 68, 12, 2582);
     			attr_dev(div2, "class", "info-row svelte-1tw49j1");
-    			add_location(div2, file$17, 69, 8, 2603);
+    			add_location(div2, file$17, 66, 8, 2492);
     		},
     		m: function mount(target, anchor) {
     			insert_dev(target, div2, anchor);
@@ -67010,14 +67113,14 @@ var app = (function (exports) {
     		block,
     		id: create_else_block_4.name,
     		type: "else",
-    		source: "(69:8) {:else}",
+    		source: "(66:8) {:else}",
     		ctx
     	});
 
     	return block;
     }
 
-    // (64:8) {#if projectData.status.stage === 'Complete' || projectData.status.stage === 'Operational'}
+    // (61:8) {#if projectData.status.stage === 'Complete' || projectData.status.stage === 'Operational'}
     function create_if_block_4$6(ctx) {
     	let div2;
     	let div0;
@@ -67035,11 +67138,11 @@ var app = (function (exports) {
     			div1 = element("div");
     			t2 = text(t2_value);
     			attr_dev(div0, "class", "info-label svelte-1tw49j1");
-    			add_location(div0, file$17, 65, 12, 2433);
+    			add_location(div0, file$17, 62, 12, 2322);
     			attr_dev(div1, "class", "info-content svelte-1tw49j1");
-    			add_location(div1, file$17, 66, 12, 2493);
+    			add_location(div1, file$17, 63, 12, 2382);
     			attr_dev(div2, "class", "info-row svelte-1tw49j1");
-    			add_location(div2, file$17, 64, 8, 2398);
+    			add_location(div2, file$17, 61, 8, 2287);
     		},
     		m: function mount(target, anchor) {
     			insert_dev(target, div2, anchor);
@@ -67060,14 +67163,14 @@ var app = (function (exports) {
     		block,
     		id: create_if_block_4$6.name,
     		type: "if",
-    		source: "(64:8) {#if projectData.status.stage === 'Complete' || projectData.status.stage === 'Operational'}",
+    		source: "(61:8) {#if projectData.status.stage === 'Complete' || projectData.status.stage === 'Operational'}",
     		ctx
     	});
 
     	return block;
     }
 
-    // (81:12) {:else}
+    // (78:12) {:else}
     function create_else_block_3(ctx) {
     	let div;
 
@@ -67076,7 +67179,7 @@ var app = (function (exports) {
     			div = element("div");
     			div.textContent = "Location:";
     			attr_dev(div, "class", "info-label svelte-1tw49j1");
-    			add_location(div, file$17, 81, 12, 3053);
+    			add_location(div, file$17, 78, 12, 2942);
     		},
     		m: function mount(target, anchor) {
     			insert_dev(target, div, anchor);
@@ -67090,14 +67193,14 @@ var app = (function (exports) {
     		block,
     		id: create_else_block_3.name,
     		type: "else",
-    		source: "(81:12) {:else}",
+    		source: "(78:12) {:else}",
     		ctx
     	});
 
     	return block;
     }
 
-    // (79:12) {#if projectData.location.locations.length > 1 }
+    // (76:12) {#if projectData.location.locations.length > 1 }
     function create_if_block_3$d(ctx) {
     	let div;
 
@@ -67106,7 +67209,7 @@ var app = (function (exports) {
     			div = element("div");
     			div.textContent = "Locations:";
     			attr_dev(div, "class", "info-label svelte-1tw49j1");
-    			add_location(div, file$17, 79, 12, 2979);
+    			add_location(div, file$17, 76, 12, 2868);
     		},
     		m: function mount(target, anchor) {
     			insert_dev(target, div, anchor);
@@ -67120,14 +67223,14 @@ var app = (function (exports) {
     		block,
     		id: create_if_block_3$d.name,
     		type: "if",
-    		source: "(79:12) {#if projectData.location.locations.length > 1 }",
+    		source: "(76:12) {#if projectData.location.locations.length > 1 }",
     		ctx
     	});
 
     	return block;
     }
 
-    // (85:16) {#each projectData.location.locations as location, index}
+    // (82:16) {#each projectData.location.locations as location, index}
     function create_each_block_3$4(ctx) {
     	let span;
 
@@ -67143,7 +67246,7 @@ var app = (function (exports) {
     		c: function create() {
     			span = element("span");
     			t = text(t_value);
-    			add_location(span, file$17, 85, 16, 3242);
+    			add_location(span, file$17, 82, 16, 3131);
     		},
     		m: function mount(target, anchor) {
     			insert_dev(target, span, anchor);
@@ -67165,14 +67268,14 @@ var app = (function (exports) {
     		block,
     		id: create_each_block_3$4.name,
     		type: "each",
-    		source: "(85:16) {#each projectData.location.locations as location, index}",
+    		source: "(82:16) {#each projectData.location.locations as location, index}",
     		ctx
     	});
 
     	return block;
     }
 
-    // (94:12) {:else}
+    // (91:12) {:else}
     function create_else_block_2$1(ctx) {
     	let div;
 
@@ -67181,7 +67284,7 @@ var app = (function (exports) {
     			div = element("div");
     			div.textContent = "Subcatchment:";
     			attr_dev(div, "class", "info-label svelte-1tw49j1");
-    			add_location(div, file$17, 94, 12, 3632);
+    			add_location(div, file$17, 91, 12, 3521);
     		},
     		m: function mount(target, anchor) {
     			insert_dev(target, div, anchor);
@@ -67195,14 +67298,14 @@ var app = (function (exports) {
     		block,
     		id: create_else_block_2$1.name,
     		type: "else",
-    		source: "(94:12) {:else}",
+    		source: "(91:12) {:else}",
     		ctx
     	});
 
     	return block;
     }
 
-    // (92:12) {#if $ui.state.focus.projectData.location.subCatchments.length > 1 }
+    // (89:12) {#if $ui.state.focus.projectData.location.subCatchments.length > 1 }
     function create_if_block_2$f(ctx) {
     	let div;
 
@@ -67211,7 +67314,7 @@ var app = (function (exports) {
     			div = element("div");
     			div.textContent = "Subcatchments:";
     			attr_dev(div, "class", "info-label svelte-1tw49j1");
-    			add_location(div, file$17, 92, 12, 3554);
+    			add_location(div, file$17, 89, 12, 3443);
     		},
     		m: function mount(target, anchor) {
     			insert_dev(target, div, anchor);
@@ -67225,14 +67328,14 @@ var app = (function (exports) {
     		block,
     		id: create_if_block_2$f.name,
     		type: "if",
-    		source: "(92:12) {#if $ui.state.focus.projectData.location.subCatchments.length > 1 }",
+    		source: "(89:12) {#if $ui.state.focus.projectData.location.subCatchments.length > 1 }",
     		ctx
     	});
 
     	return block;
     }
 
-    // (98:16) {#each projectData.location.subCatchments as subcatchment, index}
+    // (95:16) {#each projectData.location.subCatchments as subcatchment, index}
     function create_each_block_2$5(ctx) {
     	let span;
 
@@ -67250,7 +67353,7 @@ var app = (function (exports) {
     			span = element("span");
     			t0 = text(t0_value);
     			t1 = space();
-    			add_location(span, file$17, 98, 16, 3833);
+    			add_location(span, file$17, 95, 16, 3722);
     		},
     		m: function mount(target, anchor) {
     			insert_dev(target, span, anchor);
@@ -67273,14 +67376,14 @@ var app = (function (exports) {
     		block,
     		id: create_each_block_2$5.name,
     		type: "each",
-    		source: "(98:16) {#each projectData.location.subCatchments as subcatchment, index}",
+    		source: "(95:16) {#each projectData.location.subCatchments as subcatchment, index}",
     		ctx
     	});
 
     	return block;
     }
 
-    // (107:12) {:else}
+    // (104:12) {:else}
     function create_else_block_1$5(ctx) {
     	let div;
 
@@ -67289,7 +67392,7 @@ var app = (function (exports) {
     			div = element("div");
     			div.textContent = "Catchment:";
     			attr_dev(div, "class", "info-label svelte-1tw49j1");
-    			add_location(div, file$17, 107, 12, 4218);
+    			add_location(div, file$17, 104, 12, 4107);
     		},
     		m: function mount(target, anchor) {
     			insert_dev(target, div, anchor);
@@ -67303,14 +67406,14 @@ var app = (function (exports) {
     		block,
     		id: create_else_block_1$5.name,
     		type: "else",
-    		source: "(107:12) {:else}",
+    		source: "(104:12) {:else}",
     		ctx
     	});
 
     	return block;
     }
 
-    // (105:12) {#if projectData.location.catchments.length > 1 }
+    // (102:12) {#if projectData.location.catchments.length > 1 }
     function create_if_block_1$m(ctx) {
     	let div;
 
@@ -67319,7 +67422,7 @@ var app = (function (exports) {
     			div = element("div");
     			div.textContent = "Catchments:";
     			attr_dev(div, "class", "info-label svelte-1tw49j1");
-    			add_location(div, file$17, 105, 12, 4143);
+    			add_location(div, file$17, 102, 12, 4032);
     		},
     		m: function mount(target, anchor) {
     			insert_dev(target, div, anchor);
@@ -67333,14 +67436,14 @@ var app = (function (exports) {
     		block,
     		id: create_if_block_1$m.name,
     		type: "if",
-    		source: "(105:12) {#if projectData.location.catchments.length > 1 }",
+    		source: "(102:12) {#if projectData.location.catchments.length > 1 }",
     		ctx
     	});
 
     	return block;
     }
 
-    // (111:16) {#each projectData.location.catchments as catchment, index}
+    // (108:16) {#each projectData.location.catchments as catchment, index}
     function create_each_block_1$7(ctx) {
     	let span;
 
@@ -67356,7 +67459,7 @@ var app = (function (exports) {
     		c: function create() {
     			span = element("span");
     			t = text(t_value);
-    			add_location(span, file$17, 111, 16, 4410);
+    			add_location(span, file$17, 108, 16, 4299);
     		},
     		m: function mount(target, anchor) {
     			insert_dev(target, span, anchor);
@@ -67378,14 +67481,14 @@ var app = (function (exports) {
     		block,
     		id: create_each_block_1$7.name,
     		type: "each",
-    		source: "(111:16) {#each projectData.location.catchments as catchment, index}",
+    		source: "(108:16) {#each projectData.location.catchments as catchment, index}",
     		ctx
     	});
 
     	return block;
     }
 
-    // (120:12) {:else}
+    // (117:12) {:else}
     function create_else_block$a(ctx) {
     	let div;
 
@@ -67394,7 +67497,7 @@ var app = (function (exports) {
     			div = element("div");
     			div.textContent = "Local Government:";
     			attr_dev(div, "class", "info-label svelte-1tw49j1");
-    			add_location(div, file$17, 120, 12, 4788);
+    			add_location(div, file$17, 117, 12, 4677);
     		},
     		m: function mount(target, anchor) {
     			insert_dev(target, div, anchor);
@@ -67408,14 +67511,14 @@ var app = (function (exports) {
     		block,
     		id: create_else_block$a.name,
     		type: "else",
-    		source: "(120:12) {:else}",
+    		source: "(117:12) {:else}",
     		ctx
     	});
 
     	return block;
     }
 
-    // (118:12) {#if projectData.location.locations.length > 1 }
+    // (115:12) {#if projectData.location.locations.length > 1 }
     function create_if_block$v(ctx) {
     	let div;
 
@@ -67424,7 +67527,7 @@ var app = (function (exports) {
     			div = element("div");
     			div.textContent = "Local Governments:";
     			attr_dev(div, "class", "info-label svelte-1tw49j1");
-    			add_location(div, file$17, 118, 12, 4706);
+    			add_location(div, file$17, 115, 12, 4595);
     		},
     		m: function mount(target, anchor) {
     			insert_dev(target, div, anchor);
@@ -67438,14 +67541,14 @@ var app = (function (exports) {
     		block,
     		id: create_if_block$v.name,
     		type: "if",
-    		source: "(118:12) {#if projectData.location.locations.length > 1 }",
+    		source: "(115:12) {#if projectData.location.locations.length > 1 }",
     		ctx
     	});
 
     	return block;
     }
 
-    // (124:16) {#each projectData.location.locations as location, index}
+    // (121:16) {#each projectData.location.locations as location, index}
     function create_each_block$i(ctx) {
     	let span;
 
@@ -67461,7 +67564,7 @@ var app = (function (exports) {
     		c: function create() {
     			span = element("span");
     			t = text(t_value);
-    			add_location(span, file$17, 124, 16, 4985);
+    			add_location(span, file$17, 121, 16, 4874);
     		},
     		m: function mount(target, anchor) {
     			insert_dev(target, span, anchor);
@@ -67483,7 +67586,7 @@ var app = (function (exports) {
     		block,
     		id: create_each_block$i.name,
     		type: "each",
-    		source: "(124:16) {#each projectData.location.locations as location, index}",
+    		source: "(121:16) {#each projectData.location.locations as location, index}",
     		ctx
     	});
 
@@ -67612,7 +67715,7 @@ var app = (function (exports) {
     		each_blocks[i] = create_each_block$i(get_each_context$i(ctx, each_value, i));
     	}
 
-    	leafletmap = new LeafletMap_1({ $$inline: true });
+    	leafletmap = new Map$1({ $$inline: true });
 
     	const block = {
     		c: function create() {
@@ -67697,53 +67800,53 @@ var app = (function (exports) {
     			t28 = space();
     			create_component(leafletmap.$$.fragment);
     			attr_dev(h3, "class", "svelte-1tw49j1");
-    			add_location(h3, file$17, 28, 8, 870);
+    			add_location(h3, file$17, 25, 8, 759);
     			attr_dev(div0, "class", "info-pane-header svelte-1tw49j1");
-    			add_location(div0, file$17, 27, 4, 829);
+    			add_location(div0, file$17, 24, 4, 718);
     			attr_dev(h40, "class", "svelte-1tw49j1");
-    			add_location(h40, file$17, 33, 8, 993);
+    			add_location(h40, file$17, 30, 8, 882);
     			attr_dev(div1, "class", "info-label svelte-1tw49j1");
-    			add_location(div1, file$17, 35, 12, 1077);
+    			add_location(div1, file$17, 32, 12, 966);
     			attr_dev(div2, "class", "info-content svelte-1tw49j1");
-    			add_location(div2, file$17, 36, 12, 1139);
+    			add_location(div2, file$17, 33, 12, 1028);
     			attr_dev(div3, "class", "info-row svelte-1tw49j1");
-    			add_location(div3, file$17, 34, 8, 1042);
+    			add_location(div3, file$17, 31, 8, 931);
     			attr_dev(h41, "class", "svelte-1tw49j1");
-    			add_location(h41, file$17, 54, 8, 1871);
+    			add_location(h41, file$17, 51, 8, 1760);
     			attr_dev(div4, "class", "info-label svelte-1tw49j1");
-    			add_location(div4, file$17, 56, 12, 1958);
+    			add_location(div4, file$17, 53, 12, 1847);
     			attr_dev(div5, "class", "info-content svelte-1tw49j1");
-    			add_location(div5, file$17, 57, 12, 2015);
+    			add_location(div5, file$17, 54, 12, 1904);
     			attr_dev(div6, "class", "info-row svelte-1tw49j1");
-    			add_location(div6, file$17, 55, 8, 1923);
+    			add_location(div6, file$17, 52, 8, 1812);
     			attr_dev(div7, "class", "info-label svelte-1tw49j1");
-    			add_location(div7, file$17, 60, 12, 2147);
+    			add_location(div7, file$17, 57, 12, 2036);
     			attr_dev(div8, "class", "info-content svelte-1tw49j1");
-    			add_location(div8, file$17, 61, 12, 2198);
+    			add_location(div8, file$17, 58, 12, 2087);
     			attr_dev(div9, "class", "info-row svelte-1tw49j1");
-    			add_location(div9, file$17, 59, 8, 2112);
+    			add_location(div9, file$17, 56, 8, 2001);
     			attr_dev(h42, "class", "svelte-1tw49j1");
-    			add_location(h42, file$17, 76, 8, 2837);
+    			add_location(h42, file$17, 73, 8, 2726);
     			attr_dev(div10, "class", "info-content svelte-1tw49j1");
-    			add_location(div10, file$17, 83, 12, 3124);
+    			add_location(div10, file$17, 80, 12, 3013);
     			attr_dev(div11, "class", "info-row svelte-1tw49j1");
-    			add_location(div11, file$17, 77, 8, 2883);
+    			add_location(div11, file$17, 74, 8, 2772);
     			attr_dev(div12, "class", "info-content svelte-1tw49j1");
-    			add_location(div12, file$17, 96, 12, 3707);
+    			add_location(div12, file$17, 93, 12, 3596);
     			attr_dev(div13, "class", "info-row svelte-1tw49j1");
-    			add_location(div13, file$17, 90, 8, 3438);
+    			add_location(div13, file$17, 87, 8, 3327);
     			attr_dev(div14, "class", "info-content svelte-1tw49j1");
-    			add_location(div14, file$17, 109, 12, 4290);
+    			add_location(div14, file$17, 106, 12, 4179);
     			attr_dev(div15, "class", "info-row svelte-1tw49j1");
-    			add_location(div15, file$17, 103, 8, 4046);
+    			add_location(div15, file$17, 100, 8, 3935);
     			attr_dev(div16, "class", "info-content svelte-1tw49j1");
-    			add_location(div16, file$17, 122, 12, 4867);
+    			add_location(div16, file$17, 119, 12, 4756);
     			attr_dev(div17, "class", "info-row svelte-1tw49j1");
-    			add_location(div17, file$17, 116, 8, 4610);
+    			add_location(div17, file$17, 113, 8, 4499);
     			attr_dev(div18, "class", "info-pane-content svelte-1tw49j1");
-    			add_location(div18, file$17, 31, 4, 904);
+    			add_location(div18, file$17, 28, 4, 793);
     			attr_dev(section, "class", "svelte-1tw49j1");
-    			add_location(section, file$17, 26, 0, 815);
+    			add_location(section, file$17, 23, 0, 704);
     		},
     		l: function claim(nodes) {
     			throw new Error("options.hydrate only works if the component was compiled with the `hydratable: true` option");
@@ -68041,8 +68144,6 @@ var app = (function (exports) {
     		$$invalidate(2, paneVisibility[this.id] = !paneVisibility[this.id], paneVisibility);
     		console.log(`Toggling ${this.id} to `, paneVisibility[this.id]);
     	}
-    	console.log($ui.state.focus.projectData);
-    	console.log($ui.state.focus.projectData.status.stage);
     	const writable_props = [];
 
     	Object.keys($$props).forEach(key => {
@@ -68050,7 +68151,7 @@ var app = (function (exports) {
     	});
 
     	$$self.$capture_state = () => ({
-    		LeafletMap: LeafletMap_1,
+    		LeafletMap: Map$1,
     		fade,
     		slide,
     		ui,
@@ -70241,9 +70342,9 @@ var app = (function (exports) {
     			html_tag = new HtmlTag();
     			t2 = space();
     			if (if_block) if_block.c();
-    			add_location(h3, file$Z, 56, 12, 2091);
+    			add_location(h3, file$Z, 56, 12, 2092);
     			html_tag.a = t2;
-    			add_location(div, file$Z, 55, 8, 2035);
+    			add_location(div, file$Z, 55, 8, 2036);
     		},
     		m: function mount(target, anchor) {
     			insert_dev(target, div, anchor);
@@ -70319,7 +70420,7 @@ var app = (function (exports) {
     			html_tag = new HtmlTag();
     			html_anchor = empty();
     			attr_dev(h3, "class", "margin-top svelte-ake6ss");
-    			add_location(h3, file$Z, 60, 16, 2246);
+    			add_location(h3, file$Z, 60, 16, 2247);
     			html_tag.a = html_anchor;
     		},
     		m: function mount(target, anchor) {
@@ -70442,21 +70543,21 @@ var app = (function (exports) {
     			div1.textContent = "↓";
     			t8 = space();
     			hr = element("hr");
-    			add_location(h3, file$Z, 93, 8, 3591);
+    			add_location(h3, file$Z, 93, 8, 3592);
     			html_tag.a = t3;
-    			add_location(p, file$Z, 94, 8, 3641);
+    			add_location(p, file$Z, 94, 8, 3642);
     			attr_dev(div0, "class", "toggle-label svelte-ake6ss");
-    			add_location(div0, file$Z, 101, 16, 4083);
+    			add_location(div0, file$Z, 101, 16, 4084);
     			attr_dev(div1, "class", "toggle-icon down svelte-ake6ss");
-    			add_location(div1, file$Z, 102, 16, 4154);
+    			add_location(div1, file$Z, 102, 16, 4155);
     			attr_dev(div2, "id", "learningsDetails");
     			attr_dev(div2, "class", "collapse__header svelte-ake6ss");
     			attr_dev(div2, "type", "button");
     			toggle_class(div2, "selected", /*visibility*/ ctx[0].learnings);
-    			add_location(div2, file$Z, 99, 12, 3919);
+    			add_location(div2, file$Z, 99, 12, 3920);
     			attr_dev(div3, "class", "collapse__body svelte-ake6ss");
-    			add_location(div3, file$Z, 98, 8, 3858);
-    			add_location(hr, file$Z, 105, 8, 4240);
+    			add_location(div3, file$Z, 98, 8, 3859);
+    			add_location(hr, file$Z, 105, 8, 4241);
     		},
     		m: function mount(target, anchor) {
     			insert_dev(target, h3, anchor);
@@ -70644,22 +70745,22 @@ var app = (function (exports) {
     			div1.textContent = "↓";
     			t9 = space();
     			hr = element("hr");
-    			add_location(h3, file$Z, 110, 8, 4364);
+    			add_location(h3, file$Z, 110, 8, 4365);
     			html_tag.a = t3;
     			html_tag_1.a = t4;
-    			add_location(p, file$Z, 111, 8, 4427);
+    			add_location(p, file$Z, 111, 8, 4428);
     			attr_dev(div0, "class", "toggle-label svelte-ake6ss");
-    			add_location(div0, file$Z, 118, 16, 4870);
+    			add_location(div0, file$Z, 118, 16, 4871);
     			attr_dev(div1, "class", "toggle-icon down svelte-ake6ss");
-    			add_location(div1, file$Z, 119, 16, 4939);
+    			add_location(div1, file$Z, 119, 16, 4940);
     			attr_dev(div2, "id", "sourcesDetails");
     			attr_dev(div2, "class", "collapse__header svelte-ake6ss");
     			attr_dev(div2, "type", "button");
     			toggle_class(div2, "selected", /*visibility*/ ctx[0].sourcesDetails);
-    			add_location(div2, file$Z, 116, 12, 4703);
+    			add_location(div2, file$Z, 116, 12, 4704);
     			attr_dev(div3, "class", "collapse__body svelte-ake6ss");
-    			add_location(div3, file$Z, 115, 8, 4642);
-    			add_location(hr, file$Z, 122, 8, 5025);
+    			add_location(div3, file$Z, 115, 8, 4643);
+    			add_location(hr, file$Z, 122, 8, 5026);
     		},
     		m: function mount(target, anchor) {
     			insert_dev(target, h3, anchor);
@@ -70897,36 +70998,36 @@ var app = (function (exports) {
     			t17 = space();
     			if (if_block3) if_block3.c();
     			attr_dev(div0, "class", "short-desc svelte-ake6ss");
-    			add_location(div0, file$Z, 51, 4, 1901);
+    			add_location(div0, file$Z, 51, 4, 1902);
     			attr_dev(div1, "class", "toggle-label svelte-ake6ss");
-    			add_location(div1, file$Z, 68, 12, 2615);
+    			add_location(div1, file$Z, 68, 12, 2616);
     			attr_dev(div2, "class", "toggle-icon down svelte-ake6ss");
-    			add_location(div2, file$Z, 69, 12, 2678);
+    			add_location(div2, file$Z, 69, 12, 2679);
     			attr_dev(div3, "id", "aboutDetails");
     			attr_dev(div3, "class", "collapse__header svelte-ake6ss");
     			attr_dev(div3, "type", "button");
     			toggle_class(div3, "selected", /*visibility*/ ctx[0].aboutDetails);
-    			add_location(div3, file$Z, 66, 8, 2460);
+    			add_location(div3, file$Z, 66, 8, 2461);
     			attr_dev(div4, "class", "collapse__body svelte-ake6ss");
-    			add_location(div4, file$Z, 65, 4, 2403);
-    			add_location(hr0, file$Z, 72, 4, 2752);
-    			add_location(h3, file$Z, 75, 4, 2793);
-    			add_location(p, file$Z, 76, 4, 2845);
+    			add_location(div4, file$Z, 65, 4, 2404);
+    			add_location(hr0, file$Z, 72, 4, 2753);
+    			add_location(h3, file$Z, 75, 4, 2794);
+    			add_location(p, file$Z, 76, 4, 2846);
     			attr_dev(div5, "class", "toggle-label svelte-ake6ss");
-    			add_location(div5, file$Z, 85, 12, 3334);
+    			add_location(div5, file$Z, 85, 12, 3335);
     			attr_dev(div6, "class", "toggle-icon down svelte-ake6ss");
-    			add_location(div6, file$Z, 86, 12, 3395);
+    			add_location(div6, file$Z, 86, 12, 3396);
     			attr_dev(div7, "id", "hwsDetails");
     			attr_dev(div7, "class", "collapse__header svelte-ake6ss");
     			attr_dev(div7, "type", "button");
     			toggle_class(div7, "selected", /*visibility*/ ctx[0].hwsDetails);
-    			add_location(div7, file$Z, 83, 8, 3183);
+    			add_location(div7, file$Z, 83, 8, 3184);
     			attr_dev(div8, "class", "collapse__body svelte-ake6ss");
-    			add_location(div8, file$Z, 82, 4, 3126);
-    			add_location(hr1, file$Z, 89, 4, 3469);
+    			add_location(div8, file$Z, 82, 4, 3127);
+    			add_location(hr1, file$Z, 89, 4, 3470);
     			attr_dev(section, "id", "project-content");
     			attr_dev(section, "class", "content-pane svelte-ake6ss");
-    			add_location(section, file$Z, 49, 0, 1810);
+    			add_location(section, file$Z, 49, 0, 1811);
     		},
     		l: function claim(nodes) {
     			throw new Error("options.hydrate only works if the component was compiled with the `hydratable: true` option");
@@ -71233,7 +71334,7 @@ var app = (function (exports) {
     			// HWS Key Values and conditions data
     			$$invalidate(8, themesData = {
     				name: "&mdash; Themes",
-    				array: projectData.hws.poTheme
+    				array: projectData.hws.poThemes
     			});
     		}
 
@@ -71782,6 +71883,15 @@ var app = (function (exports) {
     	}
     }
 
+    // Data store objects: temporarily loaded
+
+    const database = writable({
+        // projects:               null,
+        users:                  null,
+        organisations:          null,
+        interactions:           null
+    });
+
     /* src/components/shared/projects/projectPage/ProjectFeedback.svelte generated by Svelte v3.46.4 */
 
     const { console: console_1$g } = globals;
@@ -72180,220 +72290,77 @@ var app = (function (exports) {
     function get_each_context$c(ctx, list, i) {
     	const child_ctx = ctx.slice();
     	child_ctx[0] = list[i];
-    	child_ctx[11] = i;
+    	child_ctx[9] = i;
     	return child_ctx;
     }
 
     function get_each_context_1$5(ctx, list, i) {
     	const child_ctx = ctx.slice();
     	child_ctx[0] = list[i];
-    	child_ctx[11] = i;
+    	child_ctx[9] = i;
     	return child_ctx;
     }
 
     function get_each_context_2$3(ctx, list, i) {
     	const child_ctx = ctx.slice();
     	child_ctx[0] = list[i];
-    	child_ctx[11] = i;
+    	child_ctx[9] = i;
     	return child_ctx;
     }
 
     function get_each_context_3$3(ctx, list, i) {
     	const child_ctx = ctx.slice();
     	child_ctx[0] = list[i];
-    	child_ctx[11] = i;
+    	child_ctx[9] = i;
     	return child_ctx;
     }
 
-    // (32:16) {#each simImpactProjects as projectData, index}
-    function create_each_block_3$3(ctx) {
-    	let projectcard;
-    	let current;
-
-    	projectcard = new ProjectCard({
-    			props: {
-    				projectData: /*projectData*/ ctx[0],
-    				index: /*index*/ ctx[11]
-    			},
-    			$$inline: true
-    		});
-
+    // (1:0) <!-- COMPONENT FOR SIMILAR PROJECTS--> <script>     import ProjectCard          from '../ProjectCard.svelte'     import DividerZagged20px    from '../../layout/DividerZagged20px.svelte'     import { ui }
+    function create_catch_block$2(ctx) {
     	const block = {
-    		c: function create() {
-    			create_component(projectcard.$$.fragment);
-    		},
-    		m: function mount(target, anchor) {
-    			mount_component(projectcard, target, anchor);
-    			current = true;
-    		},
+    		c: noop,
+    		m: noop,
     		p: noop,
-    		i: function intro(local) {
-    			if (current) return;
-    			transition_in(projectcard.$$.fragment, local);
-    			current = true;
-    		},
-    		o: function outro(local) {
-    			transition_out(projectcard.$$.fragment, local);
-    			current = false;
-    		},
-    		d: function destroy(detaching) {
-    			destroy_component(projectcard, detaching);
-    		}
+    		i: noop,
+    		o: noop,
+    		d: noop
     	};
 
     	dispatch_dev("SvelteRegisterBlock", {
     		block,
-    		id: create_each_block_3$3.name,
-    		type: "each",
-    		source: "(32:16) {#each simImpactProjects as projectData, index}",
+    		id: create_catch_block$2.name,
+    		type: "catch",
+    		source: "(1:0) <!-- COMPONENT FOR SIMILAR PROJECTS--> <script>     import ProjectCard          from '../ProjectCard.svelte'     import DividerZagged20px    from '../../layout/DividerZagged20px.svelte'     import { ui }",
     		ctx
     	});
 
     	return block;
     }
 
-    // (43:16) {#each simProjectType as projectData, index}
-    function create_each_block_2$3(ctx) {
-    	let projectcard;
-    	let current;
-
-    	projectcard = new ProjectCard({
-    			props: {
-    				projectData: /*projectData*/ ctx[0],
-    				index: /*index*/ ctx[11]
-    			},
-    			$$inline: true
-    		});
-
+    // (1:0) <!-- COMPONENT FOR SIMILAR PROJECTS--> <script>     import ProjectCard          from '../ProjectCard.svelte'     import DividerZagged20px    from '../../layout/DividerZagged20px.svelte'     import { ui }
+    function create_then_block$2(ctx) {
     	const block = {
-    		c: function create() {
-    			create_component(projectcard.$$.fragment);
-    		},
-    		m: function mount(target, anchor) {
-    			mount_component(projectcard, target, anchor);
-    			current = true;
-    		},
+    		c: noop,
+    		m: noop,
     		p: noop,
-    		i: function intro(local) {
-    			if (current) return;
-    			transition_in(projectcard.$$.fragment, local);
-    			current = true;
-    		},
-    		o: function outro(local) {
-    			transition_out(projectcard.$$.fragment, local);
-    			current = false;
-    		},
-    		d: function destroy(detaching) {
-    			destroy_component(projectcard, detaching);
-    		}
+    		i: noop,
+    		o: noop,
+    		d: noop
     	};
 
     	dispatch_dev("SvelteRegisterBlock", {
     		block,
-    		id: create_each_block_2$3.name,
-    		type: "each",
-    		source: "(43:16) {#each simProjectType as projectData, index}",
+    		id: create_then_block$2.name,
+    		type: "then",
+    		source: "(1:0) <!-- COMPONENT FOR SIMILAR PROJECTS--> <script>     import ProjectCard          from '../ProjectCard.svelte'     import DividerZagged20px    from '../../layout/DividerZagged20px.svelte'     import { ui }",
     		ctx
     	});
 
     	return block;
     }
 
-    // (54:16) {#each simLocationProjects as projectData, index}
-    function create_each_block_1$5(ctx) {
-    	let projectcard;
-    	let current;
-
-    	projectcard = new ProjectCard({
-    			props: {
-    				projectData: /*projectData*/ ctx[0],
-    				index: /*index*/ ctx[11]
-    			},
-    			$$inline: true
-    		});
-
-    	const block = {
-    		c: function create() {
-    			create_component(projectcard.$$.fragment);
-    		},
-    		m: function mount(target, anchor) {
-    			mount_component(projectcard, target, anchor);
-    			current = true;
-    		},
-    		p: noop,
-    		i: function intro(local) {
-    			if (current) return;
-    			transition_in(projectcard.$$.fragment, local);
-    			current = true;
-    		},
-    		o: function outro(local) {
-    			transition_out(projectcard.$$.fragment, local);
-    			current = false;
-    		},
-    		d: function destroy(detaching) {
-    			destroy_component(projectcard, detaching);
-    		}
-    	};
-
-    	dispatch_dev("SvelteRegisterBlock", {
-    		block,
-    		id: create_each_block_1$5.name,
-    		type: "each",
-    		source: "(54:16) {#each simLocationProjects as projectData, index}",
-    		ctx
-    	});
-
-    	return block;
-    }
-
-    // (65:16) {#each simLeadProjects as projectData, index}
-    function create_each_block$c(ctx) {
-    	let projectcard;
-    	let current;
-
-    	projectcard = new ProjectCard({
-    			props: {
-    				projectData: /*projectData*/ ctx[0],
-    				index: /*index*/ ctx[11]
-    			},
-    			$$inline: true
-    		});
-
-    	const block = {
-    		c: function create() {
-    			create_component(projectcard.$$.fragment);
-    		},
-    		m: function mount(target, anchor) {
-    			mount_component(projectcard, target, anchor);
-    			current = true;
-    		},
-    		p: noop,
-    		i: function intro(local) {
-    			if (current) return;
-    			transition_in(projectcard.$$.fragment, local);
-    			current = true;
-    		},
-    		o: function outro(local) {
-    			transition_out(projectcard.$$.fragment, local);
-    			current = false;
-    		},
-    		d: function destroy(detaching) {
-    			destroy_component(projectcard, detaching);
-    		}
-    	};
-
-    	dispatch_dev("SvelteRegisterBlock", {
-    		block,
-    		id: create_each_block$c.name,
-    		type: "each",
-    		source: "(65:16) {#each simLeadProjects as projectData, index}",
-    		ctx
-    	});
-
-    	return block;
-    }
-
-    function create_fragment$V(ctx) {
+    // (44:16)  <section id = "similar-projects">     <DividerZagged20px/>     <h3>&mdash;&mdash; Similar projects to {projectData.name}
+    function create_pending_block$2(ctx) {
     	let section;
     	let dividerzagged20px;
     	let t0;
@@ -72532,45 +72499,42 @@ var app = (function (exports) {
     			}
 
     			attr_dev(h3, "class", "svelte-w82u0e");
-    			add_location(h3, file$U, 25, 4, 955);
+    			add_location(h3, file$U, 46, 4, 1569);
     			attr_dev(h40, "class", "svelte-w82u0e");
-    			add_location(h40, file$U, 28, 8, 1063);
+    			add_location(h40, file$U, 49, 8, 1677);
     			attr_dev(ul0, "class", "unformatted svelte-w82u0e");
-    			add_location(ul0, file$U, 30, 12, 1152);
+    			add_location(ul0, file$U, 51, 12, 1766);
     			attr_dev(div0, "class", "card-container svelte-w82u0e");
-    			add_location(div0, file$U, 29, 8, 1109);
+    			add_location(div0, file$U, 50, 8, 1723);
     			attr_dev(div1, "class", "group-container svelte-w82u0e");
-    			add_location(div1, file$U, 27, 4, 1023);
+    			add_location(div1, file$U, 48, 4, 1637);
     			attr_dev(h41, "class", "svelte-w82u0e");
-    			add_location(h41, file$U, 39, 8, 1410);
+    			add_location(h41, file$U, 60, 8, 2024);
     			attr_dev(ul1, "class", "unformatted svelte-w82u0e");
-    			add_location(ul1, file$U, 41, 12, 1494);
+    			add_location(ul1, file$U, 62, 12, 2108);
     			attr_dev(div2, "class", "card-container svelte-w82u0e");
-    			add_location(div2, file$U, 40, 8, 1451);
+    			add_location(div2, file$U, 61, 8, 2065);
     			attr_dev(div3, "class", "group-container svelte-w82u0e");
-    			add_location(div3, file$U, 38, 4, 1370);
+    			add_location(div3, file$U, 59, 4, 1984);
     			attr_dev(h42, "class", "svelte-w82u0e");
-    			add_location(h42, file$U, 50, 8, 1749);
+    			add_location(h42, file$U, 71, 8, 2363);
     			attr_dev(ul2, "class", "unformatted svelte-w82u0e");
-    			add_location(ul2, file$U, 52, 12, 1830);
+    			add_location(ul2, file$U, 73, 12, 2444);
     			attr_dev(div4, "class", "card-container svelte-w82u0e");
-    			add_location(div4, file$U, 51, 8, 1787);
+    			add_location(div4, file$U, 72, 8, 2401);
     			attr_dev(div5, "class", "group-container svelte-w82u0e");
-    			add_location(div5, file$U, 49, 4, 1709);
+    			add_location(div5, file$U, 70, 4, 2323);
     			attr_dev(h43, "class", "svelte-w82u0e");
-    			add_location(h43, file$U, 61, 8, 2090);
+    			add_location(h43, file$U, 82, 8, 2704);
     			attr_dev(ul3, "class", "unformatted svelte-w82u0e");
-    			add_location(ul3, file$U, 63, 12, 2175);
+    			add_location(ul3, file$U, 84, 12, 2789);
     			attr_dev(div6, "class", "card-container svelte-w82u0e");
-    			add_location(div6, file$U, 62, 8, 2132);
+    			add_location(div6, file$U, 83, 8, 2746);
     			attr_dev(div7, "class", "group-container svelte-w82u0e");
-    			add_location(div7, file$U, 60, 4, 2050);
+    			add_location(div7, file$U, 81, 4, 2664);
     			attr_dev(section, "id", "similar-projects");
     			attr_dev(section, "class", "svelte-w82u0e");
-    			add_location(section, file$U, 23, 0, 892);
-    		},
-    		l: function claim(nodes) {
-    			throw new Error("options.hydrate only works if the component was compiled with the `hydratable: true` option");
+    			add_location(section, file$U, 44, 0, 1506);
     		},
     		m: function mount(target, anchor) {
     			insert_dev(target, section, anchor);
@@ -72625,7 +72589,7 @@ var app = (function (exports) {
 
     			current = true;
     		},
-    		p: function update(ctx, [dirty]) {
+    		p: function update(ctx, dirty) {
     			if ((!current || dirty & /*projectData*/ 1) && t2_value !== (t2_value = /*projectData*/ ctx[0].name + "")) set_data_dev(t2, t2_value);
 
     			if (dirty & /*simImpactProjects*/ 2) {
@@ -72802,6 +72766,262 @@ var app = (function (exports) {
 
     	dispatch_dev("SvelteRegisterBlock", {
     		block,
+    		id: create_pending_block$2.name,
+    		type: "pending",
+    		source: "(44:16)  <section id = \\\"similar-projects\\\">     <DividerZagged20px/>     <h3>&mdash;&mdash; Similar projects to {projectData.name}",
+    		ctx
+    	});
+
+    	return block;
+    }
+
+    // (53:16) {#each simImpactProjects as projectData, index}
+    function create_each_block_3$3(ctx) {
+    	let projectcard;
+    	let current;
+
+    	projectcard = new ProjectCard({
+    			props: {
+    				projectData: /*projectData*/ ctx[0],
+    				index: /*index*/ ctx[9]
+    			},
+    			$$inline: true
+    		});
+
+    	const block = {
+    		c: function create() {
+    			create_component(projectcard.$$.fragment);
+    		},
+    		m: function mount(target, anchor) {
+    			mount_component(projectcard, target, anchor);
+    			current = true;
+    		},
+    		p: noop,
+    		i: function intro(local) {
+    			if (current) return;
+    			transition_in(projectcard.$$.fragment, local);
+    			current = true;
+    		},
+    		o: function outro(local) {
+    			transition_out(projectcard.$$.fragment, local);
+    			current = false;
+    		},
+    		d: function destroy(detaching) {
+    			destroy_component(projectcard, detaching);
+    		}
+    	};
+
+    	dispatch_dev("SvelteRegisterBlock", {
+    		block,
+    		id: create_each_block_3$3.name,
+    		type: "each",
+    		source: "(53:16) {#each simImpactProjects as projectData, index}",
+    		ctx
+    	});
+
+    	return block;
+    }
+
+    // (64:16) {#each simProjectType as projectData, index}
+    function create_each_block_2$3(ctx) {
+    	let projectcard;
+    	let current;
+
+    	projectcard = new ProjectCard({
+    			props: {
+    				projectData: /*projectData*/ ctx[0],
+    				index: /*index*/ ctx[9]
+    			},
+    			$$inline: true
+    		});
+
+    	const block = {
+    		c: function create() {
+    			create_component(projectcard.$$.fragment);
+    		},
+    		m: function mount(target, anchor) {
+    			mount_component(projectcard, target, anchor);
+    			current = true;
+    		},
+    		p: noop,
+    		i: function intro(local) {
+    			if (current) return;
+    			transition_in(projectcard.$$.fragment, local);
+    			current = true;
+    		},
+    		o: function outro(local) {
+    			transition_out(projectcard.$$.fragment, local);
+    			current = false;
+    		},
+    		d: function destroy(detaching) {
+    			destroy_component(projectcard, detaching);
+    		}
+    	};
+
+    	dispatch_dev("SvelteRegisterBlock", {
+    		block,
+    		id: create_each_block_2$3.name,
+    		type: "each",
+    		source: "(64:16) {#each simProjectType as projectData, index}",
+    		ctx
+    	});
+
+    	return block;
+    }
+
+    // (75:16) {#each simLocationProjects as projectData, index}
+    function create_each_block_1$5(ctx) {
+    	let projectcard;
+    	let current;
+
+    	projectcard = new ProjectCard({
+    			props: {
+    				projectData: /*projectData*/ ctx[0],
+    				index: /*index*/ ctx[9]
+    			},
+    			$$inline: true
+    		});
+
+    	const block = {
+    		c: function create() {
+    			create_component(projectcard.$$.fragment);
+    		},
+    		m: function mount(target, anchor) {
+    			mount_component(projectcard, target, anchor);
+    			current = true;
+    		},
+    		p: noop,
+    		i: function intro(local) {
+    			if (current) return;
+    			transition_in(projectcard.$$.fragment, local);
+    			current = true;
+    		},
+    		o: function outro(local) {
+    			transition_out(projectcard.$$.fragment, local);
+    			current = false;
+    		},
+    		d: function destroy(detaching) {
+    			destroy_component(projectcard, detaching);
+    		}
+    	};
+
+    	dispatch_dev("SvelteRegisterBlock", {
+    		block,
+    		id: create_each_block_1$5.name,
+    		type: "each",
+    		source: "(75:16) {#each simLocationProjects as projectData, index}",
+    		ctx
+    	});
+
+    	return block;
+    }
+
+    // (86:16) {#each simLeadProjects as projectData, index}
+    function create_each_block$c(ctx) {
+    	let projectcard;
+    	let current;
+
+    	projectcard = new ProjectCard({
+    			props: {
+    				projectData: /*projectData*/ ctx[0],
+    				index: /*index*/ ctx[9]
+    			},
+    			$$inline: true
+    		});
+
+    	const block = {
+    		c: function create() {
+    			create_component(projectcard.$$.fragment);
+    		},
+    		m: function mount(target, anchor) {
+    			mount_component(projectcard, target, anchor);
+    			current = true;
+    		},
+    		p: noop,
+    		i: function intro(local) {
+    			if (current) return;
+    			transition_in(projectcard.$$.fragment, local);
+    			current = true;
+    		},
+    		o: function outro(local) {
+    			transition_out(projectcard.$$.fragment, local);
+    			current = false;
+    		},
+    		d: function destroy(detaching) {
+    			destroy_component(projectcard, detaching);
+    		}
+    	};
+
+    	dispatch_dev("SvelteRegisterBlock", {
+    		block,
+    		id: create_each_block$c.name,
+    		type: "each",
+    		source: "(86:16) {#each simLeadProjects as projectData, index}",
+    		ctx
+    	});
+
+    	return block;
+    }
+
+    function create_fragment$V(ctx) {
+    	let await_block_anchor;
+    	let current;
+
+    	let info = {
+    		ctx,
+    		current: null,
+    		token: null,
+    		hasCatch: false,
+    		pending: create_pending_block$2,
+    		then: create_then_block$2,
+    		catch: create_catch_block$2,
+    		blocks: [,,,]
+    	};
+
+    	handle_promise(/*promise*/ ctx[5], info);
+
+    	const block = {
+    		c: function create() {
+    			await_block_anchor = empty();
+    			info.block.c();
+    		},
+    		l: function claim(nodes) {
+    			throw new Error("options.hydrate only works if the component was compiled with the `hydratable: true` option");
+    		},
+    		m: function mount(target, anchor) {
+    			insert_dev(target, await_block_anchor, anchor);
+    			info.block.m(target, info.anchor = anchor);
+    			info.mount = () => await_block_anchor.parentNode;
+    			info.anchor = await_block_anchor;
+    			current = true;
+    		},
+    		p: function update(new_ctx, [dirty]) {
+    			ctx = new_ctx;
+    			update_await_block_branch(info, ctx, dirty);
+    		},
+    		i: function intro(local) {
+    			if (current) return;
+    			transition_in(info.block);
+    			current = true;
+    		},
+    		o: function outro(local) {
+    			for (let i = 0; i < 3; i += 1) {
+    				const block = info.blocks[i];
+    				transition_out(block);
+    			}
+
+    			current = false;
+    		},
+    		d: function destroy(detaching) {
+    			if (detaching) detach_dev(await_block_anchor);
+    			info.block.d(detaching);
+    			info.token = null;
+    			info = null;
+    		}
+    	};
+
+    	dispatch_dev("SvelteRegisterBlock", {
+    		block,
     		id: create_fragment$V.name,
     		type: "component",
     		source: "",
@@ -72813,21 +73033,25 @@ var app = (function (exports) {
 
     function instance$V($$self, $$props, $$invalidate) {
     	let projectData;
-    	let $database;
     	let $ui;
-    	validate_store(database, 'database');
-    	component_subscribe($$self, database, $$value => $$invalidate(6, $database = $$value));
     	validate_store(ui, 'ui');
-    	component_subscribe($$self, ui, $$value => $$invalidate(5, $ui = $$value));
+    	component_subscribe($$self, ui, $$value => $$invalidate(6, $ui = $$value));
     	let { $$slots: slots = {}, $$scope } = $$props;
     	validate_slots('SimilarProjects', slots, []);
+
+    	let simImpactProjects = [],
+    		simLocationProjects = [],
+    		simLeadProjects = [],
+    		simProjectType = [];
+
+    	const promise = searchProjects();
+
+    	//     const projectData =  await searchProjects()
+    	//     console.log(projectData)
+    	// };
+    	// Random project selection
     	const shuffleArray = array => array.sort(() => Math.random() - 0.5);
-    	const projectDatabase = $database.projects;
-    	const shuffledProjects = shuffleArray(projectDatabase);
-    	const simImpactProjects = shuffledProjects.slice(0, 3);
-    	const simLocationProjects = shuffledProjects.slice(3, 6);
-    	const simLeadProjects = shuffledProjects.slice(6, 9);
-    	const simProjectType = shuffledProjects.slice(9, 12);
+
     	const writable_props = [];
 
     	Object.keys($$props).forEach(key => {
@@ -72838,20 +73062,23 @@ var app = (function (exports) {
     		ProjectCard,
     		DividerZagged20px,
     		ui,
+    		searchProjects,
     		database,
-    		shuffleArray,
-    		projectDatabase,
-    		shuffledProjects,
     		simImpactProjects,
     		simLocationProjects,
     		simLeadProjects,
     		simProjectType,
+    		promise,
+    		shuffleArray,
     		projectData,
-    		$database,
     		$ui
     	});
 
     	$$self.$inject_state = $$props => {
+    		if ('simImpactProjects' in $$props) $$invalidate(1, simImpactProjects = $$props.simImpactProjects);
+    		if ('simLocationProjects' in $$props) $$invalidate(2, simLocationProjects = $$props.simLocationProjects);
+    		if ('simLeadProjects' in $$props) $$invalidate(3, simLeadProjects = $$props.simLeadProjects);
+    		if ('simProjectType' in $$props) $$invalidate(4, simProjectType = $$props.simProjectType);
     		if ('projectData' in $$props) $$invalidate(0, projectData = $$props.projectData);
     	};
 
@@ -72860,8 +73087,8 @@ var app = (function (exports) {
     	}
 
     	$$self.$$.update = () => {
-    		if ($$self.$$.dirty & /*$ui*/ 32) {
-    			// Reactive variables
+    		if ($$self.$$.dirty & /*$ui*/ 64) {
+    			// Reacgive variables
     			$$invalidate(0, projectData = $ui.state.focus.projectData);
     		}
     	};
@@ -72872,6 +73099,7 @@ var app = (function (exports) {
     		simLocationProjects,
     		simLeadProjects,
     		simProjectType,
+    		promise,
     		$ui
     	];
     }
@@ -73583,7 +73811,7 @@ var app = (function (exports) {
     		c: function create() {
     			p = element("p");
     			p.textContent = "Unfortunatley there were no projects that met all of your search criteria.";
-    			add_location(p, file$P, 24, 8, 831);
+    			add_location(p, file$P, 24, 8, 863);
     		},
     		m: function mount(target, anchor) {
     			insert_dev(target, p, anchor);
@@ -73605,7 +73833,7 @@ var app = (function (exports) {
     	return block;
     }
 
-    // (17:4) {#if $ui.search.project.length > 0}
+    // (17:4) {#if $ui.search.results.project.length > 0}
     function create_if_block$q(ctx) {
     	let t;
     	let html_tag;
@@ -73613,7 +73841,7 @@ var app = (function (exports) {
     	let html_anchor;
 
     	function select_block_type_1(ctx, dirty) {
-    		if (/*$ui*/ ctx[0].search.project.length === 1) return create_if_block_1$i;
+    		if (/*$ui*/ ctx[0].search.results.project.length === 1) return create_if_block_1$i;
     		return create_else_block$9;
     	}
 
@@ -73659,7 +73887,7 @@ var app = (function (exports) {
     		block,
     		id: create_if_block$q.name,
     		type: "if",
-    		source: "(17:4) {#if $ui.search.project.length > 0}",
+    		source: "(17:4) {#if $ui.search.results.project.length > 0}",
     		ctx
     	});
 
@@ -73670,7 +73898,7 @@ var app = (function (exports) {
     function create_else_block$9(ctx) {
     	let p;
     	let t0;
-    	let t1_value = /*$ui*/ ctx[0].search.project.length + "";
+    	let t1_value = /*$ui*/ ctx[0].search.results.project.length + "";
     	let t1;
     	let t2;
 
@@ -73680,7 +73908,7 @@ var app = (function (exports) {
     			t0 = text("Your search came back with ");
     			t1 = text(t1_value);
     			t2 = text(" projects!");
-    			add_location(p, file$P, 20, 8, 659);
+    			add_location(p, file$P, 20, 8, 683);
     		},
     		m: function mount(target, anchor) {
     			insert_dev(target, p, anchor);
@@ -73689,7 +73917,7 @@ var app = (function (exports) {
     			append_dev(p, t2);
     		},
     		p: function update(ctx, dirty) {
-    			if (dirty & /*$ui*/ 1 && t1_value !== (t1_value = /*$ui*/ ctx[0].search.project.length + "")) set_data_dev(t1, t1_value);
+    			if (dirty & /*$ui*/ 1 && t1_value !== (t1_value = /*$ui*/ ctx[0].search.results.project.length + "")) set_data_dev(t1, t1_value);
     		},
     		d: function destroy(detaching) {
     			if (detaching) detach_dev(p);
@@ -73707,11 +73935,11 @@ var app = (function (exports) {
     	return block;
     }
 
-    // (18:8) {#if $ui.search.project.length === 1}
+    // (18:8) {#if $ui.search.results.project.length === 1}
     function create_if_block_1$i(ctx) {
     	let p;
     	let t0;
-    	let t1_value = /*$ui*/ ctx[0].search.project.length + "";
+    	let t1_value = /*$ui*/ ctx[0].search.results.project.length + "";
     	let t1;
     	let t2;
 
@@ -73721,7 +73949,7 @@ var app = (function (exports) {
     			t0 = text("Your search came back with ");
     			t1 = text(t1_value);
     			t2 = text(" project!");
-    			add_location(p, file$P, 18, 8, 563);
+    			add_location(p, file$P, 18, 8, 579);
     		},
     		m: function mount(target, anchor) {
     			insert_dev(target, p, anchor);
@@ -73730,7 +73958,7 @@ var app = (function (exports) {
     			append_dev(p, t2);
     		},
     		p: function update(ctx, dirty) {
-    			if (dirty & /*$ui*/ 1 && t1_value !== (t1_value = /*$ui*/ ctx[0].search.project.length + "")) set_data_dev(t1, t1_value);
+    			if (dirty & /*$ui*/ 1 && t1_value !== (t1_value = /*$ui*/ ctx[0].search.results.project.length + "")) set_data_dev(t1, t1_value);
     		},
     		d: function destroy(detaching) {
     			if (detaching) detach_dev(p);
@@ -73741,7 +73969,7 @@ var app = (function (exports) {
     		block,
     		id: create_if_block_1$i.name,
     		type: "if",
-    		source: "(18:8) {#if $ui.search.project.length === 1}",
+    		source: "(18:8) {#if $ui.search.results.project.length === 1}",
     		ctx
     	});
 
@@ -73764,7 +73992,7 @@ var app = (function (exports) {
     	let dispose;
 
     	function select_block_type(ctx, dirty) {
-    		if (/*$ui*/ ctx[0].search.project.length > 0) return create_if_block$q;
+    		if (/*$ui*/ ctx[0].search.results.project.length > 0) return create_if_block$q;
     		return create_else_block_1$4;
     	}
 
@@ -73788,10 +74016,10 @@ var app = (function (exports) {
     			html_tag.a = null;
     			add_location(h2, file$P, 14, 4, 388);
     			add_location(div0, file$P, 13, 0, 378);
-    			add_location(hr, file$P, 27, 0, 930);
-    			add_location(button, file$P, 29, 4, 971);
+    			add_location(hr, file$P, 27, 0, 962);
+    			add_location(button, file$P, 29, 4, 1003);
     			attr_dev(div1, "class", "button-container svelte-1jtnxfj");
-    			add_location(div1, file$P, 28, 0, 935);
+    			add_location(div1, file$P, 28, 0, 967);
     		},
     		l: function claim(nodes) {
     			throw new Error("options.hydrate only works if the component was compiled with the `hydratable: true` option");
@@ -75412,95 +75640,83 @@ var app = (function (exports) {
 
     function get_each_context$a(ctx, list, i) {
     	const child_ctx = ctx.slice();
-    	child_ctx[24] = list[i];
+    	child_ctx[22] = list[i];
     	return child_ctx;
     }
 
     function get_each_context_1$3(ctx, list, i) {
     	const child_ctx = ctx.slice();
-    	child_ctx[24] = list[i];
+    	child_ctx[22] = list[i];
     	return child_ctx;
     }
 
     function get_each_context_2$2(ctx, list, i) {
     	const child_ctx = ctx.slice();
-    	child_ctx[24] = list[i];
+    	child_ctx[22] = list[i];
     	return child_ctx;
     }
 
     function get_each_context_3$2(ctx, list, i) {
     	const child_ctx = ctx.slice();
-    	child_ctx[24] = list[i];
+    	child_ctx[22] = list[i];
     	return child_ctx;
     }
 
     function get_each_context_4$2(ctx, list, i) {
     	const child_ctx = ctx.slice();
-    	child_ctx[24] = list[i];
+    	child_ctx[22] = list[i];
     	return child_ctx;
     }
 
     function get_each_context_5$2(ctx, list, i) {
     	const child_ctx = ctx.slice();
-    	child_ctx[24] = list[i];
+    	child_ctx[22] = list[i];
     	return child_ctx;
     }
 
     function get_each_context_6$2(ctx, list, i) {
     	const child_ctx = ctx.slice();
-    	child_ctx[24] = list[i];
+    	child_ctx[22] = list[i];
     	return child_ctx;
     }
 
     function get_each_context_7$2(ctx, list, i) {
     	const child_ctx = ctx.slice();
-    	child_ctx[24] = list[i];
+    	child_ctx[22] = list[i];
     	return child_ctx;
     }
 
     function get_each_context_8$2(ctx, list, i) {
     	const child_ctx = ctx.slice();
-    	child_ctx[24] = list[i];
+    	child_ctx[22] = list[i];
     	return child_ctx;
     }
 
     function get_each_context_9$1(ctx, list, i) {
     	const child_ctx = ctx.slice();
-    	child_ctx[24] = list[i];
+    	child_ctx[22] = list[i];
     	return child_ctx;
     }
 
     function get_each_context_10$1(ctx, list, i) {
     	const child_ctx = ctx.slice();
-    	child_ctx[24] = list[i];
+    	child_ctx[22] = list[i];
     	return child_ctx;
     }
 
     function get_each_context_11$1(ctx, list, i) {
     	const child_ctx = ctx.slice();
-    	child_ctx[24] = list[i];
+    	child_ctx[22] = list[i];
     	return child_ctx;
     }
 
-    function get_each_context_12$1(ctx, list, i) {
+    function get_each_context_12(ctx, list, i) {
     	const child_ctx = ctx.slice();
-    	child_ctx[24] = list[i];
+    	child_ctx[22] = list[i];
     	return child_ctx;
     }
 
-    function get_each_context_13(ctx, list, i) {
-    	const child_ctx = ctx.slice();
-    	child_ctx[24] = list[i];
-    	return child_ctx;
-    }
-
-    function get_each_context_14(ctx, list, i) {
-    	const child_ctx = ctx.slice();
-    	child_ctx[24] = list[i];
-    	return child_ctx;
-    }
-
-    // (86:4) {#if $ui.page === 'discover'}
+    // (129:4) {#if $ui.page === 'discover'}
     function create_if_block_5$3(ctx) {
     	let div1;
     	let div0;
@@ -75513,9 +75729,9 @@ var app = (function (exports) {
     			div0 = element("div");
     			div0.textContent = "← Close search filter";
     			attr_dev(div0, "class", "close-button svelte-1f5tlhh");
-    			add_location(div0, file$L, 87, 8, 3370);
+    			add_location(div0, file$L, 130, 8, 5781);
     			attr_dev(div1, "class", "close-container svelte-1f5tlhh");
-    			add_location(div1, file$L, 86, 4, 3332);
+    			add_location(div1, file$L, 129, 4, 5743);
     		},
     		m: function mount(target, anchor) {
     			insert_dev(target, div1, anchor);
@@ -75538,16 +75754,16 @@ var app = (function (exports) {
     		block,
     		id: create_if_block_5$3.name,
     		type: "if",
-    		source: "(86:4) {#if $ui.page === 'discover'}",
+    		source: "(129:4) {#if $ui.page === 'discover'}",
     		ctx
     	});
 
     	return block;
     }
 
-    // (102:8) {#if paneVisbility.byOutcomes}
+    // (145:8) {#if paneVisbility.byOutcomes}
     function create_if_block_4$4(ctx) {
-    	let div4;
+    	let div3;
     	let div0;
     	let h40;
     	let raw0_value = keyValues.label + "";
@@ -75564,33 +75780,26 @@ var app = (function (exports) {
     	let t3;
     	let div2;
     	let h42;
-    	let raw2_value = performanceObjectivesGroup.label + "";
+    	let raw2_value = performanceObjectivesTheme.label + "";
     	let t4;
     	let multiselect2;
     	let updating_value_2;
-    	let t5;
-    	let div3;
-    	let h43;
-    	let raw3_value = performanceObjectivesTheme.label + "";
-    	let t6;
-    	let multiselect3;
-    	let updating_value_3;
-    	let div4_transition;
+    	let div3_transition;
     	let current;
 
     	function multiselect0_value_binding(value) {
-    		/*multiselect0_value_binding*/ ctx[7](value);
+    		/*multiselect0_value_binding*/ ctx[8](value);
     	}
 
     	let multiselect0_props = {
     		id: keyValues.name,
     		placeholder: keyValues.placeholder,
-    		$$slots: { default: [create_default_slot_14] },
+    		$$slots: { default: [create_default_slot_12] },
     		$$scope: { ctx }
     	};
 
-    	if (/*$ui*/ ctx[0].search.project.keyValues !== void 0) {
-    		multiselect0_props.value = /*$ui*/ ctx[0].search.project.keyValues;
+    	if (/*$ui*/ ctx[0].search.criteria.project.hws.values !== void 0) {
+    		multiselect0_props.value = /*$ui*/ ctx[0].search.criteria.project.hws.values;
     	}
 
     	multiselect0 = new MultiSelect({
@@ -75601,18 +75810,18 @@ var app = (function (exports) {
     	binding_callbacks.push(() => bind(multiselect0, 'value', multiselect0_value_binding));
 
     	function multiselect1_value_binding(value) {
-    		/*multiselect1_value_binding*/ ctx[8](value);
+    		/*multiselect1_value_binding*/ ctx[9](value);
     	}
 
     	let multiselect1_props = {
     		id: conditions.name,
     		placeholder: conditions.placeholder,
-    		$$slots: { default: [create_default_slot_13] },
+    		$$slots: { default: [create_default_slot_11$1] },
     		$$scope: { ctx }
     	};
 
-    	if (/*$ui*/ ctx[0].search.project.conditions !== void 0) {
-    		multiselect1_props.value = /*$ui*/ ctx[0].search.project.conditions;
+    	if (/*$ui*/ ctx[0].search.criteria.project.hws.conditions !== void 0) {
+    		multiselect1_props.value = /*$ui*/ ctx[0].search.criteria.project.hws.conditions;
     	}
 
     	multiselect1 = new MultiSelect({
@@ -75623,18 +75832,18 @@ var app = (function (exports) {
     	binding_callbacks.push(() => bind(multiselect1, 'value', multiselect1_value_binding));
 
     	function multiselect2_value_binding(value) {
-    		/*multiselect2_value_binding*/ ctx[9](value);
+    		/*multiselect2_value_binding*/ ctx[10](value);
     	}
 
     	let multiselect2_props = {
-    		id: performanceObjectivesGroup.name,
-    		placeholder: performanceObjectivesGroup.placeholder,
-    		$$slots: { default: [create_default_slot_12$1] },
+    		id: performanceObjectivesTheme.name,
+    		placeholder: performanceObjectivesTheme.placeholder,
+    		$$slots: { default: [create_default_slot_10$1] },
     		$$scope: { ctx }
     	};
 
-    	if (/*$ui*/ ctx[0].search.project.performanceObjectivesGroup !== void 0) {
-    		multiselect2_props.value = /*$ui*/ ctx[0].search.project.performanceObjectivesGroup;
+    	if (/*$ui*/ ctx[0].search.criteria.project.hws.poThemes !== void 0) {
+    		multiselect2_props.value = /*$ui*/ ctx[0].search.criteria.project.hws.poThemes;
     	}
 
     	multiselect2 = new MultiSelect({
@@ -75644,31 +75853,9 @@ var app = (function (exports) {
 
     	binding_callbacks.push(() => bind(multiselect2, 'value', multiselect2_value_binding));
 
-    	function multiselect3_value_binding(value) {
-    		/*multiselect3_value_binding*/ ctx[10](value);
-    	}
-
-    	let multiselect3_props = {
-    		id: performanceObjectivesTheme.name,
-    		placeholder: performanceObjectivesTheme.placeholder,
-    		$$slots: { default: [create_default_slot_11$1] },
-    		$$scope: { ctx }
-    	};
-
-    	if (/*$ui*/ ctx[0].search.project.performanceObjectivesTheme !== void 0) {
-    		multiselect3_props.value = /*$ui*/ ctx[0].search.project.performanceObjectivesTheme;
-    	}
-
-    	multiselect3 = new MultiSelect({
-    			props: multiselect3_props,
-    			$$inline: true
-    		});
-
-    	binding_callbacks.push(() => bind(multiselect3, 'value', multiselect3_value_binding));
-
     	const block = {
     		c: function create() {
-    			div4 = element("div");
+    			div3 = element("div");
     			div0 = element("div");
     			h40 = element("h4");
     			t0 = space();
@@ -75683,125 +75870,95 @@ var app = (function (exports) {
     			h42 = element("h4");
     			t4 = space();
     			create_component(multiselect2.$$.fragment);
-    			t5 = space();
-    			div3 = element("div");
-    			h43 = element("h4");
-    			t6 = space();
-    			create_component(multiselect3.$$.fragment);
     			attr_dev(h40, "class", "svelte-1f5tlhh");
-    			add_location(h40, file$L, 104, 16, 4028);
+    			add_location(h40, file$L, 147, 16, 6439);
     			attr_dev(div0, "class", "multi-select-container svelte-1f5tlhh");
     			set_style(div0, "z-index", "21");
-    			add_location(div0, file$L, 103, 12, 3954);
+    			add_location(div0, file$L, 146, 12, 6365);
     			attr_dev(h41, "class", "svelte-1f5tlhh");
-    			add_location(h41, file$L, 114, 16, 4532);
+    			add_location(h41, file$L, 157, 16, 6953);
     			attr_dev(div1, "class", "multi-select-container svelte-1f5tlhh");
     			set_style(div1, "z-index", "20");
-    			add_location(div1, file$L, 113, 12, 4457);
+    			add_location(div1, file$L, 156, 12, 6878);
     			attr_dev(h42, "class", "svelte-1f5tlhh");
-    			add_location(h42, file$L, 124, 16, 5042);
+    			add_location(h42, file$L, 167, 16, 7475);
     			attr_dev(div2, "class", "multi-select-container svelte-1f5tlhh");
     			set_style(div2, "z-index", "19");
-    			add_location(div2, file$L, 123, 12, 4968);
-    			attr_dev(h43, "class", "svelte-1f5tlhh");
-    			add_location(h43, file$L, 134, 16, 5632);
-    			attr_dev(div3, "class", "multi-select-container svelte-1f5tlhh");
-    			set_style(div3, "z-index", "18");
-    			add_location(div3, file$L, 133, 12, 5558);
-    			attr_dev(div4, "class", "collapse__body svelte-1f5tlhh");
-    			add_location(div4, file$L, 102, 8, 3893);
+    			add_location(div2, file$L, 166, 12, 7401);
+    			attr_dev(div3, "class", "collapse__body svelte-1f5tlhh");
+    			add_location(div3, file$L, 145, 8, 6304);
     		},
     		m: function mount(target, anchor) {
-    			insert_dev(target, div4, anchor);
-    			append_dev(div4, div0);
+    			insert_dev(target, div3, anchor);
+    			append_dev(div3, div0);
     			append_dev(div0, h40);
     			h40.innerHTML = raw0_value;
     			append_dev(div0, t0);
     			mount_component(multiselect0, div0, null);
-    			append_dev(div4, t1);
-    			append_dev(div4, div1);
+    			append_dev(div3, t1);
+    			append_dev(div3, div1);
     			append_dev(div1, h41);
     			h41.innerHTML = raw1_value;
     			append_dev(div1, t2);
     			mount_component(multiselect1, div1, null);
-    			append_dev(div4, t3);
-    			append_dev(div4, div2);
+    			append_dev(div3, t3);
+    			append_dev(div3, div2);
     			append_dev(div2, h42);
     			h42.innerHTML = raw2_value;
     			append_dev(div2, t4);
     			mount_component(multiselect2, div2, null);
-    			append_dev(div4, t5);
-    			append_dev(div4, div3);
-    			append_dev(div3, h43);
-    			h43.innerHTML = raw3_value;
-    			append_dev(div3, t6);
-    			mount_component(multiselect3, div3, null);
     			current = true;
     		},
     		p: function update(ctx, dirty) {
     			const multiselect0_changes = {};
 
-    			if (dirty[1] & /*$$scope*/ 16777216) {
+    			if (dirty[1] & /*$$scope*/ 262144) {
     				multiselect0_changes.$$scope = { dirty, ctx };
     			}
 
     			if (!updating_value && dirty[0] & /*$ui*/ 1) {
     				updating_value = true;
-    				multiselect0_changes.value = /*$ui*/ ctx[0].search.project.keyValues;
+    				multiselect0_changes.value = /*$ui*/ ctx[0].search.criteria.project.hws.values;
     				add_flush_callback(() => updating_value = false);
     			}
 
     			multiselect0.$set(multiselect0_changes);
     			const multiselect1_changes = {};
 
-    			if (dirty[1] & /*$$scope*/ 16777216) {
+    			if (dirty[1] & /*$$scope*/ 262144) {
     				multiselect1_changes.$$scope = { dirty, ctx };
     			}
 
     			if (!updating_value_1 && dirty[0] & /*$ui*/ 1) {
     				updating_value_1 = true;
-    				multiselect1_changes.value = /*$ui*/ ctx[0].search.project.conditions;
+    				multiselect1_changes.value = /*$ui*/ ctx[0].search.criteria.project.hws.conditions;
     				add_flush_callback(() => updating_value_1 = false);
     			}
 
     			multiselect1.$set(multiselect1_changes);
     			const multiselect2_changes = {};
 
-    			if (dirty[1] & /*$$scope*/ 16777216) {
+    			if (dirty[1] & /*$$scope*/ 262144) {
     				multiselect2_changes.$$scope = { dirty, ctx };
     			}
 
     			if (!updating_value_2 && dirty[0] & /*$ui*/ 1) {
     				updating_value_2 = true;
-    				multiselect2_changes.value = /*$ui*/ ctx[0].search.project.performanceObjectivesGroup;
+    				multiselect2_changes.value = /*$ui*/ ctx[0].search.criteria.project.hws.poThemes;
     				add_flush_callback(() => updating_value_2 = false);
     			}
 
     			multiselect2.$set(multiselect2_changes);
-    			const multiselect3_changes = {};
-
-    			if (dirty[1] & /*$$scope*/ 16777216) {
-    				multiselect3_changes.$$scope = { dirty, ctx };
-    			}
-
-    			if (!updating_value_3 && dirty[0] & /*$ui*/ 1) {
-    				updating_value_3 = true;
-    				multiselect3_changes.value = /*$ui*/ ctx[0].search.project.performanceObjectivesTheme;
-    				add_flush_callback(() => updating_value_3 = false);
-    			}
-
-    			multiselect3.$set(multiselect3_changes);
     		},
     		i: function intro(local) {
     			if (current) return;
     			transition_in(multiselect0.$$.fragment, local);
     			transition_in(multiselect1.$$.fragment, local);
     			transition_in(multiselect2.$$.fragment, local);
-    			transition_in(multiselect3.$$.fragment, local);
 
     			add_render_callback(() => {
-    				if (!div4_transition) div4_transition = create_bidirectional_transition(div4, slide, {}, true);
-    				div4_transition.run(1);
+    				if (!div3_transition) div3_transition = create_bidirectional_transition(div3, slide, {}, true);
+    				div3_transition.run(1);
     			});
 
     			current = true;
@@ -75810,18 +75967,16 @@ var app = (function (exports) {
     			transition_out(multiselect0.$$.fragment, local);
     			transition_out(multiselect1.$$.fragment, local);
     			transition_out(multiselect2.$$.fragment, local);
-    			transition_out(multiselect3.$$.fragment, local);
-    			if (!div4_transition) div4_transition = create_bidirectional_transition(div4, slide, {}, false);
-    			div4_transition.run(0);
+    			if (!div3_transition) div3_transition = create_bidirectional_transition(div3, slide, {}, false);
+    			div3_transition.run(0);
     			current = false;
     		},
     		d: function destroy(detaching) {
-    			if (detaching) detach_dev(div4);
+    			if (detaching) detach_dev(div3);
     			destroy_component(multiselect0);
     			destroy_component(multiselect1);
     			destroy_component(multiselect2);
-    			destroy_component(multiselect3);
-    			if (detaching && div4_transition) div4_transition.end();
+    			if (detaching && div3_transition) div3_transition.end();
     		}
     	};
 
@@ -75829,25 +75984,25 @@ var app = (function (exports) {
     		block,
     		id: create_if_block_4$4.name,
     		type: "if",
-    		source: "(102:8) {#if paneVisbility.byOutcomes}",
+    		source: "(145:8) {#if paneVisbility.byOutcomes}",
     		ctx
     	});
 
     	return block;
     }
 
-    // (108:20) {#each keyValues.list as name}
-    function create_each_block_14(ctx) {
+    // (151:20) {#each keyValues.list as name}
+    function create_each_block_12(ctx) {
     	let option;
-    	let raw_value = /*name*/ ctx[24] + "";
+    	let raw_value = /*name*/ ctx[22] + "";
 
     	const block = {
     		c: function create() {
     			option = element("option");
-    			option.__value = /*name*/ ctx[24];
+    			option.__value = /*name*/ ctx[22];
     			option.value = option.__value;
     			attr_dev(option, "class", "svelte-1f5tlhh");
-    			add_location(option, file$L, 108, 20, 4323);
+    			add_location(option, file$L, 151, 20, 6744);
     		},
     		m: function mount(target, anchor) {
     			insert_dev(target, option, anchor);
@@ -75861,26 +76016,26 @@ var app = (function (exports) {
 
     	dispatch_dev("SvelteRegisterBlock", {
     		block,
-    		id: create_each_block_14.name,
+    		id: create_each_block_12.name,
     		type: "each",
-    		source: "(108:20) {#each keyValues.list as name}",
+    		source: "(151:20) {#each keyValues.list as name}",
     		ctx
     	});
 
     	return block;
     }
 
-    // (106:16) <MultiSelect id={keyValues.name} bind:value={$ui.search.project.keyValues} placeholder={keyValues.placeholder} >
-    function create_default_slot_14(ctx) {
+    // (149:16) <MultiSelect id={keyValues.name} bind:value={$ui.search.criteria.project.hws.values} placeholder={keyValues.placeholder} >
+    function create_default_slot_12(ctx) {
     	let option;
     	let t;
     	let each_1_anchor;
-    	let each_value_14 = keyValues.list;
-    	validate_each_argument(each_value_14);
+    	let each_value_12 = keyValues.list;
+    	validate_each_argument(each_value_12);
     	let each_blocks = [];
 
-    	for (let i = 0; i < each_value_14.length; i += 1) {
-    		each_blocks[i] = create_each_block_14(get_each_context_14(ctx, each_value_14, i));
+    	for (let i = 0; i < each_value_12.length; i += 1) {
+    		each_blocks[i] = create_each_block_12(get_each_context_12(ctx, each_value_12, i));
     	}
 
     	const block = {
@@ -75898,7 +76053,7 @@ var app = (function (exports) {
     			option.__value = "";
     			option.value = option.__value;
     			attr_dev(option, "class", "svelte-1f5tlhh");
-    			add_location(option, file$L, 106, 20, 4210);
+    			add_location(option, file$L, 149, 20, 6631);
     		},
     		m: function mount(target, anchor) {
     			insert_dev(target, option, anchor);
@@ -75912,253 +76067,17 @@ var app = (function (exports) {
     		},
     		p: function update(ctx, dirty) {
     			if (dirty & /*keyValues*/ 0) {
-    				each_value_14 = keyValues.list;
-    				validate_each_argument(each_value_14);
-    				let i;
-
-    				for (i = 0; i < each_value_14.length; i += 1) {
-    					const child_ctx = get_each_context_14(ctx, each_value_14, i);
-
-    					if (each_blocks[i]) {
-    						each_blocks[i].p(child_ctx, dirty);
-    					} else {
-    						each_blocks[i] = create_each_block_14(child_ctx);
-    						each_blocks[i].c();
-    						each_blocks[i].m(each_1_anchor.parentNode, each_1_anchor);
-    					}
-    				}
-
-    				for (; i < each_blocks.length; i += 1) {
-    					each_blocks[i].d(1);
-    				}
-
-    				each_blocks.length = each_value_14.length;
-    			}
-    		},
-    		d: function destroy(detaching) {
-    			if (detaching) detach_dev(option);
-    			if (detaching) detach_dev(t);
-    			destroy_each(each_blocks, detaching);
-    			if (detaching) detach_dev(each_1_anchor);
-    		}
-    	};
-
-    	dispatch_dev("SvelteRegisterBlock", {
-    		block,
-    		id: create_default_slot_14.name,
-    		type: "slot",
-    		source: "(106:16) <MultiSelect id={keyValues.name} bind:value={$ui.search.project.keyValues} placeholder={keyValues.placeholder} >",
-    		ctx
-    	});
-
-    	return block;
-    }
-
-    // (118:20) {#each conditions.list as name}
-    function create_each_block_13(ctx) {
-    	let option;
-    	let raw_value = /*name*/ ctx[24] + "";
-
-    	const block = {
-    		c: function create() {
-    			option = element("option");
-    			option.__value = /*name*/ ctx[24];
-    			option.value = option.__value;
-    			attr_dev(option, "class", "svelte-1f5tlhh");
-    			add_location(option, file$L, 118, 20, 4834);
-    		},
-    		m: function mount(target, anchor) {
-    			insert_dev(target, option, anchor);
-    			option.innerHTML = raw_value;
-    		},
-    		p: noop,
-    		d: function destroy(detaching) {
-    			if (detaching) detach_dev(option);
-    		}
-    	};
-
-    	dispatch_dev("SvelteRegisterBlock", {
-    		block,
-    		id: create_each_block_13.name,
-    		type: "each",
-    		source: "(118:20) {#each conditions.list as name}",
-    		ctx
-    	});
-
-    	return block;
-    }
-
-    // (116:16) <MultiSelect id={conditions.name} bind:value={$ui.search.project.conditions}   placeholder={conditions.placeholder} >
-    function create_default_slot_13(ctx) {
-    	let option;
-    	let t;
-    	let each_1_anchor;
-    	let each_value_13 = conditions.list;
-    	validate_each_argument(each_value_13);
-    	let each_blocks = [];
-
-    	for (let i = 0; i < each_value_13.length; i += 1) {
-    		each_blocks[i] = create_each_block_13(get_each_context_13(ctx, each_value_13, i));
-    	}
-
-    	const block = {
-    		c: function create() {
-    			option = element("option");
-    			t = space();
-
-    			for (let i = 0; i < each_blocks.length; i += 1) {
-    				each_blocks[i].c();
-    			}
-
-    			each_1_anchor = empty();
-    			option.disabled = true;
-    			option.selected = true;
-    			option.__value = "";
-    			option.value = option.__value;
-    			attr_dev(option, "class", "svelte-1f5tlhh");
-    			add_location(option, file$L, 116, 20, 4720);
-    		},
-    		m: function mount(target, anchor) {
-    			insert_dev(target, option, anchor);
-    			insert_dev(target, t, anchor);
-
-    			for (let i = 0; i < each_blocks.length; i += 1) {
-    				each_blocks[i].m(target, anchor);
-    			}
-
-    			insert_dev(target, each_1_anchor, anchor);
-    		},
-    		p: function update(ctx, dirty) {
-    			if (dirty & /*conditions*/ 0) {
-    				each_value_13 = conditions.list;
-    				validate_each_argument(each_value_13);
-    				let i;
-
-    				for (i = 0; i < each_value_13.length; i += 1) {
-    					const child_ctx = get_each_context_13(ctx, each_value_13, i);
-
-    					if (each_blocks[i]) {
-    						each_blocks[i].p(child_ctx, dirty);
-    					} else {
-    						each_blocks[i] = create_each_block_13(child_ctx);
-    						each_blocks[i].c();
-    						each_blocks[i].m(each_1_anchor.parentNode, each_1_anchor);
-    					}
-    				}
-
-    				for (; i < each_blocks.length; i += 1) {
-    					each_blocks[i].d(1);
-    				}
-
-    				each_blocks.length = each_value_13.length;
-    			}
-    		},
-    		d: function destroy(detaching) {
-    			if (detaching) detach_dev(option);
-    			if (detaching) detach_dev(t);
-    			destroy_each(each_blocks, detaching);
-    			if (detaching) detach_dev(each_1_anchor);
-    		}
-    	};
-
-    	dispatch_dev("SvelteRegisterBlock", {
-    		block,
-    		id: create_default_slot_13.name,
-    		type: "slot",
-    		source: "(116:16) <MultiSelect id={conditions.name} bind:value={$ui.search.project.conditions}   placeholder={conditions.placeholder} >",
-    		ctx
-    	});
-
-    	return block;
-    }
-
-    // (128:20) {#each performanceObjectivesGroup.list as name}
-    function create_each_block_12$1(ctx) {
-    	let option;
-    	let raw_value = /*name*/ ctx[24] + "";
-
-    	const block = {
-    		c: function create() {
-    			option = element("option");
-    			option.__value = /*name*/ ctx[24];
-    			option.value = option.__value;
-    			attr_dev(option, "class", "svelte-1f5tlhh");
-    			add_location(option, file$L, 128, 20, 5424);
-    		},
-    		m: function mount(target, anchor) {
-    			insert_dev(target, option, anchor);
-    			option.innerHTML = raw_value;
-    		},
-    		p: noop,
-    		d: function destroy(detaching) {
-    			if (detaching) detach_dev(option);
-    		}
-    	};
-
-    	dispatch_dev("SvelteRegisterBlock", {
-    		block,
-    		id: create_each_block_12$1.name,
-    		type: "each",
-    		source: "(128:20) {#each performanceObjectivesGroup.list as name}",
-    		ctx
-    	});
-
-    	return block;
-    }
-
-    // (126:16) <MultiSelect id={performanceObjectivesGroup.name} bind:value={$ui.search.project.performanceObjectivesGroup}   placeholder={performanceObjectivesGroup.placeholder} >
-    function create_default_slot_12$1(ctx) {
-    	let option;
-    	let t;
-    	let each_1_anchor;
-    	let each_value_12 = performanceObjectivesGroup.list;
-    	validate_each_argument(each_value_12);
-    	let each_blocks = [];
-
-    	for (let i = 0; i < each_value_12.length; i += 1) {
-    		each_blocks[i] = create_each_block_12$1(get_each_context_12$1(ctx, each_value_12, i));
-    	}
-
-    	const block = {
-    		c: function create() {
-    			option = element("option");
-    			t = space();
-
-    			for (let i = 0; i < each_blocks.length; i += 1) {
-    				each_blocks[i].c();
-    			}
-
-    			each_1_anchor = empty();
-    			option.disabled = true;
-    			option.selected = true;
-    			option.__value = "";
-    			option.value = option.__value;
-    			attr_dev(option, "class", "svelte-1f5tlhh");
-    			add_location(option, file$L, 126, 20, 5294);
-    		},
-    		m: function mount(target, anchor) {
-    			insert_dev(target, option, anchor);
-    			insert_dev(target, t, anchor);
-
-    			for (let i = 0; i < each_blocks.length; i += 1) {
-    				each_blocks[i].m(target, anchor);
-    			}
-
-    			insert_dev(target, each_1_anchor, anchor);
-    		},
-    		p: function update(ctx, dirty) {
-    			if (dirty & /*performanceObjectivesGroup*/ 0) {
-    				each_value_12 = performanceObjectivesGroup.list;
+    				each_value_12 = keyValues.list;
     				validate_each_argument(each_value_12);
     				let i;
 
     				for (i = 0; i < each_value_12.length; i += 1) {
-    					const child_ctx = get_each_context_12$1(ctx, each_value_12, i);
+    					const child_ctx = get_each_context_12(ctx, each_value_12, i);
 
     					if (each_blocks[i]) {
     						each_blocks[i].p(child_ctx, dirty);
     					} else {
-    						each_blocks[i] = create_each_block_12$1(child_ctx);
+    						each_blocks[i] = create_each_block_12(child_ctx);
     						each_blocks[i].c();
     						each_blocks[i].m(each_1_anchor.parentNode, each_1_anchor);
     					}
@@ -76181,27 +76100,27 @@ var app = (function (exports) {
 
     	dispatch_dev("SvelteRegisterBlock", {
     		block,
-    		id: create_default_slot_12$1.name,
+    		id: create_default_slot_12.name,
     		type: "slot",
-    		source: "(126:16) <MultiSelect id={performanceObjectivesGroup.name} bind:value={$ui.search.project.performanceObjectivesGroup}   placeholder={performanceObjectivesGroup.placeholder} >",
+    		source: "(149:16) <MultiSelect id={keyValues.name} bind:value={$ui.search.criteria.project.hws.values} placeholder={keyValues.placeholder} >",
     		ctx
     	});
 
     	return block;
     }
 
-    // (138:20) {#each performanceObjectivesTheme.list as name}
+    // (161:20) {#each conditions.list as name}
     function create_each_block_11$1(ctx) {
     	let option;
-    	let raw_value = /*name*/ ctx[24] + "";
+    	let raw_value = /*name*/ ctx[22] + "";
 
     	const block = {
     		c: function create() {
     			option = element("option");
-    			option.__value = /*name*/ ctx[24];
+    			option.__value = /*name*/ ctx[22];
     			option.value = option.__value;
     			attr_dev(option, "class", "svelte-1f5tlhh");
-    			add_location(option, file$L, 138, 20, 6014);
+    			add_location(option, file$L, 161, 20, 7267);
     		},
     		m: function mount(target, anchor) {
     			insert_dev(target, option, anchor);
@@ -76217,19 +76136,19 @@ var app = (function (exports) {
     		block,
     		id: create_each_block_11$1.name,
     		type: "each",
-    		source: "(138:20) {#each performanceObjectivesTheme.list as name}",
+    		source: "(161:20) {#each conditions.list as name}",
     		ctx
     	});
 
     	return block;
     }
 
-    // (136:16) <MultiSelect id={performanceObjectivesTheme.name} bind:value={$ui.search.project.performanceObjectivesTheme}   placeholder={performanceObjectivesTheme.placeholder} >
+    // (159:16) <MultiSelect id={conditions.name} bind:value={$ui.search.criteria.project.hws.conditions}  placeholder={conditions.placeholder} >
     function create_default_slot_11$1(ctx) {
     	let option;
     	let t;
     	let each_1_anchor;
-    	let each_value_11 = performanceObjectivesTheme.list;
+    	let each_value_11 = conditions.list;
     	validate_each_argument(each_value_11);
     	let each_blocks = [];
 
@@ -76252,7 +76171,7 @@ var app = (function (exports) {
     			option.__value = "";
     			option.value = option.__value;
     			attr_dev(option, "class", "svelte-1f5tlhh");
-    			add_location(option, file$L, 136, 20, 5884);
+    			add_location(option, file$L, 159, 20, 7153);
     		},
     		m: function mount(target, anchor) {
     			insert_dev(target, option, anchor);
@@ -76265,8 +76184,8 @@ var app = (function (exports) {
     			insert_dev(target, each_1_anchor, anchor);
     		},
     		p: function update(ctx, dirty) {
-    			if (dirty & /*performanceObjectivesTheme*/ 0) {
-    				each_value_11 = performanceObjectivesTheme.list;
+    			if (dirty & /*conditions*/ 0) {
+    				each_value_11 = conditions.list;
     				validate_each_argument(each_value_11);
     				let i;
 
@@ -76301,274 +76220,25 @@ var app = (function (exports) {
     		block,
     		id: create_default_slot_11$1.name,
     		type: "slot",
-    		source: "(136:16) <MultiSelect id={performanceObjectivesTheme.name} bind:value={$ui.search.project.performanceObjectivesTheme}   placeholder={performanceObjectivesTheme.placeholder} >",
+    		source: "(159:16) <MultiSelect id={conditions.name} bind:value={$ui.search.criteria.project.hws.conditions}  placeholder={conditions.placeholder} >",
     		ctx
     	});
 
     	return block;
     }
 
-    // (154:8) {#if paneVisbility.byLocation}
-    function create_if_block_3$a(ctx) {
-    	let div4;
-    	let div0;
-    	let h40;
-    	let raw0_value = catchments.label + "";
-    	let t0;
-    	let multiselect0;
-    	let updating_value;
-    	let t1;
-    	let div1;
-    	let h41;
-    	let raw1_value = subcatchments.label + "";
-    	let t2;
-    	let multiselect1;
-    	let updating_value_1;
-    	let t3;
-    	let div2;
-    	let h42;
-    	let raw2_value = locations.label + "";
-    	let t4;
-    	let multiselect2;
-    	let updating_value_2;
-    	let t5;
-    	let div3;
-    	let t7;
-    	let leafletmap;
-    	let div4_transition;
-    	let current;
-
-    	function multiselect0_value_binding_1(value) {
-    		/*multiselect0_value_binding_1*/ ctx[11](value);
-    	}
-
-    	let multiselect0_props = {
-    		id: catchments.name,
-    		placeholder: catchments.placeholder,
-    		$$slots: { default: [create_default_slot_10$1] },
-    		$$scope: { ctx }
-    	};
-
-    	if (/*$ui*/ ctx[0].search.project.catchment !== void 0) {
-    		multiselect0_props.value = /*$ui*/ ctx[0].search.project.catchment;
-    	}
-
-    	multiselect0 = new MultiSelect({
-    			props: multiselect0_props,
-    			$$inline: true
-    		});
-
-    	binding_callbacks.push(() => bind(multiselect0, 'value', multiselect0_value_binding_1));
-
-    	function multiselect1_value_binding_1(value) {
-    		/*multiselect1_value_binding_1*/ ctx[12](value);
-    	}
-
-    	let multiselect1_props = {
-    		id: subcatchments.name,
-    		placeholder: subcatchments.placeholder,
-    		$$slots: { default: [create_default_slot_9$1] },
-    		$$scope: { ctx }
-    	};
-
-    	if (/*$ui*/ ctx[0].search.project.subcatchment !== void 0) {
-    		multiselect1_props.value = /*$ui*/ ctx[0].search.project.subcatchment;
-    	}
-
-    	multiselect1 = new MultiSelect({
-    			props: multiselect1_props,
-    			$$inline: true
-    		});
-
-    	binding_callbacks.push(() => bind(multiselect1, 'value', multiselect1_value_binding_1));
-
-    	function multiselect2_value_binding_1(value) {
-    		/*multiselect2_value_binding_1*/ ctx[13](value);
-    	}
-
-    	let multiselect2_props = {
-    		id: locations.name,
-    		placeholder: locations.placeholder,
-    		$$slots: { default: [create_default_slot_8$1] },
-    		$$scope: { ctx }
-    	};
-
-    	if (/*$ui*/ ctx[0].search.project.locations !== void 0) {
-    		multiselect2_props.value = /*$ui*/ ctx[0].search.project.locations;
-    	}
-
-    	multiselect2 = new MultiSelect({
-    			props: multiselect2_props,
-    			$$inline: true
-    		});
-
-    	binding_callbacks.push(() => bind(multiselect2, 'value', multiselect2_value_binding_1));
-    	leafletmap = new LeafletMap_1({ $$inline: true });
-
-    	const block = {
-    		c: function create() {
-    			div4 = element("div");
-    			div0 = element("div");
-    			h40 = element("h4");
-    			t0 = space();
-    			create_component(multiselect0.$$.fragment);
-    			t1 = space();
-    			div1 = element("div");
-    			h41 = element("h4");
-    			t2 = space();
-    			create_component(multiselect1.$$.fragment);
-    			t3 = space();
-    			div2 = element("div");
-    			h42 = element("h4");
-    			t4 = space();
-    			create_component(multiselect2.$$.fragment);
-    			t5 = space();
-    			div3 = element("div");
-    			div3.textContent = "Location searches will be 'smarter' and linked to the map view";
-    			t7 = space();
-    			create_component(leafletmap.$$.fragment);
-    			attr_dev(h40, "class", "svelte-1f5tlhh");
-    			add_location(h40, file$L, 156, 16, 6672);
-    			attr_dev(div0, "class", "multi-select-container svelte-1f5tlhh");
-    			set_style(div0, "z-index", "17");
-    			add_location(div0, file$L, 155, 12, 6598);
-    			attr_dev(h41, "class", "svelte-1f5tlhh");
-    			add_location(h41, file$L, 166, 16, 7195);
-    			attr_dev(div1, "class", "multi-select-container svelte-1f5tlhh");
-    			set_style(div1, "z-index", "16");
-    			add_location(div1, file$L, 165, 12, 7121);
-    			attr_dev(h42, "class", "svelte-1f5tlhh");
-    			add_location(h42, file$L, 176, 16, 7733);
-    			attr_dev(div2, "class", "multi-select-container svelte-1f5tlhh");
-    			set_style(div2, "z-index", "15");
-    			add_location(div2, file$L, 175, 12, 7659);
-    			attr_dev(div3, "class", "note svelte-1f5tlhh");
-    			add_location(div3, file$L, 184, 12, 8176);
-    			attr_dev(div4, "class", "collapse__body svelte-1f5tlhh");
-    			add_location(div4, file$L, 154, 8, 6537);
-    		},
-    		m: function mount(target, anchor) {
-    			insert_dev(target, div4, anchor);
-    			append_dev(div4, div0);
-    			append_dev(div0, h40);
-    			h40.innerHTML = raw0_value;
-    			append_dev(div0, t0);
-    			mount_component(multiselect0, div0, null);
-    			append_dev(div4, t1);
-    			append_dev(div4, div1);
-    			append_dev(div1, h41);
-    			h41.innerHTML = raw1_value;
-    			append_dev(div1, t2);
-    			mount_component(multiselect1, div1, null);
-    			append_dev(div4, t3);
-    			append_dev(div4, div2);
-    			append_dev(div2, h42);
-    			h42.innerHTML = raw2_value;
-    			append_dev(div2, t4);
-    			mount_component(multiselect2, div2, null);
-    			append_dev(div4, t5);
-    			append_dev(div4, div3);
-    			append_dev(div4, t7);
-    			mount_component(leafletmap, div4, null);
-    			current = true;
-    		},
-    		p: function update(ctx, dirty) {
-    			const multiselect0_changes = {};
-
-    			if (dirty[1] & /*$$scope*/ 16777216) {
-    				multiselect0_changes.$$scope = { dirty, ctx };
-    			}
-
-    			if (!updating_value && dirty[0] & /*$ui*/ 1) {
-    				updating_value = true;
-    				multiselect0_changes.value = /*$ui*/ ctx[0].search.project.catchment;
-    				add_flush_callback(() => updating_value = false);
-    			}
-
-    			multiselect0.$set(multiselect0_changes);
-    			const multiselect1_changes = {};
-
-    			if (dirty[1] & /*$$scope*/ 16777216) {
-    				multiselect1_changes.$$scope = { dirty, ctx };
-    			}
-
-    			if (!updating_value_1 && dirty[0] & /*$ui*/ 1) {
-    				updating_value_1 = true;
-    				multiselect1_changes.value = /*$ui*/ ctx[0].search.project.subcatchment;
-    				add_flush_callback(() => updating_value_1 = false);
-    			}
-
-    			multiselect1.$set(multiselect1_changes);
-    			const multiselect2_changes = {};
-
-    			if (dirty[1] & /*$$scope*/ 16777216) {
-    				multiselect2_changes.$$scope = { dirty, ctx };
-    			}
-
-    			if (!updating_value_2 && dirty[0] & /*$ui*/ 1) {
-    				updating_value_2 = true;
-    				multiselect2_changes.value = /*$ui*/ ctx[0].search.project.locations;
-    				add_flush_callback(() => updating_value_2 = false);
-    			}
-
-    			multiselect2.$set(multiselect2_changes);
-    		},
-    		i: function intro(local) {
-    			if (current) return;
-    			transition_in(multiselect0.$$.fragment, local);
-    			transition_in(multiselect1.$$.fragment, local);
-    			transition_in(multiselect2.$$.fragment, local);
-    			transition_in(leafletmap.$$.fragment, local);
-
-    			add_render_callback(() => {
-    				if (!div4_transition) div4_transition = create_bidirectional_transition(div4, slide, {}, true);
-    				div4_transition.run(1);
-    			});
-
-    			current = true;
-    		},
-    		o: function outro(local) {
-    			transition_out(multiselect0.$$.fragment, local);
-    			transition_out(multiselect1.$$.fragment, local);
-    			transition_out(multiselect2.$$.fragment, local);
-    			transition_out(leafletmap.$$.fragment, local);
-    			if (!div4_transition) div4_transition = create_bidirectional_transition(div4, slide, {}, false);
-    			div4_transition.run(0);
-    			current = false;
-    		},
-    		d: function destroy(detaching) {
-    			if (detaching) detach_dev(div4);
-    			destroy_component(multiselect0);
-    			destroy_component(multiselect1);
-    			destroy_component(multiselect2);
-    			destroy_component(leafletmap);
-    			if (detaching && div4_transition) div4_transition.end();
-    		}
-    	};
-
-    	dispatch_dev("SvelteRegisterBlock", {
-    		block,
-    		id: create_if_block_3$a.name,
-    		type: "if",
-    		source: "(154:8) {#if paneVisbility.byLocation}",
-    		ctx
-    	});
-
-    	return block;
-    }
-
-    // (160:20) {#each catchments.list as name}
+    // (171:20) {#each performanceObjectivesTheme.list as name}
     function create_each_block_10$1(ctx) {
     	let option;
-    	let raw_value = /*name*/ ctx[24] + "";
+    	let raw_value = /*name*/ ctx[22] + "";
 
     	const block = {
     		c: function create() {
     			option = element("option");
-    			option.__value = /*name*/ ctx[24];
+    			option.__value = /*name*/ ctx[22];
     			option.value = option.__value;
     			attr_dev(option, "class", "svelte-1f5tlhh");
-    			add_location(option, file$L, 160, 20, 6971);
+    			add_location(option, file$L, 171, 20, 7852);
     		},
     		m: function mount(target, anchor) {
     			insert_dev(target, option, anchor);
@@ -76584,19 +76254,19 @@ var app = (function (exports) {
     		block,
     		id: create_each_block_10$1.name,
     		type: "each",
-    		source: "(160:20) {#each catchments.list as name}",
+    		source: "(171:20) {#each performanceObjectivesTheme.list as name}",
     		ctx
     	});
 
     	return block;
     }
 
-    // (158:16) <MultiSelect id={catchments.name} bind:value={$ui.search.project.catchment} placeholder={catchments.placeholder} >
+    // (169:16) <MultiSelect id={performanceObjectivesTheme.name} bind:value={$ui.search.criteria.project.hws.poThemes}   placeholder={performanceObjectivesTheme.placeholder} >
     function create_default_slot_10$1(ctx) {
     	let option;
     	let t;
     	let each_1_anchor;
-    	let each_value_10 = catchments.list;
+    	let each_value_10 = performanceObjectivesTheme.list;
     	validate_each_argument(each_value_10);
     	let each_blocks = [];
 
@@ -76619,7 +76289,7 @@ var app = (function (exports) {
     			option.__value = "";
     			option.value = option.__value;
     			attr_dev(option, "class", "svelte-1f5tlhh");
-    			add_location(option, file$L, 158, 20, 6857);
+    			add_location(option, file$L, 169, 20, 7722);
     		},
     		m: function mount(target, anchor) {
     			insert_dev(target, option, anchor);
@@ -76632,8 +76302,8 @@ var app = (function (exports) {
     			insert_dev(target, each_1_anchor, anchor);
     		},
     		p: function update(ctx, dirty) {
-    			if (dirty & /*catchments*/ 0) {
-    				each_value_10 = catchments.list;
+    			if (dirty & /*performanceObjectivesTheme*/ 0) {
+    				each_value_10 = performanceObjectivesTheme.list;
     				validate_each_argument(each_value_10);
     				let i;
 
@@ -76668,25 +76338,280 @@ var app = (function (exports) {
     		block,
     		id: create_default_slot_10$1.name,
     		type: "slot",
-    		source: "(158:16) <MultiSelect id={catchments.name} bind:value={$ui.search.project.catchment} placeholder={catchments.placeholder} >",
+    		source: "(169:16) <MultiSelect id={performanceObjectivesTheme.name} bind:value={$ui.search.criteria.project.hws.poThemes}   placeholder={performanceObjectivesTheme.placeholder} >",
     		ctx
     	});
 
     	return block;
     }
 
-    // (170:20) {#each subcatchments.list as name}
+    // (187:8) {#if paneVisbility.byLocation}
+    function create_if_block_3$a(ctx) {
+    	let div5;
+    	let div0;
+    	let h40;
+    	let raw0_value = catchments.label + "";
+    	let t0;
+    	let multiselect0;
+    	let updating_value;
+    	let t1;
+    	let div1;
+    	let h41;
+    	let raw1_value = subcatchments.label + "";
+    	let t2;
+    	let multiselect1;
+    	let updating_value_1;
+    	let t3;
+    	let div2;
+    	let h42;
+    	let raw2_value = locations.label + "";
+    	let t4;
+    	let multiselect2;
+    	let updating_value_2;
+    	let t5;
+    	let div3;
+    	let t7;
+    	let div4;
+    	let map;
+    	let div5_transition;
+    	let current;
+
+    	function multiselect0_value_binding_1(value) {
+    		/*multiselect0_value_binding_1*/ ctx[11](value);
+    	}
+
+    	let multiselect0_props = {
+    		id: catchments.name,
+    		placeholder: catchments.placeholder,
+    		$$slots: { default: [create_default_slot_9$1] },
+    		$$scope: { ctx }
+    	};
+
+    	if (/*$ui*/ ctx[0].search.criteria.project.location.catchments !== void 0) {
+    		multiselect0_props.value = /*$ui*/ ctx[0].search.criteria.project.location.catchments;
+    	}
+
+    	multiselect0 = new MultiSelect({
+    			props: multiselect0_props,
+    			$$inline: true
+    		});
+
+    	binding_callbacks.push(() => bind(multiselect0, 'value', multiselect0_value_binding_1));
+
+    	function multiselect1_value_binding_1(value) {
+    		/*multiselect1_value_binding_1*/ ctx[12](value);
+    	}
+
+    	let multiselect1_props = {
+    		id: subcatchments.name,
+    		placeholder: subcatchments.placeholder,
+    		$$slots: { default: [create_default_slot_8$1] },
+    		$$scope: { ctx }
+    	};
+
+    	if (/*$ui*/ ctx[0].search.criteria.project.location.subCatchments !== void 0) {
+    		multiselect1_props.value = /*$ui*/ ctx[0].search.criteria.project.location.subCatchments;
+    	}
+
+    	multiselect1 = new MultiSelect({
+    			props: multiselect1_props,
+    			$$inline: true
+    		});
+
+    	binding_callbacks.push(() => bind(multiselect1, 'value', multiselect1_value_binding_1));
+
+    	function multiselect2_value_binding_1(value) {
+    		/*multiselect2_value_binding_1*/ ctx[13](value);
+    	}
+
+    	let multiselect2_props = {
+    		id: locations.name,
+    		placeholder: locations.placeholder,
+    		$$slots: { default: [create_default_slot_7$2] },
+    		$$scope: { ctx }
+    	};
+
+    	if (/*$ui*/ ctx[0].search.criteria.project.location.locations !== void 0) {
+    		multiselect2_props.value = /*$ui*/ ctx[0].search.criteria.project.location.locations;
+    	}
+
+    	multiselect2 = new MultiSelect({
+    			props: multiselect2_props,
+    			$$inline: true
+    		});
+
+    	binding_callbacks.push(() => bind(multiselect2, 'value', multiselect2_value_binding_1));
+    	map = new Map$1({ $$inline: true });
+
+    	const block = {
+    		c: function create() {
+    			div5 = element("div");
+    			div0 = element("div");
+    			h40 = element("h4");
+    			t0 = space();
+    			create_component(multiselect0.$$.fragment);
+    			t1 = space();
+    			div1 = element("div");
+    			h41 = element("h4");
+    			t2 = space();
+    			create_component(multiselect1.$$.fragment);
+    			t3 = space();
+    			div2 = element("div");
+    			h42 = element("h4");
+    			t4 = space();
+    			create_component(multiselect2.$$.fragment);
+    			t5 = space();
+    			div3 = element("div");
+    			div3.textContent = "Location searches will be 'smarter' and linked to the map view";
+    			t7 = space();
+    			div4 = element("div");
+    			create_component(map.$$.fragment);
+    			attr_dev(h40, "class", "svelte-1f5tlhh");
+    			add_location(h40, file$L, 189, 16, 8510);
+    			attr_dev(div0, "class", "multi-select-container svelte-1f5tlhh");
+    			set_style(div0, "z-index", "17");
+    			add_location(div0, file$L, 188, 12, 8436);
+    			attr_dev(h41, "class", "svelte-1f5tlhh");
+    			add_location(h41, file$L, 199, 16, 9052);
+    			attr_dev(div1, "class", "multi-select-container svelte-1f5tlhh");
+    			set_style(div1, "z-index", "16");
+    			add_location(div1, file$L, 198, 12, 8978);
+    			attr_dev(h42, "class", "svelte-1f5tlhh");
+    			add_location(h42, file$L, 209, 16, 9609);
+    			attr_dev(div2, "class", "multi-select-container svelte-1f5tlhh");
+    			set_style(div2, "z-index", "15");
+    			add_location(div2, file$L, 208, 12, 9535);
+    			attr_dev(div3, "class", "note svelte-1f5tlhh");
+    			add_location(div3, file$L, 217, 12, 10070);
+    			set_style(div4, "z-index", "14");
+    			attr_dev(div4, "class", "svelte-1f5tlhh");
+    			add_location(div4, file$L, 219, 12, 10172);
+    			attr_dev(div5, "class", "collapse__body svelte-1f5tlhh");
+    			add_location(div5, file$L, 187, 8, 8375);
+    		},
+    		m: function mount(target, anchor) {
+    			insert_dev(target, div5, anchor);
+    			append_dev(div5, div0);
+    			append_dev(div0, h40);
+    			h40.innerHTML = raw0_value;
+    			append_dev(div0, t0);
+    			mount_component(multiselect0, div0, null);
+    			append_dev(div5, t1);
+    			append_dev(div5, div1);
+    			append_dev(div1, h41);
+    			h41.innerHTML = raw1_value;
+    			append_dev(div1, t2);
+    			mount_component(multiselect1, div1, null);
+    			append_dev(div5, t3);
+    			append_dev(div5, div2);
+    			append_dev(div2, h42);
+    			h42.innerHTML = raw2_value;
+    			append_dev(div2, t4);
+    			mount_component(multiselect2, div2, null);
+    			append_dev(div5, t5);
+    			append_dev(div5, div3);
+    			append_dev(div5, t7);
+    			append_dev(div5, div4);
+    			mount_component(map, div4, null);
+    			current = true;
+    		},
+    		p: function update(ctx, dirty) {
+    			const multiselect0_changes = {};
+
+    			if (dirty[1] & /*$$scope*/ 262144) {
+    				multiselect0_changes.$$scope = { dirty, ctx };
+    			}
+
+    			if (!updating_value && dirty[0] & /*$ui*/ 1) {
+    				updating_value = true;
+    				multiselect0_changes.value = /*$ui*/ ctx[0].search.criteria.project.location.catchments;
+    				add_flush_callback(() => updating_value = false);
+    			}
+
+    			multiselect0.$set(multiselect0_changes);
+    			const multiselect1_changes = {};
+
+    			if (dirty[1] & /*$$scope*/ 262144) {
+    				multiselect1_changes.$$scope = { dirty, ctx };
+    			}
+
+    			if (!updating_value_1 && dirty[0] & /*$ui*/ 1) {
+    				updating_value_1 = true;
+    				multiselect1_changes.value = /*$ui*/ ctx[0].search.criteria.project.location.subCatchments;
+    				add_flush_callback(() => updating_value_1 = false);
+    			}
+
+    			multiselect1.$set(multiselect1_changes);
+    			const multiselect2_changes = {};
+
+    			if (dirty[1] & /*$$scope*/ 262144) {
+    				multiselect2_changes.$$scope = { dirty, ctx };
+    			}
+
+    			if (!updating_value_2 && dirty[0] & /*$ui*/ 1) {
+    				updating_value_2 = true;
+    				multiselect2_changes.value = /*$ui*/ ctx[0].search.criteria.project.location.locations;
+    				add_flush_callback(() => updating_value_2 = false);
+    			}
+
+    			multiselect2.$set(multiselect2_changes);
+    		},
+    		i: function intro(local) {
+    			if (current) return;
+    			transition_in(multiselect0.$$.fragment, local);
+    			transition_in(multiselect1.$$.fragment, local);
+    			transition_in(multiselect2.$$.fragment, local);
+    			transition_in(map.$$.fragment, local);
+
+    			add_render_callback(() => {
+    				if (!div5_transition) div5_transition = create_bidirectional_transition(div5, slide, {}, true);
+    				div5_transition.run(1);
+    			});
+
+    			current = true;
+    		},
+    		o: function outro(local) {
+    			transition_out(multiselect0.$$.fragment, local);
+    			transition_out(multiselect1.$$.fragment, local);
+    			transition_out(multiselect2.$$.fragment, local);
+    			transition_out(map.$$.fragment, local);
+    			if (!div5_transition) div5_transition = create_bidirectional_transition(div5, slide, {}, false);
+    			div5_transition.run(0);
+    			current = false;
+    		},
+    		d: function destroy(detaching) {
+    			if (detaching) detach_dev(div5);
+    			destroy_component(multiselect0);
+    			destroy_component(multiselect1);
+    			destroy_component(multiselect2);
+    			destroy_component(map);
+    			if (detaching && div5_transition) div5_transition.end();
+    		}
+    	};
+
+    	dispatch_dev("SvelteRegisterBlock", {
+    		block,
+    		id: create_if_block_3$a.name,
+    		type: "if",
+    		source: "(187:8) {#if paneVisbility.byLocation}",
+    		ctx
+    	});
+
+    	return block;
+    }
+
+    // (193:20) {#each catchments.list as name}
     function create_each_block_9$1(ctx) {
     	let option;
-    	let raw_value = /*name*/ ctx[24] + "";
+    	let raw_value = /*name*/ ctx[22] + "";
 
     	const block = {
     		c: function create() {
     			option = element("option");
-    			option.__value = /*name*/ ctx[24];
+    			option.__value = /*name*/ ctx[22];
     			option.value = option.__value;
     			attr_dev(option, "class", "svelte-1f5tlhh");
-    			add_location(option, file$L, 170, 20, 7509);
+    			add_location(option, file$L, 193, 20, 8828);
     		},
     		m: function mount(target, anchor) {
     			insert_dev(target, option, anchor);
@@ -76702,19 +76627,19 @@ var app = (function (exports) {
     		block,
     		id: create_each_block_9$1.name,
     		type: "each",
-    		source: "(170:20) {#each subcatchments.list as name}",
+    		source: "(193:20) {#each catchments.list as name}",
     		ctx
     	});
 
     	return block;
     }
 
-    // (168:16) <MultiSelect id={subcatchments.name} bind:value={$ui.search.project.subcatchment} placeholder={subcatchments.placeholder} >
+    // (191:16) <MultiSelect id={catchments.name} bind:value={$ui.search.criteria.project.location.catchments} placeholder={catchments.placeholder} >
     function create_default_slot_9$1(ctx) {
     	let option;
     	let t;
     	let each_1_anchor;
-    	let each_value_9 = subcatchments.list;
+    	let each_value_9 = catchments.list;
     	validate_each_argument(each_value_9);
     	let each_blocks = [];
 
@@ -76737,7 +76662,7 @@ var app = (function (exports) {
     			option.__value = "";
     			option.value = option.__value;
     			attr_dev(option, "class", "svelte-1f5tlhh");
-    			add_location(option, file$L, 168, 20, 7392);
+    			add_location(option, file$L, 191, 20, 8714);
     		},
     		m: function mount(target, anchor) {
     			insert_dev(target, option, anchor);
@@ -76750,8 +76675,8 @@ var app = (function (exports) {
     			insert_dev(target, each_1_anchor, anchor);
     		},
     		p: function update(ctx, dirty) {
-    			if (dirty & /*subcatchments*/ 0) {
-    				each_value_9 = subcatchments.list;
+    			if (dirty & /*catchments*/ 0) {
+    				each_value_9 = catchments.list;
     				validate_each_argument(each_value_9);
     				let i;
 
@@ -76786,25 +76711,25 @@ var app = (function (exports) {
     		block,
     		id: create_default_slot_9$1.name,
     		type: "slot",
-    		source: "(168:16) <MultiSelect id={subcatchments.name} bind:value={$ui.search.project.subcatchment} placeholder={subcatchments.placeholder} >",
+    		source: "(191:16) <MultiSelect id={catchments.name} bind:value={$ui.search.criteria.project.location.catchments} placeholder={catchments.placeholder} >",
     		ctx
     	});
 
     	return block;
     }
 
-    // (180:20) {#each locations.list as name}
+    // (203:20) {#each subcatchments.list as name}
     function create_each_block_8$2(ctx) {
     	let option;
-    	let raw_value = /*name*/ ctx[24] + "";
+    	let raw_value = /*name*/ ctx[22] + "";
 
     	const block = {
     		c: function create() {
     			option = element("option");
-    			option.__value = /*name*/ ctx[24];
+    			option.__value = /*name*/ ctx[22];
     			option.value = option.__value;
     			attr_dev(option, "class", "svelte-1f5tlhh");
-    			add_location(option, file$L, 180, 20, 8027);
+    			add_location(option, file$L, 203, 20, 9385);
     		},
     		m: function mount(target, anchor) {
     			insert_dev(target, option, anchor);
@@ -76820,19 +76745,19 @@ var app = (function (exports) {
     		block,
     		id: create_each_block_8$2.name,
     		type: "each",
-    		source: "(180:20) {#each locations.list as name}",
+    		source: "(203:20) {#each subcatchments.list as name}",
     		ctx
     	});
 
     	return block;
     }
 
-    // (178:16) <MultiSelect id={locations.name} bind:value={$ui.search.project.locations} placeholder={locations.placeholder}>
+    // (201:16) <MultiSelect id={subcatchments.name} bind:value={$ui.search.criteria.project.location.subCatchments} placeholder={subcatchments.placeholder} >
     function create_default_slot_8$1(ctx) {
     	let option;
     	let t;
     	let each_1_anchor;
-    	let each_value_8 = locations.list;
+    	let each_value_8 = subcatchments.list;
     	validate_each_argument(each_value_8);
     	let each_blocks = [];
 
@@ -76855,7 +76780,7 @@ var app = (function (exports) {
     			option.__value = "";
     			option.value = option.__value;
     			attr_dev(option, "class", "svelte-1f5tlhh");
-    			add_location(option, file$L, 178, 20, 7914);
+    			add_location(option, file$L, 201, 20, 9268);
     		},
     		m: function mount(target, anchor) {
     			insert_dev(target, option, anchor);
@@ -76868,8 +76793,8 @@ var app = (function (exports) {
     			insert_dev(target, each_1_anchor, anchor);
     		},
     		p: function update(ctx, dirty) {
-    			if (dirty & /*locations*/ 0) {
-    				each_value_8 = locations.list;
+    			if (dirty & /*subcatchments*/ 0) {
+    				each_value_8 = subcatchments.list;
     				validate_each_argument(each_value_8);
     				let i;
 
@@ -76904,395 +76829,25 @@ var app = (function (exports) {
     		block,
     		id: create_default_slot_8$1.name,
     		type: "slot",
-    		source: "(178:16) <MultiSelect id={locations.name} bind:value={$ui.search.project.locations} placeholder={locations.placeholder}>",
+    		source: "(201:16) <MultiSelect id={subcatchments.name} bind:value={$ui.search.criteria.project.location.subCatchments} placeholder={subcatchments.placeholder} >",
     		ctx
     	});
 
     	return block;
     }
 
-    // (198:8) {#if paneVisbility.byCharacteristics}
-    function create_if_block_2$a(ctx) {
-    	let div7;
-    	let div0;
-    	let h40;
-    	let raw0_value = projectStage.label + "";
-    	let t0;
-    	let multiselect0;
-    	let updating_value;
-    	let t1;
-    	let div1;
-    	let t3;
-    	let div2;
-    	let h41;
-    	let raw1_value = projectType.label + "";
-    	let t4;
-    	let multiselect1;
-    	let updating_value_1;
-    	let t5;
-    	let div3;
-    	let h42;
-    	let raw2_value = projectClass.label + "";
-    	let t6;
-    	let multiselect2;
-    	let updating_value_2;
-    	let t7;
-    	let div4;
-    	let h43;
-    	let raw3_value = projectSize.label + "";
-    	let t8;
-    	let multiselect3;
-    	let updating_value_3;
-    	let t9;
-    	let div5;
-    	let h44;
-    	let raw4_value = projectScale.label + "";
-    	let t10;
-    	let multiselect4;
-    	let updating_value_4;
-    	let t11;
-    	let div6;
-    	let div7_transition;
-    	let current;
-
-    	function multiselect0_value_binding_2(value) {
-    		/*multiselect0_value_binding_2*/ ctx[14](value);
-    	}
-
-    	let multiselect0_props = {
-    		id: projectStage.name,
-    		placeholder: projectStage.placeholder,
-    		$$slots: { default: [create_default_slot_7$2] },
-    		$$scope: { ctx }
-    	};
-
-    	if (/*$ui*/ ctx[0].search.project.projectStage !== void 0) {
-    		multiselect0_props.value = /*$ui*/ ctx[0].search.project.projectStage;
-    	}
-
-    	multiselect0 = new MultiSelect({
-    			props: multiselect0_props,
-    			$$inline: true
-    		});
-
-    	binding_callbacks.push(() => bind(multiselect0, 'value', multiselect0_value_binding_2));
-
-    	function multiselect1_value_binding_2(value) {
-    		/*multiselect1_value_binding_2*/ ctx[15](value);
-    	}
-
-    	let multiselect1_props = {
-    		id: projectType.name,
-    		placeholder: projectType.placeholder,
-    		$$slots: { default: [create_default_slot_6$2] },
-    		$$scope: { ctx }
-    	};
-
-    	if (/*$ui*/ ctx[0].search.project.projectType !== void 0) {
-    		multiselect1_props.value = /*$ui*/ ctx[0].search.project.projectType;
-    	}
-
-    	multiselect1 = new MultiSelect({
-    			props: multiselect1_props,
-    			$$inline: true
-    		});
-
-    	binding_callbacks.push(() => bind(multiselect1, 'value', multiselect1_value_binding_2));
-
-    	function multiselect2_value_binding_2(value) {
-    		/*multiselect2_value_binding_2*/ ctx[16](value);
-    	}
-
-    	let multiselect2_props = {
-    		id: projectClass.name,
-    		placeholder: projectClass.placeholder,
-    		$$slots: { default: [create_default_slot_5$2] },
-    		$$scope: { ctx }
-    	};
-
-    	if (/*$ui*/ ctx[0].search.project.projectClass !== void 0) {
-    		multiselect2_props.value = /*$ui*/ ctx[0].search.project.projectClass;
-    	}
-
-    	multiselect2 = new MultiSelect({
-    			props: multiselect2_props,
-    			$$inline: true
-    		});
-
-    	binding_callbacks.push(() => bind(multiselect2, 'value', multiselect2_value_binding_2));
-
-    	function multiselect3_value_binding_1(value) {
-    		/*multiselect3_value_binding_1*/ ctx[17](value);
-    	}
-
-    	let multiselect3_props = {
-    		id: projectSize.name,
-    		placeholder: projectSize.placeholder,
-    		$$slots: { default: [create_default_slot_4$2] },
-    		$$scope: { ctx }
-    	};
-
-    	if (/*$ui*/ ctx[0].search.project.projectSize !== void 0) {
-    		multiselect3_props.value = /*$ui*/ ctx[0].search.project.projectSize;
-    	}
-
-    	multiselect3 = new MultiSelect({
-    			props: multiselect3_props,
-    			$$inline: true
-    		});
-
-    	binding_callbacks.push(() => bind(multiselect3, 'value', multiselect3_value_binding_1));
-
-    	function multiselect4_value_binding(value) {
-    		/*multiselect4_value_binding*/ ctx[18](value);
-    	}
-
-    	let multiselect4_props = {
-    		id: projectScale.name,
-    		placeholder: projectScale.placeholder,
-    		$$slots: { default: [create_default_slot_3$2] },
-    		$$scope: { ctx }
-    	};
-
-    	if (/*$ui*/ ctx[0].search.project.projectScale !== void 0) {
-    		multiselect4_props.value = /*$ui*/ ctx[0].search.project.projectScale;
-    	}
-
-    	multiselect4 = new MultiSelect({
-    			props: multiselect4_props,
-    			$$inline: true
-    		});
-
-    	binding_callbacks.push(() => bind(multiselect4, 'value', multiselect4_value_binding));
-
-    	const block = {
-    		c: function create() {
-    			div7 = element("div");
-    			div0 = element("div");
-    			h40 = element("h4");
-    			t0 = space();
-    			create_component(multiselect0.$$.fragment);
-    			t1 = space();
-    			div1 = element("div");
-    			div1.textContent = "More 'by date' search characters TBA";
-    			t3 = space();
-    			div2 = element("div");
-    			h41 = element("h4");
-    			t4 = space();
-    			create_component(multiselect1.$$.fragment);
-    			t5 = space();
-    			div3 = element("div");
-    			h42 = element("h4");
-    			t6 = space();
-    			create_component(multiselect2.$$.fragment);
-    			t7 = space();
-    			div4 = element("div");
-    			h43 = element("h4");
-    			t8 = space();
-    			create_component(multiselect3.$$.fragment);
-    			t9 = space();
-    			div5 = element("div");
-    			h44 = element("h4");
-    			t10 = space();
-    			create_component(multiselect4.$$.fragment);
-    			t11 = space();
-    			div6 = element("div");
-    			div6.textContent = "Characteristics criteria to be refined on review of real project data";
-    			attr_dev(h40, "class", "svelte-1f5tlhh");
-    			add_location(h40, file$L, 200, 16, 8870);
-    			attr_dev(div0, "class", "multi-select-container svelte-1f5tlhh");
-    			set_style(div0, "z-index", "14");
-    			add_location(div0, file$L, 199, 12, 8796);
-    			attr_dev(div1, "class", "note svelte-1f5tlhh");
-    			add_location(div1, file$L, 209, 12, 9332);
-    			attr_dev(h41, "class", "svelte-1f5tlhh");
-    			add_location(h41, file$L, 212, 16, 9482);
-    			attr_dev(div2, "class", "multi-select-container svelte-1f5tlhh");
-    			set_style(div2, "z-index", "13");
-    			add_location(div2, file$L, 211, 12, 9408);
-    			attr_dev(h42, "class", "svelte-1f5tlhh");
-    			add_location(h42, file$L, 221, 16, 10012);
-    			attr_dev(div3, "class", "multi-select-container svelte-1f5tlhh");
-    			set_style(div3, "z-index", "12");
-    			add_location(div3, file$L, 220, 12, 9938);
-    			attr_dev(h43, "class", "svelte-1f5tlhh");
-    			add_location(h43, file$L, 230, 16, 10547);
-    			attr_dev(div4, "class", "multi-select-container svelte-1f5tlhh");
-    			set_style(div4, "z-index", "11");
-    			add_location(div4, file$L, 229, 12, 10473);
-    			attr_dev(h44, "class", "svelte-1f5tlhh");
-    			add_location(h44, file$L, 239, 16, 11077);
-    			attr_dev(div5, "class", "multi-select-container svelte-1f5tlhh");
-    			set_style(div5, "z-index", "10");
-    			add_location(div5, file$L, 238, 12, 11003);
-    			attr_dev(div6, "class", "note svelte-1f5tlhh");
-    			add_location(div6, file$L, 247, 12, 11538);
-    			attr_dev(div7, "class", "collapse__body svelte-1f5tlhh");
-    			add_location(div7, file$L, 198, 8, 8735);
-    		},
-    		m: function mount(target, anchor) {
-    			insert_dev(target, div7, anchor);
-    			append_dev(div7, div0);
-    			append_dev(div0, h40);
-    			h40.innerHTML = raw0_value;
-    			append_dev(div0, t0);
-    			mount_component(multiselect0, div0, null);
-    			append_dev(div7, t1);
-    			append_dev(div7, div1);
-    			append_dev(div7, t3);
-    			append_dev(div7, div2);
-    			append_dev(div2, h41);
-    			h41.innerHTML = raw1_value;
-    			append_dev(div2, t4);
-    			mount_component(multiselect1, div2, null);
-    			append_dev(div7, t5);
-    			append_dev(div7, div3);
-    			append_dev(div3, h42);
-    			h42.innerHTML = raw2_value;
-    			append_dev(div3, t6);
-    			mount_component(multiselect2, div3, null);
-    			append_dev(div7, t7);
-    			append_dev(div7, div4);
-    			append_dev(div4, h43);
-    			h43.innerHTML = raw3_value;
-    			append_dev(div4, t8);
-    			mount_component(multiselect3, div4, null);
-    			append_dev(div7, t9);
-    			append_dev(div7, div5);
-    			append_dev(div5, h44);
-    			h44.innerHTML = raw4_value;
-    			append_dev(div5, t10);
-    			mount_component(multiselect4, div5, null);
-    			append_dev(div7, t11);
-    			append_dev(div7, div6);
-    			current = true;
-    		},
-    		p: function update(ctx, dirty) {
-    			const multiselect0_changes = {};
-
-    			if (dirty[1] & /*$$scope*/ 16777216) {
-    				multiselect0_changes.$$scope = { dirty, ctx };
-    			}
-
-    			if (!updating_value && dirty[0] & /*$ui*/ 1) {
-    				updating_value = true;
-    				multiselect0_changes.value = /*$ui*/ ctx[0].search.project.projectStage;
-    				add_flush_callback(() => updating_value = false);
-    			}
-
-    			multiselect0.$set(multiselect0_changes);
-    			const multiselect1_changes = {};
-
-    			if (dirty[1] & /*$$scope*/ 16777216) {
-    				multiselect1_changes.$$scope = { dirty, ctx };
-    			}
-
-    			if (!updating_value_1 && dirty[0] & /*$ui*/ 1) {
-    				updating_value_1 = true;
-    				multiselect1_changes.value = /*$ui*/ ctx[0].search.project.projectType;
-    				add_flush_callback(() => updating_value_1 = false);
-    			}
-
-    			multiselect1.$set(multiselect1_changes);
-    			const multiselect2_changes = {};
-
-    			if (dirty[1] & /*$$scope*/ 16777216) {
-    				multiselect2_changes.$$scope = { dirty, ctx };
-    			}
-
-    			if (!updating_value_2 && dirty[0] & /*$ui*/ 1) {
-    				updating_value_2 = true;
-    				multiselect2_changes.value = /*$ui*/ ctx[0].search.project.projectClass;
-    				add_flush_callback(() => updating_value_2 = false);
-    			}
-
-    			multiselect2.$set(multiselect2_changes);
-    			const multiselect3_changes = {};
-
-    			if (dirty[1] & /*$$scope*/ 16777216) {
-    				multiselect3_changes.$$scope = { dirty, ctx };
-    			}
-
-    			if (!updating_value_3 && dirty[0] & /*$ui*/ 1) {
-    				updating_value_3 = true;
-    				multiselect3_changes.value = /*$ui*/ ctx[0].search.project.projectSize;
-    				add_flush_callback(() => updating_value_3 = false);
-    			}
-
-    			multiselect3.$set(multiselect3_changes);
-    			const multiselect4_changes = {};
-
-    			if (dirty[1] & /*$$scope*/ 16777216) {
-    				multiselect4_changes.$$scope = { dirty, ctx };
-    			}
-
-    			if (!updating_value_4 && dirty[0] & /*$ui*/ 1) {
-    				updating_value_4 = true;
-    				multiselect4_changes.value = /*$ui*/ ctx[0].search.project.projectScale;
-    				add_flush_callback(() => updating_value_4 = false);
-    			}
-
-    			multiselect4.$set(multiselect4_changes);
-    		},
-    		i: function intro(local) {
-    			if (current) return;
-    			transition_in(multiselect0.$$.fragment, local);
-    			transition_in(multiselect1.$$.fragment, local);
-    			transition_in(multiselect2.$$.fragment, local);
-    			transition_in(multiselect3.$$.fragment, local);
-    			transition_in(multiselect4.$$.fragment, local);
-
-    			add_render_callback(() => {
-    				if (!div7_transition) div7_transition = create_bidirectional_transition(div7, slide, {}, true);
-    				div7_transition.run(1);
-    			});
-
-    			current = true;
-    		},
-    		o: function outro(local) {
-    			transition_out(multiselect0.$$.fragment, local);
-    			transition_out(multiselect1.$$.fragment, local);
-    			transition_out(multiselect2.$$.fragment, local);
-    			transition_out(multiselect3.$$.fragment, local);
-    			transition_out(multiselect4.$$.fragment, local);
-    			if (!div7_transition) div7_transition = create_bidirectional_transition(div7, slide, {}, false);
-    			div7_transition.run(0);
-    			current = false;
-    		},
-    		d: function destroy(detaching) {
-    			if (detaching) detach_dev(div7);
-    			destroy_component(multiselect0);
-    			destroy_component(multiselect1);
-    			destroy_component(multiselect2);
-    			destroy_component(multiselect3);
-    			destroy_component(multiselect4);
-    			if (detaching && div7_transition) div7_transition.end();
-    		}
-    	};
-
-    	dispatch_dev("SvelteRegisterBlock", {
-    		block,
-    		id: create_if_block_2$a.name,
-    		type: "if",
-    		source: "(198:8) {#if paneVisbility.byCharacteristics}",
-    		ctx
-    	});
-
-    	return block;
-    }
-
-    // (204:20) {#each projectStage.list as name}
+    // (213:20) {#each locations.list as name}
     function create_each_block_7$2(ctx) {
     	let option;
-    	let raw_value = /*name*/ ctx[24] + "";
+    	let raw_value = /*name*/ ctx[22] + "";
 
     	const block = {
     		c: function create() {
     			option = element("option");
-    			option.__value = /*name*/ ctx[24];
+    			option.__value = /*name*/ ctx[22];
     			option.value = option.__value;
     			attr_dev(option, "class", "svelte-1f5tlhh");
-    			add_location(option, file$L, 204, 20, 9182);
+    			add_location(option, file$L, 213, 20, 9921);
     		},
     		m: function mount(target, anchor) {
     			insert_dev(target, option, anchor);
@@ -77308,19 +76863,19 @@ var app = (function (exports) {
     		block,
     		id: create_each_block_7$2.name,
     		type: "each",
-    		source: "(204:20) {#each projectStage.list as name}",
+    		source: "(213:20) {#each locations.list as name}",
     		ctx
     	});
 
     	return block;
     }
 
-    // (202:16) <MultiSelect id = {projectStage.name} bind:value={$ui.search.project.projectStage} placeholder={projectStage.placeholder} >
+    // (211:16) <MultiSelect id={locations.name} bind:value={$ui.search.criteria.project.location.locations} placeholder={locations.placeholder}>
     function create_default_slot_7$2(ctx) {
     	let option;
     	let t;
     	let each_1_anchor;
-    	let each_value_7 = projectStage.list;
+    	let each_value_7 = locations.list;
     	validate_each_argument(each_value_7);
     	let each_blocks = [];
 
@@ -77343,7 +76898,7 @@ var app = (function (exports) {
     			option.__value = "";
     			option.value = option.__value;
     			attr_dev(option, "class", "svelte-1f5tlhh");
-    			add_location(option, file$L, 202, 20, 9066);
+    			add_location(option, file$L, 211, 20, 9808);
     		},
     		m: function mount(target, anchor) {
     			insert_dev(target, option, anchor);
@@ -77356,8 +76911,8 @@ var app = (function (exports) {
     			insert_dev(target, each_1_anchor, anchor);
     		},
     		p: function update(ctx, dirty) {
-    			if (dirty & /*projectStage*/ 0) {
-    				each_value_7 = projectStage.list;
+    			if (dirty & /*locations*/ 0) {
+    				each_value_7 = locations.list;
     				validate_each_argument(each_value_7);
     				let i;
 
@@ -77392,25 +76947,334 @@ var app = (function (exports) {
     		block,
     		id: create_default_slot_7$2.name,
     		type: "slot",
-    		source: "(202:16) <MultiSelect id = {projectStage.name} bind:value={$ui.search.project.projectStage} placeholder={projectStage.placeholder} >",
+    		source: "(211:16) <MultiSelect id={locations.name} bind:value={$ui.search.criteria.project.location.locations} placeholder={locations.placeholder}>",
     		ctx
     	});
 
     	return block;
     }
 
-    // (216:20) {#each projectType.list as name}
+    // (234:8) {#if paneVisbility.byCharacteristics}
+    function create_if_block_2$a(ctx) {
+    	let div6;
+    	let div0;
+    	let h40;
+    	let raw0_value = projectStage.label + "";
+    	let t0;
+    	let multiselect0;
+    	let updating_value;
+    	let t1;
+    	let div1;
+    	let t3;
+    	let div2;
+    	let h41;
+    	let raw1_value = projectType.label + "";
+    	let t4;
+    	let multiselect1;
+    	let updating_value_1;
+    	let t5;
+    	let div3;
+    	let h42;
+    	let raw2_value = projectClass.label + "";
+    	let t6;
+    	let multiselect2;
+    	let updating_value_2;
+    	let t7;
+    	let div4;
+    	let h43;
+    	let raw3_value = projectScale.label + "";
+    	let t8;
+    	let multiselect3;
+    	let updating_value_3;
+    	let t9;
+    	let div5;
+    	let div6_transition;
+    	let current;
+
+    	function multiselect0_value_binding_2(value) {
+    		/*multiselect0_value_binding_2*/ ctx[14](value);
+    	}
+
+    	let multiselect0_props = {
+    		id: projectStage.name,
+    		placeholder: projectStage.placeholder,
+    		$$slots: { default: [create_default_slot_6$2] },
+    		$$scope: { ctx }
+    	};
+
+    	if (/*$ui*/ ctx[0].search.criteria.project.status.stage !== void 0) {
+    		multiselect0_props.value = /*$ui*/ ctx[0].search.criteria.project.status.stage;
+    	}
+
+    	multiselect0 = new MultiSelect({
+    			props: multiselect0_props,
+    			$$inline: true
+    		});
+
+    	binding_callbacks.push(() => bind(multiselect0, 'value', multiselect0_value_binding_2));
+
+    	function multiselect1_value_binding_2(value) {
+    		/*multiselect1_value_binding_2*/ ctx[15](value);
+    	}
+
+    	let multiselect1_props = {
+    		id: projectType.name,
+    		placeholder: projectType.placeholder,
+    		$$slots: { default: [create_default_slot_5$2] },
+    		$$scope: { ctx }
+    	};
+
+    	if (/*$ui*/ ctx[0].search.criteria.project.meta.type !== void 0) {
+    		multiselect1_props.value = /*$ui*/ ctx[0].search.criteria.project.meta.type;
+    	}
+
+    	multiselect1 = new MultiSelect({
+    			props: multiselect1_props,
+    			$$inline: true
+    		});
+
+    	binding_callbacks.push(() => bind(multiselect1, 'value', multiselect1_value_binding_2));
+
+    	function multiselect2_value_binding_2(value) {
+    		/*multiselect2_value_binding_2*/ ctx[16](value);
+    	}
+
+    	let multiselect2_props = {
+    		id: projectClass.name,
+    		placeholder: projectClass.placeholder,
+    		$$slots: { default: [create_default_slot_4$2] },
+    		$$scope: { ctx }
+    	};
+
+    	if (/*$ui*/ ctx[0].search.criteria.project.meta.class !== void 0) {
+    		multiselect2_props.value = /*$ui*/ ctx[0].search.criteria.project.meta.class;
+    	}
+
+    	multiselect2 = new MultiSelect({
+    			props: multiselect2_props,
+    			$$inline: true
+    		});
+
+    	binding_callbacks.push(() => bind(multiselect2, 'value', multiselect2_value_binding_2));
+
+    	function multiselect3_value_binding(value) {
+    		/*multiselect3_value_binding*/ ctx[17](value);
+    	}
+
+    	let multiselect3_props = {
+    		id: projectScale.name,
+    		placeholder: projectScale.placeholder,
+    		$$slots: { default: [create_default_slot_3$2] },
+    		$$scope: { ctx }
+    	};
+
+    	if (/*$ui*/ ctx[0].search.criteria.project.meta.scale !== void 0) {
+    		multiselect3_props.value = /*$ui*/ ctx[0].search.criteria.project.meta.scale;
+    	}
+
+    	multiselect3 = new MultiSelect({
+    			props: multiselect3_props,
+    			$$inline: true
+    		});
+
+    	binding_callbacks.push(() => bind(multiselect3, 'value', multiselect3_value_binding));
+
+    	const block = {
+    		c: function create() {
+    			div6 = element("div");
+    			div0 = element("div");
+    			h40 = element("h4");
+    			t0 = space();
+    			create_component(multiselect0.$$.fragment);
+    			t1 = space();
+    			div1 = element("div");
+    			div1.textContent = "More 'by date' search characters TBA";
+    			t3 = space();
+    			div2 = element("div");
+    			h41 = element("h4");
+    			t4 = space();
+    			create_component(multiselect1.$$.fragment);
+    			t5 = space();
+    			div3 = element("div");
+    			h42 = element("h4");
+    			t6 = space();
+    			create_component(multiselect2.$$.fragment);
+    			t7 = space();
+    			div4 = element("div");
+    			h43 = element("h4");
+    			t8 = space();
+    			create_component(multiselect3.$$.fragment);
+    			t9 = space();
+    			div5 = element("div");
+    			div5.textContent = "Characteristics criteria to be refined on review of real project data";
+    			attr_dev(h40, "class", "svelte-1f5tlhh");
+    			add_location(h40, file$L, 236, 16, 10818);
+    			attr_dev(div0, "class", "multi-select-container svelte-1f5tlhh");
+    			set_style(div0, "z-index", "14");
+    			add_location(div0, file$L, 235, 12, 10744);
+    			attr_dev(div1, "class", "note svelte-1f5tlhh");
+    			add_location(div1, file$L, 245, 12, 11289);
+    			attr_dev(h41, "class", "svelte-1f5tlhh");
+    			add_location(h41, file$L, 248, 16, 11439);
+    			attr_dev(div2, "class", "multi-select-container svelte-1f5tlhh");
+    			set_style(div2, "z-index", "13");
+    			add_location(div2, file$L, 247, 12, 11365);
+    			attr_dev(h42, "class", "svelte-1f5tlhh");
+    			add_location(h42, file$L, 257, 16, 11977);
+    			attr_dev(div3, "class", "multi-select-container svelte-1f5tlhh");
+    			set_style(div3, "z-index", "12");
+    			add_location(div3, file$L, 256, 12, 11903);
+    			attr_dev(h43, "class", "svelte-1f5tlhh");
+    			add_location(h43, file$L, 267, 16, 12520);
+    			attr_dev(div4, "class", "multi-select-container svelte-1f5tlhh");
+    			set_style(div4, "z-index", "10");
+    			add_location(div4, file$L, 266, 12, 12446);
+    			attr_dev(div5, "class", "note svelte-1f5tlhh");
+    			add_location(div5, file$L, 275, 12, 12988);
+    			attr_dev(div6, "class", "collapse__body svelte-1f5tlhh");
+    			add_location(div6, file$L, 234, 8, 10683);
+    		},
+    		m: function mount(target, anchor) {
+    			insert_dev(target, div6, anchor);
+    			append_dev(div6, div0);
+    			append_dev(div0, h40);
+    			h40.innerHTML = raw0_value;
+    			append_dev(div0, t0);
+    			mount_component(multiselect0, div0, null);
+    			append_dev(div6, t1);
+    			append_dev(div6, div1);
+    			append_dev(div6, t3);
+    			append_dev(div6, div2);
+    			append_dev(div2, h41);
+    			h41.innerHTML = raw1_value;
+    			append_dev(div2, t4);
+    			mount_component(multiselect1, div2, null);
+    			append_dev(div6, t5);
+    			append_dev(div6, div3);
+    			append_dev(div3, h42);
+    			h42.innerHTML = raw2_value;
+    			append_dev(div3, t6);
+    			mount_component(multiselect2, div3, null);
+    			append_dev(div6, t7);
+    			append_dev(div6, div4);
+    			append_dev(div4, h43);
+    			h43.innerHTML = raw3_value;
+    			append_dev(div4, t8);
+    			mount_component(multiselect3, div4, null);
+    			append_dev(div6, t9);
+    			append_dev(div6, div5);
+    			current = true;
+    		},
+    		p: function update(ctx, dirty) {
+    			const multiselect0_changes = {};
+
+    			if (dirty[1] & /*$$scope*/ 262144) {
+    				multiselect0_changes.$$scope = { dirty, ctx };
+    			}
+
+    			if (!updating_value && dirty[0] & /*$ui*/ 1) {
+    				updating_value = true;
+    				multiselect0_changes.value = /*$ui*/ ctx[0].search.criteria.project.status.stage;
+    				add_flush_callback(() => updating_value = false);
+    			}
+
+    			multiselect0.$set(multiselect0_changes);
+    			const multiselect1_changes = {};
+
+    			if (dirty[1] & /*$$scope*/ 262144) {
+    				multiselect1_changes.$$scope = { dirty, ctx };
+    			}
+
+    			if (!updating_value_1 && dirty[0] & /*$ui*/ 1) {
+    				updating_value_1 = true;
+    				multiselect1_changes.value = /*$ui*/ ctx[0].search.criteria.project.meta.type;
+    				add_flush_callback(() => updating_value_1 = false);
+    			}
+
+    			multiselect1.$set(multiselect1_changes);
+    			const multiselect2_changes = {};
+
+    			if (dirty[1] & /*$$scope*/ 262144) {
+    				multiselect2_changes.$$scope = { dirty, ctx };
+    			}
+
+    			if (!updating_value_2 && dirty[0] & /*$ui*/ 1) {
+    				updating_value_2 = true;
+    				multiselect2_changes.value = /*$ui*/ ctx[0].search.criteria.project.meta.class;
+    				add_flush_callback(() => updating_value_2 = false);
+    			}
+
+    			multiselect2.$set(multiselect2_changes);
+    			const multiselect3_changes = {};
+
+    			if (dirty[1] & /*$$scope*/ 262144) {
+    				multiselect3_changes.$$scope = { dirty, ctx };
+    			}
+
+    			if (!updating_value_3 && dirty[0] & /*$ui*/ 1) {
+    				updating_value_3 = true;
+    				multiselect3_changes.value = /*$ui*/ ctx[0].search.criteria.project.meta.scale;
+    				add_flush_callback(() => updating_value_3 = false);
+    			}
+
+    			multiselect3.$set(multiselect3_changes);
+    		},
+    		i: function intro(local) {
+    			if (current) return;
+    			transition_in(multiselect0.$$.fragment, local);
+    			transition_in(multiselect1.$$.fragment, local);
+    			transition_in(multiselect2.$$.fragment, local);
+    			transition_in(multiselect3.$$.fragment, local);
+
+    			add_render_callback(() => {
+    				if (!div6_transition) div6_transition = create_bidirectional_transition(div6, slide, {}, true);
+    				div6_transition.run(1);
+    			});
+
+    			current = true;
+    		},
+    		o: function outro(local) {
+    			transition_out(multiselect0.$$.fragment, local);
+    			transition_out(multiselect1.$$.fragment, local);
+    			transition_out(multiselect2.$$.fragment, local);
+    			transition_out(multiselect3.$$.fragment, local);
+    			if (!div6_transition) div6_transition = create_bidirectional_transition(div6, slide, {}, false);
+    			div6_transition.run(0);
+    			current = false;
+    		},
+    		d: function destroy(detaching) {
+    			if (detaching) detach_dev(div6);
+    			destroy_component(multiselect0);
+    			destroy_component(multiselect1);
+    			destroy_component(multiselect2);
+    			destroy_component(multiselect3);
+    			if (detaching && div6_transition) div6_transition.end();
+    		}
+    	};
+
+    	dispatch_dev("SvelteRegisterBlock", {
+    		block,
+    		id: create_if_block_2$a.name,
+    		type: "if",
+    		source: "(234:8) {#if paneVisbility.byCharacteristics}",
+    		ctx
+    	});
+
+    	return block;
+    }
+
+    // (240:20) {#each projectStage.list as name}
     function create_each_block_6$2(ctx) {
     	let option;
-    	let raw_value = /*name*/ ctx[24] + "";
+    	let raw_value = /*name*/ ctx[22] + "";
 
     	const block = {
     		c: function create() {
     			option = element("option");
-    			option.__value = /*name*/ ctx[24];
+    			option.__value = /*name*/ ctx[22];
     			option.value = option.__value;
     			attr_dev(option, "class", "svelte-1f5tlhh");
-    			add_location(option, file$L, 216, 20, 9789);
+    			add_location(option, file$L, 240, 20, 11139);
     		},
     		m: function mount(target, anchor) {
     			insert_dev(target, option, anchor);
@@ -77426,19 +77290,19 @@ var app = (function (exports) {
     		block,
     		id: create_each_block_6$2.name,
     		type: "each",
-    		source: "(216:20) {#each projectType.list as name}",
+    		source: "(240:20) {#each projectStage.list as name}",
     		ctx
     	});
 
     	return block;
     }
 
-    // (214:16) <MultiSelect id = {projectType.name} bind:value={$ui.search.project.projectType} placeholder={projectType.placeholder} >
+    // (238:16) <MultiSelect id = {projectStage.name} bind:value={$ui.search.criteria.project.status.stage} placeholder={projectStage.placeholder} >
     function create_default_slot_6$2(ctx) {
     	let option;
     	let t;
     	let each_1_anchor;
-    	let each_value_6 = projectType.list;
+    	let each_value_6 = projectStage.list;
     	validate_each_argument(each_value_6);
     	let each_blocks = [];
 
@@ -77461,7 +77325,7 @@ var app = (function (exports) {
     			option.__value = "";
     			option.value = option.__value;
     			attr_dev(option, "class", "svelte-1f5tlhh");
-    			add_location(option, file$L, 214, 20, 9674);
+    			add_location(option, file$L, 238, 20, 11023);
     		},
     		m: function mount(target, anchor) {
     			insert_dev(target, option, anchor);
@@ -77474,8 +77338,8 @@ var app = (function (exports) {
     			insert_dev(target, each_1_anchor, anchor);
     		},
     		p: function update(ctx, dirty) {
-    			if (dirty & /*projectType*/ 0) {
-    				each_value_6 = projectType.list;
+    			if (dirty & /*projectStage*/ 0) {
+    				each_value_6 = projectStage.list;
     				validate_each_argument(each_value_6);
     				let i;
 
@@ -77510,25 +77374,25 @@ var app = (function (exports) {
     		block,
     		id: create_default_slot_6$2.name,
     		type: "slot",
-    		source: "(214:16) <MultiSelect id = {projectType.name} bind:value={$ui.search.project.projectType} placeholder={projectType.placeholder} >",
+    		source: "(238:16) <MultiSelect id = {projectStage.name} bind:value={$ui.search.criteria.project.status.stage} placeholder={projectStage.placeholder} >",
     		ctx
     	});
 
     	return block;
     }
 
-    // (225:20) {#each projectClass.list as name}
+    // (252:20) {#each projectType.list as name}
     function create_each_block_5$2(ctx) {
     	let option;
-    	let raw_value = /*name*/ ctx[24] + "";
+    	let raw_value = /*name*/ ctx[22] + "";
 
     	const block = {
     		c: function create() {
     			option = element("option");
-    			option.__value = /*name*/ ctx[24];
+    			option.__value = /*name*/ ctx[22];
     			option.value = option.__value;
     			attr_dev(option, "class", "svelte-1f5tlhh");
-    			add_location(option, file$L, 225, 20, 10324);
+    			add_location(option, file$L, 252, 20, 11753);
     		},
     		m: function mount(target, anchor) {
     			insert_dev(target, option, anchor);
@@ -77544,19 +77408,19 @@ var app = (function (exports) {
     		block,
     		id: create_each_block_5$2.name,
     		type: "each",
-    		source: "(225:20) {#each projectClass.list as name}",
+    		source: "(252:20) {#each projectType.list as name}",
     		ctx
     	});
 
     	return block;
     }
 
-    // (223:16) <MultiSelect id = {projectClass.name} bind:value={$ui.search.project.projectClass} placeholder={projectClass.placeholder} >
+    // (250:16) <MultiSelect id = {projectType.name} bind:value={$ui.search.criteria.project.meta.type} placeholder={projectType.placeholder} >
     function create_default_slot_5$2(ctx) {
     	let option;
     	let t;
     	let each_1_anchor;
-    	let each_value_5 = projectClass.list;
+    	let each_value_5 = projectType.list;
     	validate_each_argument(each_value_5);
     	let each_blocks = [];
 
@@ -77579,7 +77443,7 @@ var app = (function (exports) {
     			option.__value = "";
     			option.value = option.__value;
     			attr_dev(option, "class", "svelte-1f5tlhh");
-    			add_location(option, file$L, 223, 20, 10208);
+    			add_location(option, file$L, 250, 20, 11638);
     		},
     		m: function mount(target, anchor) {
     			insert_dev(target, option, anchor);
@@ -77592,8 +77456,8 @@ var app = (function (exports) {
     			insert_dev(target, each_1_anchor, anchor);
     		},
     		p: function update(ctx, dirty) {
-    			if (dirty & /*projectClass*/ 0) {
-    				each_value_5 = projectClass.list;
+    			if (dirty & /*projectType*/ 0) {
+    				each_value_5 = projectType.list;
     				validate_each_argument(each_value_5);
     				let i;
 
@@ -77628,25 +77492,25 @@ var app = (function (exports) {
     		block,
     		id: create_default_slot_5$2.name,
     		type: "slot",
-    		source: "(223:16) <MultiSelect id = {projectClass.name} bind:value={$ui.search.project.projectClass} placeholder={projectClass.placeholder} >",
+    		source: "(250:16) <MultiSelect id = {projectType.name} bind:value={$ui.search.criteria.project.meta.type} placeholder={projectType.placeholder} >",
     		ctx
     	});
 
     	return block;
     }
 
-    // (234:20) {#each projectSize.list as name}
+    // (261:20) {#each projectClass.list as name}
     function create_each_block_4$2(ctx) {
     	let option;
-    	let raw_value = /*name*/ ctx[24] + "";
+    	let raw_value = /*name*/ ctx[22] + "";
 
     	const block = {
     		c: function create() {
     			option = element("option");
-    			option.__value = /*name*/ ctx[24];
+    			option.__value = /*name*/ ctx[22];
     			option.value = option.__value;
     			attr_dev(option, "class", "svelte-1f5tlhh");
-    			add_location(option, file$L, 234, 20, 10854);
+    			add_location(option, file$L, 261, 20, 12296);
     		},
     		m: function mount(target, anchor) {
     			insert_dev(target, option, anchor);
@@ -77662,19 +77526,19 @@ var app = (function (exports) {
     		block,
     		id: create_each_block_4$2.name,
     		type: "each",
-    		source: "(234:20) {#each projectSize.list as name}",
+    		source: "(261:20) {#each projectClass.list as name}",
     		ctx
     	});
 
     	return block;
     }
 
-    // (232:16) <MultiSelect id = {projectSize.name} bind:value={$ui.search.project.projectSize} placeholder={projectSize.placeholder} >
+    // (259:16) <MultiSelect id = {projectClass.name} bind:value={$ui.search.criteria.project.meta.class} placeholder={projectClass.placeholder} >
     function create_default_slot_4$2(ctx) {
     	let option;
     	let t;
     	let each_1_anchor;
-    	let each_value_4 = projectSize.list;
+    	let each_value_4 = projectClass.list;
     	validate_each_argument(each_value_4);
     	let each_blocks = [];
 
@@ -77697,7 +77561,7 @@ var app = (function (exports) {
     			option.__value = "";
     			option.value = option.__value;
     			attr_dev(option, "class", "svelte-1f5tlhh");
-    			add_location(option, file$L, 232, 20, 10739);
+    			add_location(option, file$L, 259, 20, 12180);
     		},
     		m: function mount(target, anchor) {
     			insert_dev(target, option, anchor);
@@ -77710,8 +77574,8 @@ var app = (function (exports) {
     			insert_dev(target, each_1_anchor, anchor);
     		},
     		p: function update(ctx, dirty) {
-    			if (dirty & /*projectSize*/ 0) {
-    				each_value_4 = projectSize.list;
+    			if (dirty & /*projectClass*/ 0) {
+    				each_value_4 = projectClass.list;
     				validate_each_argument(each_value_4);
     				let i;
 
@@ -77746,25 +77610,25 @@ var app = (function (exports) {
     		block,
     		id: create_default_slot_4$2.name,
     		type: "slot",
-    		source: "(232:16) <MultiSelect id = {projectSize.name} bind:value={$ui.search.project.projectSize} placeholder={projectSize.placeholder} >",
+    		source: "(259:16) <MultiSelect id = {projectClass.name} bind:value={$ui.search.criteria.project.meta.class} placeholder={projectClass.placeholder} >",
     		ctx
     	});
 
     	return block;
     }
 
-    // (243:20) {#each projectScale.list as name}
+    // (271:20) {#each projectScale.list as name}
     function create_each_block_3$2(ctx) {
     	let option;
-    	let raw_value = /*name*/ ctx[24] + "";
+    	let raw_value = /*name*/ ctx[22] + "";
 
     	const block = {
     		c: function create() {
     			option = element("option");
-    			option.__value = /*name*/ ctx[24];
+    			option.__value = /*name*/ ctx[22];
     			option.value = option.__value;
     			attr_dev(option, "class", "svelte-1f5tlhh");
-    			add_location(option, file$L, 243, 20, 11389);
+    			add_location(option, file$L, 271, 20, 12839);
     		},
     		m: function mount(target, anchor) {
     			insert_dev(target, option, anchor);
@@ -77780,14 +77644,14 @@ var app = (function (exports) {
     		block,
     		id: create_each_block_3$2.name,
     		type: "each",
-    		source: "(243:20) {#each projectScale.list as name}",
+    		source: "(271:20) {#each projectScale.list as name}",
     		ctx
     	});
 
     	return block;
     }
 
-    // (241:16) <MultiSelect id = {projectScale.name} bind:value={$ui.search.project.projectScale} placeholder={projectScale.placeholder} >
+    // (269:16) <MultiSelect id = {projectScale.name} bind:value={$ui.search.criteria.project.meta.scale} placeholder={projectScale.placeholder} >
     function create_default_slot_3$2(ctx) {
     	let option;
     	let t;
@@ -77815,7 +77679,7 @@ var app = (function (exports) {
     			option.__value = "";
     			option.value = option.__value;
     			attr_dev(option, "class", "svelte-1f5tlhh");
-    			add_location(option, file$L, 241, 20, 11273);
+    			add_location(option, file$L, 269, 20, 12723);
     		},
     		m: function mount(target, anchor) {
     			insert_dev(target, option, anchor);
@@ -77864,14 +77728,14 @@ var app = (function (exports) {
     		block,
     		id: create_default_slot_3$2.name,
     		type: "slot",
-    		source: "(241:16) <MultiSelect id = {projectScale.name} bind:value={$ui.search.project.projectScale} placeholder={projectScale.placeholder} >",
+    		source: "(269:16) <MultiSelect id = {projectScale.name} bind:value={$ui.search.criteria.project.meta.scale} placeholder={projectScale.placeholder} >",
     		ctx
     	});
 
     	return block;
     }
 
-    // (261:8) {#if paneVisbility.byStakeholders}
+    // (289:8) {#if paneVisbility.byStakeholders}
     function create_if_block_1$f(ctx) {
     	let div3;
     	let div0;
@@ -77898,7 +77762,7 @@ var app = (function (exports) {
     	let current;
 
     	function multiselect0_value_binding_3(value) {
-    		/*multiselect0_value_binding_3*/ ctx[19](value);
+    		/*multiselect0_value_binding_3*/ ctx[18](value);
     	}
 
     	let multiselect0_props = {
@@ -77908,8 +77772,8 @@ var app = (function (exports) {
     		$$scope: { ctx }
     	};
 
-    	if (/*$ui*/ ctx[0].search.project.leadOrg !== void 0) {
-    		multiselect0_props.value = /*$ui*/ ctx[0].search.project.leadOrg;
+    	if (/*$ui*/ ctx[0].search.criteria.project.leadOrg !== void 0) {
+    		multiselect0_props.value = /*$ui*/ ctx[0].search.criteria.project.leadOrg;
     	}
 
     	multiselect0 = new MultiSelect({
@@ -77920,7 +77784,7 @@ var app = (function (exports) {
     	binding_callbacks.push(() => bind(multiselect0, 'value', multiselect0_value_binding_3));
 
     	function multiselect1_value_binding_3(value) {
-    		/*multiselect1_value_binding_3*/ ctx[20](value);
+    		/*multiselect1_value_binding_3*/ ctx[19](value);
     	}
 
     	let multiselect1_props = {
@@ -77930,8 +77794,8 @@ var app = (function (exports) {
     		$$scope: { ctx }
     	};
 
-    	if (/*$ui*/ ctx[0].search.project.leadOrgType !== void 0) {
-    		multiselect1_props.value = /*$ui*/ ctx[0].search.project.leadOrgType;
+    	if (/*$ui*/ ctx[0].search.criteria.project.leadOrgType !== void 0) {
+    		multiselect1_props.value = /*$ui*/ ctx[0].search.criteria.project.leadOrgType;
     	}
 
     	multiselect1 = new MultiSelect({
@@ -77942,7 +77806,7 @@ var app = (function (exports) {
     	binding_callbacks.push(() => bind(multiselect1, 'value', multiselect1_value_binding_3));
 
     	function multiselect2_value_binding_3(value) {
-    		/*multiselect2_value_binding_3*/ ctx[21](value);
+    		/*multiselect2_value_binding_3*/ ctx[20](value);
     	}
 
     	let multiselect2_props = {
@@ -77952,8 +77816,8 @@ var app = (function (exports) {
     		$$scope: { ctx }
     	};
 
-    	if (/*$ui*/ ctx[0].search.project.partnerOrg !== void 0) {
-    		multiselect2_props.value = /*$ui*/ ctx[0].search.project.partnerOrg;
+    	if (/*$ui*/ ctx[0].search.criteria.project.partnerOrgs !== void 0) {
+    		multiselect2_props.value = /*$ui*/ ctx[0].search.criteria.project.partnerOrgs;
     	}
 
     	multiselect2 = new MultiSelect({
@@ -77981,22 +77845,22 @@ var app = (function (exports) {
     			t4 = space();
     			create_component(multiselect2.$$.fragment);
     			attr_dev(h40, "class", "svelte-1f5tlhh");
-    			add_location(h40, file$L, 263, 16, 12182);
+    			add_location(h40, file$L, 291, 16, 13632);
     			attr_dev(div0, "class", "multi-select-container svelte-1f5tlhh");
     			set_style(div0, "z-index", "9");
-    			add_location(div0, file$L, 262, 12, 12109);
+    			add_location(div0, file$L, 290, 12, 13559);
     			attr_dev(h41, "class", "svelte-1f5tlhh");
-    			add_location(h41, file$L, 272, 16, 12691);
+    			add_location(h41, file$L, 300, 16, 14150);
     			attr_dev(div1, "class", "multi-select-container svelte-1f5tlhh");
     			set_style(div1, "z-index", "8");
-    			add_location(div1, file$L, 271, 12, 12618);
+    			add_location(div1, file$L, 299, 12, 14077);
     			attr_dev(h42, "class", "svelte-1f5tlhh");
-    			add_location(h42, file$L, 281, 16, 13220);
+    			add_location(h42, file$L, 309, 16, 14688);
     			attr_dev(div2, "class", "multi-select-container svelte-1f5tlhh");
     			set_style(div2, "z-index", "7");
-    			add_location(div2, file$L, 280, 12, 13147);
+    			add_location(div2, file$L, 308, 12, 14615);
     			attr_dev(div3, "class", "collapse__body svelte-1f5tlhh");
-    			add_location(div3, file$L, 261, 8, 12049);
+    			add_location(div3, file$L, 289, 8, 13499);
     		},
     		m: function mount(target, anchor) {
     			insert_dev(target, div3, anchor);
@@ -78022,39 +77886,39 @@ var app = (function (exports) {
     		p: function update(ctx, dirty) {
     			const multiselect0_changes = {};
 
-    			if (dirty[1] & /*$$scope*/ 16777216) {
+    			if (dirty[1] & /*$$scope*/ 262144) {
     				multiselect0_changes.$$scope = { dirty, ctx };
     			}
 
     			if (!updating_value && dirty[0] & /*$ui*/ 1) {
     				updating_value = true;
-    				multiselect0_changes.value = /*$ui*/ ctx[0].search.project.leadOrg;
+    				multiselect0_changes.value = /*$ui*/ ctx[0].search.criteria.project.leadOrg;
     				add_flush_callback(() => updating_value = false);
     			}
 
     			multiselect0.$set(multiselect0_changes);
     			const multiselect1_changes = {};
 
-    			if (dirty[1] & /*$$scope*/ 16777216) {
+    			if (dirty[1] & /*$$scope*/ 262144) {
     				multiselect1_changes.$$scope = { dirty, ctx };
     			}
 
     			if (!updating_value_1 && dirty[0] & /*$ui*/ 1) {
     				updating_value_1 = true;
-    				multiselect1_changes.value = /*$ui*/ ctx[0].search.project.leadOrgType;
+    				multiselect1_changes.value = /*$ui*/ ctx[0].search.criteria.project.leadOrgType;
     				add_flush_callback(() => updating_value_1 = false);
     			}
 
     			multiselect1.$set(multiselect1_changes);
     			const multiselect2_changes = {};
 
-    			if (dirty[1] & /*$$scope*/ 16777216) {
+    			if (dirty[1] & /*$$scope*/ 262144) {
     				multiselect2_changes.$$scope = { dirty, ctx };
     			}
 
     			if (!updating_value_2 && dirty[0] & /*$ui*/ 1) {
     				updating_value_2 = true;
-    				multiselect2_changes.value = /*$ui*/ ctx[0].search.project.partnerOrg;
+    				multiselect2_changes.value = /*$ui*/ ctx[0].search.criteria.project.partnerOrgs;
     				add_flush_callback(() => updating_value_2 = false);
     			}
 
@@ -78094,25 +77958,25 @@ var app = (function (exports) {
     		block,
     		id: create_if_block_1$f.name,
     		type: "if",
-    		source: "(261:8) {#if paneVisbility.byStakeholders}",
+    		source: "(289:8) {#if paneVisbility.byStakeholders}",
     		ctx
     	});
 
     	return block;
     }
 
-    // (267:20) {#each leadOrg.list as name}
+    // (295:20) {#each leadOrg.list as name}
     function create_each_block_2$2(ctx) {
     	let option;
-    	let raw_value = /*name*/ ctx[24] + "";
+    	let raw_value = /*name*/ ctx[22] + "";
 
     	const block = {
     		c: function create() {
     			option = element("option");
-    			option.__value = /*name*/ ctx[24];
+    			option.__value = /*name*/ ctx[22];
     			option.value = option.__value;
     			attr_dev(option, "class", "svelte-1f5tlhh");
-    			add_location(option, file$L, 267, 20, 12469);
+    			add_location(option, file$L, 295, 20, 13928);
     		},
     		m: function mount(target, anchor) {
     			insert_dev(target, option, anchor);
@@ -78128,14 +77992,14 @@ var app = (function (exports) {
     		block,
     		id: create_each_block_2$2.name,
     		type: "each",
-    		source: "(267:20) {#each leadOrg.list as name}",
+    		source: "(295:20) {#each leadOrg.list as name}",
     		ctx
     	});
 
     	return block;
     }
 
-    // (265:16) <MultiSelect id = {leadOrg.name} bind:value={$ui.search.project.leadOrg} placeholder={leadOrg.placeholder} >
+    // (293:16) <MultiSelect id = {leadOrg.name} bind:value={$ui.search.criteria.project.leadOrg} placeholder={leadOrg.placeholder} >
     function create_default_slot_2$2(ctx) {
     	let option;
     	let t;
@@ -78163,7 +78027,7 @@ var app = (function (exports) {
     			option.__value = "";
     			option.value = option.__value;
     			attr_dev(option, "class", "svelte-1f5tlhh");
-    			add_location(option, file$L, 265, 20, 12358);
+    			add_location(option, file$L, 293, 20, 13817);
     		},
     		m: function mount(target, anchor) {
     			insert_dev(target, option, anchor);
@@ -78212,25 +78076,25 @@ var app = (function (exports) {
     		block,
     		id: create_default_slot_2$2.name,
     		type: "slot",
-    		source: "(265:16) <MultiSelect id = {leadOrg.name} bind:value={$ui.search.project.leadOrg} placeholder={leadOrg.placeholder} >",
+    		source: "(293:16) <MultiSelect id = {leadOrg.name} bind:value={$ui.search.criteria.project.leadOrg} placeholder={leadOrg.placeholder} >",
     		ctx
     	});
 
     	return block;
     }
 
-    // (276:20) {#each leadOrgType.list as name}
+    // (304:20) {#each leadOrgType.list as name}
     function create_each_block_1$3(ctx) {
     	let option;
-    	let raw_value = /*name*/ ctx[24] + "";
+    	let raw_value = /*name*/ ctx[22] + "";
 
     	const block = {
     		c: function create() {
     			option = element("option");
-    			option.__value = /*name*/ ctx[24];
+    			option.__value = /*name*/ ctx[22];
     			option.value = option.__value;
     			attr_dev(option, "class", "svelte-1f5tlhh");
-    			add_location(option, file$L, 276, 20, 12998);
+    			add_location(option, file$L, 304, 20, 14466);
     		},
     		m: function mount(target, anchor) {
     			insert_dev(target, option, anchor);
@@ -78246,14 +78110,14 @@ var app = (function (exports) {
     		block,
     		id: create_each_block_1$3.name,
     		type: "each",
-    		source: "(276:20) {#each leadOrgType.list as name}",
+    		source: "(304:20) {#each leadOrgType.list as name}",
     		ctx
     	});
 
     	return block;
     }
 
-    // (274:16) <MultiSelect id = {leadOrgType.name} bind:value={$ui.search.project.leadOrgType} placeholder={leadOrgType.placeholder} >
+    // (302:16) <MultiSelect id = {leadOrgType.name} bind:value={$ui.search.criteria.project.leadOrgType} placeholder={leadOrgType.placeholder} >
     function create_default_slot_1$2(ctx) {
     	let option;
     	let t;
@@ -78281,7 +78145,7 @@ var app = (function (exports) {
     			option.__value = "";
     			option.value = option.__value;
     			attr_dev(option, "class", "svelte-1f5tlhh");
-    			add_location(option, file$L, 274, 20, 12883);
+    			add_location(option, file$L, 302, 20, 14351);
     		},
     		m: function mount(target, anchor) {
     			insert_dev(target, option, anchor);
@@ -78330,25 +78194,25 @@ var app = (function (exports) {
     		block,
     		id: create_default_slot_1$2.name,
     		type: "slot",
-    		source: "(274:16) <MultiSelect id = {leadOrgType.name} bind:value={$ui.search.project.leadOrgType} placeholder={leadOrgType.placeholder} >",
+    		source: "(302:16) <MultiSelect id = {leadOrgType.name} bind:value={$ui.search.criteria.project.leadOrgType} placeholder={leadOrgType.placeholder} >",
     		ctx
     	});
 
     	return block;
     }
 
-    // (285:20) {#each partnerOrg.list as name}
+    // (313:20) {#each partnerOrg.list as name}
     function create_each_block$a(ctx) {
     	let option;
-    	let raw_value = /*name*/ ctx[24] + "";
+    	let raw_value = /*name*/ ctx[22] + "";
 
     	const block = {
     		c: function create() {
     			option = element("option");
-    			option.__value = /*name*/ ctx[24];
+    			option.__value = /*name*/ ctx[22];
     			option.value = option.__value;
     			attr_dev(option, "class", "svelte-1f5tlhh");
-    			add_location(option, file$L, 285, 20, 13522);
+    			add_location(option, file$L, 313, 20, 15000);
     		},
     		m: function mount(target, anchor) {
     			insert_dev(target, option, anchor);
@@ -78364,14 +78228,14 @@ var app = (function (exports) {
     		block,
     		id: create_each_block$a.name,
     		type: "each",
-    		source: "(285:20) {#each partnerOrg.list as name}",
+    		source: "(313:20) {#each partnerOrg.list as name}",
     		ctx
     	});
 
     	return block;
     }
 
-    // (283:16) <MultiSelect id = {partnerOrg.name} bind:value={$ui.search.project.partnerOrg} placeholder={partnerOrg.placeholder} >
+    // (311:16) <MultiSelect id = {partnerOrg.name} bind:value={$ui.search.criteria.project.partnerOrgs} placeholder={partnerOrg.placeholder} >
     function create_default_slot$2(ctx) {
     	let option;
     	let t;
@@ -78399,7 +78263,7 @@ var app = (function (exports) {
     			option.__value = "";
     			option.value = option.__value;
     			attr_dev(option, "class", "svelte-1f5tlhh");
-    			add_location(option, file$L, 283, 20, 13408);
+    			add_location(option, file$L, 311, 20, 14886);
     		},
     		m: function mount(target, anchor) {
     			insert_dev(target, option, anchor);
@@ -78448,14 +78312,14 @@ var app = (function (exports) {
     		block,
     		id: create_default_slot$2.name,
     		type: "slot",
-    		source: "(283:16) <MultiSelect id = {partnerOrg.name} bind:value={$ui.search.project.partnerOrg} placeholder={partnerOrg.placeholder} >",
+    		source: "(311:16) <MultiSelect id = {partnerOrg.name} bind:value={$ui.search.criteria.project.partnerOrgs} placeholder={partnerOrg.placeholder} >",
     		ctx
     	});
 
     	return block;
     }
 
-    // (297:4) {#if noSearchParams > 0}
+    // (325:4) {#if noSearchParams > 0}
     function create_if_block$n(ctx) {
     	let div;
     	let mounted;
@@ -78466,7 +78330,7 @@ var app = (function (exports) {
     			div = element("div");
     			div.textContent = "Clear the search parameters";
     			attr_dev(div, "class", "clear-search-container svelte-1f5tlhh");
-    			add_location(div, file$L, 297, 8, 13869);
+    			add_location(div, file$L, 325, 8, 15347);
     		},
     		m: function mount(target, anchor) {
     			insert_dev(target, div, anchor);
@@ -78488,7 +78352,7 @@ var app = (function (exports) {
     		block,
     		id: create_if_block$n.name,
     		type: "if",
-    		source: "(297:4) {#if noSearchParams > 0}",
+    		source: "(325:4) {#if noSearchParams > 0}",
     		ctx
     	});
 
@@ -78592,55 +78456,55 @@ var app = (function (exports) {
     			t22 = space();
     			if (if_block5) if_block5.c();
     			attr_dev(h30, "class", "svelte-1f5tlhh");
-    			add_location(h30, file$L, 98, 12, 3748);
+    			add_location(h30, file$L, 141, 12, 6159);
     			attr_dev(div0, "class", "toggle-icon down svelte-1f5tlhh");
-    			add_location(div0, file$L, 99, 12, 3787);
+    			add_location(div0, file$L, 142, 12, 6198);
     			attr_dev(div1, "id", "byOutcomes");
     			attr_dev(div1, "class", "collapse__header svelte-1f5tlhh");
     			attr_dev(div1, "type", "button");
     			toggle_class(div1, "selected", /*paneVisbility*/ ctx[1].byOutcomes);
-    			add_location(div1, file$L, 96, 8, 3594);
+    			add_location(div1, file$L, 139, 8, 6005);
     			attr_dev(div2, "class", "container svelte-1f5tlhh");
-    			add_location(div2, file$L, 95, 4, 3560);
+    			add_location(div2, file$L, 138, 4, 5971);
     			attr_dev(h31, "class", "svelte-1f5tlhh");
-    			add_location(h31, file$L, 150, 12, 6401);
+    			add_location(h31, file$L, 183, 12, 8239);
     			attr_dev(div3, "class", "toggle-icon down svelte-1f5tlhh");
-    			add_location(div3, file$L, 151, 12, 6431);
+    			add_location(div3, file$L, 184, 12, 8269);
     			attr_dev(div4, "id", "byLocation");
     			attr_dev(div4, "class", "collapse__header svelte-1f5tlhh");
     			attr_dev(div4, "type", "button");
     			toggle_class(div4, "selected", /*paneVisbility*/ ctx[1].byLocation);
-    			add_location(div4, file$L, 148, 8, 6247);
+    			add_location(div4, file$L, 181, 8, 8085);
     			attr_dev(div5, "class", "container svelte-1f5tlhh");
-    			add_location(div5, file$L, 147, 4, 6213);
+    			add_location(div5, file$L, 180, 4, 8051);
     			attr_dev(h32, "class", "svelte-1f5tlhh");
-    			add_location(h32, file$L, 194, 12, 8577);
+    			add_location(h32, file$L, 230, 12, 10525);
     			attr_dev(div6, "class", "toggle-icon down svelte-1f5tlhh");
-    			add_location(div6, file$L, 195, 12, 8622);
+    			add_location(div6, file$L, 231, 12, 10570);
     			attr_dev(div7, "id", "byCharacteristics");
     			attr_dev(div7, "class", "collapse__header svelte-1f5tlhh");
     			attr_dev(div7, "type", "button");
     			toggle_class(div7, "selected", /*paneVisbility*/ ctx[1].byCharacteristics);
-    			add_location(div7, file$L, 192, 8, 8409);
+    			add_location(div7, file$L, 228, 8, 10357);
     			attr_dev(div8, "class", "container svelte-1f5tlhh");
-    			add_location(div8, file$L, 191, 4, 8375);
+    			add_location(div8, file$L, 227, 4, 10323);
     			attr_dev(h33, "class", "svelte-1f5tlhh");
-    			add_location(h33, file$L, 257, 12, 11905);
+    			add_location(h33, file$L, 285, 12, 13355);
     			attr_dev(div9, "class", "toggle-icon down svelte-1f5tlhh");
-    			add_location(div9, file$L, 258, 12, 11939);
+    			add_location(div9, file$L, 286, 12, 13389);
     			attr_dev(div10, "id", "byStakeholders");
     			attr_dev(div10, "class", "collapse__header svelte-1f5tlhh");
     			attr_dev(div10, "type", "button");
     			toggle_class(div10, "selected", /*paneVisbility*/ ctx[1].byStakeholders);
-    			add_location(div10, file$L, 255, 8, 11743);
+    			add_location(div10, file$L, 283, 8, 13193);
     			attr_dev(div11, "class", "container svelte-1f5tlhh");
-    			add_location(div11, file$L, 254, 4, 11709);
-    			add_location(button, file$L, 294, 8, 13745);
+    			add_location(div11, file$L, 282, 4, 13159);
+    			add_location(button, file$L, 322, 8, 15223);
     			attr_dev(div12, "class", "button-container svelte-1f5tlhh");
-    			add_location(div12, file$L, 293, 4, 13704);
+    			add_location(div12, file$L, 321, 4, 15182);
     			attr_dev(section, "id", "project-search");
     			attr_dev(section, "class", "svelte-1f5tlhh");
-    			add_location(section, file$L, 83, 0, 3157);
+    			add_location(section, file$L, 126, 0, 5568);
     		},
     		l: function claim(nodes) {
     			throw new Error("options.hydrate only works if the component was compiled with the `hydratable: true` option");
@@ -78886,14 +78750,13 @@ var app = (function (exports) {
     function instance$M($$self, $$props, $$invalidate) {
     	let noSearchParams;
     	let $ui;
-    	let $database;
     	validate_store(ui, 'ui');
     	component_subscribe($$self, ui, $$value => $$invalidate(0, $ui = $$value));
-    	validate_store(database, 'database');
-    	component_subscribe($$self, database, $$value => $$invalidate(23, $database = $$value));
     	let { $$slots: slots = {}, $$scope } = $$props;
     	validate_slots('ProjectSearch', slots, []);
+    	let { newSearch = true } = $$props;
 
+    	////// COLLAPSIBLE SEARCH PANES ////
     	const paneVisbility = {
     		byOutcomes: false,
     		byLocation: false,
@@ -78911,21 +78774,85 @@ var app = (function (exports) {
     		$$invalidate(1, paneVisbility[this.id] = !paneVisbility[this.id], paneVisbility);
     	}
 
-    	function handleSearch() {
-    		//////////// TO BE REPLACED ////////////
-    		// Random project selection: To be replaced with database search
-    		function getRandomInt(min, max) {
-    			min = Math.ceil(min);
-    			max = Math.floor(max);
-    			return Math.floor(Math.random() * (max - min + 1)) + min;
-    		}
-    		const shuffleArray = array => array.sort(() => Math.random() - 0.5);
-    		const projectDatabase = $database.projects;
-    		const randProjNumber = getRandomInt(0, 9);
-    		set_store_value(ui, $ui.search.project = shuffleArray(projectDatabase.slice(0, randProjNumber)), $ui);
+    	////// SEARCH PROJECTION OBJECT /////
+    	if (newSearch) {
+    		set_store_value(
+    			ui,
+    			$ui.search.criteria.project = {
+    				name: [],
+    				hws: { poThemes: [], conditions: [], values: [] },
+    				meta: { type: [], class: [], scale: [] },
+    				status: { stage: [] },
+    				location: {
+    					catchments: [],
+    					subCatchments: [],
+    					locations: []
+    				},
+    				leadOrg: [],
+    				leadOrgType: [],
+    				partnerOrgs: []
+    			},
+    			$ui
+    		);
+    	}
 
-    		// Temporary info box for project search
-    		if ($ui.infoModal.showNotes && componentContent$1.messageModal.projectSearch) {
+    	async function handleSearch() {
+    		// Setup query
+    		const query = {};
+
+    		if ($ui.search.criteria.project.hws.values.length > 0) query["hws.values"] = {
+    			$in: $ui.search.criteria.project.hws.values
+    		};
+
+    		if ($ui.search.criteria.project.hws.conditions.length > 0) query["hws.conditions"] = {
+    			$in: $ui.search.criteria.project.hws.conditions
+    		};
+
+    		if ($ui.search.criteria.project.hws.poThemes.length > 0) query["hws.poThemes"] = {
+    			$in: $ui.search.criteria.project.hws.poThemes
+    		};
+
+    		if ($ui.search.criteria.project.meta.type.length > 0) query["meta.type"] = {
+    			$in: $ui.search.criteria.project.meta.type
+    		};
+
+    		if ($ui.search.criteria.project.meta.class.length > 0) query["meta.class"] = {
+    			$in: $ui.search.criteria.project.meta.class
+    		};
+
+    		if ($ui.search.criteria.project.status.stage.length > 0) query["status.stage"] = {
+    			$in: $ui.search.criteria.project.status.stage
+    		};
+
+    		if ($ui.search.criteria.project.location.locations.length > 0) query["location.locations"] = {
+    			$in: $ui.search.criteria.project.location.locations
+    		};
+
+    		if ($ui.search.criteria.project.location.catchments.length > 0) query["location.catchments"] = {
+    			$in: $ui.search.criteria.project.location.catchments
+    		};
+
+    		if ($ui.search.criteria.project.location.subCatchments.length > 0) query["location.subCatchments"] = {
+    			$in: $ui.search.criteria.project.location.subCatchments
+    		};
+
+    		if ($ui.search.criteria.project.leadOrg.length > 0) query["leadOrg"] = { $in: $ui.search.criteria.project.leadOrg };
+
+    		if ($ui.search.criteria.project.leadOrgType.length > 0) query["leadOrgType"] = {
+    			$in: $ui.search.criteria.project.leadOrgType
+    		};
+
+    		if ($ui.search.criteria.project.partnerOrgs.length > 0) query["partnerOrgs"] = {
+    			$in: $ui.search.criteria.project.partnerOrgs
+    		};
+
+    		const projection = {};
+    		console.log(query);
+    		set_store_value(ui, $ui.search.results.project = await app.data.collections.projects.find(query, projection), $ui);
+    		console.log("Realm search results: ", $ui.search.results.project);
+
+    		// Temporary info box for stakehoder search
+    		if ($ui.infoModal.showNotes && componentContent$1.messageModal.stakeholderSearch) {
     			set_store_value(ui, $ui.infoModal.message = infoModal.projectSearch, $ui);
     			componentContent$1.messageModal.projectSearch = null;
     		}
@@ -78960,124 +78887,115 @@ var app = (function (exports) {
 
     		window.scrollTo({ top: 0, behavior: 'smooth' });
     	}
-    	const writable_props = [];
+    	const writable_props = ['newSearch'];
 
     	Object_1$2.keys($$props).forEach(key => {
     		if (!~writable_props.indexOf(key) && key.slice(0, 2) !== '$$' && key !== 'slot') console_1$e.warn(`<ProjectSearch> was created with unknown prop '${key}'`);
     	});
 
     	function multiselect0_value_binding(value) {
-    		if ($$self.$$.not_equal($ui.search.project.keyValues, value)) {
-    			$ui.search.project.keyValues = value;
+    		if ($$self.$$.not_equal($ui.search.criteria.project.hws.values, value)) {
+    			$ui.search.criteria.project.hws.values = value;
     			ui.set($ui);
     		}
     	}
 
     	function multiselect1_value_binding(value) {
-    		if ($$self.$$.not_equal($ui.search.project.conditions, value)) {
-    			$ui.search.project.conditions = value;
+    		if ($$self.$$.not_equal($ui.search.criteria.project.hws.conditions, value)) {
+    			$ui.search.criteria.project.hws.conditions = value;
     			ui.set($ui);
     		}
     	}
 
     	function multiselect2_value_binding(value) {
-    		if ($$self.$$.not_equal($ui.search.project.performanceObjectivesGroup, value)) {
-    			$ui.search.project.performanceObjectivesGroup = value;
-    			ui.set($ui);
-    		}
-    	}
-
-    	function multiselect3_value_binding(value) {
-    		if ($$self.$$.not_equal($ui.search.project.performanceObjectivesTheme, value)) {
-    			$ui.search.project.performanceObjectivesTheme = value;
+    		if ($$self.$$.not_equal($ui.search.criteria.project.hws.poThemes, value)) {
+    			$ui.search.criteria.project.hws.poThemes = value;
     			ui.set($ui);
     		}
     	}
 
     	function multiselect0_value_binding_1(value) {
-    		if ($$self.$$.not_equal($ui.search.project.catchment, value)) {
-    			$ui.search.project.catchment = value;
+    		if ($$self.$$.not_equal($ui.search.criteria.project.location.catchments, value)) {
+    			$ui.search.criteria.project.location.catchments = value;
     			ui.set($ui);
     		}
     	}
 
     	function multiselect1_value_binding_1(value) {
-    		if ($$self.$$.not_equal($ui.search.project.subcatchment, value)) {
-    			$ui.search.project.subcatchment = value;
+    		if ($$self.$$.not_equal($ui.search.criteria.project.location.subCatchments, value)) {
+    			$ui.search.criteria.project.location.subCatchments = value;
     			ui.set($ui);
     		}
     	}
 
     	function multiselect2_value_binding_1(value) {
-    		if ($$self.$$.not_equal($ui.search.project.locations, value)) {
-    			$ui.search.project.locations = value;
+    		if ($$self.$$.not_equal($ui.search.criteria.project.location.locations, value)) {
+    			$ui.search.criteria.project.location.locations = value;
     			ui.set($ui);
     		}
     	}
 
     	function multiselect0_value_binding_2(value) {
-    		if ($$self.$$.not_equal($ui.search.project.projectStage, value)) {
-    			$ui.search.project.projectStage = value;
+    		if ($$self.$$.not_equal($ui.search.criteria.project.status.stage, value)) {
+    			$ui.search.criteria.project.status.stage = value;
     			ui.set($ui);
     		}
     	}
 
     	function multiselect1_value_binding_2(value) {
-    		if ($$self.$$.not_equal($ui.search.project.projectType, value)) {
-    			$ui.search.project.projectType = value;
+    		if ($$self.$$.not_equal($ui.search.criteria.project.meta.type, value)) {
+    			$ui.search.criteria.project.meta.type = value;
     			ui.set($ui);
     		}
     	}
 
     	function multiselect2_value_binding_2(value) {
-    		if ($$self.$$.not_equal($ui.search.project.projectClass, value)) {
-    			$ui.search.project.projectClass = value;
+    		if ($$self.$$.not_equal($ui.search.criteria.project.meta.class, value)) {
+    			$ui.search.criteria.project.meta.class = value;
     			ui.set($ui);
     		}
     	}
 
-    	function multiselect3_value_binding_1(value) {
-    		if ($$self.$$.not_equal($ui.search.project.projectSize, value)) {
-    			$ui.search.project.projectSize = value;
-    			ui.set($ui);
-    		}
-    	}
-
-    	function multiselect4_value_binding(value) {
-    		if ($$self.$$.not_equal($ui.search.project.projectScale, value)) {
-    			$ui.search.project.projectScale = value;
+    	function multiselect3_value_binding(value) {
+    		if ($$self.$$.not_equal($ui.search.criteria.project.meta.scale, value)) {
+    			$ui.search.criteria.project.meta.scale = value;
     			ui.set($ui);
     		}
     	}
 
     	function multiselect0_value_binding_3(value) {
-    		if ($$self.$$.not_equal($ui.search.project.leadOrg, value)) {
-    			$ui.search.project.leadOrg = value;
+    		if ($$self.$$.not_equal($ui.search.criteria.project.leadOrg, value)) {
+    			$ui.search.criteria.project.leadOrg = value;
     			ui.set($ui);
     		}
     	}
 
     	function multiselect1_value_binding_3(value) {
-    		if ($$self.$$.not_equal($ui.search.project.leadOrgType, value)) {
-    			$ui.search.project.leadOrgType = value;
+    		if ($$self.$$.not_equal($ui.search.criteria.project.leadOrgType, value)) {
+    			$ui.search.criteria.project.leadOrgType = value;
     			ui.set($ui);
     		}
     	}
 
     	function multiselect2_value_binding_3(value) {
-    		if ($$self.$$.not_equal($ui.search.project.partnerOrg, value)) {
-    			$ui.search.project.partnerOrg = value;
+    		if ($$self.$$.not_equal($ui.search.criteria.project.partnerOrgs, value)) {
+    			$ui.search.criteria.project.partnerOrgs = value;
     			ui.set($ui);
     		}
     	}
+
+    	$$self.$$set = $$props => {
+    		if ('newSearch' in $$props) $$invalidate(7, newSearch = $$props.newSearch);
+    	};
 
     	$$self.$capture_state = () => ({
     		slide,
     		fly,
     		MultiSelect,
-    		LeafletMap: LeafletMap_1,
+    		Map: Map$1,
     		ui,
     		database,
+    		app,
     		componentContent: componentContent$1,
     		infoModal,
     		keyValues,
@@ -79095,17 +79013,18 @@ var app = (function (exports) {
     		projectClass,
     		projectSize,
     		projectScale,
+    		newSearch,
     		paneVisbility,
     		togglePane,
     		handleSearch,
     		handleClose,
     		handleClearSearch,
     		noSearchParams,
-    		$ui,
-    		$database
+    		$ui
     	});
 
     	$$self.$inject_state = $$props => {
+    		if ('newSearch' in $$props) $$invalidate(7, newSearch = $$props.newSearch);
     		if ('noSearchParams' in $$props) $$invalidate(2, noSearchParams = $$props.noSearchParams);
     	};
 
@@ -79116,9 +79035,9 @@ var app = (function (exports) {
     	$$self.$$.update = () => {
     		if ($$self.$$.dirty[0] & /*$ui*/ 1) {
     			// Keep count of search param number
-    			$$invalidate(2, noSearchParams = typeof Object.values($ui.search.project) === 'undefined'
+    			$$invalidate(2, noSearchParams = typeof Object.values($ui.search.results.project) === 'undefined'
     			? 0
-    			: Object.values($ui.search.project).flat().length);
+    			: Object.values($ui.search.results.project).flat().length);
     		}
     	};
 
@@ -79130,18 +79049,17 @@ var app = (function (exports) {
     		handleSearch,
     		handleClose,
     		handleClearSearch,
+    		newSearch,
     		multiselect0_value_binding,
     		multiselect1_value_binding,
     		multiselect2_value_binding,
-    		multiselect3_value_binding,
     		multiselect0_value_binding_1,
     		multiselect1_value_binding_1,
     		multiselect2_value_binding_1,
     		multiselect0_value_binding_2,
     		multiselect1_value_binding_2,
     		multiselect2_value_binding_2,
-    		multiselect3_value_binding_1,
-    		multiselect4_value_binding,
+    		multiselect3_value_binding,
     		multiselect0_value_binding_3,
     		multiselect1_value_binding_3,
     		multiselect2_value_binding_3
@@ -79151,7 +79069,7 @@ var app = (function (exports) {
     class ProjectSearch extends SvelteComponentDev {
     	constructor(options) {
     		super(options);
-    		init(this, options, instance$M, create_fragment$M, safe_not_equal, {}, null, [-1, -1]);
+    		init(this, options, instance$M, create_fragment$M, safe_not_equal, { newSearch: 7 }, null, [-1, -1]);
 
     		dispatch_dev("SvelteRegisterComponent", {
     			component: this,
@@ -79159,6 +79077,14 @@ var app = (function (exports) {
     			options,
     			id: create_fragment$M.name
     		});
+    	}
+
+    	get newSearch() {
+    		throw new Error("<ProjectSearch>: Props cannot be read directly from the component instance unless compiling with 'accessors: true' or '<svelte:options accessors/>'");
+    	}
+
+    	set newSearch(value) {
+    		throw new Error("<ProjectSearch>: Props cannot be set directly on the component instance unless compiling with 'accessors: true' or '<svelte:options accessors/>'");
     	}
     }
 
@@ -80284,7 +80210,7 @@ var app = (function (exports) {
     			}
 
     			attr_dev(ul, "class", "svelte-xamf1b");
-    			add_location(ul, file$G, 21, 4, 929);
+    			add_location(ul, file$G, 21, 4, 945);
     		},
     		m: function mount(target, anchor) {
     			insert_dev(target, ul, anchor);
@@ -80433,7 +80359,7 @@ var app = (function (exports) {
     			t = space();
     			if_block.c();
     			attr_dev(section, "class", "svelte-xamf1b");
-    			add_location(section, file$G, 18, 0, 776);
+    			add_location(section, file$G, 18, 0, 792);
     		},
     		l: function claim(nodes) {
     			throw new Error("options.hydrate only works if the component was compiled with the `hydratable: true` option");
@@ -80521,8 +80447,8 @@ var app = (function (exports) {
     	const shuffleArray = array => array.sort(() => Math.random() - 0.5);
     	const orgDatabase = $database.organisations;
 
-    	const stakeholders = $ui.search.organisation.length > 0
-    	? $ui.search.organisation
+    	const stakeholders = $ui.search.results.organisation.length > 0
+    	? $ui.search.results.organisation
     	: shuffleArray(orgDatabase.slice(0, 6));
 
     	const writable_props = [];
@@ -80672,14 +80598,12 @@ var app = (function (exports) {
     }
 
     /* src/components/shared/stakeholders/stakeholderPage/Infopane.svelte generated by Svelte v3.46.4 */
-
-    const { console: console_1$c } = globals;
     const file$E = "src/components/shared/stakeholders/stakeholderPage/Infopane.svelte";
 
     function get_each_context$8(ctx, list, i) {
     	const child_ctx = ctx.slice();
-    	child_ctx[5] = list[i];
-    	child_ctx[7] = i;
+    	child_ctx[4] = list[i];
+    	child_ctx[6] = i;
     	return child_ctx;
     }
 
@@ -80690,9 +80614,9 @@ var app = (function (exports) {
     	let t1;
     	let div1;
     	let html_tag;
-    	let raw_value = /*stakeholderData*/ ctx[1].meta.subtype1 + "";
+    	let raw_value = /*stakeholderData*/ ctx[2].meta.subtype1 + "";
     	let t2;
-    	let if_block = /*stakeholderData*/ ctx[1].meta.subtype2 && create_if_block_1$d(ctx);
+    	let if_block = /*stakeholderData*/ ctx[2].meta.subtype2 && create_if_block_1$d(ctx);
 
     	const block = {
     		c: function create() {
@@ -80705,12 +80629,12 @@ var app = (function (exports) {
     			t2 = space();
     			if (if_block) if_block.c();
     			attr_dev(div0, "class", "info-label svelte-13c3fwn");
-    			add_location(div0, file$E, 31, 12, 1099);
+    			add_location(div0, file$E, 31, 12, 965);
     			html_tag.a = t2;
     			attr_dev(div1, "class", "info-content svelte-13c3fwn");
-    			add_location(div1, file$E, 32, 12, 1148);
+    			add_location(div1, file$E, 32, 12, 1014);
     			attr_dev(div2, "class", "info-row svelte-13c3fwn");
-    			add_location(div2, file$E, 30, 8, 1064);
+    			add_location(div2, file$E, 30, 8, 930);
     		},
     		m: function mount(target, anchor) {
     			insert_dev(target, div2, anchor);
@@ -80722,9 +80646,9 @@ var app = (function (exports) {
     			if (if_block) if_block.m(div1, null);
     		},
     		p: function update(ctx, dirty) {
-    			if (dirty & /*stakeholderData*/ 2 && raw_value !== (raw_value = /*stakeholderData*/ ctx[1].meta.subtype1 + "")) html_tag.p(raw_value);
+    			if (dirty & /*stakeholderData*/ 4 && raw_value !== (raw_value = /*stakeholderData*/ ctx[2].meta.subtype1 + "")) html_tag.p(raw_value);
 
-    			if (/*stakeholderData*/ ctx[1].meta.subtype2) {
+    			if (/*stakeholderData*/ ctx[2].meta.subtype2) {
     				if (if_block) {
     					if_block.p(ctx, dirty);
     				} else {
@@ -80758,7 +80682,7 @@ var app = (function (exports) {
     function create_if_block_1$d(ctx) {
     	let t0;
     	let html_tag;
-    	let raw_value = /*stakeholderData*/ ctx[1].meta.subtype2 + "";
+    	let raw_value = /*stakeholderData*/ ctx[2].meta.subtype2 + "";
     	let t1;
 
     	const block = {
@@ -80774,7 +80698,7 @@ var app = (function (exports) {
     			insert_dev(target, t1, anchor);
     		},
     		p: function update(ctx, dirty) {
-    			if (dirty & /*stakeholderData*/ 2 && raw_value !== (raw_value = /*stakeholderData*/ ctx[1].meta.subtype2 + "")) html_tag.p(raw_value);
+    			if (dirty & /*stakeholderData*/ 4 && raw_value !== (raw_value = /*stakeholderData*/ ctx[2].meta.subtype2 + "")) html_tag.p(raw_value);
     		},
     		d: function destroy(detaching) {
     			if (detaching) detach_dev(t0);
@@ -80798,11 +80722,11 @@ var app = (function (exports) {
     function create_each_block$8(ctx) {
     	let span;
 
-    	let t0_value = (/*leadCatchments*/ ctx[2].length === 1 || /*index*/ ctx[7] === /*leadCatchments*/ ctx[2].length - 2
-    	? /*catchment*/ ctx[5]
-    	: /*index*/ ctx[7] === /*leadCatchments*/ ctx[2].length - 1
-    		? ` and ${/*catchment*/ ctx[5]}`
-    		: `${/*catchment*/ ctx[5]}, `) + "";
+    	let t0_value = (/*leadCatchments*/ ctx[1].length === 1 || /*index*/ ctx[6] === /*leadCatchments*/ ctx[1].length - 2
+    	? /*catchment*/ ctx[4]
+    	: /*index*/ ctx[6] === /*leadCatchments*/ ctx[1].length - 1
+    		? ` and ${/*catchment*/ ctx[4]}`
+    		: `${/*catchment*/ ctx[4]}, `) + "";
 
     	let t0;
     	let t1;
@@ -80812,7 +80736,7 @@ var app = (function (exports) {
     			span = element("span");
     			t0 = text(t0_value);
     			t1 = space();
-    			add_location(span, file$E, 52, 16, 1873);
+    			add_location(span, file$E, 52, 16, 1739);
     		},
     		m: function mount(target, anchor) {
     			insert_dev(target, span, anchor);
@@ -80820,11 +80744,11 @@ var app = (function (exports) {
     			append_dev(span, t1);
     		},
     		p: function update(ctx, dirty) {
-    			if (dirty & /*leadCatchments*/ 4 && t0_value !== (t0_value = (/*leadCatchments*/ ctx[2].length === 1 || /*index*/ ctx[7] === /*leadCatchments*/ ctx[2].length - 2
-    			? /*catchment*/ ctx[5]
-    			: /*index*/ ctx[7] === /*leadCatchments*/ ctx[2].length - 1
-    				? ` and ${/*catchment*/ ctx[5]}`
-    				: `${/*catchment*/ ctx[5]}, `) + "")) set_data_dev(t0, t0_value);
+    			if (dirty & /*leadCatchments*/ 2 && t0_value !== (t0_value = (/*leadCatchments*/ ctx[1].length === 1 || /*index*/ ctx[6] === /*leadCatchments*/ ctx[1].length - 2
+    			? /*catchment*/ ctx[4]
+    			: /*index*/ ctx[6] === /*leadCatchments*/ ctx[1].length - 1
+    				? ` and ${/*catchment*/ ctx[4]}`
+    				: `${/*catchment*/ ctx[4]}, `) + "")) set_data_dev(t0, t0_value);
     		},
     		d: function destroy(detaching) {
     			if (detaching) detach_dev(span);
@@ -80854,7 +80778,7 @@ var app = (function (exports) {
     	let div1;
     	let t5;
     	let div2;
-    	let raw0_value = /*stakeholderData*/ ctx[1].meta.type + "";
+    	let raw0_value = /*stakeholderData*/ ctx[2].meta.type + "";
     	let t6;
     	let t7;
     	let h41;
@@ -80877,35 +80801,35 @@ var app = (function (exports) {
     	let t19;
     	let div11;
     	let html_tag;
-    	let raw2_value = /*stakeholderData*/ ctx[1].contact.address + "";
+    	let raw2_value = /*stakeholderData*/ ctx[2].contact.address + "";
     	let br0;
     	let t20;
     	let html_tag_1;
-    	let raw3_value = /*stakeholderData*/ ctx[1].contact.city + "";
+    	let raw3_value = /*stakeholderData*/ ctx[2].contact.city + "";
     	let t21;
     	let html_tag_2;
-    	let raw4_value = /*stakeholderData*/ ctx[1].contact.postcode + "";
+    	let raw4_value = /*stakeholderData*/ ctx[2].contact.postcode + "";
     	let br1;
     	let t22;
     	let html_tag_3;
-    	let raw5_value = /*stakeholderData*/ ctx[1].contact.state + "";
+    	let raw5_value = /*stakeholderData*/ ctx[2].contact.state + "";
     	let t23;
     	let div15;
     	let div13;
     	let t25;
     	let div14;
     	let html_tag_4;
-    	let raw6_value = /*stakeholderData*/ ctx[1].contact.name.first + "";
+    	let raw6_value = /*stakeholderData*/ ctx[2].contact.name.first + "";
     	let t26;
     	let html_tag_5;
-    	let raw7_value = /*stakeholderData*/ ctx[1].contact.name.last + "";
+    	let raw7_value = /*stakeholderData*/ ctx[2].contact.name.last + "";
     	let t27;
     	let div18;
     	let div16;
     	let t29;
     	let div17;
     	let a0;
-    	let raw8_value = /*stakeholderData*/ ctx[1].contact.email + "";
+    	let raw8_value = /*stakeholderData*/ ctx[2].contact.email + "";
     	let a0_href_value;
     	let t30;
     	let div21;
@@ -80915,10 +80839,10 @@ var app = (function (exports) {
     	let a1;
     	let t33;
     	let html_tag_6;
-    	let raw9_value = /*stakeholderData*/ ctx[1].contact.website + "";
+    	let raw9_value = /*stakeholderData*/ ctx[2].contact.website + "";
     	let a1_href_value;
-    	let if_block = /*stakeholderData*/ ctx[1].meta.subtype1 && create_if_block$i(ctx);
-    	let each_value = /*leadCatchments*/ ctx[2];
+    	let if_block = /*stakeholderData*/ ctx[2].meta.subtype1 && create_if_block$i(ctx);
+    	let each_value = /*leadCatchments*/ ctx[1];
     	validate_each_argument(each_value);
     	let each_blocks = [];
 
@@ -81008,75 +80932,76 @@ var app = (function (exports) {
     			t33 = text("www.");
     			html_tag_6 = new HtmlTag();
     			attr_dev(h3, "class", "svelte-13c3fwn");
-    			add_location(h3, file$E, 19, 8, 686);
+    			add_location(h3, file$E, 19, 8, 552);
     			attr_dev(div0, "class", "info-pane-header svelte-13c3fwn");
-    			add_location(div0, file$E, 18, 4, 645);
+    			add_location(div0, file$E, 18, 4, 511);
     			attr_dev(h40, "class", "svelte-13c3fwn");
-    			add_location(h40, file$E, 22, 8, 761);
+    			add_location(h40, file$E, 22, 8, 627);
     			attr_dev(div1, "class", "info-label svelte-13c3fwn");
-    			add_location(div1, file$E, 24, 12, 847);
+    			add_location(div1, file$E, 24, 12, 713);
     			attr_dev(div2, "class", "info-content svelte-13c3fwn");
-    			add_location(div2, file$E, 25, 12, 900);
+    			add_location(div2, file$E, 25, 12, 766);
     			attr_dev(div3, "class", "info-row svelte-13c3fwn");
-    			add_location(div3, file$E, 23, 8, 812);
+    			add_location(div3, file$E, 23, 8, 678);
     			attr_dev(h41, "class", "svelte-13c3fwn");
-    			add_location(h41, file$E, 41, 8, 1422);
+    			add_location(h41, file$E, 41, 8, 1288);
     			attr_dev(div4, "class", "info-label svelte-13c3fwn");
-    			add_location(div4, file$E, 43, 12, 1509);
+    			add_location(div4, file$E, 43, 12, 1375);
     			attr_dev(div5, "class", "info-content svelte-13c3fwn");
-    			add_location(div5, file$E, 44, 12, 1566);
+    			add_location(div5, file$E, 44, 12, 1432);
     			attr_dev(div6, "class", "info-row svelte-13c3fwn");
-    			add_location(div6, file$E, 42, 8, 1474);
+    			add_location(div6, file$E, 42, 8, 1340);
     			attr_dev(div7, "class", "info-label svelte-13c3fwn");
-    			add_location(div7, file$E, 49, 12, 1715);
+    			add_location(div7, file$E, 49, 12, 1581);
     			attr_dev(div8, "class", "info-content svelte-13c3fwn");
-    			add_location(div8, file$E, 50, 12, 1770);
+    			add_location(div8, file$E, 50, 12, 1636);
     			attr_dev(div9, "class", "info-row svelte-13c3fwn");
-    			add_location(div9, file$E, 48, 8, 1680);
+    			add_location(div9, file$E, 48, 8, 1546);
     			attr_dev(h42, "class", "svelte-13c3fwn");
-    			add_location(h42, file$E, 57, 8, 2115);
+    			add_location(h42, file$E, 57, 8, 1981);
     			attr_dev(div10, "class", "info-label svelte-13c3fwn");
-    			add_location(div10, file$E, 59, 12, 2199);
+    			add_location(div10, file$E, 59, 12, 2065);
     			html_tag.a = br0;
-    			add_location(br0, file$E, 61, 55, 2334);
+    			add_location(br0, file$E, 61, 55, 2200);
     			html_tag_1.a = t21;
     			html_tag_2.a = br1;
-    			add_location(br1, file$E, 62, 94, 2433);
+    			add_location(br1, file$E, 62, 94, 2299);
     			html_tag_3.a = null;
     			attr_dev(div11, "class", "info-content svelte-13c3fwn");
-    			add_location(div11, file$E, 60, 12, 2251);
+    			add_location(div11, file$E, 60, 12, 2117);
     			attr_dev(div12, "class", "info-row svelte-13c3fwn");
-    			add_location(div12, file$E, 58, 8, 2164);
+    			add_location(div12, file$E, 58, 8, 2030);
     			attr_dev(div13, "class", "info-label svelte-13c3fwn");
-    			add_location(div13, file$E, 67, 12, 2569);
+    			add_location(div13, file$E, 67, 12, 2435);
     			html_tag_4.a = t26;
     			html_tag_5.a = null;
     			attr_dev(div14, "class", "info-content svelte-13c3fwn");
-    			add_location(div14, file$E, 68, 12, 2621);
+    			add_location(div14, file$E, 68, 12, 2487);
     			attr_dev(div15, "class", "info-row svelte-13c3fwn");
-    			add_location(div15, file$E, 66, 8, 2534);
+    			add_location(div15, file$E, 66, 8, 2400);
     			attr_dev(div16, "class", "info-label svelte-13c3fwn");
-    			add_location(div16, file$E, 73, 12, 2827);
-    			attr_dev(a0, "href", a0_href_value = "mailto:" + /*stakeholderData*/ ctx[1].contact.email);
-    			add_location(a0, file$E, 75, 16, 2921);
+    			add_location(div16, file$E, 73, 12, 2693);
+    			attr_dev(a0, "href", a0_href_value = "mailto:" + /*stakeholderData*/ ctx[2].contact.email);
+    			add_location(a0, file$E, 75, 16, 2787);
     			attr_dev(div17, "class", "info-content svelte-13c3fwn");
-    			add_location(div17, file$E, 74, 12, 2877);
+    			add_location(div17, file$E, 74, 12, 2743);
     			attr_dev(div18, "class", "info-row svelte-13c3fwn");
-    			add_location(div18, file$E, 72, 8, 2792);
+    			add_location(div18, file$E, 72, 8, 2658);
     			attr_dev(div19, "class", "info-label svelte-13c3fwn");
-    			add_location(div19, file$E, 79, 12, 3090);
+    			add_location(div19, file$E, 79, 12, 2956);
     			html_tag_6.a = null;
-    			attr_dev(a1, "href", a1_href_value = 'http://www.' + /*stakeholderData*/ ctx[1].contact.website);
+    			attr_dev(a1, "href", a1_href_value = 'http://www.' + /*stakeholderData*/ ctx[2].contact.website);
     			attr_dev(a1, "target", "_blank");
-    			add_location(a1, file$E, 81, 16, 3186);
+    			add_location(a1, file$E, 81, 16, 3052);
     			attr_dev(div20, "class", "info-content svelte-13c3fwn");
-    			add_location(div20, file$E, 80, 12, 3142);
+    			add_location(div20, file$E, 80, 12, 3008);
     			attr_dev(div21, "class", "info-row svelte-13c3fwn");
-    			add_location(div21, file$E, 78, 8, 3055);
+    			add_location(div21, file$E, 78, 8, 2921);
     			attr_dev(div22, "class", "info-pane-content svelte-13c3fwn");
-    			add_location(div22, file$E, 21, 4, 719);
+    			add_location(div22, file$E, 21, 4, 585);
+    			attr_dev(section, "id", "info-pane");
     			attr_dev(section, "class", "svelte-13c3fwn");
-    			add_location(section, file$E, 17, 0, 631);
+    			add_location(section, file$E, 17, 0, 480);
     		},
     		l: function claim(nodes) {
     			throw new Error("options.hydrate only works if the component was compiled with the `hydratable: true` option");
@@ -81155,8 +81080,8 @@ var app = (function (exports) {
     			html_tag_6.m(raw9_value, a1);
     		},
     		p: function update(ctx, [dirty]) {
-    			if (dirty & /*stakeholderData*/ 2 && raw0_value !== (raw0_value = /*stakeholderData*/ ctx[1].meta.type + "")) div2.innerHTML = raw0_value;
-    			if (/*stakeholderData*/ ctx[1].meta.subtype1) {
+    			if (dirty & /*stakeholderData*/ 4 && raw0_value !== (raw0_value = /*stakeholderData*/ ctx[2].meta.type + "")) div2.innerHTML = raw0_value;
+    			if (/*stakeholderData*/ ctx[2].meta.subtype1) {
     				if (if_block) {
     					if_block.p(ctx, dirty);
     				} else {
@@ -81170,8 +81095,8 @@ var app = (function (exports) {
     			}
 
     			if (dirty & /*leadProjects*/ 1 && raw1_value !== (raw1_value = /*leadProjects*/ ctx[0].length + "")) div5.innerHTML = raw1_value;
-    			if (dirty & /*leadCatchments*/ 4) {
-    				each_value = /*leadCatchments*/ ctx[2];
+    			if (dirty & /*leadCatchments*/ 2) {
+    				each_value = /*leadCatchments*/ ctx[1];
     				validate_each_argument(each_value);
     				let i;
 
@@ -81194,20 +81119,20 @@ var app = (function (exports) {
     				each_blocks.length = each_value.length;
     			}
 
-    			if (dirty & /*stakeholderData*/ 2 && raw2_value !== (raw2_value = /*stakeholderData*/ ctx[1].contact.address + "")) html_tag.p(raw2_value);
-    			if (dirty & /*stakeholderData*/ 2 && raw3_value !== (raw3_value = /*stakeholderData*/ ctx[1].contact.city + "")) html_tag_1.p(raw3_value);
-    			if (dirty & /*stakeholderData*/ 2 && raw4_value !== (raw4_value = /*stakeholderData*/ ctx[1].contact.postcode + "")) html_tag_2.p(raw4_value);
-    			if (dirty & /*stakeholderData*/ 2 && raw5_value !== (raw5_value = /*stakeholderData*/ ctx[1].contact.state + "")) html_tag_3.p(raw5_value);
-    			if (dirty & /*stakeholderData*/ 2 && raw6_value !== (raw6_value = /*stakeholderData*/ ctx[1].contact.name.first + "")) html_tag_4.p(raw6_value);
-    			if (dirty & /*stakeholderData*/ 2 && raw7_value !== (raw7_value = /*stakeholderData*/ ctx[1].contact.name.last + "")) html_tag_5.p(raw7_value);
-    			if (dirty & /*stakeholderData*/ 2 && raw8_value !== (raw8_value = /*stakeholderData*/ ctx[1].contact.email + "")) a0.innerHTML = raw8_value;
-    			if (dirty & /*stakeholderData*/ 2 && a0_href_value !== (a0_href_value = "mailto:" + /*stakeholderData*/ ctx[1].contact.email)) {
+    			if (dirty & /*stakeholderData*/ 4 && raw2_value !== (raw2_value = /*stakeholderData*/ ctx[2].contact.address + "")) html_tag.p(raw2_value);
+    			if (dirty & /*stakeholderData*/ 4 && raw3_value !== (raw3_value = /*stakeholderData*/ ctx[2].contact.city + "")) html_tag_1.p(raw3_value);
+    			if (dirty & /*stakeholderData*/ 4 && raw4_value !== (raw4_value = /*stakeholderData*/ ctx[2].contact.postcode + "")) html_tag_2.p(raw4_value);
+    			if (dirty & /*stakeholderData*/ 4 && raw5_value !== (raw5_value = /*stakeholderData*/ ctx[2].contact.state + "")) html_tag_3.p(raw5_value);
+    			if (dirty & /*stakeholderData*/ 4 && raw6_value !== (raw6_value = /*stakeholderData*/ ctx[2].contact.name.first + "")) html_tag_4.p(raw6_value);
+    			if (dirty & /*stakeholderData*/ 4 && raw7_value !== (raw7_value = /*stakeholderData*/ ctx[2].contact.name.last + "")) html_tag_5.p(raw7_value);
+    			if (dirty & /*stakeholderData*/ 4 && raw8_value !== (raw8_value = /*stakeholderData*/ ctx[2].contact.email + "")) a0.innerHTML = raw8_value;
+    			if (dirty & /*stakeholderData*/ 4 && a0_href_value !== (a0_href_value = "mailto:" + /*stakeholderData*/ ctx[2].contact.email)) {
     				attr_dev(a0, "href", a0_href_value);
     			}
 
-    			if (dirty & /*stakeholderData*/ 2 && raw9_value !== (raw9_value = /*stakeholderData*/ ctx[1].contact.website + "")) html_tag_6.p(raw9_value);
+    			if (dirty & /*stakeholderData*/ 4 && raw9_value !== (raw9_value = /*stakeholderData*/ ctx[2].contact.website + "")) html_tag_6.p(raw9_value);
 
-    			if (dirty & /*stakeholderData*/ 2 && a1_href_value !== (a1_href_value = 'http://www.' + /*stakeholderData*/ ctx[1].contact.website)) {
+    			if (dirty & /*stakeholderData*/ 4 && a1_href_value !== (a1_href_value = 'http://www.' + /*stakeholderData*/ ctx[2].contact.website)) {
     				attr_dev(a1, "href", a1_href_value);
     			}
     		},
@@ -81233,39 +81158,39 @@ var app = (function (exports) {
 
     function instance$F($$self, $$props, $$invalidate) {
     	let stakeholderData;
-    	let leadProjects;
-    	let leadCatchments;
-    	let $database;
     	let $ui;
-    	validate_store(database, 'database');
-    	component_subscribe($$self, database, $$value => $$invalidate(3, $database = $$value));
     	validate_store(ui, 'ui');
-    	component_subscribe($$self, ui, $$value => $$invalidate(4, $ui = $$value));
+    	component_subscribe($$self, ui, $$value => $$invalidate(3, $ui = $$value));
     	let { $$slots: slots = {}, $$scope } = $$props;
     	validate_slots('Infopane', slots, []);
-    	console.log($database.projects);
-    	const writable_props = [];
+    	let { leadProjects = [] } = $$props;
+    	let { leadCatchments = [] } = $$props;
+    	const writable_props = ['leadProjects', 'leadCatchments'];
 
     	Object.keys($$props).forEach(key => {
-    		if (!~writable_props.indexOf(key) && key.slice(0, 2) !== '$$' && key !== 'slot') console_1$c.warn(`<Infopane> was created with unknown prop '${key}'`);
+    		if (!~writable_props.indexOf(key) && key.slice(0, 2) !== '$$' && key !== 'slot') console.warn(`<Infopane> was created with unknown prop '${key}'`);
     	});
+
+    	$$self.$$set = $$props => {
+    		if ('leadProjects' in $$props) $$invalidate(0, leadProjects = $$props.leadProjects);
+    		if ('leadCatchments' in $$props) $$invalidate(1, leadCatchments = $$props.leadCatchments);
+    	};
 
     	$$self.$capture_state = () => ({
     		fade,
     		ui,
     		database,
-    		capitaliseFirst,
+    		app,
     		leadProjects,
     		leadCatchments,
     		stakeholderData,
-    		$database,
     		$ui
     	});
 
     	$$self.$inject_state = $$props => {
     		if ('leadProjects' in $$props) $$invalidate(0, leadProjects = $$props.leadProjects);
-    		if ('leadCatchments' in $$props) $$invalidate(2, leadCatchments = $$props.leadCatchments);
-    		if ('stakeholderData' in $$props) $$invalidate(1, stakeholderData = $$props.stakeholderData);
+    		if ('leadCatchments' in $$props) $$invalidate(1, leadCatchments = $$props.leadCatchments);
+    		if ('stakeholderData' in $$props) $$invalidate(2, stakeholderData = $$props.stakeholderData);
     	};
 
     	if ($$props && "$$inject" in $$props) {
@@ -81273,27 +81198,19 @@ var app = (function (exports) {
     	}
 
     	$$self.$$.update = () => {
-    		if ($$self.$$.dirty & /*$ui*/ 16) {
+    		if ($$self.$$.dirty & /*$ui*/ 8) {
     			// Reactive variables
-    			$$invalidate(1, stakeholderData = $ui.state.focus.stakeholderData);
-    		}
-
-    		if ($$self.$$.dirty & /*$database, stakeholderData*/ 10) {
-    			$$invalidate(0, leadProjects = $database.projects.filter(d => d.leadOrg === stakeholderData.name));
-    		}
-
-    		if ($$self.$$.dirty & /*leadProjects*/ 1) {
-    			$$invalidate(2, leadCatchments = [...new Set(leadProjects.map(d => d.location.catchments).flat())]);
+    			$$invalidate(2, stakeholderData = $ui.state.focus.stakeholderData);
     		}
     	};
 
-    	return [leadProjects, stakeholderData, leadCatchments, $database, $ui];
+    	return [leadProjects, leadCatchments, stakeholderData, $ui];
     }
 
     class Infopane extends SvelteComponentDev {
     	constructor(options) {
     		super(options);
-    		init(this, options, instance$F, create_fragment$F, safe_not_equal, {});
+    		init(this, options, instance$F, create_fragment$F, safe_not_equal, { leadProjects: 0, leadCatchments: 1 });
 
     		dispatch_dev("SvelteRegisterComponent", {
     			component: this,
@@ -81301,6 +81218,22 @@ var app = (function (exports) {
     			options,
     			id: create_fragment$F.name
     		});
+    	}
+
+    	get leadProjects() {
+    		throw new Error("<Infopane>: Props cannot be read directly from the component instance unless compiling with 'accessors: true' or '<svelte:options accessors/>'");
+    	}
+
+    	set leadProjects(value) {
+    		throw new Error("<Infopane>: Props cannot be set directly on the component instance unless compiling with 'accessors: true' or '<svelte:options accessors/>'");
+    	}
+
+    	get leadCatchments() {
+    		throw new Error("<Infopane>: Props cannot be read directly from the component instance unless compiling with 'accessors: true' or '<svelte:options accessors/>'");
+    	}
+
+    	set leadCatchments(value) {
+    		throw new Error("<Infopane>: Props cannot be set directly on the component instance unless compiling with 'accessors: true' or '<svelte:options accessors/>'");
     	}
     }
 
@@ -81500,7 +81433,7 @@ var app = (function (exports) {
 
     /* src/components/shared/stakeholders/stakeholderPage/StakeholderContent.svelte generated by Svelte v3.46.4 */
 
-    const { console: console_1$b } = globals;
+    const { console: console_1$c } = globals;
     const file$C = "src/components/shared/stakeholders/stakeholderPage/StakeholderContent.svelte";
 
     // (53:4) {#if visibility.aboutDetails }
@@ -81509,7 +81442,7 @@ var app = (function (exports) {
     	let h3;
     	let t1;
     	let html_tag;
-    	let raw_value = /*stakeholderData*/ ctx[1].about.longDescription + "";
+    	let raw_value = /*stakeholderData*/ ctx[4].about.longDescription + "";
     	let div_transition;
     	let current;
 
@@ -81520,9 +81453,9 @@ var app = (function (exports) {
     			h3.textContent = "—— About";
     			t1 = space();
     			html_tag = new HtmlTag();
-    			add_location(h3, file$C, 54, 12, 2011);
+    			add_location(h3, file$C, 54, 12, 1862);
     			html_tag.a = null;
-    			add_location(div, file$C, 53, 8, 1976);
+    			add_location(div, file$C, 53, 8, 1827);
     		},
     		m: function mount(target, anchor) {
     			insert_dev(target, div, anchor);
@@ -81532,7 +81465,7 @@ var app = (function (exports) {
     			current = true;
     		},
     		p: function update(ctx, dirty) {
-    			if ((!current || dirty & /*stakeholderData*/ 2) && raw_value !== (raw_value = /*stakeholderData*/ ctx[1].about.longDescription + "")) html_tag.p(raw_value);
+    			if ((!current || dirty & /*stakeholderData*/ 16) && raw_value !== (raw_value = /*stakeholderData*/ ctx[4].about.longDescription + "")) html_tag.p(raw_value);
     		},
     		i: function intro(local) {
     			if (current) return;
@@ -81572,7 +81505,7 @@ var app = (function (exports) {
     	let current;
 
     	hws_boxes = new HWS_boxes({
-    			props: { data: /*conditionsData*/ ctx[2] },
+    			props: { data: /*conditionsData*/ ctx[1] },
     			$$inline: true
     		});
 
@@ -81586,7 +81519,7 @@ var app = (function (exports) {
     		},
     		p: function update(ctx, dirty) {
     			const hws_boxes_changes = {};
-    			if (dirty & /*conditionsData*/ 4) hws_boxes_changes.data = /*conditionsData*/ ctx[2];
+    			if (dirty & /*conditionsData*/ 2) hws_boxes_changes.data = /*conditionsData*/ ctx[1];
     			hws_boxes.$set(hws_boxes_changes);
     		},
     		i: function intro(local) {
@@ -81617,7 +81550,7 @@ var app = (function (exports) {
     function create_fragment$D(ctx) {
     	let section;
     	let div0;
-    	let raw0_value = /*stakeholderData*/ ctx[1].about.shortDescription + "";
+    	let raw0_value = /*stakeholderData*/ ctx[4].about.shortDescription + "";
     	let t0;
     	let t1;
     	let div4;
@@ -81632,7 +81565,7 @@ var app = (function (exports) {
     	let h3;
     	let t7;
     	let p;
-    	let t8_value = /*stakeholderData*/ ctx[1].name + "";
+    	let t8_value = /*stakeholderData*/ ctx[4].name + "";
     	let t8;
     	let t9;
     	let t10;
@@ -81655,12 +81588,12 @@ var app = (function (exports) {
     	let if_block0 = /*visibility*/ ctx[0].aboutDetails && create_if_block_1$c(ctx);
 
     	hws_tags = new HWS_tags({
-    			props: { data: /*themesData*/ ctx[4] },
+    			props: { data: /*themesData*/ ctx[3] },
     			$$inline: true
     		});
 
     	hws_boxes = new HWS_boxes({
-    			props: { data: /*keyValuesData*/ ctx[3] },
+    			props: { data: /*keyValuesData*/ ctx[2] },
     			$$inline: true
     		});
 
@@ -81704,35 +81637,35 @@ var app = (function (exports) {
     			t16 = space();
     			hr1 = element("hr");
     			attr_dev(div0, "class", "short-desc svelte-103luuw");
-    			add_location(div0, file$C, 49, 4, 1838);
+    			add_location(div0, file$C, 49, 4, 1689);
     			attr_dev(div1, "class", "toggle-label svelte-103luuw");
-    			add_location(div1, file$C, 61, 12, 2340);
+    			add_location(div1, file$C, 61, 12, 2191);
     			attr_dev(div2, "class", "toggle-icon down svelte-103luuw");
-    			add_location(div2, file$C, 62, 12, 2403);
+    			add_location(div2, file$C, 62, 12, 2254);
     			attr_dev(div3, "id", "aboutDetails");
     			attr_dev(div3, "class", "collapse__header svelte-103luuw");
     			attr_dev(div3, "type", "button");
     			toggle_class(div3, "selected", /*visibility*/ ctx[0].aboutDetails);
-    			add_location(div3, file$C, 59, 8, 2185);
+    			add_location(div3, file$C, 59, 8, 2036);
     			attr_dev(div4, "class", "collapse__body svelte-103luuw");
-    			add_location(div4, file$C, 58, 4, 2128);
-    			add_location(hr0, file$C, 66, 4, 2478);
-    			add_location(h3, file$C, 68, 4, 2518);
-    			add_location(p, file$C, 69, 4, 2573);
+    			add_location(div4, file$C, 58, 4, 1979);
+    			add_location(hr0, file$C, 66, 4, 2329);
+    			add_location(h3, file$C, 68, 4, 2369);
+    			add_location(p, file$C, 69, 4, 2424);
     			attr_dev(div5, "class", "toggle-label svelte-103luuw");
-    			add_location(div5, file$C, 79, 12, 3053);
+    			add_location(div5, file$C, 79, 12, 2904);
     			attr_dev(div6, "class", "toggle-icon down svelte-103luuw");
-    			add_location(div6, file$C, 80, 12, 3114);
+    			add_location(div6, file$C, 80, 12, 2965);
     			attr_dev(div7, "id", "hwsDetails");
     			attr_dev(div7, "class", "collapse__header svelte-103luuw");
     			attr_dev(div7, "type", "button");
     			toggle_class(div7, "selected", /*visibility*/ ctx[0].hwsDetails);
-    			add_location(div7, file$C, 77, 8, 2902);
+    			add_location(div7, file$C, 77, 8, 2753);
     			attr_dev(div8, "class", "collapse__body svelte-103luuw");
-    			add_location(div8, file$C, 76, 4, 2845);
-    			add_location(hr1, file$C, 83, 4, 3188);
+    			add_location(div8, file$C, 76, 4, 2696);
+    			add_location(hr1, file$C, 83, 4, 3039);
     			attr_dev(section, "class", "content-pane svelte-103luuw");
-    			add_location(section, file$C, 47, 0, 1770);
+    			add_location(section, file$C, 47, 0, 1621);
     		},
     		l: function claim(nodes) {
     			throw new Error("options.hydrate only works if the component was compiled with the `hydratable: true` option");
@@ -81785,7 +81718,7 @@ var app = (function (exports) {
     			}
     		},
     		p: function update(ctx, [dirty]) {
-    			if ((!current || dirty & /*stakeholderData*/ 2) && raw0_value !== (raw0_value = /*stakeholderData*/ ctx[1].about.shortDescription + "")) div0.innerHTML = raw0_value;
+    			if ((!current || dirty & /*stakeholderData*/ 16) && raw0_value !== (raw0_value = /*stakeholderData*/ ctx[4].about.shortDescription + "")) div0.innerHTML = raw0_value;
     			if (/*visibility*/ ctx[0].aboutDetails) {
     				if (if_block0) {
     					if_block0.p(ctx, dirty);
@@ -81814,12 +81747,12 @@ var app = (function (exports) {
     				toggle_class(div3, "selected", /*visibility*/ ctx[0].aboutDetails);
     			}
 
-    			if ((!current || dirty & /*stakeholderData*/ 2) && t8_value !== (t8_value = /*stakeholderData*/ ctx[1].name + "")) set_data_dev(t8, t8_value);
+    			if ((!current || dirty & /*stakeholderData*/ 16) && t8_value !== (t8_value = /*stakeholderData*/ ctx[4].name + "")) set_data_dev(t8, t8_value);
     			const hws_tags_changes = {};
-    			if (dirty & /*themesData*/ 16) hws_tags_changes.data = /*themesData*/ ctx[4];
+    			if (dirty & /*themesData*/ 8) hws_tags_changes.data = /*themesData*/ ctx[3];
     			hws_tags.$set(hws_tags_changes);
     			const hws_boxes_changes = {};
-    			if (dirty & /*keyValuesData*/ 8) hws_boxes_changes.data = /*keyValuesData*/ ctx[3];
+    			if (dirty & /*keyValuesData*/ 4) hws_boxes_changes.data = /*keyValuesData*/ ctx[2];
     			hws_boxes.$set(hws_boxes_changes);
 
     			if (/*visibility*/ ctx[0].hwsDetails) {
@@ -81909,30 +81842,32 @@ var app = (function (exports) {
     	let aboutLabel;
     	let hwsLabel;
     	let stakeholderData;
-    	let leadProjects;
-    	let leadCatchments;
     	let themesData;
     	let keyValuesData;
     	let conditionsData;
-    	let $database;
     	let $ui;
-    	validate_store(database, 'database');
-    	component_subscribe($$self, database, $$value => $$invalidate(9, $database = $$value));
     	validate_store(ui, 'ui');
-    	component_subscribe($$self, ui, $$value => $$invalidate(10, $ui = $$value));
+    	component_subscribe($$self, ui, $$value => $$invalidate(9, $ui = $$value));
     	let { $$slots: slots = {}, $$scope } = $$props;
     	validate_slots('StakeholderContent', slots, []);
+    	let { leadProjects = [] } = $$props;
+
+    	// Slideable pane visibility
     	const visibility = { hwsDetails: false, aboutDetails: false };
 
     	function togglePane() {
     		$$invalidate(0, visibility[this.id] = !visibility[this.id], visibility);
     		console.log(`Toggling ${this.id}  to `, visibility[this.id]);
     	}
-    	const writable_props = [];
+    	const writable_props = ['leadProjects'];
 
     	Object.keys($$props).forEach(key => {
-    		if (!~writable_props.indexOf(key) && key.slice(0, 2) !== '$$' && key !== 'slot') console_1$b.warn(`<StakeholderContent> was created with unknown prop '${key}'`);
+    		if (!~writable_props.indexOf(key) && key.slice(0, 2) !== '$$' && key !== 'slot') console_1$c.warn(`<StakeholderContent> was created with unknown prop '${key}'`);
     	});
+
+    	$$self.$$set = $$props => {
+    		if ('leadProjects' in $$props) $$invalidate(8, leadProjects = $$props.leadProjects);
+    	};
 
     	$$self.$capture_state = () => ({
     		slide,
@@ -81941,27 +81876,24 @@ var app = (function (exports) {
     		HWS_tags,
     		HWS_boxes,
     		Sources,
+    		leadProjects,
     		visibility,
     		togglePane,
-    		leadProjects,
     		conditionsData,
     		keyValuesData,
     		themesData,
-    		leadCatchments,
     		stakeholderData,
     		hwsLabel,
     		aboutLabel,
-    		$database,
     		$ui
     	});
 
     	$$self.$inject_state = $$props => {
     		if ('leadProjects' in $$props) $$invalidate(8, leadProjects = $$props.leadProjects);
-    		if ('conditionsData' in $$props) $$invalidate(2, conditionsData = $$props.conditionsData);
-    		if ('keyValuesData' in $$props) $$invalidate(3, keyValuesData = $$props.keyValuesData);
-    		if ('themesData' in $$props) $$invalidate(4, themesData = $$props.themesData);
-    		if ('leadCatchments' in $$props) leadCatchments = $$props.leadCatchments;
-    		if ('stakeholderData' in $$props) $$invalidate(1, stakeholderData = $$props.stakeholderData);
+    		if ('conditionsData' in $$props) $$invalidate(1, conditionsData = $$props.conditionsData);
+    		if ('keyValuesData' in $$props) $$invalidate(2, keyValuesData = $$props.keyValuesData);
+    		if ('themesData' in $$props) $$invalidate(3, themesData = $$props.themesData);
+    		if ('stakeholderData' in $$props) $$invalidate(4, stakeholderData = $$props.stakeholderData);
     		if ('hwsLabel' in $$props) $$invalidate(5, hwsLabel = $$props.hwsLabel);
     		if ('aboutLabel' in $$props) $$invalidate(6, aboutLabel = $$props.aboutLabel);
     	};
@@ -81984,29 +81916,21 @@ var app = (function (exports) {
     			: 'Hide impact details');
     		}
 
-    		if ($$self.$$.dirty & /*$ui*/ 1024) {
+    		if ($$self.$$.dirty & /*$ui*/ 512) {
     			// Reactive variables
-    			$$invalidate(1, stakeholderData = $ui.state.focus.stakeholderData);
-    		}
-
-    		if ($$self.$$.dirty & /*$database, stakeholderData*/ 514) {
-    			$$invalidate(8, leadProjects = $database.projects.filter(d => d.leadOrg === stakeholderData.name));
-    		}
-
-    		if ($$self.$$.dirty & /*leadProjects*/ 256) {
-    			leadCatchments = [...new Set(leadProjects.map(d => d.location.catchments).flat())];
+    			$$invalidate(4, stakeholderData = $ui.state.focus.stakeholderData);
     		}
 
     		if ($$self.$$.dirty & /*leadProjects*/ 256) {
     			// HWS Key Values and conditions data
-    			$$invalidate(4, themesData = {
+    			$$invalidate(3, themesData = {
     				name: "&#8212; Themes",
-    				array: [...new Set(leadProjects.map(d => d.hws.poTheme).flat())]
+    				array: [...new Set(leadProjects.map(d => d.hws.poThemes).flat())]
     			});
     		}
 
     		if ($$self.$$.dirty & /*leadProjects*/ 256) {
-    			$$invalidate(3, keyValuesData = {
+    			$$invalidate(2, keyValuesData = {
     				name: "&#8212; Values",
     				schemaName: "keyValues",
     				array: [...new Set(leadProjects.map(d => d.hws.values).flat())]
@@ -82014,7 +81938,7 @@ var app = (function (exports) {
     		}
 
     		if ($$self.$$.dirty & /*leadProjects*/ 256) {
-    			$$invalidate(2, conditionsData = {
+    			$$invalidate(1, conditionsData = {
     				name: "&#8212; Conditions",
     				schemaName: "conditions",
     				array: [...new Set(leadProjects.map(d => d.hws.conditions).flat())]
@@ -82024,15 +81948,14 @@ var app = (function (exports) {
 
     	return [
     		visibility,
-    		stakeholderData,
     		conditionsData,
     		keyValuesData,
     		themesData,
+    		stakeholderData,
     		hwsLabel,
     		aboutLabel,
     		togglePane,
     		leadProjects,
-    		$database,
     		$ui
     	];
     }
@@ -82040,7 +81963,7 @@ var app = (function (exports) {
     class StakeholderContent extends SvelteComponentDev {
     	constructor(options) {
     		super(options);
-    		init(this, options, instance$D, create_fragment$D, safe_not_equal, {});
+    		init(this, options, instance$D, create_fragment$D, safe_not_equal, { leadProjects: 8 });
 
     		dispatch_dev("SvelteRegisterComponent", {
     			component: this,
@@ -82048,6 +81971,14 @@ var app = (function (exports) {
     			options,
     			id: create_fragment$D.name
     		});
+    	}
+
+    	get leadProjects() {
+    		throw new Error("<StakeholderContent>: Props cannot be read directly from the component instance unless compiling with 'accessors: true' or '<svelte:options accessors/>'");
+    	}
+
+    	set leadProjects(value) {
+    		throw new Error("<StakeholderContent>: Props cannot be set directly on the component instance unless compiling with 'accessors: true' or '<svelte:options accessors/>'");
     	}
     }
 
@@ -82157,27 +82088,27 @@ var app = (function (exports) {
 
     function get_each_context$7(ctx, list, i) {
     	const child_ctx = ctx.slice();
-    	child_ctx[5] = list[i];
-    	child_ctx[7] = i;
+    	child_ctx[4] = list[i];
+    	child_ctx[6] = i;
     	return child_ctx;
     }
 
     function get_each_context_1$2(ctx, list, i) {
     	const child_ctx = ctx.slice();
-    	child_ctx[5] = list[i];
-    	child_ctx[7] = i;
+    	child_ctx[4] = list[i];
+    	child_ctx[6] = i;
     	return child_ctx;
     }
 
-    // (26:16) {#each leadProjects as projectData, index}
+    // (28:16) {#each leadProjects as projectData, index}
     function create_each_block_1$2(ctx) {
     	let projectcard;
     	let current;
 
     	projectcard = new ProjectCard({
     			props: {
-    				projectData: /*projectData*/ ctx[5],
-    				index: /*index*/ ctx[7]
+    				projectData: /*projectData*/ ctx[4],
+    				index: /*index*/ ctx[6]
     			},
     			$$inline: true
     		});
@@ -82192,7 +82123,7 @@ var app = (function (exports) {
     		},
     		p: function update(ctx, dirty) {
     			const projectcard_changes = {};
-    			if (dirty & /*leadProjects*/ 4) projectcard_changes.projectData = /*projectData*/ ctx[5];
+    			if (dirty & /*leadProjects*/ 1) projectcard_changes.projectData = /*projectData*/ ctx[4];
     			projectcard.$set(projectcard_changes);
     		},
     		i: function intro(local) {
@@ -82213,22 +82144,22 @@ var app = (function (exports) {
     		block,
     		id: create_each_block_1$2.name,
     		type: "each",
-    		source: "(26:16) {#each leadProjects as projectData, index}",
+    		source: "(28:16) {#each leadProjects as projectData, index}",
     		ctx
     	});
 
     	return block;
     }
 
-    // (37:16) {#each partnerProjects as projectData, index}
+    // (39:16) {#each partnerProjects as projectData, index}
     function create_each_block$7(ctx) {
     	let projectcard;
     	let current;
 
     	projectcard = new ProjectCard({
     			props: {
-    				projectData: /*projectData*/ ctx[5],
-    				index: /*index*/ ctx[7]
+    				projectData: /*projectData*/ ctx[4],
+    				index: /*index*/ ctx[6]
     			},
     			$$inline: true
     		});
@@ -82243,7 +82174,7 @@ var app = (function (exports) {
     		},
     		p: function update(ctx, dirty) {
     			const projectcard_changes = {};
-    			if (dirty & /*partnerProjects*/ 2) projectcard_changes.projectData = /*projectData*/ ctx[5];
+    			if (dirty & /*partnerProjects*/ 2) projectcard_changes.projectData = /*projectData*/ ctx[4];
     			projectcard.$set(projectcard_changes);
     		},
     		i: function intro(local) {
@@ -82264,7 +82195,7 @@ var app = (function (exports) {
     		block,
     		id: create_each_block$7.name,
     		type: "each",
-    		source: "(37:16) {#each partnerProjects as projectData, index}",
+    		source: "(39:16) {#each partnerProjects as projectData, index}",
     		ctx
     	});
 
@@ -82277,7 +82208,7 @@ var app = (function (exports) {
     	let t0;
     	let h3;
     	let t1;
-    	let t2_value = /*stakeholderData*/ ctx[0].name + "";
+    	let t2_value = /*stakeholderData*/ ctx[2].name + "";
     	let t2;
     	let t3;
     	let t4;
@@ -82294,7 +82225,7 @@ var app = (function (exports) {
     	let ul1;
     	let current;
     	dividerzagged20px = new DividerZagged20px({ $$inline: true });
-    	let each_value_1 = /*leadProjects*/ ctx[2];
+    	let each_value_1 = /*leadProjects*/ ctx[0];
     	validate_each_argument(each_value_1);
     	let each_blocks_1 = [];
 
@@ -82352,25 +82283,25 @@ var app = (function (exports) {
     			}
 
     			attr_dev(h3, "class", "svelte-1pvantq");
-    			add_location(h3, file$A, 19, 4, 728);
+    			add_location(h3, file$A, 21, 4, 573);
     			attr_dev(h40, "class", "svelte-1pvantq");
-    			add_location(h40, file$A, 22, 8, 846);
+    			add_location(h40, file$A, 24, 8, 691);
     			attr_dev(ul0, "class", "svelte-1pvantq");
-    			add_location(ul0, file$A, 24, 12, 931);
+    			add_location(ul0, file$A, 26, 12, 776);
     			attr_dev(div0, "class", "card-container svelte-1pvantq");
-    			add_location(div0, file$A, 23, 8, 888);
+    			add_location(div0, file$A, 25, 8, 733);
     			attr_dev(div1, "class", "group-container svelte-1pvantq");
-    			add_location(div1, file$A, 21, 4, 806);
+    			add_location(div1, file$A, 23, 4, 651);
     			attr_dev(h41, "class", "svelte-1pvantq");
-    			add_location(h41, file$A, 33, 8, 1162);
+    			add_location(h41, file$A, 35, 8, 1007);
     			attr_dev(ul1, "class", "svelte-1pvantq");
-    			add_location(ul1, file$A, 35, 12, 1252);
+    			add_location(ul1, file$A, 37, 12, 1097);
     			attr_dev(div2, "class", "card-container svelte-1pvantq");
-    			add_location(div2, file$A, 34, 8, 1209);
+    			add_location(div2, file$A, 36, 8, 1054);
     			attr_dev(div3, "class", "group-container svelte-1pvantq");
-    			add_location(div3, file$A, 32, 4, 1122);
+    			add_location(div3, file$A, 34, 4, 967);
     			attr_dev(section, "class", "svelte-1pvantq");
-    			add_location(section, file$A, 17, 0, 689);
+    			add_location(section, file$A, 19, 0, 534);
     		},
     		l: function claim(nodes) {
     			throw new Error("options.hydrate only works if the component was compiled with the `hydratable: true` option");
@@ -82408,10 +82339,10 @@ var app = (function (exports) {
     			current = true;
     		},
     		p: function update(ctx, [dirty]) {
-    			if ((!current || dirty & /*stakeholderData*/ 1) && t2_value !== (t2_value = /*stakeholderData*/ ctx[0].name + "")) set_data_dev(t2, t2_value);
+    			if ((!current || dirty & /*stakeholderData*/ 4) && t2_value !== (t2_value = /*stakeholderData*/ ctx[2].name + "")) set_data_dev(t2, t2_value);
 
-    			if (dirty & /*leadProjects*/ 4) {
-    				each_value_1 = /*leadProjects*/ ctx[2];
+    			if (dirty & /*leadProjects*/ 1) {
+    				each_value_1 = /*leadProjects*/ ctx[0];
     				validate_each_argument(each_value_1);
     				let i;
 
@@ -82517,38 +82448,39 @@ var app = (function (exports) {
 
     function instance$B($$self, $$props, $$invalidate) {
     	let stakeholderData;
-    	let leadProjects;
-    	let partnerProjects;
-    	let $database;
     	let $ui;
-    	validate_store(database, 'database');
-    	component_subscribe($$self, database, $$value => $$invalidate(3, $database = $$value));
     	validate_store(ui, 'ui');
-    	component_subscribe($$self, ui, $$value => $$invalidate(4, $ui = $$value));
+    	component_subscribe($$self, ui, $$value => $$invalidate(3, $ui = $$value));
     	let { $$slots: slots = {}, $$scope } = $$props;
     	validate_slots('OtherProjects', slots, []);
-    	const writable_props = [];
+    	let { leadProjects = [] } = $$props;
+    	let { partnerProjects = [] } = $$props;
+    	const writable_props = ['leadProjects', 'partnerProjects'];
 
     	Object.keys($$props).forEach(key => {
     		if (!~writable_props.indexOf(key) && key.slice(0, 2) !== '$$' && key !== 'slot') console.warn(`<OtherProjects> was created with unknown prop '${key}'`);
     	});
+
+    	$$self.$$set = $$props => {
+    		if ('leadProjects' in $$props) $$invalidate(0, leadProjects = $$props.leadProjects);
+    		if ('partnerProjects' in $$props) $$invalidate(1, partnerProjects = $$props.partnerProjects);
+    	};
 
     	$$self.$capture_state = () => ({
     		ProjectCard,
     		DividerZagged20px,
     		ui,
     		database,
-    		stakeholderData,
-    		partnerProjects,
     		leadProjects,
-    		$database,
+    		partnerProjects,
+    		stakeholderData,
     		$ui
     	});
 
     	$$self.$inject_state = $$props => {
-    		if ('stakeholderData' in $$props) $$invalidate(0, stakeholderData = $$props.stakeholderData);
+    		if ('leadProjects' in $$props) $$invalidate(0, leadProjects = $$props.leadProjects);
     		if ('partnerProjects' in $$props) $$invalidate(1, partnerProjects = $$props.partnerProjects);
-    		if ('leadProjects' in $$props) $$invalidate(2, leadProjects = $$props.leadProjects);
+    		if ('stakeholderData' in $$props) $$invalidate(2, stakeholderData = $$props.stakeholderData);
     	};
 
     	if ($$props && "$$inject" in $$props) {
@@ -82556,27 +82488,19 @@ var app = (function (exports) {
     	}
 
     	$$self.$$.update = () => {
-    		if ($$self.$$.dirty & /*$ui*/ 16) {
+    		if ($$self.$$.dirty & /*$ui*/ 8) {
     			// Reactive variables
-    			$$invalidate(0, stakeholderData = $ui.state.focus.stakeholderData);
-    		}
-
-    		if ($$self.$$.dirty & /*$database, stakeholderData*/ 9) {
-    			$$invalidate(2, leadProjects = $database.projects.filter(d => d.leadOrg === stakeholderData.name).slice(0, 3));
-    		}
-
-    		if ($$self.$$.dirty & /*$database, stakeholderData*/ 9) {
-    			$$invalidate(1, partnerProjects = $database.projects.filter(d => d.partnerOrgs.indexOf(stakeholderData.name) > -1).slice(0, 3));
+    			$$invalidate(2, stakeholderData = $ui.state.focus.stakeholderData);
     		}
     	};
 
-    	return [stakeholderData, partnerProjects, leadProjects, $database, $ui];
+    	return [leadProjects, partnerProjects, stakeholderData, $ui];
     }
 
     class OtherProjects extends SvelteComponentDev {
     	constructor(options) {
     		super(options);
-    		init(this, options, instance$B, create_fragment$B, safe_not_equal, {});
+    		init(this, options, instance$B, create_fragment$B, safe_not_equal, { leadProjects: 0, partnerProjects: 1 });
 
     		dispatch_dev("SvelteRegisterComponent", {
     			component: this,
@@ -82585,9 +82509,27 @@ var app = (function (exports) {
     			id: create_fragment$B.name
     		});
     	}
+
+    	get leadProjects() {
+    		throw new Error("<OtherProjects>: Props cannot be read directly from the component instance unless compiling with 'accessors: true' or '<svelte:options accessors/>'");
+    	}
+
+    	set leadProjects(value) {
+    		throw new Error("<OtherProjects>: Props cannot be set directly on the component instance unless compiling with 'accessors: true' or '<svelte:options accessors/>'");
+    	}
+
+    	get partnerProjects() {
+    		throw new Error("<OtherProjects>: Props cannot be read directly from the component instance unless compiling with 'accessors: true' or '<svelte:options accessors/>'");
+    	}
+
+    	set partnerProjects(value) {
+    		throw new Error("<OtherProjects>: Props cannot be set directly on the component instance unless compiling with 'accessors: true' or '<svelte:options accessors/>'");
+    	}
     }
 
     /* src/components/shared/stakeholders/StakeholderPage.svelte generated by Svelte v3.46.4 */
+
+    const { console: console_1$b } = globals;
     const file$z = "src/components/shared/stakeholders/StakeholderPage.svelte";
 
     function create_fragment$A(ctx) {
@@ -82605,10 +82547,29 @@ var app = (function (exports) {
     	let section_outro;
     	let current;
     	titleblock = new TitleBlock({ $$inline: true });
-    	infopane = new Infopane({ $$inline: true });
-    	stakeholdercontent = new StakeholderContent({ $$inline: true });
+
+    	infopane = new Infopane({
+    			props: {
+    				leadProjects: /*leadProjects*/ ctx[0],
+    				leadCatchments: /*leadCatchments*/ ctx[2]
+    			},
+    			$$inline: true
+    		});
+
+    	stakeholdercontent = new StakeholderContent({
+    			props: { leadProjects: /*leadProjects*/ ctx[0] },
+    			$$inline: true
+    		});
+
     	stakeholderimage = new StakeholderImage({ $$inline: true });
-    	otherprojects = new OtherProjects({ $$inline: true });
+
+    	otherprojects = new OtherProjects({
+    			props: {
+    				leadProjects: /*leadProjects*/ ctx[0],
+    				partnerProjects: /*partnerProjects*/ ctx[1]
+    			},
+    			$$inline: true
+    		});
 
     	const block = {
     		c: function create() {
@@ -82624,7 +82585,7 @@ var app = (function (exports) {
     			create_component(otherprojects.$$.fragment);
     			attr_dev(section, "id", "stakeholder-overlay");
     			attr_dev(section, "class", "svelte-19js3or");
-    			add_location(section, file$z, 12, 0, 529);
+    			add_location(section, file$z, 27, 0, 1241);
     		},
     		l: function claim(nodes) {
     			throw new Error("options.hydrate only works if the component was compiled with the `hydratable: true` option");
@@ -82642,7 +82603,19 @@ var app = (function (exports) {
     			mount_component(otherprojects, section, null);
     			current = true;
     		},
-    		p: noop,
+    		p: function update(ctx, [dirty]) {
+    			const infopane_changes = {};
+    			if (dirty & /*leadProjects*/ 1) infopane_changes.leadProjects = /*leadProjects*/ ctx[0];
+    			if (dirty & /*leadCatchments*/ 4) infopane_changes.leadCatchments = /*leadCatchments*/ ctx[2];
+    			infopane.$set(infopane_changes);
+    			const stakeholdercontent_changes = {};
+    			if (dirty & /*leadProjects*/ 1) stakeholdercontent_changes.leadProjects = /*leadProjects*/ ctx[0];
+    			stakeholdercontent.$set(stakeholdercontent_changes);
+    			const otherprojects_changes = {};
+    			if (dirty & /*leadProjects*/ 1) otherprojects_changes.leadProjects = /*leadProjects*/ ctx[0];
+    			if (dirty & /*partnerProjects*/ 2) otherprojects_changes.partnerProjects = /*partnerProjects*/ ctx[1];
+    			otherprojects.$set(otherprojects_changes);
+    		},
     		i: function intro(local) {
     			if (current) return;
     			transition_in(titleblock.$$.fragment, local);
@@ -82692,12 +82665,32 @@ var app = (function (exports) {
     }
 
     function instance$A($$self, $$props, $$invalidate) {
+    	let $ui;
+    	validate_store(ui, 'ui');
+    	component_subscribe($$self, ui, $$value => $$invalidate(3, $ui = $$value));
     	let { $$slots: slots = {}, $$scope } = $$props;
     	validate_slots('StakeholderPage', slots, []);
+    	let leadProjects, partnerProjects, leadCatchments;
+
+    	async function getProjects() {
+    		$$invalidate(0, leadProjects = await app.data.collections.projects.find({
+    			"leadOrg": $ui.state.focus.stakeholderData.name
+    		}));
+
+    		$$invalidate(1, partnerProjects = await app.data.collections.projects.find({
+    			"partnerOrgs": $ui.state.focus.stakeholderData.name
+    		}));
+
+    		$$invalidate(0, leadProjects = leadProjects.slice(0, 3));
+    		$$invalidate(2, leadCatchments = [...new Set(leadProjects.map(d => d.location.catchments).flat())]);
+    		console.log(leadProjects);
+    		return leadProjects;
+    	}
+    	getProjects();
     	const writable_props = [];
 
     	Object.keys($$props).forEach(key => {
-    		if (!~writable_props.indexOf(key) && key.slice(0, 2) !== '$$' && key !== 'slot') console.warn(`<StakeholderPage> was created with unknown prop '${key}'`);
+    		if (!~writable_props.indexOf(key) && key.slice(0, 2) !== '$$' && key !== 'slot') console_1$b.warn(`<StakeholderPage> was created with unknown prop '${key}'`);
     	});
 
     	$$self.$capture_state = () => ({
@@ -82706,10 +82699,27 @@ var app = (function (exports) {
     		InfoPane: Infopane,
     		StakeholderContent,
     		StakeholderImage,
-    		OtherProjects
+    		OtherProjects,
+    		app,
+    		ui,
+    		leadProjects,
+    		partnerProjects,
+    		leadCatchments,
+    		getProjects,
+    		$ui
     	});
 
-    	return [];
+    	$$self.$inject_state = $$props => {
+    		if ('leadProjects' in $$props) $$invalidate(0, leadProjects = $$props.leadProjects);
+    		if ('partnerProjects' in $$props) $$invalidate(1, partnerProjects = $$props.partnerProjects);
+    		if ('leadCatchments' in $$props) $$invalidate(2, leadCatchments = $$props.leadCatchments);
+    	};
+
+    	if ($$props && "$$inject" in $$props) {
+    		$$self.$inject_state($$props.$$inject);
+    	}
+
+    	return [leadProjects, partnerProjects, leadCatchments];
     }
 
     class StakeholderPage extends SvelteComponentDev {
@@ -83067,7 +83077,7 @@ var app = (function (exports) {
     		c: function create() {
     			p = element("p");
     			p.textContent = "Unfortunatley there were no stakeholders that met all of your search criteria.";
-    			add_location(p, file$w, 25, 8, 941);
+    			add_location(p, file$w, 25, 8, 973);
     		},
     		m: function mount(target, anchor) {
     			insert_dev(target, p, anchor);
@@ -83089,7 +83099,7 @@ var app = (function (exports) {
     	return block;
     }
 
-    // (18:4) {#if $ui.search.organisation.length > 0}
+    // (18:4) {#if $ui.search.results.organisation.length > 0}
     function create_if_block$g(ctx) {
     	let t;
     	let html_tag;
@@ -83097,7 +83107,7 @@ var app = (function (exports) {
     	let html_anchor;
 
     	function select_block_type_1(ctx, dirty) {
-    		if (/*$ui*/ ctx[0].search.organisation.length === 1) return create_if_block_1$b;
+    		if (/*$ui*/ ctx[0].search.results.organisation.length === 1) return create_if_block_1$b;
     		return create_else_block$5;
     	}
 
@@ -83143,7 +83153,7 @@ var app = (function (exports) {
     		block,
     		id: create_if_block$g.name,
     		type: "if",
-    		source: "(18:4) {#if $ui.search.organisation.length > 0}",
+    		source: "(18:4) {#if $ui.search.results.organisation.length > 0}",
     		ctx
     	});
 
@@ -83154,7 +83164,7 @@ var app = (function (exports) {
     function create_else_block$5(ctx) {
     	let p;
     	let t0;
-    	let t1_value = /*$ui*/ ctx[0].search.organisation.length + "";
+    	let t1_value = /*$ui*/ ctx[0].search.results.organisation.length + "";
     	let t1;
     	let t2;
 
@@ -83164,7 +83174,7 @@ var app = (function (exports) {
     			t0 = text("Your search came back with ");
     			t1 = text(t1_value);
     			t2 = text(" organisations!");
-    			add_location(p, file$w, 21, 8, 760);
+    			add_location(p, file$w, 21, 8, 784);
     		},
     		m: function mount(target, anchor) {
     			insert_dev(target, p, anchor);
@@ -83173,7 +83183,7 @@ var app = (function (exports) {
     			append_dev(p, t2);
     		},
     		p: function update(ctx, dirty) {
-    			if (dirty & /*$ui*/ 1 && t1_value !== (t1_value = /*$ui*/ ctx[0].search.organisation.length + "")) set_data_dev(t1, t1_value);
+    			if (dirty & /*$ui*/ 1 && t1_value !== (t1_value = /*$ui*/ ctx[0].search.results.organisation.length + "")) set_data_dev(t1, t1_value);
     		},
     		d: function destroy(detaching) {
     			if (detaching) detach_dev(p);
@@ -83191,11 +83201,11 @@ var app = (function (exports) {
     	return block;
     }
 
-    // (19:8) {#if $ui.search.organisation.length === 1}
+    // (19:8) {#if $ui.search.results.organisation.length === 1}
     function create_if_block_1$b(ctx) {
     	let p;
     	let t0;
-    	let t1_value = /*$ui*/ ctx[0].search.organisation.length + "";
+    	let t1_value = /*$ui*/ ctx[0].search.results.organisation.length + "";
     	let t1;
     	let t2;
 
@@ -83205,7 +83215,7 @@ var app = (function (exports) {
     			t0 = text("Your search came back with ");
     			t1 = text(t1_value);
     			t2 = text(" organisation!");
-    			add_location(p, file$w, 19, 8, 654);
+    			add_location(p, file$w, 19, 8, 670);
     		},
     		m: function mount(target, anchor) {
     			insert_dev(target, p, anchor);
@@ -83214,7 +83224,7 @@ var app = (function (exports) {
     			append_dev(p, t2);
     		},
     		p: function update(ctx, dirty) {
-    			if (dirty & /*$ui*/ 1 && t1_value !== (t1_value = /*$ui*/ ctx[0].search.organisation.length + "")) set_data_dev(t1, t1_value);
+    			if (dirty & /*$ui*/ 1 && t1_value !== (t1_value = /*$ui*/ ctx[0].search.results.organisation.length + "")) set_data_dev(t1, t1_value);
     		},
     		d: function destroy(detaching) {
     			if (detaching) detach_dev(p);
@@ -83225,7 +83235,7 @@ var app = (function (exports) {
     		block,
     		id: create_if_block_1$b.name,
     		type: "if",
-    		source: "(19:8) {#if $ui.search.organisation.length === 1}",
+    		source: "(19:8) {#if $ui.search.results.organisation.length === 1}",
     		ctx
     	});
 
@@ -83248,7 +83258,7 @@ var app = (function (exports) {
     	let dispose;
 
     	function select_block_type(ctx, dirty) {
-    		if (/*$ui*/ ctx[0].search.organisation.length > 0) return create_if_block$g;
+    		if (/*$ui*/ ctx[0].search.results.organisation.length > 0) return create_if_block$g;
     		return create_else_block_1$2;
     	}
 
@@ -83272,10 +83282,10 @@ var app = (function (exports) {
     			html_tag.a = null;
     			add_location(h2, file$w, 16, 4, 475);
     			add_location(div0, file$w, 15, 0, 465);
-    			add_location(hr, file$w, 28, 0, 1044);
-    			add_location(button, file$w, 30, 4, 1085);
+    			add_location(hr, file$w, 28, 0, 1076);
+    			add_location(button, file$w, 30, 4, 1117);
     			attr_dev(div1, "class", "button-container svelte-1va4uep");
-    			add_location(div1, file$w, 29, 0, 1049);
+    			add_location(div1, file$w, 29, 0, 1081);
     		},
     		l: function claim(nodes) {
     			throw new Error("options.hydrate only works if the component was compiled with the `hydratable: true` option");
@@ -83466,7 +83476,7 @@ var app = (function (exports) {
     /* src/components/byPage/connect/InfoPane.svelte generated by Svelte v3.46.4 */
     const file$u = "src/components/byPage/connect/InfoPane.svelte";
 
-    // (33:51) 
+    // (31:51) 
     function create_if_block_3$8(ctx) {
     	let h2;
     	let t0;
@@ -83486,7 +83496,7 @@ var app = (function (exports) {
     			html_tag_1 = new HtmlTag();
     			html_anchor = empty();
     			html_tag.a = null;
-    			add_location(h2, file$u, 33, 8, 1273);
+    			add_location(h2, file$u, 31, 8, 1271);
     			html_tag_1.a = html_anchor;
     		},
     		m: function mount(target, anchor) {
@@ -83512,14 +83522,14 @@ var app = (function (exports) {
     		block,
     		id: create_if_block_3$8.name,
     		type: "if",
-    		source: "(33:51) ",
+    		source: "(31:51) ",
     		ctx
     	});
 
     	return block;
     }
 
-    // (19:4) {#if $ui.byPage.connect.main === 'list'}
+    // (17:4) {#if $ui.byPage.connect.main === 'list'}
     function create_if_block$f(ctx) {
     	let current_block_type_index;
     	let if_block;
@@ -83592,14 +83602,14 @@ var app = (function (exports) {
     		block,
     		id: create_if_block$f.name,
     		type: "if",
-    		source: "(19:4) {#if $ui.byPage.connect.main === 'list'}",
+    		source: "(17:4) {#if $ui.byPage.connect.main === 'list'}",
     		ctx
     	});
 
     	return block;
     }
 
-    // (28:8) {:else}
+    // (26:8) {:else}
     function create_else_block_1$1(ctx) {
     	let infonetwork;
     	let current;
@@ -83632,14 +83642,14 @@ var app = (function (exports) {
     		block,
     		id: create_else_block_1$1.name,
     		type: "else",
-    		source: "(28:8) {:else}",
+    		source: "(26:8) {:else}",
     		ctx
     	});
 
     	return block;
     }
 
-    // (21:8) {#if $ui.byPage.connect.stakeholderView === 'cards'}
+    // (19:8) {#if $ui.byPage.connect.stakeholderView === 'cards'}
     function create_if_block_1$a(ctx) {
     	let current_block_type_index;
     	let if_block;
@@ -83708,14 +83718,14 @@ var app = (function (exports) {
     		block,
     		id: create_if_block_1$a.name,
     		type: "if",
-    		source: "(21:8) {#if $ui.byPage.connect.stakeholderView === 'cards'}",
+    		source: "(19:8) {#if $ui.byPage.connect.stakeholderView === 'cards'}",
     		ctx
     	});
 
     	return block;
     }
 
-    // (24:12) {:else}
+    // (22:12) {:else}
     function create_else_block$4(ctx) {
     	let infosearchresults;
     	let current;
@@ -83747,14 +83757,14 @@ var app = (function (exports) {
     		block,
     		id: create_else_block$4.name,
     		type: "else",
-    		source: "(24:12) {:else}",
+    		source: "(22:12) {:else}",
     		ctx
     	});
 
     	return block;
     }
 
-    // (22:12) {#if !$ui.byPage.connect.stakeholderSearch.isMade}
+    // (20:12) {#if !$ui.byPage.connect.stakeholderSearch.isMade}
     function create_if_block_2$8(ctx) {
     	let infoemptysearch;
     	let current;
@@ -83786,7 +83796,7 @@ var app = (function (exports) {
     		block,
     		id: create_if_block_2$8.name,
     		type: "if",
-    		source: "(22:12) {#if !$ui.byPage.connect.stakeholderSearch.isMade}",
+    		source: "(20:12) {#if !$ui.byPage.connect.stakeholderSearch.isMade}",
     		ctx
     	});
 
@@ -83831,9 +83841,9 @@ var app = (function (exports) {
     			div = element("div");
     			create_component(dividerzagged20px1.$$.fragment);
     			attr_dev(div, "class", "float-bottom svelte-mzrsv1");
-    			add_location(div, file$u, 36, 4, 1414);
+    			add_location(div, file$u, 34, 4, 1412);
     			attr_dev(section, "class", "svelte-mzrsv1");
-    			add_location(section, file$u, 15, 0, 577);
+    			add_location(section, file$u, 13, 0, 575);
     		},
     		l: function claim(nodes) {
     			throw new Error("options.hydrate only works if the component was compiled with the `hydratable: true` option");
@@ -83982,335 +83992,95 @@ var app = (function (exports) {
 
     function get_each_context$6(ctx, list, i) {
     	const child_ctx = ctx.slice();
-    	child_ctx[22] = list[i];
+    	child_ctx[21] = list[i];
     	return child_ctx;
     }
 
     function get_each_context_1$1(ctx, list, i) {
     	const child_ctx = ctx.slice();
-    	child_ctx[22] = list[i];
+    	child_ctx[21] = list[i];
     	return child_ctx;
     }
 
     function get_each_context_2$1(ctx, list, i) {
     	const child_ctx = ctx.slice();
-    	child_ctx[22] = list[i];
+    	child_ctx[21] = list[i];
     	return child_ctx;
     }
 
     function get_each_context_3$1(ctx, list, i) {
     	const child_ctx = ctx.slice();
-    	child_ctx[22] = list[i];
+    	child_ctx[21] = list[i];
     	return child_ctx;
     }
 
     function get_each_context_4$1(ctx, list, i) {
     	const child_ctx = ctx.slice();
-    	child_ctx[22] = list[i];
+    	child_ctx[21] = list[i];
     	return child_ctx;
     }
 
     function get_each_context_5$1(ctx, list, i) {
     	const child_ctx = ctx.slice();
-    	child_ctx[22] = list[i];
+    	child_ctx[21] = list[i];
     	return child_ctx;
     }
 
     function get_each_context_6$1(ctx, list, i) {
     	const child_ctx = ctx.slice();
-    	child_ctx[22] = list[i];
+    	child_ctx[21] = list[i];
     	return child_ctx;
     }
 
     function get_each_context_7$1(ctx, list, i) {
     	const child_ctx = ctx.slice();
-    	child_ctx[22] = list[i];
+    	child_ctx[21] = list[i];
     	return child_ctx;
     }
 
     function get_each_context_8$1(ctx, list, i) {
     	const child_ctx = ctx.slice();
-    	child_ctx[22] = list[i];
+    	child_ctx[21] = list[i];
     	return child_ctx;
     }
 
     function get_each_context_9(ctx, list, i) {
     	const child_ctx = ctx.slice();
-    	child_ctx[22] = list[i];
+    	child_ctx[21] = list[i];
     	return child_ctx;
     }
 
     function get_each_context_10(ctx, list, i) {
     	const child_ctx = ctx.slice();
-    	child_ctx[22] = list[i];
+    	child_ctx[21] = list[i];
     	return child_ctx;
     }
 
     function get_each_context_11(ctx, list, i) {
     	const child_ctx = ctx.slice();
-    	child_ctx[22] = list[i];
+    	child_ctx[21] = list[i];
     	return child_ctx;
     }
 
-    function get_each_context_12(ctx, list, i) {
-    	const child_ctx = ctx.slice();
-    	child_ctx[22] = list[i];
-    	return child_ctx;
-    }
-
-    // (94:8) {#if paneVisbility.byStakeholders}
+    // (130:8) {#if paneVisbility.byStakeholders}
     function create_if_block_4$3(ctx) {
     	let div1;
     	let div0;
-    	let h4;
-    	let raw_value = partnerOrg.label + "";
-    	let t;
-    	let multiselect;
-    	let updating_value;
-    	let div1_transition;
-    	let current;
-
-    	function multiselect_value_binding(value) {
-    		/*multiselect_value_binding*/ ctx[7](value);
-    	}
-
-    	let multiselect_props = {
-    		id: partnerOrg.name,
-    		placeholder: partnerOrg.placeholder,
-    		$$slots: { default: [create_default_slot_12] },
-    		$$scope: { ctx }
-    	};
-
-    	if (/*$ui*/ ctx[0].search.organisation.partnerOrg !== void 0) {
-    		multiselect_props.value = /*$ui*/ ctx[0].search.organisation.partnerOrg;
-    	}
-
-    	multiselect = new MultiSelect({ props: multiselect_props, $$inline: true });
-    	binding_callbacks.push(() => bind(multiselect, 'value', multiselect_value_binding));
-
-    	const block = {
-    		c: function create() {
-    			div1 = element("div");
-    			div0 = element("div");
-    			h4 = element("h4");
-    			t = space();
-    			create_component(multiselect.$$.fragment);
-    			attr_dev(h4, "class", "svelte-kelrrb");
-    			add_location(h4, file$t, 96, 16, 3856);
-    			attr_dev(div0, "class", "multi-select-container svelte-kelrrb");
-    			set_style(div0, "z-index", "9");
-    			add_location(div0, file$t, 95, 12, 3783);
-    			attr_dev(div1, "class", "collapse__body svelte-kelrrb");
-    			add_location(div1, file$t, 94, 8, 3723);
-    		},
-    		m: function mount(target, anchor) {
-    			insert_dev(target, div1, anchor);
-    			append_dev(div1, div0);
-    			append_dev(div0, h4);
-    			h4.innerHTML = raw_value;
-    			append_dev(div0, t);
-    			mount_component(multiselect, div0, null);
-    			current = true;
-    		},
-    		p: function update(ctx, dirty) {
-    			const multiselect_changes = {};
-
-    			if (dirty[1] & /*$$scope*/ 262144) {
-    				multiselect_changes.$$scope = { dirty, ctx };
-    			}
-
-    			if (!updating_value && dirty[0] & /*$ui*/ 1) {
-    				updating_value = true;
-    				multiselect_changes.value = /*$ui*/ ctx[0].search.organisation.partnerOrg;
-    				add_flush_callback(() => updating_value = false);
-    			}
-
-    			multiselect.$set(multiselect_changes);
-    		},
-    		i: function intro(local) {
-    			if (current) return;
-    			transition_in(multiselect.$$.fragment, local);
-
-    			add_render_callback(() => {
-    				if (!div1_transition) div1_transition = create_bidirectional_transition(div1, slide, {}, true);
-    				div1_transition.run(1);
-    			});
-
-    			current = true;
-    		},
-    		o: function outro(local) {
-    			transition_out(multiselect.$$.fragment, local);
-    			if (!div1_transition) div1_transition = create_bidirectional_transition(div1, slide, {}, false);
-    			div1_transition.run(0);
-    			current = false;
-    		},
-    		d: function destroy(detaching) {
-    			if (detaching) detach_dev(div1);
-    			destroy_component(multiselect);
-    			if (detaching && div1_transition) div1_transition.end();
-    		}
-    	};
-
-    	dispatch_dev("SvelteRegisterBlock", {
-    		block,
-    		id: create_if_block_4$3.name,
-    		type: "if",
-    		source: "(94:8) {#if paneVisbility.byStakeholders}",
-    		ctx
-    	});
-
-    	return block;
-    }
-
-    // (100:20) {#each partnerOrg.list as name}
-    function create_each_block_12(ctx) {
-    	let option;
-    	let raw_value = /*name*/ ctx[22] + "";
-
-    	const block = {
-    		c: function create() {
-    			option = element("option");
-    			option.__value = /*name*/ ctx[22];
-    			option.value = option.__value;
-    			attr_dev(option, "class", "svelte-kelrrb");
-    			add_location(option, file$t, 100, 20, 4163);
-    		},
-    		m: function mount(target, anchor) {
-    			insert_dev(target, option, anchor);
-    			option.innerHTML = raw_value;
-    		},
-    		p: noop,
-    		d: function destroy(detaching) {
-    			if (detaching) detach_dev(option);
-    		}
-    	};
-
-    	dispatch_dev("SvelteRegisterBlock", {
-    		block,
-    		id: create_each_block_12.name,
-    		type: "each",
-    		source: "(100:20) {#each partnerOrg.list as name}",
-    		ctx
-    	});
-
-    	return block;
-    }
-
-    // (98:16) <MultiSelect id = {partnerOrg.name} bind:value={$ui.search.organisation.partnerOrg} placeholder={partnerOrg.placeholder} >
-    function create_default_slot_12(ctx) {
-    	let option;
-    	let t;
-    	let each_1_anchor;
-    	let each_value_12 = partnerOrg.list;
-    	validate_each_argument(each_value_12);
-    	let each_blocks = [];
-
-    	for (let i = 0; i < each_value_12.length; i += 1) {
-    		each_blocks[i] = create_each_block_12(get_each_context_12(ctx, each_value_12, i));
-    	}
-
-    	const block = {
-    		c: function create() {
-    			option = element("option");
-    			t = space();
-
-    			for (let i = 0; i < each_blocks.length; i += 1) {
-    				each_blocks[i].c();
-    			}
-
-    			each_1_anchor = empty();
-    			option.disabled = true;
-    			option.selected = true;
-    			option.__value = "";
-    			option.value = option.__value;
-    			attr_dev(option, "class", "svelte-kelrrb");
-    			add_location(option, file$t, 98, 20, 4049);
-    		},
-    		m: function mount(target, anchor) {
-    			insert_dev(target, option, anchor);
-    			insert_dev(target, t, anchor);
-
-    			for (let i = 0; i < each_blocks.length; i += 1) {
-    				each_blocks[i].m(target, anchor);
-    			}
-
-    			insert_dev(target, each_1_anchor, anchor);
-    		},
-    		p: function update(ctx, dirty) {
-    			if (dirty & /*partnerOrg*/ 0) {
-    				each_value_12 = partnerOrg.list;
-    				validate_each_argument(each_value_12);
-    				let i;
-
-    				for (i = 0; i < each_value_12.length; i += 1) {
-    					const child_ctx = get_each_context_12(ctx, each_value_12, i);
-
-    					if (each_blocks[i]) {
-    						each_blocks[i].p(child_ctx, dirty);
-    					} else {
-    						each_blocks[i] = create_each_block_12(child_ctx);
-    						each_blocks[i].c();
-    						each_blocks[i].m(each_1_anchor.parentNode, each_1_anchor);
-    					}
-    				}
-
-    				for (; i < each_blocks.length; i += 1) {
-    					each_blocks[i].d(1);
-    				}
-
-    				each_blocks.length = each_value_12.length;
-    			}
-    		},
-    		d: function destroy(detaching) {
-    			if (detaching) detach_dev(option);
-    			if (detaching) detach_dev(t);
-    			destroy_each(each_blocks, detaching);
-    			if (detaching) detach_dev(each_1_anchor);
-    		}
-    	};
-
-    	dispatch_dev("SvelteRegisterBlock", {
-    		block,
-    		id: create_default_slot_12.name,
-    		type: "slot",
-    		source: "(98:16) <MultiSelect id = {partnerOrg.name} bind:value={$ui.search.organisation.partnerOrg} placeholder={partnerOrg.placeholder} >",
-    		ctx
-    	});
-
-    	return block;
-    }
-
-    // (117:8) {#if paneVisbility.byOutcomes}
-    function create_if_block_3$7(ctx) {
-    	let div4;
-    	let div0;
     	let h40;
-    	let raw0_value = keyValues.label + "";
+    	let raw0_value = leadOrg.label + "";
     	let t0;
     	let multiselect0;
     	let updating_value;
+    	let div1_transition;
     	let t1;
-    	let div1;
+    	let div3;
+    	let div2;
     	let h41;
-    	let raw1_value = conditions.label + "";
+    	let raw1_value = leadOrgType.label + "";
     	let t2;
     	let multiselect1;
     	let updating_value_1;
-    	let t3;
-    	let div2;
-    	let h42;
-    	let raw2_value = performanceObjectivesGroup.label + "";
-    	let t4;
-    	let multiselect2;
-    	let updating_value_2;
-    	let t5;
-    	let div3;
-    	let h43;
-    	let raw3_value = performanceObjectivesTheme.label + "";
-    	let t6;
-    	let multiselect3;
-    	let updating_value_3;
-    	let div4_transition;
+    	let div3_transition;
     	let current;
 
     	function multiselect0_value_binding(value) {
@@ -84318,14 +84088,14 @@ var app = (function (exports) {
     	}
 
     	let multiselect0_props = {
-    		id: keyValues.name,
-    		placeholder: keyValues.placeholder,
+    		id: leadOrg.name,
+    		placeholder: leadOrg.placeholder,
     		$$slots: { default: [create_default_slot_11] },
     		$$scope: { ctx }
     	};
 
-    	if (/*$ui*/ ctx[0].search.organisation.keyValues !== void 0) {
-    		multiselect0_props.value = /*$ui*/ ctx[0].search.organisation.keyValues;
+    	if (/*$ui*/ ctx[0].search.criteria.organisation.name !== void 0) {
+    		multiselect0_props.value = /*$ui*/ ctx[0].search.criteria.organisation.name;
     	}
 
     	multiselect0 = new MultiSelect({
@@ -84340,14 +84110,14 @@ var app = (function (exports) {
     	}
 
     	let multiselect1_props = {
-    		id: conditions.name,
-    		placeholder: conditions.placeholder,
+    		id: leadOrgType.name,
+    		placeholder: leadOrgType.placeholder,
     		$$slots: { default: [create_default_slot_10] },
     		$$scope: { ctx }
     	};
 
-    	if (/*$ui*/ ctx[0].search.organisation.conditions !== void 0) {
-    		multiselect1_props.value = /*$ui*/ ctx[0].search.organisation.conditions;
+    	if (/*$ui*/ ctx[0].search.criteria.organisation.meta.type !== void 0) {
+    		multiselect1_props.value = /*$ui*/ ctx[0].search.criteria.organisation.meta.type;
     	}
 
     	multiselect1 = new MultiSelect({
@@ -84357,232 +84127,139 @@ var app = (function (exports) {
 
     	binding_callbacks.push(() => bind(multiselect1, 'value', multiselect1_value_binding));
 
-    	function multiselect2_value_binding(value) {
-    		/*multiselect2_value_binding*/ ctx[10](value);
-    	}
-
-    	let multiselect2_props = {
-    		id: performanceObjectivesGroup.name,
-    		placeholder: performanceObjectivesGroup.placeholder,
-    		$$slots: { default: [create_default_slot_9] },
-    		$$scope: { ctx }
-    	};
-
-    	if (/*$ui*/ ctx[0].search.organisation.performanceObjectivesGroup !== void 0) {
-    		multiselect2_props.value = /*$ui*/ ctx[0].search.organisation.performanceObjectivesGroup;
-    	}
-
-    	multiselect2 = new MultiSelect({
-    			props: multiselect2_props,
-    			$$inline: true
-    		});
-
-    	binding_callbacks.push(() => bind(multiselect2, 'value', multiselect2_value_binding));
-
-    	function multiselect3_value_binding(value) {
-    		/*multiselect3_value_binding*/ ctx[11](value);
-    	}
-
-    	let multiselect3_props = {
-    		id: performanceObjectivesTheme.name,
-    		placeholder: performanceObjectivesTheme.placeholder,
-    		$$slots: { default: [create_default_slot_8] },
-    		$$scope: { ctx }
-    	};
-
-    	if (/*$ui*/ ctx[0].search.project.performanceObjectivesTheme !== void 0) {
-    		multiselect3_props.value = /*$ui*/ ctx[0].search.project.performanceObjectivesTheme;
-    	}
-
-    	multiselect3 = new MultiSelect({
-    			props: multiselect3_props,
-    			$$inline: true
-    		});
-
-    	binding_callbacks.push(() => bind(multiselect3, 'value', multiselect3_value_binding));
-
     	const block = {
     		c: function create() {
-    			div4 = element("div");
+    			div1 = element("div");
     			div0 = element("div");
     			h40 = element("h4");
     			t0 = space();
     			create_component(multiselect0.$$.fragment);
     			t1 = space();
-    			div1 = element("div");
+    			div3 = element("div");
+    			div2 = element("div");
     			h41 = element("h4");
     			t2 = space();
     			create_component(multiselect1.$$.fragment);
-    			t3 = space();
-    			div2 = element("div");
-    			h42 = element("h4");
-    			t4 = space();
-    			create_component(multiselect2.$$.fragment);
-    			t5 = space();
-    			div3 = element("div");
-    			h43 = element("h4");
-    			t6 = space();
-    			create_component(multiselect3.$$.fragment);
     			attr_dev(h40, "class", "svelte-kelrrb");
-    			add_location(h40, file$t, 119, 16, 4847);
+    			add_location(h40, file$t, 132, 16, 4996);
     			attr_dev(div0, "class", "multi-select-container svelte-kelrrb");
-    			set_style(div0, "z-index", "21");
-    			add_location(div0, file$t, 118, 12, 4773);
+    			set_style(div0, "z-index", "20");
+    			add_location(div0, file$t, 131, 12, 4922);
+    			attr_dev(div1, "class", "collapse__body svelte-kelrrb");
+    			add_location(div1, file$t, 130, 8, 4862);
     			attr_dev(h41, "class", "svelte-kelrrb");
-    			add_location(h41, file$t, 129, 16, 5356);
-    			attr_dev(div1, "class", "multi-select-container svelte-kelrrb");
-    			set_style(div1, "z-index", "20");
-    			add_location(div1, file$t, 128, 12, 5281);
-    			attr_dev(h42, "class", "svelte-kelrrb");
-    			add_location(h42, file$t, 139, 16, 5871);
+    			add_location(h41, file$t, 143, 16, 5588);
     			attr_dev(div2, "class", "multi-select-container svelte-kelrrb");
     			set_style(div2, "z-index", "19");
-    			add_location(div2, file$t, 138, 12, 5797);
-    			attr_dev(h43, "class", "svelte-kelrrb");
-    			add_location(h43, file$t, 148, 16, 6465);
-    			attr_dev(div3, "class", "multi-select-container svelte-kelrrb");
-    			set_style(div3, "z-index", "18");
-    			add_location(div3, file$t, 147, 12, 6391);
-    			attr_dev(div4, "class", "collapse__body svelte-kelrrb");
-    			add_location(div4, file$t, 117, 8, 4712);
+    			add_location(div2, file$t, 142, 12, 5514);
+    			attr_dev(div3, "class", "collapse__body svelte-kelrrb");
+    			add_location(div3, file$t, 141, 8, 5454);
     		},
     		m: function mount(target, anchor) {
-    			insert_dev(target, div4, anchor);
-    			append_dev(div4, div0);
+    			insert_dev(target, div1, anchor);
+    			append_dev(div1, div0);
     			append_dev(div0, h40);
     			h40.innerHTML = raw0_value;
     			append_dev(div0, t0);
     			mount_component(multiselect0, div0, null);
-    			append_dev(div4, t1);
-    			append_dev(div4, div1);
-    			append_dev(div1, h41);
+    			insert_dev(target, t1, anchor);
+    			insert_dev(target, div3, anchor);
+    			append_dev(div3, div2);
+    			append_dev(div2, h41);
     			h41.innerHTML = raw1_value;
-    			append_dev(div1, t2);
-    			mount_component(multiselect1, div1, null);
-    			append_dev(div4, t3);
-    			append_dev(div4, div2);
-    			append_dev(div2, h42);
-    			h42.innerHTML = raw2_value;
-    			append_dev(div2, t4);
-    			mount_component(multiselect2, div2, null);
-    			append_dev(div4, t5);
-    			append_dev(div4, div3);
-    			append_dev(div3, h43);
-    			h43.innerHTML = raw3_value;
-    			append_dev(div3, t6);
-    			mount_component(multiselect3, div3, null);
+    			append_dev(div2, t2);
+    			mount_component(multiselect1, div2, null);
     			current = true;
     		},
     		p: function update(ctx, dirty) {
     			const multiselect0_changes = {};
 
-    			if (dirty[1] & /*$$scope*/ 262144) {
+    			if (dirty[1] & /*$$scope*/ 32768) {
     				multiselect0_changes.$$scope = { dirty, ctx };
     			}
 
     			if (!updating_value && dirty[0] & /*$ui*/ 1) {
     				updating_value = true;
-    				multiselect0_changes.value = /*$ui*/ ctx[0].search.organisation.keyValues;
+    				multiselect0_changes.value = /*$ui*/ ctx[0].search.criteria.organisation.name;
     				add_flush_callback(() => updating_value = false);
     			}
 
     			multiselect0.$set(multiselect0_changes);
     			const multiselect1_changes = {};
 
-    			if (dirty[1] & /*$$scope*/ 262144) {
+    			if (dirty[1] & /*$$scope*/ 32768) {
     				multiselect1_changes.$$scope = { dirty, ctx };
     			}
 
     			if (!updating_value_1 && dirty[0] & /*$ui*/ 1) {
     				updating_value_1 = true;
-    				multiselect1_changes.value = /*$ui*/ ctx[0].search.organisation.conditions;
+    				multiselect1_changes.value = /*$ui*/ ctx[0].search.criteria.organisation.meta.type;
     				add_flush_callback(() => updating_value_1 = false);
     			}
 
     			multiselect1.$set(multiselect1_changes);
-    			const multiselect2_changes = {};
-
-    			if (dirty[1] & /*$$scope*/ 262144) {
-    				multiselect2_changes.$$scope = { dirty, ctx };
-    			}
-
-    			if (!updating_value_2 && dirty[0] & /*$ui*/ 1) {
-    				updating_value_2 = true;
-    				multiselect2_changes.value = /*$ui*/ ctx[0].search.organisation.performanceObjectivesGroup;
-    				add_flush_callback(() => updating_value_2 = false);
-    			}
-
-    			multiselect2.$set(multiselect2_changes);
-    			const multiselect3_changes = {};
-
-    			if (dirty[1] & /*$$scope*/ 262144) {
-    				multiselect3_changes.$$scope = { dirty, ctx };
-    			}
-
-    			if (!updating_value_3 && dirty[0] & /*$ui*/ 1) {
-    				updating_value_3 = true;
-    				multiselect3_changes.value = /*$ui*/ ctx[0].search.project.performanceObjectivesTheme;
-    				add_flush_callback(() => updating_value_3 = false);
-    			}
-
-    			multiselect3.$set(multiselect3_changes);
     		},
     		i: function intro(local) {
     			if (current) return;
     			transition_in(multiselect0.$$.fragment, local);
-    			transition_in(multiselect1.$$.fragment, local);
-    			transition_in(multiselect2.$$.fragment, local);
-    			transition_in(multiselect3.$$.fragment, local);
 
     			add_render_callback(() => {
-    				if (!div4_transition) div4_transition = create_bidirectional_transition(div4, slide, {}, true);
-    				div4_transition.run(1);
+    				if (!div1_transition) div1_transition = create_bidirectional_transition(div1, slide, {}, true);
+    				div1_transition.run(1);
+    			});
+
+    			transition_in(multiselect1.$$.fragment, local);
+
+    			add_render_callback(() => {
+    				if (!div3_transition) div3_transition = create_bidirectional_transition(div3, slide, {}, true);
+    				div3_transition.run(1);
     			});
 
     			current = true;
     		},
     		o: function outro(local) {
     			transition_out(multiselect0.$$.fragment, local);
+    			if (!div1_transition) div1_transition = create_bidirectional_transition(div1, slide, {}, false);
+    			div1_transition.run(0);
     			transition_out(multiselect1.$$.fragment, local);
-    			transition_out(multiselect2.$$.fragment, local);
-    			transition_out(multiselect3.$$.fragment, local);
-    			if (!div4_transition) div4_transition = create_bidirectional_transition(div4, slide, {}, false);
-    			div4_transition.run(0);
+    			if (!div3_transition) div3_transition = create_bidirectional_transition(div3, slide, {}, false);
+    			div3_transition.run(0);
     			current = false;
     		},
     		d: function destroy(detaching) {
-    			if (detaching) detach_dev(div4);
+    			if (detaching) detach_dev(div1);
     			destroy_component(multiselect0);
+    			if (detaching && div1_transition) div1_transition.end();
+    			if (detaching) detach_dev(t1);
+    			if (detaching) detach_dev(div3);
     			destroy_component(multiselect1);
-    			destroy_component(multiselect2);
-    			destroy_component(multiselect3);
-    			if (detaching && div4_transition) div4_transition.end();
+    			if (detaching && div3_transition) div3_transition.end();
     		}
     	};
 
     	dispatch_dev("SvelteRegisterBlock", {
     		block,
-    		id: create_if_block_3$7.name,
+    		id: create_if_block_4$3.name,
     		type: "if",
-    		source: "(117:8) {#if paneVisbility.byOutcomes}",
+    		source: "(130:8) {#if paneVisbility.byStakeholders}",
     		ctx
     	});
 
     	return block;
     }
 
-    // (123:20) {#each keyValues.list as name}
+    // (136:20) {#each leadOrg.list as name}
     function create_each_block_11(ctx) {
     	let option;
-    	let raw_value = /*name*/ ctx[22] + "";
+    	let raw_value = /*name*/ ctx[21] + "";
 
     	const block = {
     		c: function create() {
     			option = element("option");
-    			option.__value = /*name*/ ctx[22];
+    			option.__value = /*name*/ ctx[21];
     			option.value = option.__value;
     			attr_dev(option, "class", "svelte-kelrrb");
-    			add_location(option, file$t, 123, 20, 5147);
+    			add_location(option, file$t, 136, 20, 5294);
     		},
     		m: function mount(target, anchor) {
     			insert_dev(target, option, anchor);
@@ -84598,19 +84275,19 @@ var app = (function (exports) {
     		block,
     		id: create_each_block_11.name,
     		type: "each",
-    		source: "(123:20) {#each keyValues.list as name}",
+    		source: "(136:20) {#each leadOrg.list as name}",
     		ctx
     	});
 
     	return block;
     }
 
-    // (121:16) <MultiSelect id={keyValues.name} bind:value={$ui.search.organisation.keyValues} placeholder={keyValues.placeholder} >
+    // (134:16) <MultiSelect id = {leadOrg.name} bind:value={$ui.search.criteria.organisation.name} placeholder={leadOrg.placeholder} >
     function create_default_slot_11(ctx) {
     	let option;
     	let t;
     	let each_1_anchor;
-    	let each_value_11 = keyValues.list;
+    	let each_value_11 = leadOrg.list;
     	validate_each_argument(each_value_11);
     	let each_blocks = [];
 
@@ -84633,7 +84310,7 @@ var app = (function (exports) {
     			option.__value = "";
     			option.value = option.__value;
     			attr_dev(option, "class", "svelte-kelrrb");
-    			add_location(option, file$t, 121, 20, 5034);
+    			add_location(option, file$t, 134, 20, 5183);
     		},
     		m: function mount(target, anchor) {
     			insert_dev(target, option, anchor);
@@ -84646,8 +84323,8 @@ var app = (function (exports) {
     			insert_dev(target, each_1_anchor, anchor);
     		},
     		p: function update(ctx, dirty) {
-    			if (dirty & /*keyValues*/ 0) {
-    				each_value_11 = keyValues.list;
+    			if (dirty & /*leadOrg*/ 0) {
+    				each_value_11 = leadOrg.list;
     				validate_each_argument(each_value_11);
     				let i;
 
@@ -84682,25 +84359,25 @@ var app = (function (exports) {
     		block,
     		id: create_default_slot_11.name,
     		type: "slot",
-    		source: "(121:16) <MultiSelect id={keyValues.name} bind:value={$ui.search.organisation.keyValues} placeholder={keyValues.placeholder} >",
+    		source: "(134:16) <MultiSelect id = {leadOrg.name} bind:value={$ui.search.criteria.organisation.name} placeholder={leadOrg.placeholder} >",
     		ctx
     	});
 
     	return block;
     }
 
-    // (133:20) {#each conditions.list as name}
+    // (147:20) {#each leadOrgType.list as name}
     function create_each_block_10(ctx) {
     	let option;
-    	let raw_value = /*name*/ ctx[22] + "";
+    	let raw_value = /*name*/ ctx[21] + "";
 
     	const block = {
     		c: function create() {
     			option = element("option");
-    			option.__value = /*name*/ ctx[22];
+    			option.__value = /*name*/ ctx[21];
     			option.value = option.__value;
     			attr_dev(option, "class", "svelte-kelrrb");
-    			add_location(option, file$t, 133, 20, 5663);
+    			add_location(option, file$t, 147, 20, 5907);
     		},
     		m: function mount(target, anchor) {
     			insert_dev(target, option, anchor);
@@ -84716,19 +84393,19 @@ var app = (function (exports) {
     		block,
     		id: create_each_block_10.name,
     		type: "each",
-    		source: "(133:20) {#each conditions.list as name}",
+    		source: "(147:20) {#each leadOrgType.list as name}",
     		ctx
     	});
 
     	return block;
     }
 
-    // (131:16) <MultiSelect id={conditions.name} bind:value={$ui.search.organisation.conditions}   placeholder={conditions.placeholder} >
+    // (145:16) <MultiSelect id = {leadOrgType.name} bind:value={$ui.search.criteria.organisation.meta.type} placeholder={leadOrgType.placeholder} >
     function create_default_slot_10(ctx) {
     	let option;
     	let t;
     	let each_1_anchor;
-    	let each_value_10 = conditions.list;
+    	let each_value_10 = leadOrgType.list;
     	validate_each_argument(each_value_10);
     	let each_blocks = [];
 
@@ -84751,7 +84428,7 @@ var app = (function (exports) {
     			option.__value = "";
     			option.value = option.__value;
     			attr_dev(option, "class", "svelte-kelrrb");
-    			add_location(option, file$t, 131, 20, 5549);
+    			add_location(option, file$t, 145, 20, 5792);
     		},
     		m: function mount(target, anchor) {
     			insert_dev(target, option, anchor);
@@ -84764,8 +84441,8 @@ var app = (function (exports) {
     			insert_dev(target, each_1_anchor, anchor);
     		},
     		p: function update(ctx, dirty) {
-    			if (dirty & /*conditions*/ 0) {
-    				each_value_10 = conditions.list;
+    			if (dirty & /*leadOrgType*/ 0) {
+    				each_value_10 = leadOrgType.list;
     				validate_each_argument(each_value_10);
     				let i;
 
@@ -84800,25 +84477,255 @@ var app = (function (exports) {
     		block,
     		id: create_default_slot_10.name,
     		type: "slot",
-    		source: "(131:16) <MultiSelect id={conditions.name} bind:value={$ui.search.organisation.conditions}   placeholder={conditions.placeholder} >",
+    		source: "(145:16) <MultiSelect id = {leadOrgType.name} bind:value={$ui.search.criteria.organisation.meta.type} placeholder={leadOrgType.placeholder} >",
     		ctx
     	});
 
     	return block;
     }
 
-    // (143:20) {#each performanceObjectivesGroup.list as name}
+    // (165:8) {#if paneVisbility.byOutcomes}
+    function create_if_block_3$7(ctx) {
+    	let div3;
+    	let div0;
+    	let h40;
+    	let raw0_value = keyValues.label + "";
+    	let t0;
+    	let multiselect0;
+    	let updating_value;
+    	let t1;
+    	let div1;
+    	let h41;
+    	let raw1_value = conditions.label + "";
+    	let t2;
+    	let multiselect1;
+    	let updating_value_1;
+    	let t3;
+    	let div2;
+    	let h42;
+    	let raw2_value = performanceObjectivesTheme.label + "";
+    	let t4;
+    	let multiselect2;
+    	let updating_value_2;
+    	let div3_transition;
+    	let current;
+
+    	function multiselect0_value_binding_1(value) {
+    		/*multiselect0_value_binding_1*/ ctx[10](value);
+    	}
+
+    	let multiselect0_props = {
+    		id: keyValues.name,
+    		placeholder: keyValues.placeholder,
+    		$$slots: { default: [create_default_slot_9] },
+    		$$scope: { ctx }
+    	};
+
+    	if (/*$ui*/ ctx[0].search.criteria.organisation.project.hws.values !== void 0) {
+    		multiselect0_props.value = /*$ui*/ ctx[0].search.criteria.organisation.project.hws.values;
+    	}
+
+    	multiselect0 = new MultiSelect({
+    			props: multiselect0_props,
+    			$$inline: true
+    		});
+
+    	binding_callbacks.push(() => bind(multiselect0, 'value', multiselect0_value_binding_1));
+
+    	function multiselect1_value_binding_1(value) {
+    		/*multiselect1_value_binding_1*/ ctx[11](value);
+    	}
+
+    	let multiselect1_props = {
+    		id: conditions.name,
+    		placeholder: conditions.placeholder,
+    		$$slots: { default: [create_default_slot_8] },
+    		$$scope: { ctx }
+    	};
+
+    	if (/*$ui*/ ctx[0].search.criteria.organisation.project.hws.conditions !== void 0) {
+    		multiselect1_props.value = /*$ui*/ ctx[0].search.criteria.organisation.project.hws.conditions;
+    	}
+
+    	multiselect1 = new MultiSelect({
+    			props: multiselect1_props,
+    			$$inline: true
+    		});
+
+    	binding_callbacks.push(() => bind(multiselect1, 'value', multiselect1_value_binding_1));
+
+    	function multiselect2_value_binding(value) {
+    		/*multiselect2_value_binding*/ ctx[12](value);
+    	}
+
+    	let multiselect2_props = {
+    		id: performanceObjectivesTheme.name,
+    		placeholder: performanceObjectivesTheme.placeholder,
+    		$$slots: { default: [create_default_slot_7$1] },
+    		$$scope: { ctx }
+    	};
+
+    	if (/*$ui*/ ctx[0].search.criteria.organisation.project.hws.poThemes !== void 0) {
+    		multiselect2_props.value = /*$ui*/ ctx[0].search.criteria.organisation.project.hws.poThemes;
+    	}
+
+    	multiselect2 = new MultiSelect({
+    			props: multiselect2_props,
+    			$$inline: true
+    		});
+
+    	binding_callbacks.push(() => bind(multiselect2, 'value', multiselect2_value_binding));
+
+    	const block = {
+    		c: function create() {
+    			div3 = element("div");
+    			div0 = element("div");
+    			h40 = element("h4");
+    			t0 = space();
+    			create_component(multiselect0.$$.fragment);
+    			t1 = space();
+    			div1 = element("div");
+    			h41 = element("h4");
+    			t2 = space();
+    			create_component(multiselect1.$$.fragment);
+    			t3 = space();
+    			div2 = element("div");
+    			h42 = element("h4");
+    			t4 = space();
+    			create_component(multiselect2.$$.fragment);
+    			attr_dev(h40, "class", "svelte-kelrrb");
+    			add_location(h40, file$t, 167, 16, 6592);
+    			attr_dev(div0, "class", "multi-select-container svelte-kelrrb");
+    			set_style(div0, "z-index", "18");
+    			add_location(div0, file$t, 166, 12, 6518);
+    			attr_dev(h41, "class", "svelte-kelrrb");
+    			add_location(h41, file$t, 177, 16, 7119);
+    			attr_dev(div1, "class", "multi-select-container svelte-kelrrb");
+    			set_style(div1, "z-index", "17");
+    			add_location(div1, file$t, 176, 12, 7044);
+    			attr_dev(h42, "class", "svelte-kelrrb");
+    			add_location(h42, file$t, 187, 16, 7655);
+    			attr_dev(div2, "class", "multi-select-container svelte-kelrrb");
+    			set_style(div2, "z-index", "16");
+    			add_location(div2, file$t, 186, 12, 7581);
+    			attr_dev(div3, "class", "collapse__body svelte-kelrrb");
+    			add_location(div3, file$t, 165, 8, 6457);
+    		},
+    		m: function mount(target, anchor) {
+    			insert_dev(target, div3, anchor);
+    			append_dev(div3, div0);
+    			append_dev(div0, h40);
+    			h40.innerHTML = raw0_value;
+    			append_dev(div0, t0);
+    			mount_component(multiselect0, div0, null);
+    			append_dev(div3, t1);
+    			append_dev(div3, div1);
+    			append_dev(div1, h41);
+    			h41.innerHTML = raw1_value;
+    			append_dev(div1, t2);
+    			mount_component(multiselect1, div1, null);
+    			append_dev(div3, t3);
+    			append_dev(div3, div2);
+    			append_dev(div2, h42);
+    			h42.innerHTML = raw2_value;
+    			append_dev(div2, t4);
+    			mount_component(multiselect2, div2, null);
+    			current = true;
+    		},
+    		p: function update(ctx, dirty) {
+    			const multiselect0_changes = {};
+
+    			if (dirty[1] & /*$$scope*/ 32768) {
+    				multiselect0_changes.$$scope = { dirty, ctx };
+    			}
+
+    			if (!updating_value && dirty[0] & /*$ui*/ 1) {
+    				updating_value = true;
+    				multiselect0_changes.value = /*$ui*/ ctx[0].search.criteria.organisation.project.hws.values;
+    				add_flush_callback(() => updating_value = false);
+    			}
+
+    			multiselect0.$set(multiselect0_changes);
+    			const multiselect1_changes = {};
+
+    			if (dirty[1] & /*$$scope*/ 32768) {
+    				multiselect1_changes.$$scope = { dirty, ctx };
+    			}
+
+    			if (!updating_value_1 && dirty[0] & /*$ui*/ 1) {
+    				updating_value_1 = true;
+    				multiselect1_changes.value = /*$ui*/ ctx[0].search.criteria.organisation.project.hws.conditions;
+    				add_flush_callback(() => updating_value_1 = false);
+    			}
+
+    			multiselect1.$set(multiselect1_changes);
+    			const multiselect2_changes = {};
+
+    			if (dirty[1] & /*$$scope*/ 32768) {
+    				multiselect2_changes.$$scope = { dirty, ctx };
+    			}
+
+    			if (!updating_value_2 && dirty[0] & /*$ui*/ 1) {
+    				updating_value_2 = true;
+    				multiselect2_changes.value = /*$ui*/ ctx[0].search.criteria.organisation.project.hws.poThemes;
+    				add_flush_callback(() => updating_value_2 = false);
+    			}
+
+    			multiselect2.$set(multiselect2_changes);
+    		},
+    		i: function intro(local) {
+    			if (current) return;
+    			transition_in(multiselect0.$$.fragment, local);
+    			transition_in(multiselect1.$$.fragment, local);
+    			transition_in(multiselect2.$$.fragment, local);
+
+    			add_render_callback(() => {
+    				if (!div3_transition) div3_transition = create_bidirectional_transition(div3, slide, {}, true);
+    				div3_transition.run(1);
+    			});
+
+    			current = true;
+    		},
+    		o: function outro(local) {
+    			transition_out(multiselect0.$$.fragment, local);
+    			transition_out(multiselect1.$$.fragment, local);
+    			transition_out(multiselect2.$$.fragment, local);
+    			if (!div3_transition) div3_transition = create_bidirectional_transition(div3, slide, {}, false);
+    			div3_transition.run(0);
+    			current = false;
+    		},
+    		d: function destroy(detaching) {
+    			if (detaching) detach_dev(div3);
+    			destroy_component(multiselect0);
+    			destroy_component(multiselect1);
+    			destroy_component(multiselect2);
+    			if (detaching && div3_transition) div3_transition.end();
+    		}
+    	};
+
+    	dispatch_dev("SvelteRegisterBlock", {
+    		block,
+    		id: create_if_block_3$7.name,
+    		type: "if",
+    		source: "(165:8) {#if paneVisbility.byOutcomes}",
+    		ctx
+    	});
+
+    	return block;
+    }
+
+    // (171:20) {#each keyValues.list as name}
     function create_each_block_9(ctx) {
     	let option;
-    	let raw_value = /*name*/ ctx[22] + "";
+    	let raw_value = /*name*/ ctx[21] + "";
 
     	const block = {
     		c: function create() {
     			option = element("option");
-    			option.__value = /*name*/ ctx[22];
+    			option.__value = /*name*/ ctx[21];
     			option.value = option.__value;
     			attr_dev(option, "class", "svelte-kelrrb");
-    			add_location(option, file$t, 143, 20, 6258);
+    			add_location(option, file$t, 171, 20, 6910);
     		},
     		m: function mount(target, anchor) {
     			insert_dev(target, option, anchor);
@@ -84834,19 +84741,19 @@ var app = (function (exports) {
     		block,
     		id: create_each_block_9.name,
     		type: "each",
-    		source: "(143:20) {#each performanceObjectivesGroup.list as name}",
+    		source: "(171:20) {#each keyValues.list as name}",
     		ctx
     	});
 
     	return block;
     }
 
-    // (141:16) <MultiSelect id={performanceObjectivesGroup.name} bind:value={$ui.search.organisation.performanceObjectivesGroup}   placeholder={performanceObjectivesGroup.placeholder} >
+    // (169:16) <MultiSelect id={keyValues.name} bind:value={$ui.search.criteria.organisation.project.hws.values} placeholder={keyValues.placeholder} >
     function create_default_slot_9(ctx) {
     	let option;
     	let t;
     	let each_1_anchor;
-    	let each_value_9 = performanceObjectivesGroup.list;
+    	let each_value_9 = keyValues.list;
     	validate_each_argument(each_value_9);
     	let each_blocks = [];
 
@@ -84869,7 +84776,7 @@ var app = (function (exports) {
     			option.__value = "";
     			option.value = option.__value;
     			attr_dev(option, "class", "svelte-kelrrb");
-    			add_location(option, file$t, 141, 20, 6128);
+    			add_location(option, file$t, 169, 20, 6797);
     		},
     		m: function mount(target, anchor) {
     			insert_dev(target, option, anchor);
@@ -84882,8 +84789,8 @@ var app = (function (exports) {
     			insert_dev(target, each_1_anchor, anchor);
     		},
     		p: function update(ctx, dirty) {
-    			if (dirty & /*performanceObjectivesGroup*/ 0) {
-    				each_value_9 = performanceObjectivesGroup.list;
+    			if (dirty & /*keyValues*/ 0) {
+    				each_value_9 = keyValues.list;
     				validate_each_argument(each_value_9);
     				let i;
 
@@ -84918,25 +84825,25 @@ var app = (function (exports) {
     		block,
     		id: create_default_slot_9.name,
     		type: "slot",
-    		source: "(141:16) <MultiSelect id={performanceObjectivesGroup.name} bind:value={$ui.search.organisation.performanceObjectivesGroup}   placeholder={performanceObjectivesGroup.placeholder} >",
+    		source: "(169:16) <MultiSelect id={keyValues.name} bind:value={$ui.search.criteria.organisation.project.hws.values} placeholder={keyValues.placeholder} >",
     		ctx
     	});
 
     	return block;
     }
 
-    // (152:20) {#each performanceObjectivesTheme.list as name}
+    // (181:20) {#each conditions.list as name}
     function create_each_block_8$1(ctx) {
     	let option;
-    	let raw_value = /*name*/ ctx[22] + "";
+    	let raw_value = /*name*/ ctx[21] + "";
 
     	const block = {
     		c: function create() {
     			option = element("option");
-    			option.__value = /*name*/ ctx[22];
+    			option.__value = /*name*/ ctx[21];
     			option.value = option.__value;
     			attr_dev(option, "class", "svelte-kelrrb");
-    			add_location(option, file$t, 152, 20, 6847);
+    			add_location(option, file$t, 181, 20, 7447);
     		},
     		m: function mount(target, anchor) {
     			insert_dev(target, option, anchor);
@@ -84952,19 +84859,19 @@ var app = (function (exports) {
     		block,
     		id: create_each_block_8$1.name,
     		type: "each",
-    		source: "(152:20) {#each performanceObjectivesTheme.list as name}",
+    		source: "(181:20) {#each conditions.list as name}",
     		ctx
     	});
 
     	return block;
     }
 
-    // (150:16) <MultiSelect id={performanceObjectivesTheme.name} bind:value={$ui.search.project.performanceObjectivesTheme}   placeholder={performanceObjectivesTheme.placeholder} >
+    // (179:16) <MultiSelect id={conditions.name} bind:value={$ui.search.criteria.organisation.project.hws.conditions}   placeholder={conditions.placeholder} >
     function create_default_slot_8(ctx) {
     	let option;
     	let t;
     	let each_1_anchor;
-    	let each_value_8 = performanceObjectivesTheme.list;
+    	let each_value_8 = conditions.list;
     	validate_each_argument(each_value_8);
     	let each_blocks = [];
 
@@ -84987,7 +84894,7 @@ var app = (function (exports) {
     			option.__value = "";
     			option.value = option.__value;
     			attr_dev(option, "class", "svelte-kelrrb");
-    			add_location(option, file$t, 150, 20, 6717);
+    			add_location(option, file$t, 179, 20, 7333);
     		},
     		m: function mount(target, anchor) {
     			insert_dev(target, option, anchor);
@@ -85000,8 +84907,8 @@ var app = (function (exports) {
     			insert_dev(target, each_1_anchor, anchor);
     		},
     		p: function update(ctx, dirty) {
-    			if (dirty & /*performanceObjectivesTheme*/ 0) {
-    				each_value_8 = performanceObjectivesTheme.list;
+    			if (dirty & /*conditions*/ 0) {
+    				each_value_8 = conditions.list;
     				validate_each_argument(each_value_8);
     				let i;
 
@@ -85036,14 +84943,132 @@ var app = (function (exports) {
     		block,
     		id: create_default_slot_8.name,
     		type: "slot",
-    		source: "(150:16) <MultiSelect id={performanceObjectivesTheme.name} bind:value={$ui.search.project.performanceObjectivesTheme}   placeholder={performanceObjectivesTheme.placeholder} >",
+    		source: "(179:16) <MultiSelect id={conditions.name} bind:value={$ui.search.criteria.organisation.project.hws.conditions}   placeholder={conditions.placeholder} >",
     		ctx
     	});
 
     	return block;
     }
 
-    // (169:8) {#if paneVisbility.byLocation}
+    // (191:20) {#each performanceObjectivesTheme.list as name}
+    function create_each_block_7$1(ctx) {
+    	let option;
+    	let raw_value = /*name*/ ctx[21] + "";
+
+    	const block = {
+    		c: function create() {
+    			option = element("option");
+    			option.__value = /*name*/ ctx[21];
+    			option.value = option.__value;
+    			attr_dev(option, "class", "svelte-kelrrb");
+    			add_location(option, file$t, 191, 20, 8045);
+    		},
+    		m: function mount(target, anchor) {
+    			insert_dev(target, option, anchor);
+    			option.innerHTML = raw_value;
+    		},
+    		p: noop,
+    		d: function destroy(detaching) {
+    			if (detaching) detach_dev(option);
+    		}
+    	};
+
+    	dispatch_dev("SvelteRegisterBlock", {
+    		block,
+    		id: create_each_block_7$1.name,
+    		type: "each",
+    		source: "(191:20) {#each performanceObjectivesTheme.list as name}",
+    		ctx
+    	});
+
+    	return block;
+    }
+
+    // (189:16) <MultiSelect id={performanceObjectivesTheme.name} bind:value={$ui.search.criteria.organisation.project.hws.poThemes}   placeholder={performanceObjectivesTheme.placeholder} >
+    function create_default_slot_7$1(ctx) {
+    	let option;
+    	let t;
+    	let each_1_anchor;
+    	let each_value_7 = performanceObjectivesTheme.list;
+    	validate_each_argument(each_value_7);
+    	let each_blocks = [];
+
+    	for (let i = 0; i < each_value_7.length; i += 1) {
+    		each_blocks[i] = create_each_block_7$1(get_each_context_7$1(ctx, each_value_7, i));
+    	}
+
+    	const block = {
+    		c: function create() {
+    			option = element("option");
+    			t = space();
+
+    			for (let i = 0; i < each_blocks.length; i += 1) {
+    				each_blocks[i].c();
+    			}
+
+    			each_1_anchor = empty();
+    			option.disabled = true;
+    			option.selected = true;
+    			option.__value = "";
+    			option.value = option.__value;
+    			attr_dev(option, "class", "svelte-kelrrb");
+    			add_location(option, file$t, 189, 20, 7915);
+    		},
+    		m: function mount(target, anchor) {
+    			insert_dev(target, option, anchor);
+    			insert_dev(target, t, anchor);
+
+    			for (let i = 0; i < each_blocks.length; i += 1) {
+    				each_blocks[i].m(target, anchor);
+    			}
+
+    			insert_dev(target, each_1_anchor, anchor);
+    		},
+    		p: function update(ctx, dirty) {
+    			if (dirty & /*performanceObjectivesTheme*/ 0) {
+    				each_value_7 = performanceObjectivesTheme.list;
+    				validate_each_argument(each_value_7);
+    				let i;
+
+    				for (i = 0; i < each_value_7.length; i += 1) {
+    					const child_ctx = get_each_context_7$1(ctx, each_value_7, i);
+
+    					if (each_blocks[i]) {
+    						each_blocks[i].p(child_ctx, dirty);
+    					} else {
+    						each_blocks[i] = create_each_block_7$1(child_ctx);
+    						each_blocks[i].c();
+    						each_blocks[i].m(each_1_anchor.parentNode, each_1_anchor);
+    					}
+    				}
+
+    				for (; i < each_blocks.length; i += 1) {
+    					each_blocks[i].d(1);
+    				}
+
+    				each_blocks.length = each_value_7.length;
+    			}
+    		},
+    		d: function destroy(detaching) {
+    			if (detaching) detach_dev(option);
+    			if (detaching) detach_dev(t);
+    			destroy_each(each_blocks, detaching);
+    			if (detaching) detach_dev(each_1_anchor);
+    		}
+    	};
+
+    	dispatch_dev("SvelteRegisterBlock", {
+    		block,
+    		id: create_default_slot_7$1.name,
+    		type: "slot",
+    		source: "(189:16) <MultiSelect id={performanceObjectivesTheme.name} bind:value={$ui.search.criteria.organisation.project.hws.poThemes}   placeholder={performanceObjectivesTheme.placeholder} >",
+    		ctx
+    	});
+
+    	return block;
+    }
+
+    // (208:8) {#if paneVisbility.byLocation}
     function create_if_block_2$7(ctx) {
     	let div3;
     	let div0;
@@ -85071,19 +85096,19 @@ var app = (function (exports) {
     	let div3_transition;
     	let current;
 
-    	function multiselect0_value_binding_1(value) {
-    		/*multiselect0_value_binding_1*/ ctx[12](value);
+    	function multiselect0_value_binding_2(value) {
+    		/*multiselect0_value_binding_2*/ ctx[13](value);
     	}
 
     	let multiselect0_props = {
     		id: catchments.name,
     		placeholder: catchments.placeholder,
-    		$$slots: { default: [create_default_slot_7$1] },
+    		$$slots: { default: [create_default_slot_6$1] },
     		$$scope: { ctx }
     	};
 
-    	if (/*$ui*/ ctx[0].search.organisation.catchment !== void 0) {
-    		multiselect0_props.value = /*$ui*/ ctx[0].search.organisation.catchment;
+    	if (/*$ui*/ ctx[0].search.criteria.organisation.project.location.catchments !== void 0) {
+    		multiselect0_props.value = /*$ui*/ ctx[0].search.criteria.organisation.project.location.catchments;
     	}
 
     	multiselect0 = new MultiSelect({
@@ -85091,21 +85116,21 @@ var app = (function (exports) {
     			$$inline: true
     		});
 
-    	binding_callbacks.push(() => bind(multiselect0, 'value', multiselect0_value_binding_1));
+    	binding_callbacks.push(() => bind(multiselect0, 'value', multiselect0_value_binding_2));
 
-    	function multiselect1_value_binding_1(value) {
-    		/*multiselect1_value_binding_1*/ ctx[13](value);
+    	function multiselect1_value_binding_2(value) {
+    		/*multiselect1_value_binding_2*/ ctx[14](value);
     	}
 
     	let multiselect1_props = {
     		id: subcatchments.name,
     		placeholder: subcatchments.placeholder,
-    		$$slots: { default: [create_default_slot_6$1] },
+    		$$slots: { default: [create_default_slot_5$1] },
     		$$scope: { ctx }
     	};
 
-    	if (/*$ui*/ ctx[0].search.organisation.subcatchment !== void 0) {
-    		multiselect1_props.value = /*$ui*/ ctx[0].search.organisation.subcatchment;
+    	if (/*$ui*/ ctx[0].search.criteria.organisation.project.location.subCatchments !== void 0) {
+    		multiselect1_props.value = /*$ui*/ ctx[0].search.criteria.organisation.project.location.subCatchments;
     	}
 
     	multiselect1 = new MultiSelect({
@@ -85113,21 +85138,21 @@ var app = (function (exports) {
     			$$inline: true
     		});
 
-    	binding_callbacks.push(() => bind(multiselect1, 'value', multiselect1_value_binding_1));
+    	binding_callbacks.push(() => bind(multiselect1, 'value', multiselect1_value_binding_2));
 
     	function multiselect2_value_binding_1(value) {
-    		/*multiselect2_value_binding_1*/ ctx[14](value);
+    		/*multiselect2_value_binding_1*/ ctx[15](value);
     	}
 
     	let multiselect2_props = {
     		id: locations.name,
     		placeholder: locations.placeholder,
-    		$$slots: { default: [create_default_slot_5$1] },
+    		$$slots: { default: [create_default_slot_4$1] },
     		$$scope: { ctx }
     	};
 
-    	if (/*$ui*/ ctx[0].search.organisation.locations !== void 0) {
-    		multiselect2_props.value = /*$ui*/ ctx[0].search.organisation.locations;
+    	if (/*$ui*/ ctx[0].search.criteria.organisation.project.location.locations !== void 0) {
+    		multiselect2_props.value = /*$ui*/ ctx[0].search.criteria.organisation.project.location.locations;
     	}
 
     	multiselect2 = new MultiSelect({
@@ -85136,7 +85161,7 @@ var app = (function (exports) {
     		});
 
     	binding_callbacks.push(() => bind(multiselect2, 'value', multiselect2_value_binding_1));
-    	leafletmap = new LeafletMap_1({ $$inline: true });
+    	leafletmap = new Map$1({ $$inline: true });
 
     	const block = {
     		c: function create() {
@@ -85158,22 +85183,22 @@ var app = (function (exports) {
     			t5 = space();
     			create_component(leafletmap.$$.fragment);
     			attr_dev(h40, "class", "svelte-kelrrb");
-    			add_location(h40, file$t, 171, 16, 7514);
+    			add_location(h40, file$t, 210, 16, 8712);
     			attr_dev(div0, "class", "multi-select-container svelte-kelrrb");
-    			set_style(div0, "z-index", "17");
-    			add_location(div0, file$t, 170, 12, 7440);
+    			set_style(div0, "z-index", "15");
+    			add_location(div0, file$t, 209, 12, 8638);
     			attr_dev(h41, "class", "svelte-kelrrb");
-    			add_location(h41, file$t, 181, 16, 8042);
+    			add_location(h41, file$t, 220, 16, 9267);
     			attr_dev(div1, "class", "multi-select-container svelte-kelrrb");
-    			set_style(div1, "z-index", "16");
-    			add_location(div1, file$t, 180, 12, 7968);
+    			set_style(div1, "z-index", "14");
+    			add_location(div1, file$t, 219, 12, 9193);
     			attr_dev(h42, "class", "svelte-kelrrb");
-    			add_location(h42, file$t, 191, 16, 8585);
+    			add_location(h42, file$t, 230, 16, 9837);
     			attr_dev(div2, "class", "multi-select-container svelte-kelrrb");
-    			set_style(div2, "z-index", "15");
-    			add_location(div2, file$t, 190, 12, 8511);
+    			set_style(div2, "z-index", "13");
+    			add_location(div2, file$t, 229, 12, 9763);
     			attr_dev(div3, "class", "collapse__body svelte-kelrrb");
-    			add_location(div3, file$t, 169, 8, 7379);
+    			add_location(div3, file$t, 208, 8, 8577);
     		},
     		m: function mount(target, anchor) {
     			insert_dev(target, div3, anchor);
@@ -85201,39 +85226,39 @@ var app = (function (exports) {
     		p: function update(ctx, dirty) {
     			const multiselect0_changes = {};
 
-    			if (dirty[1] & /*$$scope*/ 262144) {
+    			if (dirty[1] & /*$$scope*/ 32768) {
     				multiselect0_changes.$$scope = { dirty, ctx };
     			}
 
     			if (!updating_value && dirty[0] & /*$ui*/ 1) {
     				updating_value = true;
-    				multiselect0_changes.value = /*$ui*/ ctx[0].search.organisation.catchment;
+    				multiselect0_changes.value = /*$ui*/ ctx[0].search.criteria.organisation.project.location.catchments;
     				add_flush_callback(() => updating_value = false);
     			}
 
     			multiselect0.$set(multiselect0_changes);
     			const multiselect1_changes = {};
 
-    			if (dirty[1] & /*$$scope*/ 262144) {
+    			if (dirty[1] & /*$$scope*/ 32768) {
     				multiselect1_changes.$$scope = { dirty, ctx };
     			}
 
     			if (!updating_value_1 && dirty[0] & /*$ui*/ 1) {
     				updating_value_1 = true;
-    				multiselect1_changes.value = /*$ui*/ ctx[0].search.organisation.subcatchment;
+    				multiselect1_changes.value = /*$ui*/ ctx[0].search.criteria.organisation.project.location.subCatchments;
     				add_flush_callback(() => updating_value_1 = false);
     			}
 
     			multiselect1.$set(multiselect1_changes);
     			const multiselect2_changes = {};
 
-    			if (dirty[1] & /*$$scope*/ 262144) {
+    			if (dirty[1] & /*$$scope*/ 32768) {
     				multiselect2_changes.$$scope = { dirty, ctx };
     			}
 
     			if (!updating_value_2 && dirty[0] & /*$ui*/ 1) {
     				updating_value_2 = true;
-    				multiselect2_changes.value = /*$ui*/ ctx[0].search.organisation.locations;
+    				multiselect2_changes.value = /*$ui*/ ctx[0].search.criteria.organisation.project.location.locations;
     				add_flush_callback(() => updating_value_2 = false);
     			}
 
@@ -85276,143 +85301,25 @@ var app = (function (exports) {
     		block,
     		id: create_if_block_2$7.name,
     		type: "if",
-    		source: "(169:8) {#if paneVisbility.byLocation}",
+    		source: "(208:8) {#if paneVisbility.byLocation}",
     		ctx
     	});
 
     	return block;
     }
 
-    // (175:20) {#each catchments.list as name}
-    function create_each_block_7$1(ctx) {
-    	let option;
-    	let raw_value = /*name*/ ctx[22] + "";
-
-    	const block = {
-    		c: function create() {
-    			option = element("option");
-    			option.__value = /*name*/ ctx[22];
-    			option.value = option.__value;
-    			attr_dev(option, "class", "svelte-kelrrb");
-    			add_location(option, file$t, 175, 20, 7818);
-    		},
-    		m: function mount(target, anchor) {
-    			insert_dev(target, option, anchor);
-    			option.innerHTML = raw_value;
-    		},
-    		p: noop,
-    		d: function destroy(detaching) {
-    			if (detaching) detach_dev(option);
-    		}
-    	};
-
-    	dispatch_dev("SvelteRegisterBlock", {
-    		block,
-    		id: create_each_block_7$1.name,
-    		type: "each",
-    		source: "(175:20) {#each catchments.list as name}",
-    		ctx
-    	});
-
-    	return block;
-    }
-
-    // (173:16) <MultiSelect id={catchments.name} bind:value={$ui.search.organisation.catchment} placeholder={catchments.placeholder} >
-    function create_default_slot_7$1(ctx) {
-    	let option;
-    	let t;
-    	let each_1_anchor;
-    	let each_value_7 = catchments.list;
-    	validate_each_argument(each_value_7);
-    	let each_blocks = [];
-
-    	for (let i = 0; i < each_value_7.length; i += 1) {
-    		each_blocks[i] = create_each_block_7$1(get_each_context_7$1(ctx, each_value_7, i));
-    	}
-
-    	const block = {
-    		c: function create() {
-    			option = element("option");
-    			t = space();
-
-    			for (let i = 0; i < each_blocks.length; i += 1) {
-    				each_blocks[i].c();
-    			}
-
-    			each_1_anchor = empty();
-    			option.disabled = true;
-    			option.selected = true;
-    			option.__value = "";
-    			option.value = option.__value;
-    			attr_dev(option, "class", "svelte-kelrrb");
-    			add_location(option, file$t, 173, 20, 7704);
-    		},
-    		m: function mount(target, anchor) {
-    			insert_dev(target, option, anchor);
-    			insert_dev(target, t, anchor);
-
-    			for (let i = 0; i < each_blocks.length; i += 1) {
-    				each_blocks[i].m(target, anchor);
-    			}
-
-    			insert_dev(target, each_1_anchor, anchor);
-    		},
-    		p: function update(ctx, dirty) {
-    			if (dirty & /*catchments*/ 0) {
-    				each_value_7 = catchments.list;
-    				validate_each_argument(each_value_7);
-    				let i;
-
-    				for (i = 0; i < each_value_7.length; i += 1) {
-    					const child_ctx = get_each_context_7$1(ctx, each_value_7, i);
-
-    					if (each_blocks[i]) {
-    						each_blocks[i].p(child_ctx, dirty);
-    					} else {
-    						each_blocks[i] = create_each_block_7$1(child_ctx);
-    						each_blocks[i].c();
-    						each_blocks[i].m(each_1_anchor.parentNode, each_1_anchor);
-    					}
-    				}
-
-    				for (; i < each_blocks.length; i += 1) {
-    					each_blocks[i].d(1);
-    				}
-
-    				each_blocks.length = each_value_7.length;
-    			}
-    		},
-    		d: function destroy(detaching) {
-    			if (detaching) detach_dev(option);
-    			if (detaching) detach_dev(t);
-    			destroy_each(each_blocks, detaching);
-    			if (detaching) detach_dev(each_1_anchor);
-    		}
-    	};
-
-    	dispatch_dev("SvelteRegisterBlock", {
-    		block,
-    		id: create_default_slot_7$1.name,
-    		type: "slot",
-    		source: "(173:16) <MultiSelect id={catchments.name} bind:value={$ui.search.organisation.catchment} placeholder={catchments.placeholder} >",
-    		ctx
-    	});
-
-    	return block;
-    }
-
-    // (185:20) {#each subcatchments.list as name}
+    // (214:20) {#each catchments.list as name}
     function create_each_block_6$1(ctx) {
     	let option;
-    	let raw_value = /*name*/ ctx[22] + "";
+    	let raw_value = /*name*/ ctx[21] + "";
 
     	const block = {
     		c: function create() {
     			option = element("option");
-    			option.__value = /*name*/ ctx[22];
+    			option.__value = /*name*/ ctx[21];
     			option.value = option.__value;
     			attr_dev(option, "class", "svelte-kelrrb");
-    			add_location(option, file$t, 185, 20, 8361);
+    			add_location(option, file$t, 214, 20, 9043);
     		},
     		m: function mount(target, anchor) {
     			insert_dev(target, option, anchor);
@@ -85428,19 +85335,19 @@ var app = (function (exports) {
     		block,
     		id: create_each_block_6$1.name,
     		type: "each",
-    		source: "(185:20) {#each subcatchments.list as name}",
+    		source: "(214:20) {#each catchments.list as name}",
     		ctx
     	});
 
     	return block;
     }
 
-    // (183:16) <MultiSelect id={subcatchments.name} bind:value={$ui.search.organisation.subcatchment} placeholder={subcatchments.placeholder} >
+    // (212:16) <MultiSelect id={catchments.name} bind:value={$ui.search.criteria.organisation.project.location.catchments} placeholder={catchments.placeholder} >
     function create_default_slot_6$1(ctx) {
     	let option;
     	let t;
     	let each_1_anchor;
-    	let each_value_6 = subcatchments.list;
+    	let each_value_6 = catchments.list;
     	validate_each_argument(each_value_6);
     	let each_blocks = [];
 
@@ -85463,7 +85370,7 @@ var app = (function (exports) {
     			option.__value = "";
     			option.value = option.__value;
     			attr_dev(option, "class", "svelte-kelrrb");
-    			add_location(option, file$t, 183, 20, 8244);
+    			add_location(option, file$t, 212, 20, 8929);
     		},
     		m: function mount(target, anchor) {
     			insert_dev(target, option, anchor);
@@ -85476,8 +85383,8 @@ var app = (function (exports) {
     			insert_dev(target, each_1_anchor, anchor);
     		},
     		p: function update(ctx, dirty) {
-    			if (dirty & /*subcatchments*/ 0) {
-    				each_value_6 = subcatchments.list;
+    			if (dirty & /*catchments*/ 0) {
+    				each_value_6 = catchments.list;
     				validate_each_argument(each_value_6);
     				let i;
 
@@ -85512,25 +85419,25 @@ var app = (function (exports) {
     		block,
     		id: create_default_slot_6$1.name,
     		type: "slot",
-    		source: "(183:16) <MultiSelect id={subcatchments.name} bind:value={$ui.search.organisation.subcatchment} placeholder={subcatchments.placeholder} >",
+    		source: "(212:16) <MultiSelect id={catchments.name} bind:value={$ui.search.criteria.organisation.project.location.catchments} placeholder={catchments.placeholder} >",
     		ctx
     	});
 
     	return block;
     }
 
-    // (195:20) {#each locations.list as name}
+    // (224:20) {#each subcatchments.list as name}
     function create_each_block_5$1(ctx) {
     	let option;
-    	let raw_value = /*name*/ ctx[22] + "";
+    	let raw_value = /*name*/ ctx[21] + "";
 
     	const block = {
     		c: function create() {
     			option = element("option");
-    			option.__value = /*name*/ ctx[22];
+    			option.__value = /*name*/ ctx[21];
     			option.value = option.__value;
     			attr_dev(option, "class", "svelte-kelrrb");
-    			add_location(option, file$t, 195, 20, 8884);
+    			add_location(option, file$t, 224, 20, 9613);
     		},
     		m: function mount(target, anchor) {
     			insert_dev(target, option, anchor);
@@ -85546,19 +85453,19 @@ var app = (function (exports) {
     		block,
     		id: create_each_block_5$1.name,
     		type: "each",
-    		source: "(195:20) {#each locations.list as name}",
+    		source: "(224:20) {#each subcatchments.list as name}",
     		ctx
     	});
 
     	return block;
     }
 
-    // (193:16) <MultiSelect id={locations.name} bind:value={$ui.search.organisation.locations} placeholder={locations.placeholder}>
+    // (222:16) <MultiSelect id={subcatchments.name} bind:value={$ui.search.criteria.organisation.project.location.subCatchments} placeholder={subcatchments.placeholder} >
     function create_default_slot_5$1(ctx) {
     	let option;
     	let t;
     	let each_1_anchor;
-    	let each_value_5 = locations.list;
+    	let each_value_5 = subcatchments.list;
     	validate_each_argument(each_value_5);
     	let each_blocks = [];
 
@@ -85581,7 +85488,7 @@ var app = (function (exports) {
     			option.__value = "";
     			option.value = option.__value;
     			attr_dev(option, "class", "svelte-kelrrb");
-    			add_location(option, file$t, 193, 20, 8771);
+    			add_location(option, file$t, 222, 20, 9496);
     		},
     		m: function mount(target, anchor) {
     			insert_dev(target, option, anchor);
@@ -85594,8 +85501,8 @@ var app = (function (exports) {
     			insert_dev(target, each_1_anchor, anchor);
     		},
     		p: function update(ctx, dirty) {
-    			if (dirty & /*locations*/ 0) {
-    				each_value_5 = locations.list;
+    			if (dirty & /*subcatchments*/ 0) {
+    				each_value_5 = subcatchments.list;
     				validate_each_argument(each_value_5);
     				let i;
 
@@ -85630,377 +85537,25 @@ var app = (function (exports) {
     		block,
     		id: create_default_slot_5$1.name,
     		type: "slot",
-    		source: "(193:16) <MultiSelect id={locations.name} bind:value={$ui.search.organisation.locations} placeholder={locations.placeholder}>",
+    		source: "(222:16) <MultiSelect id={subcatchments.name} bind:value={$ui.search.criteria.organisation.project.location.subCatchments} placeholder={subcatchments.placeholder} >",
     		ctx
     	});
 
     	return block;
     }
 
-    // (212:8) {#if paneVisbility.byCharacteristics}
-    function create_if_block_1$9(ctx) {
-    	let div5;
-    	let div0;
-    	let h40;
-    	let raw0_value = projectType.label + "";
-    	let t0;
-    	let multiselect0;
-    	let updating_value;
-    	let t1;
-    	let div1;
-    	let h41;
-    	let raw1_value = projectStage.label + "";
-    	let t2;
-    	let multiselect1;
-    	let updating_value_1;
-    	let t3;
-    	let div2;
-    	let h42;
-    	let raw2_value = projectClass.label + "";
-    	let t4;
-    	let multiselect2;
-    	let updating_value_2;
-    	let t5;
-    	let div3;
-    	let h43;
-    	let raw3_value = projectSize.label + "";
-    	let t6;
-    	let multiselect3;
-    	let updating_value_3;
-    	let t7;
-    	let div4;
-    	let h44;
-    	let raw4_value = projectScale.label + "";
-    	let t8;
-    	let multiselect4;
-    	let updating_value_4;
-    	let div5_transition;
-    	let current;
-
-    	function multiselect0_value_binding_2(value) {
-    		/*multiselect0_value_binding_2*/ ctx[15](value);
-    	}
-
-    	let multiselect0_props = {
-    		id: projectType.name,
-    		placeholder: projectType.placeholder,
-    		$$slots: { default: [create_default_slot_4$1] },
-    		$$scope: { ctx }
-    	};
-
-    	if (/*$ui*/ ctx[0].search.organisation.projectType !== void 0) {
-    		multiselect0_props.value = /*$ui*/ ctx[0].search.organisation.projectType;
-    	}
-
-    	multiselect0 = new MultiSelect({
-    			props: multiselect0_props,
-    			$$inline: true
-    		});
-
-    	binding_callbacks.push(() => bind(multiselect0, 'value', multiselect0_value_binding_2));
-
-    	function multiselect1_value_binding_2(value) {
-    		/*multiselect1_value_binding_2*/ ctx[16](value);
-    	}
-
-    	let multiselect1_props = {
-    		id: projectStage.name,
-    		placeholder: projectStage.placeholder,
-    		$$slots: { default: [create_default_slot_3$1] },
-    		$$scope: { ctx }
-    	};
-
-    	if (/*$ui*/ ctx[0].search.organisation.projectStage !== void 0) {
-    		multiselect1_props.value = /*$ui*/ ctx[0].search.organisation.projectStage;
-    	}
-
-    	multiselect1 = new MultiSelect({
-    			props: multiselect1_props,
-    			$$inline: true
-    		});
-
-    	binding_callbacks.push(() => bind(multiselect1, 'value', multiselect1_value_binding_2));
-
-    	function multiselect2_value_binding_2(value) {
-    		/*multiselect2_value_binding_2*/ ctx[17](value);
-    	}
-
-    	let multiselect2_props = {
-    		id: projectClass.name,
-    		placeholder: projectClass.placeholder,
-    		$$slots: { default: [create_default_slot_2$1] },
-    		$$scope: { ctx }
-    	};
-
-    	if (/*$ui*/ ctx[0].search.organisation.projectClass !== void 0) {
-    		multiselect2_props.value = /*$ui*/ ctx[0].search.organisation.projectClass;
-    	}
-
-    	multiselect2 = new MultiSelect({
-    			props: multiselect2_props,
-    			$$inline: true
-    		});
-
-    	binding_callbacks.push(() => bind(multiselect2, 'value', multiselect2_value_binding_2));
-
-    	function multiselect3_value_binding_1(value) {
-    		/*multiselect3_value_binding_1*/ ctx[18](value);
-    	}
-
-    	let multiselect3_props = {
-    		id: projectSize.name,
-    		placeholder: projectSize.placeholder,
-    		$$slots: { default: [create_default_slot_1$1] },
-    		$$scope: { ctx }
-    	};
-
-    	if (/*$ui*/ ctx[0].search.organisation.projectSize !== void 0) {
-    		multiselect3_props.value = /*$ui*/ ctx[0].search.organisation.projectSize;
-    	}
-
-    	multiselect3 = new MultiSelect({
-    			props: multiselect3_props,
-    			$$inline: true
-    		});
-
-    	binding_callbacks.push(() => bind(multiselect3, 'value', multiselect3_value_binding_1));
-
-    	function multiselect4_value_binding(value) {
-    		/*multiselect4_value_binding*/ ctx[19](value);
-    	}
-
-    	let multiselect4_props = {
-    		id: projectScale.name,
-    		placeholder: projectScale.placeholder,
-    		$$slots: { default: [create_default_slot$1] },
-    		$$scope: { ctx }
-    	};
-
-    	if (/*$ui*/ ctx[0].search.organisation.projectScale !== void 0) {
-    		multiselect4_props.value = /*$ui*/ ctx[0].search.organisation.projectScale;
-    	}
-
-    	multiselect4 = new MultiSelect({
-    			props: multiselect4_props,
-    			$$inline: true
-    		});
-
-    	binding_callbacks.push(() => bind(multiselect4, 'value', multiselect4_value_binding));
-
-    	const block = {
-    		c: function create() {
-    			div5 = element("div");
-    			div0 = element("div");
-    			h40 = element("h4");
-    			t0 = space();
-    			create_component(multiselect0.$$.fragment);
-    			t1 = space();
-    			div1 = element("div");
-    			h41 = element("h4");
-    			t2 = space();
-    			create_component(multiselect1.$$.fragment);
-    			t3 = space();
-    			div2 = element("div");
-    			h42 = element("h4");
-    			t4 = space();
-    			create_component(multiselect2.$$.fragment);
-    			t5 = space();
-    			div3 = element("div");
-    			h43 = element("h4");
-    			t6 = space();
-    			create_component(multiselect3.$$.fragment);
-    			t7 = space();
-    			div4 = element("div");
-    			h44 = element("h4");
-    			t8 = space();
-    			create_component(multiselect4.$$.fragment);
-    			attr_dev(h40, "class", "svelte-kelrrb");
-    			add_location(h40, file$t, 214, 16, 9626);
-    			attr_dev(div0, "class", "multi-select-container svelte-kelrrb");
-    			set_style(div0, "z-index", "14");
-    			add_location(div0, file$t, 213, 12, 9552);
-    			attr_dev(h41, "class", "svelte-kelrrb");
-    			add_location(h41, file$t, 223, 16, 10161);
-    			attr_dev(div1, "class", "multi-select-container svelte-kelrrb");
-    			set_style(div1, "z-index", "13");
-    			add_location(div1, file$t, 222, 12, 10087);
-    			attr_dev(h42, "class", "svelte-kelrrb");
-    			add_location(h42, file$t, 232, 16, 10701);
-    			attr_dev(div2, "class", "multi-select-container svelte-kelrrb");
-    			set_style(div2, "z-index", "12");
-    			add_location(div2, file$t, 231, 12, 10627);
-    			attr_dev(h43, "class", "svelte-kelrrb");
-    			add_location(h43, file$t, 241, 16, 11241);
-    			attr_dev(div3, "class", "multi-select-container svelte-kelrrb");
-    			set_style(div3, "z-index", "11");
-    			add_location(div3, file$t, 240, 12, 11167);
-    			attr_dev(h44, "class", "svelte-kelrrb");
-    			add_location(h44, file$t, 250, 16, 11776);
-    			attr_dev(div4, "class", "multi-select-container svelte-kelrrb");
-    			set_style(div4, "z-index", "10");
-    			add_location(div4, file$t, 249, 12, 11702);
-    			attr_dev(div5, "class", "collapse__body svelte-kelrrb");
-    			add_location(div5, file$t, 212, 8, 9491);
-    		},
-    		m: function mount(target, anchor) {
-    			insert_dev(target, div5, anchor);
-    			append_dev(div5, div0);
-    			append_dev(div0, h40);
-    			h40.innerHTML = raw0_value;
-    			append_dev(div0, t0);
-    			mount_component(multiselect0, div0, null);
-    			append_dev(div5, t1);
-    			append_dev(div5, div1);
-    			append_dev(div1, h41);
-    			h41.innerHTML = raw1_value;
-    			append_dev(div1, t2);
-    			mount_component(multiselect1, div1, null);
-    			append_dev(div5, t3);
-    			append_dev(div5, div2);
-    			append_dev(div2, h42);
-    			h42.innerHTML = raw2_value;
-    			append_dev(div2, t4);
-    			mount_component(multiselect2, div2, null);
-    			append_dev(div5, t5);
-    			append_dev(div5, div3);
-    			append_dev(div3, h43);
-    			h43.innerHTML = raw3_value;
-    			append_dev(div3, t6);
-    			mount_component(multiselect3, div3, null);
-    			append_dev(div5, t7);
-    			append_dev(div5, div4);
-    			append_dev(div4, h44);
-    			h44.innerHTML = raw4_value;
-    			append_dev(div4, t8);
-    			mount_component(multiselect4, div4, null);
-    			current = true;
-    		},
-    		p: function update(ctx, dirty) {
-    			const multiselect0_changes = {};
-
-    			if (dirty[1] & /*$$scope*/ 262144) {
-    				multiselect0_changes.$$scope = { dirty, ctx };
-    			}
-
-    			if (!updating_value && dirty[0] & /*$ui*/ 1) {
-    				updating_value = true;
-    				multiselect0_changes.value = /*$ui*/ ctx[0].search.organisation.projectType;
-    				add_flush_callback(() => updating_value = false);
-    			}
-
-    			multiselect0.$set(multiselect0_changes);
-    			const multiselect1_changes = {};
-
-    			if (dirty[1] & /*$$scope*/ 262144) {
-    				multiselect1_changes.$$scope = { dirty, ctx };
-    			}
-
-    			if (!updating_value_1 && dirty[0] & /*$ui*/ 1) {
-    				updating_value_1 = true;
-    				multiselect1_changes.value = /*$ui*/ ctx[0].search.organisation.projectStage;
-    				add_flush_callback(() => updating_value_1 = false);
-    			}
-
-    			multiselect1.$set(multiselect1_changes);
-    			const multiselect2_changes = {};
-
-    			if (dirty[1] & /*$$scope*/ 262144) {
-    				multiselect2_changes.$$scope = { dirty, ctx };
-    			}
-
-    			if (!updating_value_2 && dirty[0] & /*$ui*/ 1) {
-    				updating_value_2 = true;
-    				multiselect2_changes.value = /*$ui*/ ctx[0].search.organisation.projectClass;
-    				add_flush_callback(() => updating_value_2 = false);
-    			}
-
-    			multiselect2.$set(multiselect2_changes);
-    			const multiselect3_changes = {};
-
-    			if (dirty[1] & /*$$scope*/ 262144) {
-    				multiselect3_changes.$$scope = { dirty, ctx };
-    			}
-
-    			if (!updating_value_3 && dirty[0] & /*$ui*/ 1) {
-    				updating_value_3 = true;
-    				multiselect3_changes.value = /*$ui*/ ctx[0].search.organisation.projectSize;
-    				add_flush_callback(() => updating_value_3 = false);
-    			}
-
-    			multiselect3.$set(multiselect3_changes);
-    			const multiselect4_changes = {};
-
-    			if (dirty[1] & /*$$scope*/ 262144) {
-    				multiselect4_changes.$$scope = { dirty, ctx };
-    			}
-
-    			if (!updating_value_4 && dirty[0] & /*$ui*/ 1) {
-    				updating_value_4 = true;
-    				multiselect4_changes.value = /*$ui*/ ctx[0].search.organisation.projectScale;
-    				add_flush_callback(() => updating_value_4 = false);
-    			}
-
-    			multiselect4.$set(multiselect4_changes);
-    		},
-    		i: function intro(local) {
-    			if (current) return;
-    			transition_in(multiselect0.$$.fragment, local);
-    			transition_in(multiselect1.$$.fragment, local);
-    			transition_in(multiselect2.$$.fragment, local);
-    			transition_in(multiselect3.$$.fragment, local);
-    			transition_in(multiselect4.$$.fragment, local);
-
-    			add_render_callback(() => {
-    				if (!div5_transition) div5_transition = create_bidirectional_transition(div5, slide, {}, true);
-    				div5_transition.run(1);
-    			});
-
-    			current = true;
-    		},
-    		o: function outro(local) {
-    			transition_out(multiselect0.$$.fragment, local);
-    			transition_out(multiselect1.$$.fragment, local);
-    			transition_out(multiselect2.$$.fragment, local);
-    			transition_out(multiselect3.$$.fragment, local);
-    			transition_out(multiselect4.$$.fragment, local);
-    			if (!div5_transition) div5_transition = create_bidirectional_transition(div5, slide, {}, false);
-    			div5_transition.run(0);
-    			current = false;
-    		},
-    		d: function destroy(detaching) {
-    			if (detaching) detach_dev(div5);
-    			destroy_component(multiselect0);
-    			destroy_component(multiselect1);
-    			destroy_component(multiselect2);
-    			destroy_component(multiselect3);
-    			destroy_component(multiselect4);
-    			if (detaching && div5_transition) div5_transition.end();
-    		}
-    	};
-
-    	dispatch_dev("SvelteRegisterBlock", {
-    		block,
-    		id: create_if_block_1$9.name,
-    		type: "if",
-    		source: "(212:8) {#if paneVisbility.byCharacteristics}",
-    		ctx
-    	});
-
-    	return block;
-    }
-
-    // (218:20) {#each projectType.list as name}
+    // (234:20) {#each locations.list as name}
     function create_each_block_4$1(ctx) {
     	let option;
-    	let raw_value = /*name*/ ctx[22] + "";
+    	let raw_value = /*name*/ ctx[21] + "";
 
     	const block = {
     		c: function create() {
     			option = element("option");
-    			option.__value = /*name*/ ctx[22];
+    			option.__value = /*name*/ ctx[21];
     			option.value = option.__value;
     			attr_dev(option, "class", "svelte-kelrrb");
-    			add_location(option, file$t, 218, 20, 9938);
+    			add_location(option, file$t, 234, 20, 10162);
     		},
     		m: function mount(target, anchor) {
     			insert_dev(target, option, anchor);
@@ -86016,19 +85571,19 @@ var app = (function (exports) {
     		block,
     		id: create_each_block_4$1.name,
     		type: "each",
-    		source: "(218:20) {#each projectType.list as name}",
+    		source: "(234:20) {#each locations.list as name}",
     		ctx
     	});
 
     	return block;
     }
 
-    // (216:16) <MultiSelect id = {projectType.name} bind:value={$ui.search.organisation.projectType} placeholder={projectType.placeholder} >
+    // (232:16) <MultiSelect id={locations.name} bind:value={$ui.search.criteria.organisation.project.location.locations} placeholder={locations.placeholder}>
     function create_default_slot_4$1(ctx) {
     	let option;
     	let t;
     	let each_1_anchor;
-    	let each_value_4 = projectType.list;
+    	let each_value_4 = locations.list;
     	validate_each_argument(each_value_4);
     	let each_blocks = [];
 
@@ -86051,7 +85606,7 @@ var app = (function (exports) {
     			option.__value = "";
     			option.value = option.__value;
     			attr_dev(option, "class", "svelte-kelrrb");
-    			add_location(option, file$t, 216, 20, 9823);
+    			add_location(option, file$t, 232, 20, 10049);
     		},
     		m: function mount(target, anchor) {
     			insert_dev(target, option, anchor);
@@ -86064,8 +85619,8 @@ var app = (function (exports) {
     			insert_dev(target, each_1_anchor, anchor);
     		},
     		p: function update(ctx, dirty) {
-    			if (dirty & /*projectType*/ 0) {
-    				each_value_4 = projectType.list;
+    			if (dirty & /*locations*/ 0) {
+    				each_value_4 = locations.list;
     				validate_each_argument(each_value_4);
     				let i;
 
@@ -86100,25 +85655,316 @@ var app = (function (exports) {
     		block,
     		id: create_default_slot_4$1.name,
     		type: "slot",
-    		source: "(216:16) <MultiSelect id = {projectType.name} bind:value={$ui.search.organisation.projectType} placeholder={projectType.placeholder} >",
+    		source: "(232:16) <MultiSelect id={locations.name} bind:value={$ui.search.criteria.organisation.project.location.locations} placeholder={locations.placeholder}>",
     		ctx
     	});
 
     	return block;
     }
 
-    // (227:20) {#each projectStage.list as name}
+    // (251:8) {#if paneVisbility.byCharacteristics}
+    function create_if_block_1$9(ctx) {
+    	let div4;
+    	let div0;
+    	let h40;
+    	let raw0_value = projectStage.label + "";
+    	let t0;
+    	let multiselect0;
+    	let updating_value;
+    	let t1;
+    	let div1;
+    	let h41;
+    	let raw1_value = projectType.label + "";
+    	let t2;
+    	let multiselect1;
+    	let updating_value_1;
+    	let t3;
+    	let div2;
+    	let h42;
+    	let raw2_value = projectClass.label + "";
+    	let t4;
+    	let multiselect2;
+    	let updating_value_2;
+    	let t5;
+    	let div3;
+    	let h43;
+    	let raw3_value = projectScale.label + "";
+    	let t6;
+    	let multiselect3;
+    	let updating_value_3;
+    	let div4_transition;
+    	let current;
+
+    	function multiselect0_value_binding_3(value) {
+    		/*multiselect0_value_binding_3*/ ctx[16](value);
+    	}
+
+    	let multiselect0_props = {
+    		id: projectStage.name,
+    		placeholder: projectStage.placeholder,
+    		$$slots: { default: [create_default_slot_3$1] },
+    		$$scope: { ctx }
+    	};
+
+    	if (/*$ui*/ ctx[0].search.criteria.organisation.project.status.stage !== void 0) {
+    		multiselect0_props.value = /*$ui*/ ctx[0].search.criteria.organisation.project.status.stage;
+    	}
+
+    	multiselect0 = new MultiSelect({
+    			props: multiselect0_props,
+    			$$inline: true
+    		});
+
+    	binding_callbacks.push(() => bind(multiselect0, 'value', multiselect0_value_binding_3));
+
+    	function multiselect1_value_binding_3(value) {
+    		/*multiselect1_value_binding_3*/ ctx[17](value);
+    	}
+
+    	let multiselect1_props = {
+    		id: projectType.name,
+    		placeholder: projectType.placeholder,
+    		$$slots: { default: [create_default_slot_2$1] },
+    		$$scope: { ctx }
+    	};
+
+    	if (/*$ui*/ ctx[0].search.criteria.organisation.project.meta.type !== void 0) {
+    		multiselect1_props.value = /*$ui*/ ctx[0].search.criteria.organisation.project.meta.type;
+    	}
+
+    	multiselect1 = new MultiSelect({
+    			props: multiselect1_props,
+    			$$inline: true
+    		});
+
+    	binding_callbacks.push(() => bind(multiselect1, 'value', multiselect1_value_binding_3));
+
+    	function multiselect2_value_binding_2(value) {
+    		/*multiselect2_value_binding_2*/ ctx[18](value);
+    	}
+
+    	let multiselect2_props = {
+    		id: projectClass.name,
+    		placeholder: projectClass.placeholder,
+    		$$slots: { default: [create_default_slot_1$1] },
+    		$$scope: { ctx }
+    	};
+
+    	if (/*$ui*/ ctx[0].search.criteria.organisation.project.meta.class !== void 0) {
+    		multiselect2_props.value = /*$ui*/ ctx[0].search.criteria.organisation.project.meta.class;
+    	}
+
+    	multiselect2 = new MultiSelect({
+    			props: multiselect2_props,
+    			$$inline: true
+    		});
+
+    	binding_callbacks.push(() => bind(multiselect2, 'value', multiselect2_value_binding_2));
+
+    	function multiselect3_value_binding(value) {
+    		/*multiselect3_value_binding*/ ctx[19](value);
+    	}
+
+    	let multiselect3_props = {
+    		id: projectScale.name,
+    		placeholder: projectScale.placeholder,
+    		$$slots: { default: [create_default_slot$1] },
+    		$$scope: { ctx }
+    	};
+
+    	if (/*$ui*/ ctx[0].search.criteria.organisation.project.meta.scale !== void 0) {
+    		multiselect3_props.value = /*$ui*/ ctx[0].search.criteria.organisation.project.meta.scale;
+    	}
+
+    	multiselect3 = new MultiSelect({
+    			props: multiselect3_props,
+    			$$inline: true
+    		});
+
+    	binding_callbacks.push(() => bind(multiselect3, 'value', multiselect3_value_binding));
+
+    	const block = {
+    		c: function create() {
+    			div4 = element("div");
+    			div0 = element("div");
+    			h40 = element("h4");
+    			t0 = space();
+    			create_component(multiselect0.$$.fragment);
+    			t1 = space();
+    			div1 = element("div");
+    			h41 = element("h4");
+    			t2 = space();
+    			create_component(multiselect1.$$.fragment);
+    			t3 = space();
+    			div2 = element("div");
+    			h42 = element("h4");
+    			t4 = space();
+    			create_component(multiselect2.$$.fragment);
+    			t5 = space();
+    			div3 = element("div");
+    			h43 = element("h4");
+    			t6 = space();
+    			create_component(multiselect3.$$.fragment);
+    			attr_dev(h40, "class", "svelte-kelrrb");
+    			add_location(h40, file$t, 253, 16, 10904);
+    			attr_dev(div0, "class", "multi-select-container svelte-kelrrb");
+    			set_style(div0, "z-index", "12");
+    			add_location(div0, file$t, 252, 12, 10830);
+    			attr_dev(h41, "class", "svelte-kelrrb");
+    			add_location(h41, file$t, 262, 16, 11461);
+    			attr_dev(div1, "class", "multi-select-container svelte-kelrrb");
+    			set_style(div1, "z-index", "11");
+    			add_location(div1, file$t, 261, 12, 11387);
+    			attr_dev(h42, "class", "svelte-kelrrb");
+    			add_location(h42, file$t, 271, 16, 12011);
+    			attr_dev(div2, "class", "multi-select-container svelte-kelrrb");
+    			set_style(div2, "z-index", "10");
+    			add_location(div2, file$t, 270, 12, 11937);
+    			attr_dev(h43, "class", "svelte-kelrrb");
+    			add_location(h43, file$t, 280, 16, 12565);
+    			attr_dev(div3, "class", "multi-select-container svelte-kelrrb");
+    			set_style(div3, "z-index", "9");
+    			add_location(div3, file$t, 279, 12, 12492);
+    			attr_dev(div4, "class", "collapse__body svelte-kelrrb");
+    			add_location(div4, file$t, 251, 8, 10769);
+    		},
+    		m: function mount(target, anchor) {
+    			insert_dev(target, div4, anchor);
+    			append_dev(div4, div0);
+    			append_dev(div0, h40);
+    			h40.innerHTML = raw0_value;
+    			append_dev(div0, t0);
+    			mount_component(multiselect0, div0, null);
+    			append_dev(div4, t1);
+    			append_dev(div4, div1);
+    			append_dev(div1, h41);
+    			h41.innerHTML = raw1_value;
+    			append_dev(div1, t2);
+    			mount_component(multiselect1, div1, null);
+    			append_dev(div4, t3);
+    			append_dev(div4, div2);
+    			append_dev(div2, h42);
+    			h42.innerHTML = raw2_value;
+    			append_dev(div2, t4);
+    			mount_component(multiselect2, div2, null);
+    			append_dev(div4, t5);
+    			append_dev(div4, div3);
+    			append_dev(div3, h43);
+    			h43.innerHTML = raw3_value;
+    			append_dev(div3, t6);
+    			mount_component(multiselect3, div3, null);
+    			current = true;
+    		},
+    		p: function update(ctx, dirty) {
+    			const multiselect0_changes = {};
+
+    			if (dirty[1] & /*$$scope*/ 32768) {
+    				multiselect0_changes.$$scope = { dirty, ctx };
+    			}
+
+    			if (!updating_value && dirty[0] & /*$ui*/ 1) {
+    				updating_value = true;
+    				multiselect0_changes.value = /*$ui*/ ctx[0].search.criteria.organisation.project.status.stage;
+    				add_flush_callback(() => updating_value = false);
+    			}
+
+    			multiselect0.$set(multiselect0_changes);
+    			const multiselect1_changes = {};
+
+    			if (dirty[1] & /*$$scope*/ 32768) {
+    				multiselect1_changes.$$scope = { dirty, ctx };
+    			}
+
+    			if (!updating_value_1 && dirty[0] & /*$ui*/ 1) {
+    				updating_value_1 = true;
+    				multiselect1_changes.value = /*$ui*/ ctx[0].search.criteria.organisation.project.meta.type;
+    				add_flush_callback(() => updating_value_1 = false);
+    			}
+
+    			multiselect1.$set(multiselect1_changes);
+    			const multiselect2_changes = {};
+
+    			if (dirty[1] & /*$$scope*/ 32768) {
+    				multiselect2_changes.$$scope = { dirty, ctx };
+    			}
+
+    			if (!updating_value_2 && dirty[0] & /*$ui*/ 1) {
+    				updating_value_2 = true;
+    				multiselect2_changes.value = /*$ui*/ ctx[0].search.criteria.organisation.project.meta.class;
+    				add_flush_callback(() => updating_value_2 = false);
+    			}
+
+    			multiselect2.$set(multiselect2_changes);
+    			const multiselect3_changes = {};
+
+    			if (dirty[1] & /*$$scope*/ 32768) {
+    				multiselect3_changes.$$scope = { dirty, ctx };
+    			}
+
+    			if (!updating_value_3 && dirty[0] & /*$ui*/ 1) {
+    				updating_value_3 = true;
+    				multiselect3_changes.value = /*$ui*/ ctx[0].search.criteria.organisation.project.meta.scale;
+    				add_flush_callback(() => updating_value_3 = false);
+    			}
+
+    			multiselect3.$set(multiselect3_changes);
+    		},
+    		i: function intro(local) {
+    			if (current) return;
+    			transition_in(multiselect0.$$.fragment, local);
+    			transition_in(multiselect1.$$.fragment, local);
+    			transition_in(multiselect2.$$.fragment, local);
+    			transition_in(multiselect3.$$.fragment, local);
+
+    			add_render_callback(() => {
+    				if (!div4_transition) div4_transition = create_bidirectional_transition(div4, slide, {}, true);
+    				div4_transition.run(1);
+    			});
+
+    			current = true;
+    		},
+    		o: function outro(local) {
+    			transition_out(multiselect0.$$.fragment, local);
+    			transition_out(multiselect1.$$.fragment, local);
+    			transition_out(multiselect2.$$.fragment, local);
+    			transition_out(multiselect3.$$.fragment, local);
+    			if (!div4_transition) div4_transition = create_bidirectional_transition(div4, slide, {}, false);
+    			div4_transition.run(0);
+    			current = false;
+    		},
+    		d: function destroy(detaching) {
+    			if (detaching) detach_dev(div4);
+    			destroy_component(multiselect0);
+    			destroy_component(multiselect1);
+    			destroy_component(multiselect2);
+    			destroy_component(multiselect3);
+    			if (detaching && div4_transition) div4_transition.end();
+    		}
+    	};
+
+    	dispatch_dev("SvelteRegisterBlock", {
+    		block,
+    		id: create_if_block_1$9.name,
+    		type: "if",
+    		source: "(251:8) {#if paneVisbility.byCharacteristics}",
+    		ctx
+    	});
+
+    	return block;
+    }
+
+    // (257:20) {#each projectStage.list as name}
     function create_each_block_3$1(ctx) {
     	let option;
-    	let raw_value = /*name*/ ctx[22] + "";
+    	let raw_value = /*name*/ ctx[21] + "";
 
     	const block = {
     		c: function create() {
     			option = element("option");
-    			option.__value = /*name*/ ctx[22];
+    			option.__value = /*name*/ ctx[21];
     			option.value = option.__value;
     			attr_dev(option, "class", "svelte-kelrrb");
-    			add_location(option, file$t, 227, 20, 10478);
+    			add_location(option, file$t, 257, 20, 11238);
     		},
     		m: function mount(target, anchor) {
     			insert_dev(target, option, anchor);
@@ -86134,14 +85980,14 @@ var app = (function (exports) {
     		block,
     		id: create_each_block_3$1.name,
     		type: "each",
-    		source: "(227:20) {#each projectStage.list as name}",
+    		source: "(257:20) {#each projectStage.list as name}",
     		ctx
     	});
 
     	return block;
     }
 
-    // (225:16) <MultiSelect id = {projectStage.name} bind:value={$ui.search.organisation.projectStage} placeholder={projectStage.placeholder} >
+    // (255:16) <MultiSelect id = {projectStage.name} bind:value={$ui.search.criteria.organisation.project.status.stage} placeholder={projectStage.placeholder} >
     function create_default_slot_3$1(ctx) {
     	let option;
     	let t;
@@ -86169,7 +86015,7 @@ var app = (function (exports) {
     			option.__value = "";
     			option.value = option.__value;
     			attr_dev(option, "class", "svelte-kelrrb");
-    			add_location(option, file$t, 225, 20, 10362);
+    			add_location(option, file$t, 255, 20, 11122);
     		},
     		m: function mount(target, anchor) {
     			insert_dev(target, option, anchor);
@@ -86218,25 +86064,25 @@ var app = (function (exports) {
     		block,
     		id: create_default_slot_3$1.name,
     		type: "slot",
-    		source: "(225:16) <MultiSelect id = {projectStage.name} bind:value={$ui.search.organisation.projectStage} placeholder={projectStage.placeholder} >",
+    		source: "(255:16) <MultiSelect id = {projectStage.name} bind:value={$ui.search.criteria.organisation.project.status.stage} placeholder={projectStage.placeholder} >",
     		ctx
     	});
 
     	return block;
     }
 
-    // (236:20) {#each projectClass.list as name}
+    // (266:20) {#each projectType.list as name}
     function create_each_block_2$1(ctx) {
     	let option;
-    	let raw_value = /*name*/ ctx[22] + "";
+    	let raw_value = /*name*/ ctx[21] + "";
 
     	const block = {
     		c: function create() {
     			option = element("option");
-    			option.__value = /*name*/ ctx[22];
+    			option.__value = /*name*/ ctx[21];
     			option.value = option.__value;
     			attr_dev(option, "class", "svelte-kelrrb");
-    			add_location(option, file$t, 236, 20, 11018);
+    			add_location(option, file$t, 266, 20, 11788);
     		},
     		m: function mount(target, anchor) {
     			insert_dev(target, option, anchor);
@@ -86252,19 +86098,19 @@ var app = (function (exports) {
     		block,
     		id: create_each_block_2$1.name,
     		type: "each",
-    		source: "(236:20) {#each projectClass.list as name}",
+    		source: "(266:20) {#each projectType.list as name}",
     		ctx
     	});
 
     	return block;
     }
 
-    // (234:16) <MultiSelect id = {projectClass.name} bind:value={$ui.search.organisation.projectClass} placeholder={projectClass.placeholder} >
+    // (264:16) <MultiSelect id = {projectType.name} bind:value={$ui.search.criteria.organisation.project.meta.type} placeholder={projectType.placeholder} >
     function create_default_slot_2$1(ctx) {
     	let option;
     	let t;
     	let each_1_anchor;
-    	let each_value_2 = projectClass.list;
+    	let each_value_2 = projectType.list;
     	validate_each_argument(each_value_2);
     	let each_blocks = [];
 
@@ -86287,7 +86133,7 @@ var app = (function (exports) {
     			option.__value = "";
     			option.value = option.__value;
     			attr_dev(option, "class", "svelte-kelrrb");
-    			add_location(option, file$t, 234, 20, 10902);
+    			add_location(option, file$t, 264, 20, 11673);
     		},
     		m: function mount(target, anchor) {
     			insert_dev(target, option, anchor);
@@ -86300,8 +86146,8 @@ var app = (function (exports) {
     			insert_dev(target, each_1_anchor, anchor);
     		},
     		p: function update(ctx, dirty) {
-    			if (dirty & /*projectClass*/ 0) {
-    				each_value_2 = projectClass.list;
+    			if (dirty & /*projectType*/ 0) {
+    				each_value_2 = projectType.list;
     				validate_each_argument(each_value_2);
     				let i;
 
@@ -86336,25 +86182,25 @@ var app = (function (exports) {
     		block,
     		id: create_default_slot_2$1.name,
     		type: "slot",
-    		source: "(234:16) <MultiSelect id = {projectClass.name} bind:value={$ui.search.organisation.projectClass} placeholder={projectClass.placeholder} >",
+    		source: "(264:16) <MultiSelect id = {projectType.name} bind:value={$ui.search.criteria.organisation.project.meta.type} placeholder={projectType.placeholder} >",
     		ctx
     	});
 
     	return block;
     }
 
-    // (245:20) {#each projectSize.list as name}
+    // (275:20) {#each projectClass.list as name}
     function create_each_block_1$1(ctx) {
     	let option;
-    	let raw_value = /*name*/ ctx[22] + "";
+    	let raw_value = /*name*/ ctx[21] + "";
 
     	const block = {
     		c: function create() {
     			option = element("option");
-    			option.__value = /*name*/ ctx[22];
+    			option.__value = /*name*/ ctx[21];
     			option.value = option.__value;
     			attr_dev(option, "class", "svelte-kelrrb");
-    			add_location(option, file$t, 245, 20, 11553);
+    			add_location(option, file$t, 275, 20, 12343);
     		},
     		m: function mount(target, anchor) {
     			insert_dev(target, option, anchor);
@@ -86370,19 +86216,19 @@ var app = (function (exports) {
     		block,
     		id: create_each_block_1$1.name,
     		type: "each",
-    		source: "(245:20) {#each projectSize.list as name}",
+    		source: "(275:20) {#each projectClass.list as name}",
     		ctx
     	});
 
     	return block;
     }
 
-    // (243:16) <MultiSelect id = {projectSize.name} bind:value={$ui.search.organisation.projectSize} placeholder={projectSize.placeholder} >
+    // (273:16) <MultiSelect id = {projectClass.name} bind:value={$ui.search.criteria.organisation.project.meta.class} placeholder={projectClass.placeholder} >
     function create_default_slot_1$1(ctx) {
     	let option;
     	let t;
     	let each_1_anchor;
-    	let each_value_1 = projectSize.list;
+    	let each_value_1 = projectClass.list;
     	validate_each_argument(each_value_1);
     	let each_blocks = [];
 
@@ -86405,7 +86251,7 @@ var app = (function (exports) {
     			option.__value = "";
     			option.value = option.__value;
     			attr_dev(option, "class", "svelte-kelrrb");
-    			add_location(option, file$t, 243, 20, 11438);
+    			add_location(option, file$t, 273, 20, 12227);
     		},
     		m: function mount(target, anchor) {
     			insert_dev(target, option, anchor);
@@ -86418,8 +86264,8 @@ var app = (function (exports) {
     			insert_dev(target, each_1_anchor, anchor);
     		},
     		p: function update(ctx, dirty) {
-    			if (dirty & /*projectSize*/ 0) {
-    				each_value_1 = projectSize.list;
+    			if (dirty & /*projectClass*/ 0) {
+    				each_value_1 = projectClass.list;
     				validate_each_argument(each_value_1);
     				let i;
 
@@ -86454,25 +86300,25 @@ var app = (function (exports) {
     		block,
     		id: create_default_slot_1$1.name,
     		type: "slot",
-    		source: "(243:16) <MultiSelect id = {projectSize.name} bind:value={$ui.search.organisation.projectSize} placeholder={projectSize.placeholder} >",
+    		source: "(273:16) <MultiSelect id = {projectClass.name} bind:value={$ui.search.criteria.organisation.project.meta.class} placeholder={projectClass.placeholder} >",
     		ctx
     	});
 
     	return block;
     }
 
-    // (254:20) {#each projectScale.list as name}
+    // (284:20) {#each projectScale.list as name}
     function create_each_block$6(ctx) {
     	let option;
-    	let raw_value = /*name*/ ctx[22] + "";
+    	let raw_value = /*name*/ ctx[21] + "";
 
     	const block = {
     		c: function create() {
     			option = element("option");
-    			option.__value = /*name*/ ctx[22];
+    			option.__value = /*name*/ ctx[21];
     			option.value = option.__value;
     			attr_dev(option, "class", "svelte-kelrrb");
-    			add_location(option, file$t, 254, 20, 12093);
+    			add_location(option, file$t, 284, 20, 12897);
     		},
     		m: function mount(target, anchor) {
     			insert_dev(target, option, anchor);
@@ -86488,14 +86334,14 @@ var app = (function (exports) {
     		block,
     		id: create_each_block$6.name,
     		type: "each",
-    		source: "(254:20) {#each projectScale.list as name}",
+    		source: "(284:20) {#each projectScale.list as name}",
     		ctx
     	});
 
     	return block;
     }
 
-    // (252:16) <MultiSelect id = {projectScale.name} bind:value={$ui.search.organisation.projectScale} placeholder={projectScale.placeholder} >
+    // (282:16) <MultiSelect id = {projectScale.name} bind:value={$ui.search.criteria.organisation.project.meta.scale} placeholder={projectScale.placeholder} >
     function create_default_slot$1(ctx) {
     	let option;
     	let t;
@@ -86523,7 +86369,7 @@ var app = (function (exports) {
     			option.__value = "";
     			option.value = option.__value;
     			attr_dev(option, "class", "svelte-kelrrb");
-    			add_location(option, file$t, 252, 20, 11977);
+    			add_location(option, file$t, 282, 20, 12781);
     		},
     		m: function mount(target, anchor) {
     			insert_dev(target, option, anchor);
@@ -86572,14 +86418,14 @@ var app = (function (exports) {
     		block,
     		id: create_default_slot$1.name,
     		type: "slot",
-    		source: "(252:16) <MultiSelect id = {projectScale.name} bind:value={$ui.search.organisation.projectScale} placeholder={projectScale.placeholder} >",
+    		source: "(282:16) <MultiSelect id = {projectScale.name} bind:value={$ui.search.criteria.organisation.project.meta.scale} placeholder={projectScale.placeholder} >",
     		ctx
     	});
 
     	return block;
     }
 
-    // (266:4) {#if noSearchParams > 0}
+    // (296:4) {#if noSearchParams > 0}
     function create_if_block$e(ctx) {
     	let div;
     	let mounted;
@@ -86590,7 +86436,7 @@ var app = (function (exports) {
     			div = element("div");
     			div.textContent = "Clear the search parameters";
     			attr_dev(div, "class", "clear-search-container svelte-kelrrb");
-    			add_location(div, file$t, 266, 8, 12444);
+    			add_location(div, file$t, 296, 8, 13248);
     		},
     		m: function mount(target, anchor) {
     			insert_dev(target, div, anchor);
@@ -86612,7 +86458,7 @@ var app = (function (exports) {
     		block,
     		id: create_if_block$e.name,
     		type: "if",
-    		source: "(266:4) {#if noSearchParams > 0}",
+    		source: "(296:4) {#if noSearchParams > 0}",
     		ctx
     	});
 
@@ -86719,58 +86565,58 @@ var app = (function (exports) {
     			t23 = space();
     			if (if_block4) if_block4.c();
     			attr_dev(div0, "class", "close-button svelte-kelrrb");
-    			add_location(div0, file$t, 80, 8, 3203);
+    			add_location(div0, file$t, 116, 8, 4342);
     			attr_dev(div1, "class", "close-container svelte-kelrrb");
-    			add_location(div1, file$t, 79, 4, 3165);
+    			add_location(div1, file$t, 115, 4, 4304);
     			attr_dev(h30, "class", "svelte-kelrrb");
-    			add_location(h30, file$t, 90, 12, 3575);
+    			add_location(h30, file$t, 126, 12, 4714);
     			attr_dev(div2, "class", "toggle-icon down svelte-kelrrb");
-    			add_location(div2, file$t, 91, 12, 3613);
+    			add_location(div2, file$t, 127, 12, 4752);
     			attr_dev(div3, "id", "byStakeholders");
     			attr_dev(div3, "class", "collapse__header svelte-kelrrb");
     			attr_dev(div3, "type", "button");
     			toggle_class(div3, "selected", /*paneVisbility*/ ctx[1].byStakeholders);
-    			add_location(div3, file$t, 88, 8, 3413);
+    			add_location(div3, file$t, 124, 8, 4552);
     			attr_dev(div4, "class", "container svelte-kelrrb");
-    			add_location(div4, file$t, 87, 4, 3379);
+    			add_location(div4, file$t, 123, 4, 4518);
     			attr_dev(h31, "class", "svelte-kelrrb");
-    			add_location(h31, file$t, 112, 12, 4566);
+    			add_location(h31, file$t, 160, 12, 6311);
     			attr_dev(div5, "class", "toggle-icon down svelte-kelrrb");
-    			add_location(div5, file$t, 113, 12, 4605);
+    			add_location(div5, file$t, 161, 12, 6350);
     			attr_dev(div6, "id", "byOutcomes");
     			attr_dev(div6, "class", "collapse__header svelte-kelrrb");
     			attr_dev(div6, "type", "button");
     			toggle_class(div6, "selected", /*paneVisbility*/ ctx[1].byOutcomes);
-    			add_location(div6, file$t, 110, 8, 4412);
+    			add_location(div6, file$t, 158, 8, 6157);
     			attr_dev(div7, "class", "container svelte-kelrrb");
-    			add_location(div7, file$t, 109, 4, 4378);
+    			add_location(div7, file$t, 157, 4, 6123);
     			attr_dev(h32, "class", "svelte-kelrrb");
-    			add_location(h32, file$t, 165, 12, 7235);
+    			add_location(h32, file$t, 204, 12, 8433);
     			attr_dev(div8, "class", "toggle-icon down svelte-kelrrb");
-    			add_location(div8, file$t, 166, 12, 7273);
+    			add_location(div8, file$t, 205, 12, 8471);
     			attr_dev(div9, "id", "byLocation");
     			attr_dev(div9, "class", "collapse__header svelte-kelrrb");
     			attr_dev(div9, "type", "button");
     			toggle_class(div9, "selected", /*paneVisbility*/ ctx[1].byLocation);
-    			add_location(div9, file$t, 163, 8, 7081);
+    			add_location(div9, file$t, 202, 8, 8279);
     			attr_dev(div10, "class", "container svelte-kelrrb");
-    			add_location(div10, file$t, 162, 4, 7047);
+    			add_location(div10, file$t, 201, 4, 8245);
     			attr_dev(h33, "class", "svelte-kelrrb");
-    			add_location(h33, file$t, 208, 12, 9333);
+    			add_location(h33, file$t, 247, 12, 10611);
     			attr_dev(div11, "class", "toggle-icon down svelte-kelrrb");
-    			add_location(div11, file$t, 209, 12, 9378);
+    			add_location(div11, file$t, 248, 12, 10656);
     			attr_dev(div12, "id", "byCharacteristics");
     			attr_dev(div12, "class", "collapse__header svelte-kelrrb");
     			attr_dev(div12, "type", "button");
     			toggle_class(div12, "selected", /*paneVisbility*/ ctx[1].byCharacteristics);
-    			add_location(div12, file$t, 206, 8, 9165);
+    			add_location(div12, file$t, 245, 8, 10443);
     			attr_dev(div13, "class", "container svelte-kelrrb");
-    			add_location(div13, file$t, 205, 4, 9131);
-    			add_location(button, file$t, 263, 8, 12316);
+    			add_location(div13, file$t, 244, 4, 10409);
+    			add_location(button, file$t, 293, 8, 13120);
     			attr_dev(div14, "class", "button-container svelte-kelrrb");
-    			add_location(div14, file$t, 262, 4, 12275);
+    			add_location(div14, file$t, 292, 4, 13079);
     			attr_dev(section, "class", "svelte-kelrrb");
-    			add_location(section, file$t, 77, 0, 3046);
+    			add_location(section, file$t, 113, 0, 4185);
     		},
     		l: function claim(nodes) {
     			throw new Error("options.hydrate only works if the component was compiled with the `hydratable: true` option");
@@ -87004,14 +86850,13 @@ var app = (function (exports) {
     function instance$u($$self, $$props, $$invalidate) {
     	let noSearchParams;
     	let $ui;
-    	let $database;
     	validate_store(ui, 'ui');
     	component_subscribe($$self, ui, $$value => $$invalidate(0, $ui = $$value));
-    	validate_store(database, 'database');
-    	component_subscribe($$self, database, $$value => $$invalidate(21, $database = $$value));
     	let { $$slots: slots = {}, $$scope } = $$props;
     	validate_slots('StakeholderSearch', slots, []);
+    	let { newSearch = true } = $$props;
 
+    	////// COLLAPSIBLE SEARCH PANES ////
     	const paneVisbility = {
     		byOutcomes: false,
     		byLocation: false,
@@ -87030,16 +86875,45 @@ var app = (function (exports) {
     		console.log(`Toggling ${this.id} vis to `, paneVisbility[this.id]);
     	}
 
-    	function handleSearch() {
-    		// Random project selection: To be replaced with database search
-    		function getRandomInt(min, max) {
-    			min = Math.ceil(min);
-    			max = Math.floor(max);
-    			return Math.floor(Math.random() * (max - min + 1)) + min;
-    		}
-    		const shuffleArray = array => array.sort(() => Math.random() - 0.5);
-    		const organisationDatabase = $database.organisations;
-    		const randOrgNumber = getRandomInt(1, 6);
+    	////// SEARCH PROJECTION OBJECT /////
+    	if (newSearch) {
+    		set_store_value(
+    			ui,
+    			$ui.search.criteria.organisation = {
+    				name: [],
+    				meta: { type: [] },
+    				project: {
+    					hws: { poThemes: [], conditions: [], values: [] },
+    					meta: { type: [], class: [], scale: [] },
+    					status: { stage: [] },
+    					location: {
+    						catchments: [],
+    						subCatchments: [],
+    						locations: []
+    					}
+    				}
+    			},
+    			$ui
+    		);
+    	}
+
+    	async function handleSearch() {
+    		// Setup query
+    		const query = {};
+
+    		if ($ui.search.criteria.organisation.name.length > 0) query["name"] = {
+    			$in: $ui.search.criteria.organisation.name
+    		};
+
+    		if ($ui.search.criteria.organisation.meta.type.length > 0) query["meta.type"] = {
+    			$in: $ui.search.criteria.organisation.meta.type
+    		};
+
+    		const projection = {};
+    		console.log(query);
+    		console.log(app.data.collections.organisations);
+    		set_store_value(ui, $ui.search.results.organisation = await app.data.collections.organisations.find(query, projection), $ui);
+    		console.log("Realm search results: ", $ui.search.results.organisation);
 
     		// Temporary info box for stakehoder search
     		if ($ui.infoModal.showNotes && componentContent$1.messageModal.stakeholderSearch) {
@@ -87047,8 +86921,7 @@ var app = (function (exports) {
     			componentContent$1.messageModal.stakeholderSearch = null;
     		}
 
-    		set_store_value(ui, $ui.search.organisation = shuffleArray(organisationDatabase.slice(0, randOrgNumber)), $ui);
-
+    		// $ui.search.organisation = shuffleArray(organisationDatabase.slice(0, randOrgNumber))
     		///////////////////////////////////////////
     		// Set UI based on curent page
     		set_store_value(ui, $ui.byPage.connect.main = 'list', $ui);
@@ -87073,110 +86946,108 @@ var app = (function (exports) {
 
     		window.scrollTo({ top: 0, behavior: 'smooth' });
     	}
-    	const writable_props = [];
+    	const writable_props = ['newSearch'];
 
     	Object_1$1.keys($$props).forEach(key => {
     		if (!~writable_props.indexOf(key) && key.slice(0, 2) !== '$$' && key !== 'slot') console_1$9.warn(`<StakeholderSearch> was created with unknown prop '${key}'`);
     	});
 
-    	function multiselect_value_binding(value) {
-    		if ($$self.$$.not_equal($ui.search.organisation.partnerOrg, value)) {
-    			$ui.search.organisation.partnerOrg = value;
-    			ui.set($ui);
-    		}
-    	}
-
     	function multiselect0_value_binding(value) {
-    		if ($$self.$$.not_equal($ui.search.organisation.keyValues, value)) {
-    			$ui.search.organisation.keyValues = value;
+    		if ($$self.$$.not_equal($ui.search.criteria.organisation.name, value)) {
+    			$ui.search.criteria.organisation.name = value;
     			ui.set($ui);
     		}
     	}
 
     	function multiselect1_value_binding(value) {
-    		if ($$self.$$.not_equal($ui.search.organisation.conditions, value)) {
-    			$ui.search.organisation.conditions = value;
-    			ui.set($ui);
-    		}
-    	}
-
-    	function multiselect2_value_binding(value) {
-    		if ($$self.$$.not_equal($ui.search.organisation.performanceObjectivesGroup, value)) {
-    			$ui.search.organisation.performanceObjectivesGroup = value;
-    			ui.set($ui);
-    		}
-    	}
-
-    	function multiselect3_value_binding(value) {
-    		if ($$self.$$.not_equal($ui.search.project.performanceObjectivesTheme, value)) {
-    			$ui.search.project.performanceObjectivesTheme = value;
+    		if ($$self.$$.not_equal($ui.search.criteria.organisation.meta.type, value)) {
+    			$ui.search.criteria.organisation.meta.type = value;
     			ui.set($ui);
     		}
     	}
 
     	function multiselect0_value_binding_1(value) {
-    		if ($$self.$$.not_equal($ui.search.organisation.catchment, value)) {
-    			$ui.search.organisation.catchment = value;
+    		if ($$self.$$.not_equal($ui.search.criteria.organisation.project.hws.values, value)) {
+    			$ui.search.criteria.organisation.project.hws.values = value;
     			ui.set($ui);
     		}
     	}
 
     	function multiselect1_value_binding_1(value) {
-    		if ($$self.$$.not_equal($ui.search.organisation.subcatchment, value)) {
-    			$ui.search.organisation.subcatchment = value;
+    		if ($$self.$$.not_equal($ui.search.criteria.organisation.project.hws.conditions, value)) {
+    			$ui.search.criteria.organisation.project.hws.conditions = value;
     			ui.set($ui);
     		}
     	}
 
-    	function multiselect2_value_binding_1(value) {
-    		if ($$self.$$.not_equal($ui.search.organisation.locations, value)) {
-    			$ui.search.organisation.locations = value;
+    	function multiselect2_value_binding(value) {
+    		if ($$self.$$.not_equal($ui.search.criteria.organisation.project.hws.poThemes, value)) {
+    			$ui.search.criteria.organisation.project.hws.poThemes = value;
     			ui.set($ui);
     		}
     	}
 
     	function multiselect0_value_binding_2(value) {
-    		if ($$self.$$.not_equal($ui.search.organisation.projectType, value)) {
-    			$ui.search.organisation.projectType = value;
+    		if ($$self.$$.not_equal($ui.search.criteria.organisation.project.location.catchments, value)) {
+    			$ui.search.criteria.organisation.project.location.catchments = value;
     			ui.set($ui);
     		}
     	}
 
     	function multiselect1_value_binding_2(value) {
-    		if ($$self.$$.not_equal($ui.search.organisation.projectStage, value)) {
-    			$ui.search.organisation.projectStage = value;
+    		if ($$self.$$.not_equal($ui.search.criteria.organisation.project.location.subCatchments, value)) {
+    			$ui.search.criteria.organisation.project.location.subCatchments = value;
+    			ui.set($ui);
+    		}
+    	}
+
+    	function multiselect2_value_binding_1(value) {
+    		if ($$self.$$.not_equal($ui.search.criteria.organisation.project.location.locations, value)) {
+    			$ui.search.criteria.organisation.project.location.locations = value;
+    			ui.set($ui);
+    		}
+    	}
+
+    	function multiselect0_value_binding_3(value) {
+    		if ($$self.$$.not_equal($ui.search.criteria.organisation.project.status.stage, value)) {
+    			$ui.search.criteria.organisation.project.status.stage = value;
+    			ui.set($ui);
+    		}
+    	}
+
+    	function multiselect1_value_binding_3(value) {
+    		if ($$self.$$.not_equal($ui.search.criteria.organisation.project.meta.type, value)) {
+    			$ui.search.criteria.organisation.project.meta.type = value;
     			ui.set($ui);
     		}
     	}
 
     	function multiselect2_value_binding_2(value) {
-    		if ($$self.$$.not_equal($ui.search.organisation.projectClass, value)) {
-    			$ui.search.organisation.projectClass = value;
+    		if ($$self.$$.not_equal($ui.search.criteria.organisation.project.meta.class, value)) {
+    			$ui.search.criteria.organisation.project.meta.class = value;
     			ui.set($ui);
     		}
     	}
 
-    	function multiselect3_value_binding_1(value) {
-    		if ($$self.$$.not_equal($ui.search.organisation.projectSize, value)) {
-    			$ui.search.organisation.projectSize = value;
+    	function multiselect3_value_binding(value) {
+    		if ($$self.$$.not_equal($ui.search.criteria.organisation.project.meta.scale, value)) {
+    			$ui.search.criteria.organisation.project.meta.scale = value;
     			ui.set($ui);
     		}
     	}
 
-    	function multiselect4_value_binding(value) {
-    		if ($$self.$$.not_equal($ui.search.organisation.projectScale, value)) {
-    			$ui.search.organisation.projectScale = value;
-    			ui.set($ui);
-    		}
-    	}
+    	$$self.$$set = $$props => {
+    		if ('newSearch' in $$props) $$invalidate(7, newSearch = $$props.newSearch);
+    	};
 
     	$$self.$capture_state = () => ({
     		slide,
     		fly,
     		MultiSelect,
-    		LeafletMap: LeafletMap_1,
+    		LeafletMap: Map$1,
     		ui,
     		database,
+    		app,
     		componentContent: componentContent$1,
     		infoModal,
     		keyValues,
@@ -87194,17 +87065,18 @@ var app = (function (exports) {
     		projectClass,
     		projectSize,
     		projectScale,
+    		newSearch,
     		paneVisbility,
     		togglePane,
     		handleSearch,
     		handleClose,
     		handleClearSearch,
     		noSearchParams,
-    		$ui,
-    		$database
+    		$ui
     	});
 
     	$$self.$inject_state = $$props => {
+    		if ('newSearch' in $$props) $$invalidate(7, newSearch = $$props.newSearch);
     		if ('noSearchParams' in $$props) $$invalidate(2, noSearchParams = $$props.noSearchParams);
     	};
 
@@ -87215,9 +87087,9 @@ var app = (function (exports) {
     	$$self.$$.update = () => {
     		if ($$self.$$.dirty[0] & /*$ui*/ 1) {
     			// Keep count of search param number
-    			$$invalidate(2, noSearchParams = typeof Object.values($ui.search.organisation) === 'undefined'
+    			$$invalidate(2, noSearchParams = typeof Object.values($ui.search.results.organisation) === 'undefined'
     			? 0
-    			: Object.values($ui.search.organisation).flat().length);
+    			: Object.values($ui.search.results.organisation).flat().length);
     		}
     	};
 
@@ -87229,26 +87101,26 @@ var app = (function (exports) {
     		handleSearch,
     		handleClose,
     		handleClearSearch,
-    		multiselect_value_binding,
+    		newSearch,
     		multiselect0_value_binding,
     		multiselect1_value_binding,
-    		multiselect2_value_binding,
-    		multiselect3_value_binding,
     		multiselect0_value_binding_1,
     		multiselect1_value_binding_1,
-    		multiselect2_value_binding_1,
+    		multiselect2_value_binding,
     		multiselect0_value_binding_2,
     		multiselect1_value_binding_2,
+    		multiselect2_value_binding_1,
+    		multiselect0_value_binding_3,
+    		multiselect1_value_binding_3,
     		multiselect2_value_binding_2,
-    		multiselect3_value_binding_1,
-    		multiselect4_value_binding
+    		multiselect3_value_binding
     	];
     }
 
     class StakeholderSearch extends SvelteComponentDev {
     	constructor(options) {
     		super(options);
-    		init(this, options, instance$u, create_fragment$u, safe_not_equal, {}, null, [-1, -1]);
+    		init(this, options, instance$u, create_fragment$u, safe_not_equal, { newSearch: 7 }, null, [-1, -1]);
 
     		dispatch_dev("SvelteRegisterComponent", {
     			component: this,
@@ -87256,6 +87128,14 @@ var app = (function (exports) {
     			options,
     			id: create_fragment$u.name
     		});
+    	}
+
+    	get newSearch() {
+    		throw new Error("<StakeholderSearch>: Props cannot be read directly from the component instance unless compiling with 'accessors: true' or '<svelte:options accessors/>'");
+    	}
+
+    	set newSearch(value) {
+    		throw new Error("<StakeholderSearch>: Props cannot be set directly on the component instance unless compiling with 'accessors: true' or '<svelte:options accessors/>'");
     	}
     }
 
@@ -89931,20 +89811,20 @@ var app = (function (exports) {
     			textarea1 = element("textarea");
     			attr_dev(label0, "for", "shortDescription");
     			attr_dev(label0, "class", "svelte-1xob3lb");
-    			add_location(label0, file$i, 115, 20, 4524);
+    			add_location(label0, file$i, 115, 20, 4517);
     			attr_dev(textarea0, "name", "shortDescription");
     			attr_dev(textarea0, "rows", "20");
-    			add_location(textarea0, file$i, 116, 20, 4603);
-    			add_location(li0, file$i, 114, 16, 4499);
+    			add_location(textarea0, file$i, 116, 20, 4596);
+    			add_location(li0, file$i, 114, 16, 4492);
     			attr_dev(label1, "for", "projectHistory");
     			attr_dev(label1, "class", "svelte-1xob3lb");
-    			add_location(label1, file$i, 119, 20, 4773);
+    			add_location(label1, file$i, 119, 20, 4766);
     			attr_dev(textarea1, "name", "projectHistory");
     			attr_dev(textarea1, "rows", "20");
-    			add_location(textarea1, file$i, 120, 20, 4846);
-    			add_location(li1, file$i, 118, 16, 4748);
+    			add_location(textarea1, file$i, 120, 20, 4839);
+    			add_location(li1, file$i, 118, 16, 4741);
     			attr_dev(ul, "class", "collapse__body svelte-1xob3lb");
-    			add_location(ul, file$i, 113, 12, 4415);
+    			add_location(ul, file$i, 113, 12, 4408);
     		},
     		m: function mount(target, anchor) {
     			insert_dev(target, ul, anchor);
@@ -90157,27 +90037,27 @@ var app = (function (exports) {
     			t6 = space();
     			create_component(multiselect3.$$.fragment);
     			attr_dev(div0, "class", "label centre_v svelte-1xob3lb");
-    			add_location(div0, file$i, 137, 20, 5589);
+    			add_location(div0, file$i, 137, 20, 5582);
     			attr_dev(div1, "class", "multi-select-container svelte-1xob3lb");
     			set_style(div1, "z-index", "21");
-    			add_location(div1, file$i, 136, 16, 5511);
+    			add_location(div1, file$i, 136, 16, 5504);
     			attr_dev(div2, "class", "label centre_v svelte-1xob3lb");
-    			add_location(div2, file$i, 147, 20, 6153);
+    			add_location(div2, file$i, 147, 20, 6146);
     			attr_dev(div3, "class", "multi-select-container svelte-1xob3lb");
     			set_style(div3, "z-index", "20");
-    			add_location(div3, file$i, 146, 16, 6074);
+    			add_location(div3, file$i, 146, 16, 6067);
     			attr_dev(div4, "class", "label centre_v svelte-1xob3lb");
-    			add_location(div4, file$i, 157, 20, 6723);
+    			add_location(div4, file$i, 157, 20, 6716);
     			attr_dev(div5, "class", "multi-select-container svelte-1xob3lb");
     			set_style(div5, "z-index", "19");
-    			add_location(div5, file$i, 156, 16, 6645);
+    			add_location(div5, file$i, 156, 16, 6638);
     			attr_dev(div6, "class", "label centre_v svelte-1xob3lb");
-    			add_location(div6, file$i, 167, 20, 7355);
+    			add_location(div6, file$i, 167, 20, 7348);
     			attr_dev(div7, "class", "multi-select-container svelte-1xob3lb");
     			set_style(div7, "z-index", "18");
-    			add_location(div7, file$i, 166, 16, 7277);
+    			add_location(div7, file$i, 166, 16, 7270);
     			attr_dev(div8, "class", "collapse__body svelte-1xob3lb");
-    			add_location(div8, file$i, 135, 12, 5446);
+    			add_location(div8, file$i, 135, 12, 5439);
     		},
     		m: function mount(target, anchor) {
     			insert_dev(target, div8, anchor);
@@ -90314,7 +90194,7 @@ var app = (function (exports) {
     			option = element("option");
     			option.__value = /*name*/ ctx[32];
     			option.value = option.__value;
-    			add_location(option, file$i, 141, 24, 5924);
+    			add_location(option, file$i, 141, 24, 5917);
     		},
     		m: function mount(target, anchor) {
     			insert_dev(target, option, anchor);
@@ -90364,7 +90244,7 @@ var app = (function (exports) {
     			option.selected = true;
     			option.__value = "";
     			option.value = option.__value;
-    			add_location(option, file$i, 139, 24, 5803);
+    			add_location(option, file$i, 139, 24, 5796);
     		},
     		m: function mount(target, anchor) {
     			insert_dev(target, option, anchor);
@@ -90430,7 +90310,7 @@ var app = (function (exports) {
     			option = element("option");
     			option.__value = /*name*/ ctx[32];
     			option.value = option.__value;
-    			add_location(option, file$i, 151, 24, 6495);
+    			add_location(option, file$i, 151, 24, 6488);
     		},
     		m: function mount(target, anchor) {
     			insert_dev(target, option, anchor);
@@ -90480,7 +90360,7 @@ var app = (function (exports) {
     			option.selected = true;
     			option.__value = "";
     			option.value = option.__value;
-    			add_location(option, file$i, 149, 24, 6373);
+    			add_location(option, file$i, 149, 24, 6366);
     		},
     		m: function mount(target, anchor) {
     			insert_dev(target, option, anchor);
@@ -90546,7 +90426,7 @@ var app = (function (exports) {
     			option = element("option");
     			option.__value = /*name*/ ctx[32];
     			option.value = option.__value;
-    			add_location(option, file$i, 161, 24, 7127);
+    			add_location(option, file$i, 161, 24, 7120);
     		},
     		m: function mount(target, anchor) {
     			insert_dev(target, option, anchor);
@@ -90596,7 +90476,7 @@ var app = (function (exports) {
     			option.selected = true;
     			option.__value = "";
     			option.value = option.__value;
-    			add_location(option, file$i, 159, 24, 6989);
+    			add_location(option, file$i, 159, 24, 6982);
     		},
     		m: function mount(target, anchor) {
     			insert_dev(target, option, anchor);
@@ -90662,7 +90542,7 @@ var app = (function (exports) {
     			option = element("option");
     			option.__value = /*name*/ ctx[32];
     			option.value = option.__value;
-    			add_location(option, file$i, 171, 24, 7759);
+    			add_location(option, file$i, 171, 24, 7752);
     		},
     		m: function mount(target, anchor) {
     			insert_dev(target, option, anchor);
@@ -90712,7 +90592,7 @@ var app = (function (exports) {
     			option.selected = true;
     			option.__value = "";
     			option.value = option.__value;
-    			add_location(option, file$i, 169, 24, 7621);
+    			add_location(option, file$i, 169, 24, 7614);
     		},
     		m: function mount(target, anchor) {
     			insert_dev(target, option, anchor);
@@ -90792,7 +90672,7 @@ var app = (function (exports) {
     	let multiselect2;
     	let updating_value_2;
     	let t5;
-    	let leafletmap;
+    	let map;
     	let div6_transition;
     	let current;
 
@@ -90861,7 +90741,7 @@ var app = (function (exports) {
     		});
 
     	binding_callbacks.push(() => bind(multiselect2, 'value', multiselect2_value_binding_1));
-    	leafletmap = new LeafletMap_1({ $$inline: true });
+    	map = new Map$1({ $$inline: true });
 
     	const block = {
     		c: function create() {
@@ -90881,24 +90761,24 @@ var app = (function (exports) {
     			t4 = space();
     			create_component(multiselect2.$$.fragment);
     			t5 = space();
-    			create_component(leafletmap.$$.fragment);
+    			create_component(map.$$.fragment);
     			attr_dev(div0, "class", "label centre_v svelte-1xob3lb");
-    			add_location(div0, file$i, 189, 20, 8498);
+    			add_location(div0, file$i, 189, 20, 8491);
     			attr_dev(div1, "class", "multi-select-container svelte-1xob3lb");
     			set_style(div1, "z-index", "17");
-    			add_location(div1, file$i, 188, 16, 8420);
+    			add_location(div1, file$i, 188, 16, 8413);
     			attr_dev(div2, "class", "label centre_v svelte-1xob3lb");
-    			add_location(div2, file$i, 199, 20, 9088);
+    			add_location(div2, file$i, 199, 20, 9081);
     			attr_dev(div3, "class", "multi-select-container svelte-1xob3lb");
     			set_style(div3, "z-index", "16");
-    			add_location(div3, file$i, 198, 16, 9010);
+    			add_location(div3, file$i, 198, 16, 9003);
     			attr_dev(div4, "class", "label centre_v svelte-1xob3lb");
-    			add_location(div4, file$i, 209, 20, 9693);
+    			add_location(div4, file$i, 209, 20, 9686);
     			attr_dev(div5, "class", "multi-select-container svelte-1xob3lb");
     			set_style(div5, "z-index", "15");
-    			add_location(div5, file$i, 208, 16, 9615);
+    			add_location(div5, file$i, 208, 16, 9608);
     			attr_dev(div6, "class", "collapse__body svelte-1xob3lb");
-    			add_location(div6, file$i, 187, 12, 8355);
+    			add_location(div6, file$i, 187, 12, 8348);
     		},
     		m: function mount(target, anchor) {
     			insert_dev(target, div6, anchor);
@@ -90920,7 +90800,7 @@ var app = (function (exports) {
     			append_dev(div5, t4);
     			mount_component(multiselect2, div5, null);
     			append_dev(div6, t5);
-    			mount_component(leafletmap, div6, null);
+    			mount_component(map, div6, null);
     			current = true;
     		},
     		p: function update(ctx, dirty) {
@@ -90969,7 +90849,7 @@ var app = (function (exports) {
     			transition_in(multiselect0.$$.fragment, local);
     			transition_in(multiselect1.$$.fragment, local);
     			transition_in(multiselect2.$$.fragment, local);
-    			transition_in(leafletmap.$$.fragment, local);
+    			transition_in(map.$$.fragment, local);
 
     			add_render_callback(() => {
     				if (!div6_transition) div6_transition = create_bidirectional_transition(div6, slide, {}, true);
@@ -90982,7 +90862,7 @@ var app = (function (exports) {
     			transition_out(multiselect0.$$.fragment, local);
     			transition_out(multiselect1.$$.fragment, local);
     			transition_out(multiselect2.$$.fragment, local);
-    			transition_out(leafletmap.$$.fragment, local);
+    			transition_out(map.$$.fragment, local);
     			if (!div6_transition) div6_transition = create_bidirectional_transition(div6, slide, {}, false);
     			div6_transition.run(0);
     			current = false;
@@ -90992,7 +90872,7 @@ var app = (function (exports) {
     			destroy_component(multiselect0);
     			destroy_component(multiselect1);
     			destroy_component(multiselect2);
-    			destroy_component(leafletmap);
+    			destroy_component(map);
     			if (detaching && div6_transition) div6_transition.end();
     		}
     	};
@@ -91018,7 +90898,7 @@ var app = (function (exports) {
     			option = element("option");
     			option.__value = /*name*/ ctx[32];
     			option.value = option.__value;
-    			add_location(option, file$i, 193, 24, 8844);
+    			add_location(option, file$i, 193, 24, 8837);
     		},
     		m: function mount(target, anchor) {
     			insert_dev(target, option, anchor);
@@ -91068,7 +90948,7 @@ var app = (function (exports) {
     			option.selected = true;
     			option.__value = "";
     			option.value = option.__value;
-    			add_location(option, file$i, 191, 24, 8722);
+    			add_location(option, file$i, 191, 24, 8715);
     		},
     		m: function mount(target, anchor) {
     			insert_dev(target, option, anchor);
@@ -91134,7 +91014,7 @@ var app = (function (exports) {
     			option = element("option");
     			option.__value = /*name*/ ctx[32];
     			option.value = option.__value;
-    			add_location(option, file$i, 203, 24, 9449);
+    			add_location(option, file$i, 203, 24, 9442);
     		},
     		m: function mount(target, anchor) {
     			insert_dev(target, option, anchor);
@@ -91184,7 +91064,7 @@ var app = (function (exports) {
     			option.selected = true;
     			option.__value = "";
     			option.value = option.__value;
-    			add_location(option, file$i, 201, 24, 9324);
+    			add_location(option, file$i, 201, 24, 9317);
     		},
     		m: function mount(target, anchor) {
     			insert_dev(target, option, anchor);
@@ -91250,7 +91130,7 @@ var app = (function (exports) {
     			option = element("option");
     			option.__value = /*name*/ ctx[32];
     			option.value = option.__value;
-    			add_location(option, file$i, 213, 24, 10034);
+    			add_location(option, file$i, 213, 24, 10027);
     		},
     		m: function mount(target, anchor) {
     			insert_dev(target, option, anchor);
@@ -91300,7 +91180,7 @@ var app = (function (exports) {
     			option.selected = true;
     			option.__value = "";
     			option.value = option.__value;
-    			add_location(option, file$i, 211, 24, 9913);
+    			add_location(option, file$i, 211, 24, 9906);
     		},
     		m: function mount(target, anchor) {
     			insert_dev(target, option, anchor);
@@ -91513,32 +91393,32 @@ var app = (function (exports) {
     			t9 = space();
     			create_component(singleselect4.$$.fragment);
     			attr_dev(div0, "class", "label centre_v svelte-1xob3lb");
-    			add_location(div0, file$i, 233, 20, 10853);
+    			add_location(div0, file$i, 233, 20, 10839);
     			attr_dev(div1, "class", "multi-select-container svelte-1xob3lb");
     			set_style(div1, "z-index", "14");
-    			add_location(div1, file$i, 232, 16, 10775);
+    			add_location(div1, file$i, 232, 16, 10761);
     			attr_dev(div2, "class", "label centre_v svelte-1xob3lb");
-    			add_location(div2, file$i, 237, 20, 11132);
+    			add_location(div2, file$i, 237, 20, 11118);
     			attr_dev(div3, "class", "multi-select-container svelte-1xob3lb");
     			set_style(div3, "z-index", "13");
-    			add_location(div3, file$i, 236, 16, 11054);
+    			add_location(div3, file$i, 236, 16, 11040);
     			attr_dev(div4, "class", "label centre_v svelte-1xob3lb");
-    			add_location(div4, file$i, 242, 20, 11415);
+    			add_location(div4, file$i, 242, 20, 11401);
     			attr_dev(div5, "class", "multi-select-container svelte-1xob3lb");
     			set_style(div5, "z-index", "12");
-    			add_location(div5, file$i, 241, 16, 11337);
+    			add_location(div5, file$i, 241, 16, 11323);
     			attr_dev(div6, "class", "label centre_v svelte-1xob3lb");
-    			add_location(div6, file$i, 251, 20, 11920);
+    			add_location(div6, file$i, 251, 20, 11906);
     			attr_dev(div7, "class", "multi-select-container svelte-1xob3lb");
     			set_style(div7, "z-index", "11");
-    			add_location(div7, file$i, 250, 16, 11842);
+    			add_location(div7, file$i, 250, 16, 11828);
     			attr_dev(div8, "class", "label centre_v svelte-1xob3lb");
-    			add_location(div8, file$i, 256, 20, 12199);
+    			add_location(div8, file$i, 256, 20, 12185);
     			attr_dev(div9, "class", "multi-select-container svelte-1xob3lb");
     			set_style(div9, "z-index", "10");
-    			add_location(div9, file$i, 255, 16, 12121);
+    			add_location(div9, file$i, 255, 16, 12107);
     			attr_dev(div10, "class", "collapse__body svelte-1xob3lb");
-    			add_location(div10, file$i, 230, 12, 10709);
+    			add_location(div10, file$i, 230, 12, 10695);
     		},
     		m: function mount(target, anchor) {
     			insert_dev(target, div10, anchor);
@@ -91707,8 +91587,8 @@ var app = (function (exports) {
     			p = element("p");
     			p.textContent = "Date picker TBA based on project stage";
     			attr_dev(p, "class", "note svelte-1xob3lb");
-    			add_location(p, file$i, 247, 20, 11719);
-    			add_location(div, file$i, 246, 16, 11676);
+    			add_location(p, file$i, 247, 20, 11705);
+    			add_location(div, file$i, 246, 16, 11662);
     		},
     		m: function mount(target, anchor) {
     			insert_dev(target, div, anchor);
@@ -91814,17 +91694,17 @@ var app = (function (exports) {
     			t2 = space();
     			create_component(multiselect.$$.fragment);
     			attr_dev(div0, "class", "label centre_v svelte-1xob3lb");
-    			add_location(div0, file$i, 274, 20, 13002);
+    			add_location(div0, file$i, 274, 20, 12988);
     			attr_dev(div1, "class", "multi-select-container svelte-1xob3lb");
     			set_style(div1, "z-index", "9");
-    			add_location(div1, file$i, 273, 16, 12925);
+    			add_location(div1, file$i, 273, 16, 12911);
     			attr_dev(div2, "class", "label svelte-1xob3lb");
-    			add_location(div2, file$i, 279, 20, 13271);
+    			add_location(div2, file$i, 279, 20, 13257);
     			attr_dev(div3, "class", "multi-select-container svelte-1xob3lb");
     			set_style(div3, "z-index", "7");
-    			add_location(div3, file$i, 278, 16, 13194);
+    			add_location(div3, file$i, 278, 16, 13180);
     			attr_dev(div4, "class", "collapse__body svelte-1xob3lb");
-    			add_location(div4, file$i, 272, 12, 12861);
+    			add_location(div4, file$i, 272, 12, 12847);
     		},
     		m: function mount(target, anchor) {
     			insert_dev(target, div4, anchor);
@@ -91913,7 +91793,7 @@ var app = (function (exports) {
     			option = element("option");
     			option.__value = /*name*/ ctx[32];
     			option.value = option.__value;
-    			add_location(option, file$i, 283, 24, 13602);
+    			add_location(option, file$i, 283, 24, 13588);
     		},
     		m: function mount(target, anchor) {
     			insert_dev(target, option, anchor);
@@ -91963,7 +91843,7 @@ var app = (function (exports) {
     			option.selected = true;
     			option.__value = "";
     			option.value = option.__value;
-    			add_location(option, file$i, 281, 24, 13480);
+    			add_location(option, file$i, 281, 24, 13466);
     		},
     		m: function mount(target, anchor) {
     			insert_dev(target, option, anchor);
@@ -92078,11 +91958,11 @@ var app = (function (exports) {
     			t7 = space();
     			create_component(multiinput2.$$.fragment);
     			attr_dev(div0, "class", "label margin-top svelte-1xob3lb");
-    			add_location(div0, file$i, 300, 12, 14218);
+    			add_location(div0, file$i, 300, 12, 14204);
     			attr_dev(div1, "class", "label margin-top svelte-1xob3lb");
-    			add_location(div1, file$i, 302, 12, 14387);
+    			add_location(div1, file$i, 302, 12, 14373);
     			attr_dev(div2, "class", "label margin-top svelte-1xob3lb");
-    			add_location(div2, file$i, 304, 12, 14559);
+    			add_location(div2, file$i, 304, 12, 14545);
     		},
     		m: function mount(target, anchor) {
     			insert_dev(target, div0, anchor);
@@ -92182,10 +92062,10 @@ var app = (function (exports) {
     			div0 = element("div");
     			div0.textContent = "⊕ add another resource";
     			attr_dev(ul, "class", "svelte-1xob3lb");
-    			add_location(ul, file$i, 318, 12, 15175);
-    			add_location(div0, file$i, 324, 16, 15386);
+    			add_location(ul, file$i, 318, 12, 15161);
+    			add_location(div0, file$i, 324, 16, 15372);
     			attr_dev(div1, "class", "add-container svelte-1xob3lb");
-    			add_location(div1, file$i, 323, 12, 15341);
+    			add_location(div1, file$i, 323, 12, 15327);
     		},
     		m: function mount(target, anchor) {
     			insert_dev(target, ul, anchor);
@@ -92533,118 +92413,118 @@ var app = (function (exports) {
     			button1.textContent = "Post your project";
     			html_tag.a = null;
     			attr_dev(h2, "class", "svelte-1xob3lb");
-    			add_location(h2, file$i, 82, 8, 3040);
+    			add_location(h2, file$i, 82, 8, 3033);
     			html_tag_1.a = t3;
     			attr_dev(div0, "class", "float-bottom svelte-1xob3lb");
-    			add_location(div0, file$i, 84, 8, 3177);
+    			add_location(div0, file$i, 84, 8, 3170);
     			attr_dev(div1, "class", "info-pane svelte-1xob3lb");
-    			add_location(div1, file$i, 80, 4, 2977);
+    			add_location(div1, file$i, 80, 4, 2970);
     			attr_dev(h30, "class", "svelte-1xob3lb");
-    			add_location(h30, file$i, 92, 12, 3393);
+    			add_location(h30, file$i, 92, 12, 3386);
     			attr_dev(div2, "class", "collapse__header selected svelte-1xob3lb");
-    			add_location(div2, file$i, 91, 8, 3340);
+    			add_location(div2, file$i, 91, 8, 3333);
     			attr_dev(label0, "class", "centre_v svelte-1xob3lb");
     			attr_dev(label0, "for", "projectName");
-    			add_location(label0, file$i, 97, 20, 3528);
+    			add_location(label0, file$i, 97, 20, 3521);
     			attr_dev(input, "name", "projectName");
-    			add_location(input, file$i, 98, 20, 3613);
-    			add_location(li0, file$i, 96, 16, 3503);
+    			add_location(input, file$i, 98, 20, 3606);
+    			add_location(li0, file$i, 96, 16, 3496);
     			attr_dev(label1, "for", "shortDescription");
     			attr_dev(label1, "class", "svelte-1xob3lb");
-    			add_location(label1, file$i, 101, 20, 3737);
+    			add_location(label1, file$i, 101, 20, 3730);
     			attr_dev(textarea, "name", "shortDescription");
     			attr_dev(textarea, "rows", "5");
-    			add_location(textarea, file$i, 102, 20, 3813);
-    			add_location(li1, file$i, 100, 16, 3712);
+    			add_location(textarea, file$i, 102, 20, 3806);
+    			add_location(li1, file$i, 100, 16, 3705);
     			attr_dev(ul, "class", "svelte-1xob3lb");
-    			add_location(ul, file$i, 95, 12, 3482);
+    			add_location(ul, file$i, 95, 12, 3475);
     			attr_dev(div3, "class", "toggle-label-minor svelte-1xob3lb");
-    			add_location(div3, file$i, 109, 16, 4197);
+    			add_location(div3, file$i, 109, 16, 4190);
     			attr_dev(div4, "class", "toggle-icon down svelte-1xob3lb");
-    			add_location(div4, file$i, 110, 16, 4295);
+    			add_location(div4, file$i, 110, 16, 4288);
     			attr_dev(div5, "id", "description");
     			attr_dev(div5, "class", "expand-header svelte-1xob3lb");
     			attr_dev(div5, "type", "button");
     			toggle_class(div5, "selected", /*paneVisibility*/ ctx[0].description);
-    			add_location(div5, file$i, 107, 12, 4037);
+    			add_location(div5, file$i, 107, 12, 4030);
     			attr_dev(div6, "class", "container");
-    			add_location(div6, file$i, 94, 8, 3444);
+    			add_location(div6, file$i, 94, 8, 3437);
     			attr_dev(h31, "class", "svelte-1xob3lb");
-    			add_location(h31, file$i, 130, 16, 5274);
+    			add_location(h31, file$i, 130, 16, 5267);
     			attr_dev(div7, "class", "toggle-icon down svelte-1xob3lb");
-    			add_location(div7, file$i, 131, 16, 5325);
+    			add_location(div7, file$i, 131, 16, 5318);
     			attr_dev(div8, "id", "hwsOutcomes");
     			attr_dev(div8, "class", "collapse__header top-border svelte-1xob3lb");
     			attr_dev(div8, "type", "button");
     			toggle_class(div8, "selected", /*paneVisibility*/ ctx[0].hwsOutcomes);
-    			add_location(div8, file$i, 128, 12, 5098);
+    			add_location(div8, file$i, 128, 12, 5091);
     			attr_dev(div9, "class", "container");
-    			add_location(div9, file$i, 127, 8, 5060);
+    			add_location(div9, file$i, 127, 8, 5053);
     			attr_dev(h32, "class", "svelte-1xob3lb");
-    			add_location(h32, file$i, 183, 16, 8195);
+    			add_location(h32, file$i, 183, 16, 8188);
     			attr_dev(div10, "class", "toggle-icon down svelte-1xob3lb");
-    			add_location(div10, file$i, 184, 16, 8238);
+    			add_location(div10, file$i, 184, 16, 8231);
     			attr_dev(div11, "id", "location");
     			attr_dev(div11, "class", "collapse__header top-border svelte-1xob3lb");
     			attr_dev(div11, "type", "button");
     			toggle_class(div11, "selected", /*paneVisibility*/ ctx[0].location);
-    			add_location(div11, file$i, 181, 12, 8025);
+    			add_location(div11, file$i, 181, 12, 8018);
     			attr_dev(div12, "class", "container");
-    			add_location(div12, file$i, 180, 8, 7987);
+    			add_location(div12, file$i, 180, 8, 7980);
     			attr_dev(h33, "class", "svelte-1xob3lb");
-    			add_location(h33, file$i, 226, 16, 10536);
+    			add_location(h33, file$i, 226, 16, 10522);
     			attr_dev(div13, "class", "toggle-icon down svelte-1xob3lb");
-    			add_location(div13, file$i, 227, 16, 10585);
+    			add_location(div13, file$i, 227, 16, 10571);
     			attr_dev(div14, "id", "characteristics");
     			attr_dev(div14, "class", "collapse__header top-border svelte-1xob3lb");
     			attr_dev(div14, "type", "button");
     			toggle_class(div14, "selected", /*paneVisibility*/ ctx[0].characteristics);
-    			add_location(div14, file$i, 224, 12, 10352);
+    			add_location(div14, file$i, 224, 12, 10338);
     			attr_dev(div15, "class", "container");
-    			add_location(div15, file$i, 223, 8, 10314);
+    			add_location(div15, file$i, 223, 8, 10300);
     			attr_dev(h34, "class", "svelte-1xob3lb");
-    			add_location(h34, file$i, 268, 16, 12694);
+    			add_location(h34, file$i, 268, 16, 12680);
     			attr_dev(div16, "class", "toggle-icon down svelte-1xob3lb");
-    			add_location(div16, file$i, 269, 16, 12740);
+    			add_location(div16, file$i, 269, 16, 12726);
     			attr_dev(div17, "id", "stakeholders");
     			attr_dev(div17, "class", "collapse__header top-border svelte-1xob3lb");
     			attr_dev(div17, "type", "button");
     			toggle_class(div17, "selected", /*paneVisibility*/ ctx[0].stakeholders);
-    			add_location(div17, file$i, 266, 12, 12516);
+    			add_location(div17, file$i, 266, 12, 12502);
     			attr_dev(div18, "class", "container");
-    			add_location(div18, file$i, 265, 8, 12478);
+    			add_location(div18, file$i, 265, 8, 12464);
     			attr_dev(h35, "class", "svelte-1xob3lb");
-    			add_location(h35, file$i, 295, 16, 14056);
+    			add_location(h35, file$i, 295, 16, 14042);
     			attr_dev(div19, "class", "toggle-icon down svelte-1xob3lb");
-    			add_location(div19, file$i, 296, 16, 14099);
+    			add_location(div19, file$i, 296, 16, 14085);
     			attr_dev(div20, "id", "learnings");
     			attr_dev(div20, "class", "collapse__header top-border svelte-1xob3lb");
     			attr_dev(div20, "type", "button");
     			toggle_class(div20, "selected", /*paneVisibility*/ ctx[0].learnings);
-    			add_location(div20, file$i, 293, 12, 13884);
+    			add_location(div20, file$i, 293, 12, 13870);
     			attr_dev(div21, "class", "container");
-    			add_location(div21, file$i, 292, 8, 13846);
+    			add_location(div21, file$i, 292, 8, 13832);
     			attr_dev(h36, "class", "svelte-1xob3lb");
-    			add_location(h36, file$i, 313, 16, 15002);
+    			add_location(h36, file$i, 313, 16, 14988);
     			attr_dev(div22, "class", "toggle-icon down svelte-1xob3lb");
-    			add_location(div22, file$i, 314, 16, 15060);
+    			add_location(div22, file$i, 314, 16, 15046);
     			attr_dev(div23, "id", "links");
     			attr_dev(div23, "class", "collapse__header top-border svelte-1xob3lb");
     			attr_dev(div23, "type", "button");
     			toggle_class(div23, "selected", /*paneVisibility*/ ctx[0].links);
-    			add_location(div23, file$i, 311, 12, 14838);
+    			add_location(div23, file$i, 311, 12, 14824);
     			attr_dev(div24, "class", "container");
-    			add_location(div24, file$i, 310, 8, 14800);
+    			add_location(div24, file$i, 310, 8, 14786);
     			attr_dev(button0, "class", "draft");
-    			add_location(button0, file$i, 331, 12, 15598);
-    			add_location(button1, file$i, 332, 12, 15694);
+    			add_location(button0, file$i, 331, 12, 15584);
+    			add_location(button1, file$i, 332, 12, 15680);
     			attr_dev(div25, "class", "button-container svelte-1xob3lb");
-    			add_location(div25, file$i, 330, 8, 15553);
+    			add_location(div25, file$i, 330, 8, 15539);
     			attr_dev(form, "class", "newProject");
-    			add_location(form, file$i, 89, 4, 3270);
+    			add_location(form, file$i, 89, 4, 3263);
     			attr_dev(section, "id", "new-project");
     			attr_dev(section, "class", "svelte-1xob3lb");
-    			add_location(section, file$i, 79, 0, 2880);
+    			add_location(section, file$i, 79, 0, 2873);
     		},
     		l: function claim(nodes) {
     			throw new Error("options.hydrate only works if the component was compiled with the `hydratable: true` option");
@@ -93223,7 +93103,7 @@ var app = (function (exports) {
     		MultiSelect,
     		SingleSelect,
     		MultiInput,
-    		LeafletMap: LeafletMap_1,
+    		Map: Map$1,
     		DividerZagged20px,
     		user,
     		ui,
@@ -98476,7 +98356,7 @@ var app = (function (exports) {
     	return block;
     }
 
-    // (28:34)   <Nav/>  <main id ='main-page'><!-- Main "Page: section controlled with logic selector -->   {#if      $ui.page === 'home'}
+    // (74:34)   <Nav/>  <main id ='main-page'><!-- Main "Page: section controlled with logic selector -->   {#if      $ui.page === 'home'}
     function create_then_block(ctx) {
     	let nav;
     	let t0;
@@ -98534,7 +98414,7 @@ var app = (function (exports) {
     			if (if_block2) if_block2.c();
     			if_block2_anchor = empty();
     			attr_dev(main, "id", "main-page");
-    			add_location(main, file, 29, 1, 1054);
+    			add_location(main, file, 75, 1, 3928);
     		},
     		m: function mount(target, anchor) {
     			mount_component(nav, target, anchor);
@@ -98666,14 +98546,14 @@ var app = (function (exports) {
     		block,
     		id: create_then_block.name,
     		type: "then",
-    		source: "(28:34)   <Nav/>  <main id ='main-page'><!-- Main \\\"Page: section controlled with logic selector -->   {#if      $ui.page === 'home'}",
+    		source: "(74:34)   <Nav/>  <main id ='main-page'><!-- Main \\\"Page: section controlled with logic selector -->   {#if      $ui.page === 'home'}",
     		ctx
     	});
 
     	return block;
     }
 
-    // (36:34) 
+    // (82:34) 
     function create_if_block_7(ctx) {
     	let manage;
     	let current;
@@ -98705,14 +98585,14 @@ var app = (function (exports) {
     		block,
     		id: create_if_block_7.name,
     		type: "if",
-    		source: "(36:34) ",
+    		source: "(82:34) ",
     		ctx
     	});
 
     	return block;
     }
 
-    // (35:32) 
+    // (81:32) 
     function create_if_block_6(ctx) {
     	let join;
     	let current;
@@ -98744,14 +98624,14 @@ var app = (function (exports) {
     		block,
     		id: create_if_block_6.name,
     		type: "if",
-    		source: "(35:32) ",
+    		source: "(81:32) ",
     		ctx
     	});
 
     	return block;
     }
 
-    // (34:33) 
+    // (80:33) 
     function create_if_block_5(ctx) {
     	let share;
     	let current;
@@ -98783,14 +98663,14 @@ var app = (function (exports) {
     		block,
     		id: create_if_block_5.name,
     		type: "if",
-    		source: "(34:33) ",
+    		source: "(80:33) ",
     		ctx
     	});
 
     	return block;
     }
 
-    // (33:35) 
+    // (79:35) 
     function create_if_block_4(ctx) {
     	let connect;
     	let current;
@@ -98822,14 +98702,14 @@ var app = (function (exports) {
     		block,
     		id: create_if_block_4.name,
     		type: "if",
-    		source: "(33:35) ",
+    		source: "(79:35) ",
     		ctx
     	});
 
     	return block;
     }
 
-    // (32:36) 
+    // (78:36) 
     function create_if_block_3(ctx) {
     	let discover;
     	let current;
@@ -98861,14 +98741,14 @@ var app = (function (exports) {
     		block,
     		id: create_if_block_3.name,
     		type: "if",
-    		source: "(32:36) ",
+    		source: "(78:36) ",
     		ctx
     	});
 
     	return block;
     }
 
-    // (31:2) {#if      $ui.page === 'home'}
+    // (77:2) {#if      $ui.page === 'home'}
     function create_if_block_2(ctx) {
     	let home;
     	let current;
@@ -98900,14 +98780,14 @@ var app = (function (exports) {
     		block,
     		id: create_if_block_2.name,
     		type: "if",
-    		source: "(31:2) {#if      $ui.page === 'home'}",
+    		source: "(77:2) {#if      $ui.page === 'home'}",
     		ctx
     	});
 
     	return block;
     }
 
-    // (40:1) {#if $ui.page !== 'home'}
+    // (86:1) {#if $ui.page !== 'home'}
     function create_if_block_1(ctx) {
     	let footer;
     	let current;
@@ -98939,14 +98819,14 @@ var app = (function (exports) {
     		block,
     		id: create_if_block_1.name,
     		type: "if",
-    		source: "(40:1) {#if $ui.page !== 'home'}",
+    		source: "(86:1) {#if $ui.page !== 'home'}",
     		ctx
     	});
 
     	return block;
     }
 
-    // (44:4) {#if $ui.infoModal.show && $ui.infoModal.message}
+    // (90:4) {#if $ui.infoModal.show && $ui.infoModal.message}
     function create_if_block(ctx) {
     	let modalmessage;
     	let current;
@@ -98978,7 +98858,7 @@ var app = (function (exports) {
     		block,
     		id: create_if_block.name,
     		type: "if",
-    		source: "(44:4) {#if $ui.infoModal.show && $ui.infoModal.message}",
+    		source: "(90:4) {#if $ui.infoModal.show && $ui.infoModal.message}",
     		ctx
     	});
 
@@ -99077,16 +98957,16 @@ var app = (function (exports) {
     }
 
     function instance($$self, $$props, $$invalidate) {
-    	let $user;
     	let $ui;
-    	validate_store(user, 'user');
-    	component_subscribe($$self, user, $$value => $$invalidate(4, $user = $$value));
+    	let $user;
     	validate_store(ui, 'ui');
     	component_subscribe($$self, ui, $$value => $$invalidate(0, $ui = $$value));
+    	validate_store(user, 'user');
+    	component_subscribe($$self, user, $$value => $$invalidate(4, $user = $$value));
     	let { $$slots: slots = {}, $$scope } = $$props;
     	validate_slots('App', slots, []);
     	let { queryParams } = $$props;
-    	let { airtableData } = $$props;
+    	let { contentData } = $$props;
 
     	set_store_value(
     		user,
@@ -99096,8 +98976,59 @@ var app = (function (exports) {
     		$user
     	);
 
-    	const promiseContent = getContent(airtableData);
-    	const writable_props = ['queryParams', 'airtableData'];
+    	const promiseContent = getContent(contentData);
+
+    	// Intro Modal
+    	if ($ui.infoModal.showNotes) {
+    		set_store_value(
+    			ui,
+    			$ui.infoModal.message = {
+    				buttons: [
+    					{
+    						text: 'Explore the prototype',
+    						function: 'close'
+    					}
+    				],
+    				header: '&#9888; THIS IS A PROTOTYPE &#9888; ',
+    				content: `${contentData.filter(d => d.reference === 'messageModal.toolIntro')[0].content}
+                        <hr>
+                        <div style="display:flex; justify-content:center; text-align: center; color: #fff">
+                            <div class="contact" style="width: 20%; padding:0.5rem; font-size: 0.8rem; margin:auto 0">
+                                Feedback and further info: &rarr;
+                            </div>
+                            <div style="width: 20%; padding:0.5rem; cursor:pointer">
+                                <a style = "color: #fff" href="mailto:Gail.Hall@melbournewater.com.au?subject=Healthy Waterways Implementation Hub Prototype&cc=brendan@littlesketch.es">
+                                    <div style="font-size: 3rem">&#9993;</div>
+                                    <div style="font-size: 0.8rem">Email the prototype team directly</div>
+                                </a>
+                            </div>
+                            <div style="width: 20%; padding:0.5rem; cursor:pointer">
+                                <a style = "color: #fff" >
+                                    <div style="font-size: 3rem">&quest;</div>
+                                    <div style="font-size: 0.8rem">Issues and suggestions (Airtable)</div>
+                                </a>
+                            </div>
+                            <div style="width: 20%; padding:0.5rem; cursor:pointer">
+                                <a style = "color: #fff" href="https://www.figma.com/file/Kp2lrQynVAIS5tAlMy8whO/Prototype-wireframe-design?node-id=0%3A1" target="_blank">
+                                    <div style="font-size: 3rem">&#x2692;</div>
+                                    <div style="font-size: 0.8rem">UI/UX wireframes + feedback (Figma)</div>
+                                </a>
+                            </div>
+                            <div style="width: 20%; padding:0.5rem; cursor:pointer">
+                                <a style = "color: #fff"  href="https://littlesketches.github.io/hws-prototype-tool/" target="_blank">
+                                    <div style="font-size: 2rem; padding-top: 0.75rem; padding-bottom: 0.45rem">< /></div>
+                                    <div style="font-size: 0.8rem">Code repository + documentation (Github)</div>
+                                </a>
+                            </div>
+                        </div>
+                        <hr>
+                        `
+    			},
+    			$ui
+    		);
+    	}
+
+    	const writable_props = ['queryParams', 'contentData'];
 
     	Object.keys($$props).forEach(key => {
     		if (!~writable_props.indexOf(key) && key.slice(0, 2) !== '$$' && key !== 'slot') console.warn(`<App> was created with unknown prop '${key}'`);
@@ -99105,7 +99036,7 @@ var app = (function (exports) {
 
     	$$self.$$set = $$props => {
     		if ('queryParams' in $$props) $$invalidate(2, queryParams = $$props.queryParams);
-    		if ('airtableData' in $$props) $$invalidate(3, airtableData = $$props.airtableData);
+    		if ('contentData' in $$props) $$invalidate(3, contentData = $$props.contentData);
     	};
 
     	$$self.$capture_state = () => ({
@@ -99126,28 +99057,28 @@ var app = (function (exports) {
     		getMenuOptions,
     		database,
     		queryParams,
-    		airtableData,
+    		contentData,
     		promiseContent,
-    		$user,
-    		$ui
+    		$ui,
+    		$user
     	});
 
     	$$self.$inject_state = $$props => {
     		if ('queryParams' in $$props) $$invalidate(2, queryParams = $$props.queryParams);
-    		if ('airtableData' in $$props) $$invalidate(3, airtableData = $$props.airtableData);
+    		if ('contentData' in $$props) $$invalidate(3, contentData = $$props.contentData);
     	};
 
     	if ($$props && "$$inject" in $$props) {
     		$$self.$inject_state($$props.$$inject);
     	}
 
-    	return [$ui, promiseContent, queryParams, airtableData];
+    	return [$ui, promiseContent, queryParams, contentData];
     }
 
     class App extends SvelteComponentDev {
     	constructor(options) {
     		super(options);
-    		init(this, options, instance, create_fragment, safe_not_equal, { queryParams: 2, airtableData: 3 });
+    		init(this, options, instance, create_fragment, safe_not_equal, { queryParams: 2, contentData: 3 });
 
     		dispatch_dev("SvelteRegisterComponent", {
     			component: this,
@@ -99163,8 +99094,8 @@ var app = (function (exports) {
     			console.warn("<App> was created without expected prop 'queryParams'");
     		}
 
-    		if (/*airtableData*/ ctx[3] === undefined && !('airtableData' in props)) {
-    			console.warn("<App> was created without expected prop 'airtableData'");
+    		if (/*contentData*/ ctx[3] === undefined && !('contentData' in props)) {
+    			console.warn("<App> was created without expected prop 'contentData'");
     		}
     	}
 
@@ -99176,11 +99107,11 @@ var app = (function (exports) {
     		throw new Error("<App>: Props cannot be set directly on the component instance unless compiling with 'accessors: true' or '<svelte:options accessors/>'");
     	}
 
-    	get airtableData() {
+    	get contentData() {
     		throw new Error("<App>: Props cannot be read directly from the component instance unless compiling with 'accessors: true' or '<svelte:options accessors/>'");
     	}
 
-    	set airtableData(value) {
+    	set contentData(value) {
     		throw new Error("<App>: Props cannot be set directly on the component instance unless compiling with 'accessors: true' or '<svelte:options accessors/>'");
     	}
     }
@@ -102821,27 +102752,33 @@ var app = (function (exports) {
 
     exports.app = void 0;
 
-    const queryParams = new URLSearchParams(window.location.search);
+    initWithAirtableContent(initSvelteApp);
 
+    // Instantiate Svelte App
+    function initSvelteApp(contentData){
+        const queryParams = new URLSearchParams(window.location.search);
 
-    // Airtable CMS
-    const base = new airtable({apiKey:'key3EFjfpM7LqvZGK'}).base('app33PA35zad9gevY');
-    const airtableData = [];
-
-    base('content').select({
-        maxRecords: 200,
-        view: "Grid view"
-    }).eachPage(function page(records, fetchNextPage) {
-        records.forEach(record => airtableData.push(record.fields) );
-        fetchNextPage();
-    }, async function done(err) {
         exports.app = new App({
             target: document.body,
-            props: {airtableData, queryParams}, 
+            props: {contentData, queryParams}, 
         });
+    }
 
-        if (err) { console.error(err); return; }
-    });
+    // Get Airtable content before instantiating Svelte app
+    function initWithAirtableContent(initApp){
+        const base = new airtable({apiKey:'key3EFjfpM7LqvZGK'}).base('app33PA35zad9gevY');
+        const airtableData = [];
+
+        base('content').select({
+            maxRecords: 200
+        }).eachPage(function page(records, fetchNextPage) {
+            records.forEach(record => airtableData.push(record.fields) );
+            fetchNextPage();
+        }, async function done(err) {
+            if (err) { console.error(err); return; }
+            initApp(airtableData);
+        });
+    }
 
     Object.defineProperty(exports, '__esModule', { value: true });
 

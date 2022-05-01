@@ -30,7 +30,7 @@ export { keyValues, conditions, performanceObjectivesGroup, performanceObjective
     }
 
     const performanceObjectivesTheme = {
-        label:              'by performance objective theme',
+        label:              'by theme',
         name:               'performanceObjectiveTheme',
         list:               [... new Set(Object.values(hwsSchema.performanceObjectives).map(d => d.themes).flat().sort()) ],
         placeholder:        'Use this field to select performance objectives themes'
@@ -66,6 +66,7 @@ export { keyValues, conditions, performanceObjectivesGroup, performanceObjective
         placeholder:        'Use this field to select initiative type(s)',
         placeholderSingle:  'Use this field to select a initiative type'
     }
+
     const projectStage = {
         label:              'by stage',
         name:               'projectStage',
@@ -73,6 +74,7 @@ export { keyValues, conditions, performanceObjectivesGroup, performanceObjective
         placeholder:        'Use this field to select project stage(s)',
         placeholderSingle:  'Use this field to select a project stage'
     }
+
     const projectClass = {
         label:              'by class',
         name:               'projectClass',
@@ -80,6 +82,7 @@ export { keyValues, conditions, performanceObjectivesGroup, performanceObjective
         placeholder:        'Use this field to select project class(es)',
         placeholderSingle:  'Use this field to select a project class'
     }
+
     const projectSize = {
         label:              'by size',
         name:               'projectSize',
@@ -87,6 +90,7 @@ export { keyValues, conditions, performanceObjectivesGroup, performanceObjective
         placeholder:        'Use this field to select project size(s)',
         placeholderSingle:  'Use this field to select a project size'
     }
+
     const projectScale = {
         label:              'by scale',
         name:               'projectScale',
@@ -103,12 +107,14 @@ export { keyValues, conditions, performanceObjectivesGroup, performanceObjective
         placeholder:        'Use this field to select the name of lead organisation(s)',
         placeholderSingle:  'Use this field to select the lead organisation'
     }
+
     const partnerOrg = {
         label:              'Partner organisation(s)',
         name:               'partnerOrg',
         list:               null,
         placeholder:        'Use this field to select the name of a partner organisation(s)'
     }
+
     const leadOrgType = {
         label:              'Lead organisation type',
         name:               'leadOrgType',

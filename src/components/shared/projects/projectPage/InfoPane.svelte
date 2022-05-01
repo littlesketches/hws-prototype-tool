@@ -1,6 +1,6 @@
 <!-- PROJECT PAGE INFO PANE-->
 <script>
-    import LeafletMap           from '../../map/LeafletMap.svelte'
+    import LeafletMap           from '../../map/Map.svelte'
 	import { fade, slide }      from 'svelte/transition'
     import { ui }               from '../../../../data/stores.js'
     import { capitaliseFirst }  from '../../../../utils/helpers.js'
@@ -17,9 +17,6 @@
         paneVisibility[this.id] = !paneVisibility[this.id]
         console.log(`Toggling ${this.id} to `, paneVisibility[this.id])
     };
-
-    console.log($ui.state.focus.projectData)
-    console.log($ui.state.focus.projectData.status.stage)
 </script>
 
 

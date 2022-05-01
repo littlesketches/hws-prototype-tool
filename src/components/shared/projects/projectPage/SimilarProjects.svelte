@@ -1,26 +1,47 @@
 <!-- COMPONENT FOR SIMILAR PROJECTS-->
 <script>
-    import ProjectCard       from '../ProjectCard.svelte'
-    import DividerZagged20px from '../../layout/DividerZagged20px.svelte'
-    import { ui }            from '../../../../data/stores.js'
-    import { database }      from '../../../../data/dataStores.js'
+    import ProjectCard          from '../ProjectCard.svelte'
+    import DividerZagged20px    from '../../layout/DividerZagged20px.svelte'
+    import { ui }               from '../../../../data/stores.js'
+    import { searchProjects }   from '../../../../data/realm.js'
+    import { database }         from '../../../../data/dataStores.js'
 
-    // Reactive variables
+    // Reacgive variables
     $: projectData = $ui.state.focus.projectData
+
+    // Similar projecct data
+    let simImpactProjects = [], 
+        simLocationProjects =[],
+        simLeadProjects = [],
+        simProjectType =[] 
+
+    const promise = searchProjects()
+
+    //     const projectData =  await searchProjects()
+    //     console.log(projectData)
+    // };
+
 
     // Random project selection
     const shuffleArray = (array) => array.sort(() => Math.random() - 0.5)
 
-    const projectDatabase = $database.projects
-    const shuffledProjects = shuffleArray(projectDatabase)
-    const simImpactProjects = shuffledProjects.slice(0, 3)    
-    const simLocationProjects = shuffledProjects.slice(3, 6)    
-    const simLeadProjects = shuffledProjects.slice(6, 9)    
-    const simProjectType = shuffledProjects.slice(9, 12)    
+    // const projectDatabase = $database.projects
+    // const shuffledProjects = shuffleArray(projectDatabase)
+    // const simImpactProjects = []   
+    // const simLocationProjects = []
+    // const simLeadProjects = []
+    // const simProjectType = []
+
+    // const shuffledProjects = shuffleArray(projectDatabase)
+    // const simImpactProjects = shuffledProjects.slice(0, 3)    
+    // const simLocationProjects = shuffledProjects.slice(3, 6)    
+    // const simLeadProjects = shuffledProjects.slice(6, 9)    
+    // const simProjectType = shuffledProjects.slice(9, 12)    
 </script>
 
 
 <!-- COMPONENT HTML MARKUP-->
+{#await promise}
 <section id = "similar-projects">
     <DividerZagged20px/>
     <h3>&mdash;&mdash; Similar projects to {projectData.name}</h3>
@@ -69,7 +90,7 @@
         </div>
     </div>
 </section>
-
+{/await}
 
 <!-- STYLE -->
 <style>

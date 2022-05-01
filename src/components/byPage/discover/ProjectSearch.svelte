@@ -2,11 +2,14 @@
 <script>
 	import { slide, fly }       from "svelte/transition";
 	import MultiSelect          from '../../shared/forms/MultiSelect.svelte';
-	import LeafletMap           from '../../shared/map/LeafletMap.svelte';
+	import Map                  from '../../shared/map/Map.svelte';
     import { ui }               from '../../../data/stores.js'
     import { database }         from '../../../data/dataStores.js'
+    import { app }              from '../../../data/realm.js'
     import { componentContent, infoModal } from '../../../data/content.js'
+
     import { keyValues, conditions, performanceObjectivesGroup, performanceObjectivesTheme, catchments, subcatchments, locations, leadOrg, leadOrgType, partnerOrg, projectType, projectStage, projectClass, projectSize, projectScale }  from '../../../data/selectorLists.js'
+    export let newSearch = true
 
     ////// COLLAPSIBLE SEARCH PANES ////
 	const paneVisbility= {
@@ -23,29 +26,67 @@
         paneVisbility[this.id] = ! paneVisbility[this.id]
     };
 
-    function handleSearch(){
+    ////// SEARCH PROJECTION OBJECT /////
+    if(newSearch){
+        $ui.search.criteria.project = {
+            name:               [],
+            hws: {
+                poThemes:       [],
+                conditions:     [],
+                values:         [],
+            },
+            meta: {
+                type:           [],
+                class:          [],
+                scale:          [],
+            },
+            status: {
+                stage:          []
+            },
+            location: {
+                catchments:     [],
+                subCatchments:  [],
+                locations:      [],
+            },
 
-        //////////// TO BE REPLACED ////////////
-        // Random project selection: To be replaced with database search
-        function getRandomInt(min, max) {
-            min = Math.ceil(min);
-            max = Math.floor(max);
-            return Math.floor(Math.random() * (max - min + 1)) + min;
-        };
+            leadOrg:            [],
+            leadOrgType:        [],
+            partnerOrgs:        []
+        }
+    }
 
-        const shuffleArray = (array) => array.sort(() => Math.random() - 0.5)
-        const projectDatabase = $database.projects
-        const randProjNumber =  getRandomInt(0, 9)
 
-        $ui.search.project = shuffleArray(projectDatabase.slice(0, randProjNumber))
+    async function handleSearch(){
+        // Setup query
+        const query = {}
+        if($ui.search.criteria.project.hws.values.length > 0)               query["hws.values"]     = {$in: $ui.search.criteria.project.hws.values}
+        if($ui.search.criteria.project.hws.conditions.length > 0)           query["hws.conditions"] = {$in: $ui.search.criteria.project.hws.conditions}
+        if($ui.search.criteria.project.hws.poThemes.length > 0)             query["hws.poThemes"]   = {$in: $ui.search.criteria.project.hws.poThemes}
+        if($ui.search.criteria.project.meta.type.length > 0)                query["meta.type"]      = {$in: $ui.search.criteria.project.meta.type}
+        if($ui.search.criteria.project.meta.class.length > 0)               query["meta.class"]     = {$in: $ui.search.criteria.project.meta.class}
+        if($ui.search.criteria.project.status.stage.length > 0)             query["status.stage"]     = {$in: $ui.search.criteria.project.status.stage}
+        if($ui.search.criteria.project.location.locations.length > 0)       query["location.locations"]     = {$in: $ui.search.criteria.project.location.locations}
+        if($ui.search.criteria.project.location.catchments.length > 0)      query["location.catchments"]    = {$in: $ui.search.criteria.project.location.catchments}
+        if($ui.search.criteria.project.location.subCatchments.length > 0)   query["location.subCatchments"] = {$in: $ui.search.criteria.project.location.subCatchments}
+        if($ui.search.criteria.project.leadOrg.length > 0)                  query["leadOrg"] = {$in: $ui.search.criteria.project.leadOrg}
+        if($ui.search.criteria.project.leadOrgType.length > 0)              query["leadOrgType"] = {$in: $ui.search.criteria.project.leadOrgType}
+        if($ui.search.criteria.project.partnerOrgs.length > 0)              query["partnerOrgs"] = {$in: $ui.search.criteria.project.partnerOrgs}
 
-        // Temporary info box for project search
-        if($ui.infoModal.showNotes && componentContent.messageModal.projectSearch){
+        const projection = {}
+
+        console.log(query)
+        $ui.search.results.project  = await app.data.collections.projects.find(query, projection)
+        console.log("Realm search results: ", $ui.search.results.project )
+
+        // Temporary info box for stakehoder search
+        if($ui.infoModal.showNotes && componentContent.messageModal.stakeholderSearch){
             $ui.infoModal.message = infoModal.projectSearch
             componentContent.messageModal.projectSearch = null
         }
 
+
         ///////////////////////////////////////////
+
         // Set UI based on curent page
         switch($ui.page){
             case 'discover':
@@ -58,6 +99,8 @@
                 $ui.byPage.share.projectSearch.isMade = true
                 break
         };
+
+
 
         window.scrollTo({top: 0, behavior: 'smooth'});
     };
@@ -75,7 +118,7 @@
     };
 
     // Keep count of search param number
-    $: noSearchParams = typeof Object.values($ui.search.project) === 'undefined' ? 0 : Object.values($ui.search.project).flat().length
+    $: noSearchParams = typeof Object.values($ui.search.results.project) === 'undefined' ? 0 : Object.values($ui.search.results.project).flat().length
 
 </script>
 
@@ -103,7 +146,7 @@
         <div class = "collapse__body"  transition:slide>
             <div class = 'multi-select-container' style="z-index:21">
                 <h4>{@html keyValues.label}</h4>
-                <MultiSelect id={keyValues.name} bind:value={$ui.search.project.keyValues} placeholder={keyValues.placeholder} >
+                <MultiSelect id={keyValues.name} bind:value={$ui.search.criteria.project.hws.values} placeholder={keyValues.placeholder} >
                     <option disabled selected value></option>
                     {#each keyValues.list as name}
                     <option value={name}>{@html name}</option>
@@ -113,7 +156,7 @@
 
             <div class = 'multi-select-container'  style="z-index:20">
                 <h4>{@html conditions.label}</h4>
-                <MultiSelect id={conditions.name} bind:value={$ui.search.project.conditions}   placeholder={conditions.placeholder} >
+                <MultiSelect id={conditions.name} bind:value={$ui.search.criteria.project.hws.conditions}  placeholder={conditions.placeholder} >
                     <option disabled selected value></option>
                     {#each conditions.list as name}
                     <option value={name}>{@html name}</option>
@@ -122,18 +165,8 @@
             </div>
 
             <div class = 'multi-select-container' style="z-index:19">
-                <h4>{@html performanceObjectivesGroup.label}</h4>
-                <MultiSelect id={performanceObjectivesGroup.name} bind:value={$ui.search.project.performanceObjectivesGroup}   placeholder={performanceObjectivesGroup.placeholder} >
-                    <option disabled selected value></option>
-                    {#each performanceObjectivesGroup.list as name}
-                    <option value={name}>{@html name}</option>
-                    {/each}
-                </MultiSelect>
-            </div>
-
-            <div class = 'multi-select-container' style="z-index:18">
                 <h4>{@html performanceObjectivesTheme.label}</h4>
-                <MultiSelect id={performanceObjectivesTheme.name} bind:value={$ui.search.project.performanceObjectivesTheme}   placeholder={performanceObjectivesTheme.placeholder} >
+                <MultiSelect id={performanceObjectivesTheme.name} bind:value={$ui.search.criteria.project.hws.poThemes}   placeholder={performanceObjectivesTheme.placeholder} >
                     <option disabled selected value></option>
                     {#each performanceObjectivesTheme.list as name}
                     <option value={name}>{@html name}</option>
@@ -155,7 +188,7 @@
         <div class = "collapse__body"  transition:slide>
             <div class = 'multi-select-container' style="z-index:17">
                 <h4>{@html catchments.label}</h4>
-                <MultiSelect id={catchments.name} bind:value={$ui.search.project.catchment} placeholder={catchments.placeholder} >
+                <MultiSelect id={catchments.name} bind:value={$ui.search.criteria.project.location.catchments} placeholder={catchments.placeholder} >
                     <option disabled selected value></option>
                     {#each catchments.list as name}
                     <option value={name}>{@html name}</option>
@@ -165,7 +198,7 @@
 
             <div class = 'multi-select-container' style="z-index:16">
                 <h4>{@html subcatchments.label}</h4>
-                <MultiSelect id={subcatchments.name} bind:value={$ui.search.project.subcatchment} placeholder={subcatchments.placeholder} >
+                <MultiSelect id={subcatchments.name} bind:value={$ui.search.criteria.project.location.subCatchments} placeholder={subcatchments.placeholder} >
                     <option disabled selected value></option>
                     {#each subcatchments.list as name}
                     <option value={name}>{@html name}</option>
@@ -175,7 +208,7 @@
 
             <div class = 'multi-select-container' style="z-index:15">
                 <h4>{@html locations.label}</h4>
-                <MultiSelect id={locations.name} bind:value={$ui.search.project.locations} placeholder={locations.placeholder}>
+                <MultiSelect id={locations.name} bind:value={$ui.search.criteria.project.location.locations} placeholder={locations.placeholder}>
                     <option disabled selected value></option>
                     {#each locations.list as name}
                     <option value={name}>{@html name}</option>
@@ -183,7 +216,10 @@
                 </MultiSelect>
             </div>
             <div class = 'note'>Location searches will be 'smarter' and linked to the map view</div>
-            <LeafletMap/>
+
+            <div style="z-index:14">
+                <Map/>
+            </div>
         </div>
         {/if}
     </div>
@@ -199,7 +235,7 @@
         <div class = "collapse__body"  transition:slide>
             <div class = 'multi-select-container' style="z-index:14">
                 <h4>{@html projectStage.label}</h4>
-                <MultiSelect id = {projectStage.name} bind:value={$ui.search.project.projectStage} placeholder={projectStage.placeholder} >
+                <MultiSelect id = {projectStage.name} bind:value={$ui.search.criteria.project.status.stage} placeholder={projectStage.placeholder} >
                     <option disabled selected value></option>
                     {#each projectStage.list as name}
                     <option value={name}>{@html name}</option>
@@ -211,34 +247,26 @@
 
             <div class = 'multi-select-container' style="z-index:13">
                 <h4>{@html projectType.label}</h4>
-                <MultiSelect id = {projectType.name} bind:value={$ui.search.project.projectType} placeholder={projectType.placeholder} >
+                <MultiSelect id = {projectType.name} bind:value={$ui.search.criteria.project.meta.type} placeholder={projectType.placeholder} >
                     <option disabled selected value></option>
                     {#each projectType.list as name}
                     <option value={name}>{@html name}</option>
-                    {/each}                
+                    {/each}                 
                 </MultiSelect>
             </div>
             <div class = 'multi-select-container' style="z-index:12">
                 <h4>{@html projectClass.label}</h4>
-                <MultiSelect id = {projectClass.name} bind:value={$ui.search.project.projectClass} placeholder={projectClass.placeholder} >
+                <MultiSelect id = {projectClass.name} bind:value={$ui.search.criteria.project.meta.class} placeholder={projectClass.placeholder} >
                     <option disabled selected value></option>
                     {#each projectClass.list as name}
                     <option value={name}>{@html name}</option>
                     {/each}                
                 </MultiSelect>
             </div>
-            <div class = 'multi-select-container' style="z-index:11">
-                <h4>{@html projectSize.label}</h4>
-                <MultiSelect id = {projectSize.name} bind:value={$ui.search.project.projectSize} placeholder={projectSize.placeholder} >
-                    <option disabled selected value></option>
-                    {#each projectSize.list as name}
-                    <option value={name}>{@html name}</option>
-                    {/each}                
-                </MultiSelect>
-            </div>
+
             <div class = 'multi-select-container' style="z-index:10">
                 <h4>{@html projectScale.label}</h4>
-                <MultiSelect id = {projectScale.name} bind:value={$ui.search.project.projectScale} placeholder={projectScale.placeholder} >
+                <MultiSelect id = {projectScale.name} bind:value={$ui.search.criteria.project.meta.scale} placeholder={projectScale.placeholder} >
                     <option disabled selected value></option>
                     {#each projectScale.list as name}
                     <option value={name}>{@html name}</option>
@@ -262,7 +290,7 @@
         <div class = "collapse__body" transition:slide>
             <div class = 'multi-select-container' style="z-index:9">
                 <h4>{@html leadOrg.label}</h4>
-                <MultiSelect id = {leadOrg.name} bind:value={$ui.search.project.leadOrg} placeholder={leadOrg.placeholder} >
+                <MultiSelect id = {leadOrg.name} bind:value={$ui.search.criteria.project.leadOrg} placeholder={leadOrg.placeholder} >
                     <option disabled selected value></option>
                     {#each leadOrg.list as name}
                     <option value={name}>{@html name}</option>
@@ -271,7 +299,7 @@
             </div>
             <div class = 'multi-select-container' style="z-index:8">
                 <h4>{@html leadOrgType.label}</h4>
-                <MultiSelect id = {leadOrgType.name} bind:value={$ui.search.project.leadOrgType} placeholder={leadOrgType.placeholder} >
+                <MultiSelect id = {leadOrgType.name} bind:value={$ui.search.criteria.project.leadOrgType} placeholder={leadOrgType.placeholder} >
                     <option disabled selected value></option>
                     {#each leadOrgType.list as name}
                     <option value={name}>{@html name}</option>
@@ -280,7 +308,7 @@
             </div>
             <div class = 'multi-select-container' style="z-index:7">
                 <h4>{@html partnerOrg.label}</h4>
-                <MultiSelect id = {partnerOrg.name} bind:value={$ui.search.project.partnerOrg} placeholder={partnerOrg.placeholder} >
+                <MultiSelect id = {partnerOrg.name} bind:value={$ui.search.criteria.project.partnerOrgs} placeholder={partnerOrg.placeholder} >
                     <option disabled selected value></option>
                     {#each partnerOrg.list as name}
                     <option value={name}>{@html name}</option>

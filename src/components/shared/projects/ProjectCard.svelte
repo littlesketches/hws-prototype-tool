@@ -22,7 +22,7 @@
         $ui.byPage[$ui.page].overlay = 'project'
         window.scrollTo({top: 0, behavior: 'smooth'});
 
-        // Hack for manually setting display
+        // Hack for manually re-setting display: see the Nav component which sets overlays to hidden when closed
         if(document.getElementById('project-overlay')) document.getElementById('project-overlay').style.display = ''
     };
 </script>

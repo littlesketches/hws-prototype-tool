@@ -5,10 +5,12 @@
     import { ui }               from '../../../../data/stores.js'
     import { database }         from '../../../../data/dataStores.js'
 
+    export let leadProjects = []
+    export let partnerProjects = []
+
     // Reactive variables
     $: stakeholderData = $ui.state.focus.stakeholderData 
-    $: leadProjects    =  $database.projects.filter( d => d.leadOrg === stakeholderData.name).slice(0, 3)
-    $: partnerProjects  = $database.projects.filter( d => d.partnerOrgs.indexOf(stakeholderData.name) > -1).slice(0, 3)
+
 
 </script>
 

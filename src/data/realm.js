@@ -8,6 +8,7 @@ export {
     loginAnonymous, 
     connectToMongoAtlas, 
     connectToCollections,
+    searchProjects,
     deleteAnonUser,
     deleteAllUsers,
     findRecord,
@@ -41,9 +42,11 @@ const app = { // This object is created
         }
     }            
 }
+/////////////////////////////////////////////////////////////////
+/////  Connect to MongoDB Realm backend and Atlas databases
+/////////////////////////////////////////////////////////////////
 
-// Functions to connect to MongoDB Realm backend and Atlas databases
-async function initRealm(app){
+async function initRealm(app ){
     console.log('Initialising the Realm app...')
     app.realm = new Realm.App({ id: app.config.realmID})
 };
@@ -71,6 +74,8 @@ async function connectToCollections(app){
     console.log('Data collections connected', app.data.collections )
 };
 
+////////////////////////////////////////
+
 async function deleteAnonUser(app){
     console.log('Removing user from database: ', app.user)
     app.realm.removeUser(app.user)
@@ -82,6 +87,22 @@ async function deleteAllUsers(app){
         app.realm.removeUser(user)
     }
 };
+
+/////////////////////////////////////////////////////////////////
+///// Query the database collections
+/////////////////////////////////////////////////////////////////
+
+async function searchProjects(query = {}, projection = {} ){
+
+    console.log(app.data.collections.projects)
+    console.log(query)
+    console.log(projection)
+
+    return await app.data.collections.projects
+        .find(query, projection)
+
+};
+
 
 ////////////////////////////////////////
 
@@ -109,9 +130,7 @@ async function updateMultiSelect(store){
 
 async function addDefaultImages(store){
     console.log('Adding default image URLs...')
-    for( const item of store.projects){
-        item.imgURL = getRandomStockImgPath()
-    }
+
     for( const item of store.organisations){
         item.imgURL = getRandomAbstractImgPath()
     }

@@ -1,16 +1,12 @@
 <!-- PROJECT LIST-->
 <script>
-    import ProjectListHeader from './ProjectListHeader.svelte'
-    import ProjectCard       from './ProjectCard.svelte'
-    import ProjectMap        from '../map/ProjectMap.svelte'
-    import LeafletMap        from '../map/LeafletMap.svelte'
-    import { ui }            from '../../../data/stores.js'
-    import { database }      from '../../../data/dataStores.js'
+    import ProjectListHeader    from './ProjectListHeader.svelte'
+    import ProjectCard          from './ProjectCard.svelte'
+    import Map                  from '../map/Map.svelte'
+    import { ui }               from '../../../data/stores.js'
+    import { searchProjects }   from '../../../data/realm.js'
 
-    // Random project selection if no serch
-    const shuffleArray = (array) => array.sort(() => Math.random() - 0.5)
-    const projectDatabase = $database.projects
-    const projects = $ui.search.project.length > 0 ? $ui.search.project : shuffleArray(projectDatabase).slice(0, 6)
+    const projects = $ui.search.results.project.length > 0 ? $ui.search.results.project.slice(0, 9) : []
 
 </script>
 
@@ -23,9 +19,11 @@
         <ProjectCard {projectData} {index} />
         {/each}
     </ul>
-    
+    {#if $ui.search.results.project.length > 9}
+    <div class = "page-selector-container">Page selector for more results TBA</div>
+    {/if}
     {:else}
-    <LeafletMap/> 
+    <Map/> 
     {/if}
     
 </section>
@@ -42,5 +40,12 @@
         width:                  100%;
         column-gap:             2.5vw;        
         row-gap:                2.5vw;   
+    }
+    .page-selector-container{
+        display:                flex;
+        justify-content:        flex-end;
+        padding:                0.5rem 0;
+        font-weight:            600;
+        font-size:              0.8rem;
     }
 </style>
