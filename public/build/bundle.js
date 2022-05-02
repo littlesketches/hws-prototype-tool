@@ -1327,7 +1327,7 @@ var app = (function (exports) {
         },
         infoModal: {
             show:           true,      
-            showNotes:      false,       // Flag for showing development user notes
+            showNotes:      true,       // Flag for showing development user notes
             message:        null
         },
         map:{
@@ -1447,7 +1447,12 @@ var app = (function (exports) {
     }
 
     let infoModal;
-    ///// EXPORTED METHODS /////
+
+
+    //////////////////////////////////////////////////////////////////////
+    ////////////////////      EXPORTED METHODS        ////////////////////
+    //////////////////////////////////////////////////////////////////////
+
     function getMenuOptions(user){
         if(user.isRegistered){
             return pages.manage.concat(pages.core)     // "MyAccount" option would be first
@@ -1483,12 +1488,14 @@ var app = (function (exports) {
         }
     }
 
-    ////////// CONTENT //////////
+    //////////////////////////////////////////////////////////////////////
+    ////////// TOOL CONTENT: MANAGE TEXT & HTML FROM MICRO CMS  //////////
+    //////////////////////////////////////////////////////////////////////
 
     let toolName = 'Implementation hub';
     let pages = {} , componentContent$1 = {};
 
-    async function getContent(data){
+    async function extractContent(data){
         // Google sheets (if Airtable not used)
     	// const data = await tsv('https://docs.google.com/spreadsheets/d/e/2PACX-1vQ36HUgHmF_LDKH5Nfn6jLPyo56ygQu5vIgCqHa1md8cQCPvvSXhOGmudo_8zWftxu-Sx3lrU14Pwy4/pub?gid=0&single=true&output=tsv')
 
@@ -1703,7 +1710,7 @@ var app = (function (exports) {
             }
         };
 
-        // 3. Create infomodal content
+        // 3. Create info modal content
         infoModal = {
             toolGovernance: {
                 buttons:        [{ text: 'Ok, got it!', function:  'close', }],
@@ -1758,6 +1765,7 @@ var app = (function (exports) {
 
         };
     }
+    /////////////////////////////////////////////////////
     /* Stock image filenames */
     const stockWaterwaysImgNames = [
         "pexels-our-life-in-pixels-7044614.jpg",
@@ -98621,7 +98629,7 @@ var app = (function (exports) {
     			if (if_block2) if_block2.c();
     			if_block2_anchor = empty();
     			attr_dev(main, "id", "main-page");
-    			add_location(main, file, 75, 1, 3928);
+    			add_location(main, file, 75, 1, 4003);
     		},
     		m: function mount(target, anchor) {
     			mount_component(nav, target, anchor);
@@ -99175,6 +99183,9 @@ var app = (function (exports) {
     	let { queryParams } = $$props;
     	let { contentData } = $$props;
 
+    	// Extract content and setup tool
+    	const promiseContent = extractContent(contentData);
+
     	set_store_value(
     		user,
     		$user.isRegistered = queryParams.get('userRegistered') === 'true'
@@ -99182,8 +99193,6 @@ var app = (function (exports) {
     		: false,
     		$user
     	);
-
-    	const promiseContent = getContent(contentData);
 
     	// Intro Modal
     	if ($ui.infoModal.showNotes) {
@@ -99260,9 +99269,7 @@ var app = (function (exports) {
     		Realm,
     		user,
     		ui,
-    		getContent,
-    		getMenuOptions,
-    		database,
+    		extractContent,
     		queryParams,
     		contentData,
     		promiseContent,

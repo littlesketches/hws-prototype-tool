@@ -6,7 +6,7 @@ export {
     componentContent,
     getMenuOptions, 
     getPageInfo, 
-    getContent,
+    extractContent,
     getRandomStockImgPath, 
     getRandomAbstractImgPath,
     getRandomStockSplashImgPath,
@@ -14,7 +14,12 @@ export {
 }
 
 let infoModal
-///// EXPORTED METHODS /////
+
+
+//////////////////////////////////////////////////////////////////////
+////////////////////      EXPORTED METHODS        ////////////////////
+//////////////////////////////////////////////////////////////////////
+
 function getMenuOptions(user){
     if(user.isRegistered){
         return pages.manage.concat(pages.core)     // "MyAccount" option would be first
@@ -55,12 +60,14 @@ function getRandomStockSplashImgPath(index){
 };
 
 
-////////// CONTENT //////////
+//////////////////////////////////////////////////////////////////////
+////////// TOOL CONTENT: MANAGE TEXT & HTML FROM MICRO CMS  //////////
+//////////////////////////////////////////////////////////////////////
 
 let toolName = 'Implementation hub'
 let pages = {} , componentContent = {}
 
-async function getContent(data){
+async function extractContent(data){
     // Google sheets (if Airtable not used)
 	// const data = await tsv('https://docs.google.com/spreadsheets/d/e/2PACX-1vQ36HUgHmF_LDKH5Nfn6jLPyo56ygQu5vIgCqHa1md8cQCPvvSXhOGmudo_8zWftxu-Sx3lrU14Pwy4/pub?gid=0&single=true&output=tsv')
 
@@ -275,7 +282,7 @@ async function getContent(data){
         }
     }
 
-    // 3. Create infomodal content
+    // 3. Create info modal content
     infoModal = {
         toolGovernance: {
             buttons:        [{ text: 'Ok, got it!', function:  'close', }],
@@ -331,6 +338,7 @@ async function getContent(data){
     }
 };
 
+/////////////////////////////////////////////////////
 /* Stock image filenames */
 const stockWaterwaysImgNames = [
     "pexels-our-life-in-pixels-7044614.jpg",

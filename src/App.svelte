@@ -1,25 +1,25 @@
 <!--- MAIN APP COMPONENT-->
 <script>
-	import { fade } 	from 'svelte/transition';
-	import Home 		from './pages/Home.svelte'
-	import Discover 	from './pages/Discover.svelte'
-	import Connect 		from './pages/Connect.svelte'
-	import Share 		from './pages/Share.svelte'
-	import Join 		from './pages/Join.svelte'
-	import Manage 		from './pages/Manage.svelte'
-	import Nav 			from './components/shared/ui/Nav.svelte'
-	import ModalMessage from './components/shared/ui/ModalMessage.svelte'
-	import Footer 		from './components/shared/layout/Footer.svelte'
-	import Realm 		from './components/data/Realm.svelte'
-	import { user, ui } from './data/stores.js'	 
-	import { getContent,  getMenuOptions } from './data/content.js'	 
-    import { database } from './data/dataStores.js'
+	import { fade } 	        from 'svelte/transition';
+	import Home 		        from './pages/Home.svelte'
+	import Discover 	        from './pages/Discover.svelte'
+	import Connect 		        from './pages/Connect.svelte'
+	import Share 		        from './pages/Share.svelte'
+	import Join 		        from './pages/Join.svelte'
+	import Manage 		        from './pages/Manage.svelte'
+	import Nav 			        from './components/shared/ui/Nav.svelte'
+	import ModalMessage         from './components/shared/ui/ModalMessage.svelte'
+	import Footer 		        from './components/shared/layout/Footer.svelte'
+	import Realm 		        from './components/data/Realm.svelte'
+	import { user, ui }         from './data/stores.js'	 
+	import { extractContent}    from './data/content.js'	 
 
     export let queryParams
     export let contentData
-    
+
+    // Extract content and setup tool
+	const promiseContent = extractContent(contentData)    
 	$user.isRegistered = queryParams.get('userRegistered') === 'true' ? true : false
-	const promiseContent = getContent(contentData)
 
     // Intro Modal
     if($ui.infoModal.showNotes){

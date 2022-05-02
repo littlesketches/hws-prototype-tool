@@ -67,7 +67,7 @@ export const ui = writable({
     },
     infoModal: {
         show:           true,      
-        showNotes:      false,       // Flag for showing development user notes
+        showNotes:      true,       // Flag for showing development user notes
         message:        null
     },
     map:{

@@ -29,7 +29,7 @@
 {#await promise then result}
 <section id = 'stakeholder-overlay' in:fade="{{x: 500, duration: 1000}}" out:fade="{{duration: 0}}">
     <TitleBlock/> 
-    <InfoPane {leadProjects}  {leadCatchments} />
+    <InfoPane {leadProjects} {leadCatchments} />
     <StakeholderContent {leadProjects} />
     <StakeholderImage/>
     <OtherProjects {leadProjects} {partnerProjects} />
