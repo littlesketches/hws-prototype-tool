@@ -20,6 +20,7 @@
     // Extract content and setup tool
 	const promiseContent = extractContent(contentData)    
 	$user.isRegistered = queryParams.get('userRegistered') === 'true' ? true : false
+	$ui.infoModal.showNotes = queryParams.get('showNotes') === 'false' ? false : true
 
     // Intro Modal
     if($ui.infoModal.showNotes){
