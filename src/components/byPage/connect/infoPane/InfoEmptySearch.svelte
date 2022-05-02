@@ -3,6 +3,7 @@
     import QuickSearch          from '../QuickSearch.svelte'
     import { componentContent } from '../../../../data/content.js'
     import { ui }               from '../../../../data/stores.js'
+    import { leadOrg }          from '../../../../data/selectorLists.js'
 
     function showSearch(){
         $ui.byPage.connect.main = 'search'
@@ -14,6 +15,8 @@
 <!-- COMPONENT HTML MARKUP-->
 <div class = 'selection-info info-container'>
     <h2>&mdash; {@html componentContent.connect.info.selectionHeader}</h2>
+    <p>We've identified {leadOrg.list.length} stakeholders - from public and private sector orgnaisations, to grassroots groups - all working on projects that impact the health of our waterways
+    </p>
     {@html  componentContent.connect.info.selectionDefault}  
 </div>
 <hr>

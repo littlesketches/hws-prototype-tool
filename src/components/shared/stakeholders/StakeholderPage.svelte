@@ -12,8 +12,8 @@
 
     // Retrieve lead org and partner org data
     let leadProjects = [], partnerProjects = [], leadCatchments = []
-    const leadOrgResponse  =   app.data.collections.projects.find({"leadOrg":  $ui.state.focus.stakeholderData.name  })
-    const partnerProjResponse =   app.data.collections.projects.find({"partnerOrgs":  $ui.state.focus.stakeholderData.name  })
+    const leadOrgResponse     = app.data.collections.projects.find({"leadOrg":  $ui.state.focus.stakeholderData.name  })
+    const partnerProjResponse = app.data.collections.projects.find({"partnerOrgs":  $ui.state.focus.stakeholderData.name  })
 
     const promise = Promise.all([leadOrgResponse, partnerProjResponse])
         .then((results) => {

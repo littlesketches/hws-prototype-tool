@@ -1,7 +1,7 @@
 <script>
     import { fly }      from    'svelte/transition'
     import { ui }       from '../../../data/stores.js'
-    import { componentContent, infoModal }       from '../../../data/content.js'
+    import { componentContent, infoModal }  from '../../../data/content.js'
 
     // Switch between cards and map  
     $ui.byPage.discover.projectView = 'cards'
@@ -18,7 +18,6 @@
             $ui.infoModal.message = infoModal.projectMap
             componentContent.messageModal.projectMap = null
         }
-
     };
 </script>
 

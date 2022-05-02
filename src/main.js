@@ -7,13 +7,13 @@ let app
 
 initWithAirtableContent(initSvelteApp)
 
-// Instantiate Svelte App
+// Instantiate Svelte App with content and queryParams as props
 function initSvelteApp(contentData){
     const queryParams = new URLSearchParams(window.location.search)
 
     app = new App({
         target: document.body,
-        props: {contentData, queryParams}, 
+        props: {contentData, queryParams}
     });
 }
 

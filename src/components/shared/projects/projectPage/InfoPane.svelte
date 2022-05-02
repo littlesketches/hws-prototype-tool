@@ -7,16 +7,7 @@
 
     // Reactive variables
     $: projectData = $ui.state.focus.projectData
-    $: mapLabel = paneVisibility.false  ? "Show map" : "Hide map"
 
-    const paneVisibility = {
-        location:       false
-    }
-
-    function togglePane(){
-        paneVisibility[this.id] = !paneVisibility[this.id]
-        console.log(`Toggling ${this.id} to `, paneVisibility[this.id])
-    };
 </script>
 
 
@@ -126,25 +117,13 @@
 
         <!-- MAP CONTAINER-->
         <LeafletMap/>
-        <!-- <div class = "container">
-            <div id = "location" class="collapse__header" type="button" 
-                class:selected="{paneVisibility.location}" on:click={togglePane}>
-                <div class="toggle-label">See map</div>
-                <div class="toggle-icon down">&#8595;</div>
-            </div>
-            {#if paneVisibility.location}
-            <div class = "collapse__body"  transition:slide>
-                <GenericMap/>
-            </div>
-            {/if}
-        </div> -->
     </div>
 
 </section>
 
 <!-- STYLES-->
 <style>
-   section{
+    section{
         grid-area:      2 / 2 / 3 / 3;       
         display:        grid;
         grid-template-columns: 10% 90%;
@@ -160,9 +139,6 @@
         margin-block-start: 1.5rem;
         margin-block-end:   0.75rem;
         font-size:          1rem;
-    }
-    p{
-        line-height:        1.25;
     }
     .info-pane-header{
         display:            flex;
@@ -202,34 +178,4 @@
         font-weight: 600;
         line-height: 1.5;
     }
-
-    /* COLLAPSIBLE PANE STYLING */
-	.collapse__header {
-        display:            flex;
-        justify-content:    right;
-	    transition:         background 200ms ease-in-out;
-        cursor:             pointer;
-	}
-    .collapse__header{
-	    transition:         all 200ms ease-in-out;
-    }
-	.collapse__header:hover {
-        font-weight:        600;
-	}
-	.collapse__body {
-        display:            grid;
-	    padding:            0rem 0;
-	}
-    .toggle-label{
-        margin-right:       1rem;
-        font-size:          0.75rem;
-        font-weight:        300;
-    }
-    .toggle-icon{
-	    transition:         all 800ms ease-in-out;
-    }
-    .selected .toggle-icon{
-        transform:          rotate(180deg);
-    }
-
 </style>

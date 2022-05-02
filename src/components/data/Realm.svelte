@@ -7,7 +7,6 @@
         connectToMongoAtlas, 
         connectToCollections,
         updateSelectionLists
-
     } from "../../data/realm.js";
 
 

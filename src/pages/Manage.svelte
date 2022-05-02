@@ -15,9 +15,9 @@
 
     const titleData = getPageInfo($ui.page)[0].TitleBlock
 
-    ////////////////////////////////////////////////////////////////
-    // Random project selections written to the $user.data store
-    ////////////////////////////////////////////////////////////////
+    ///////////////////////////////////////////////////////////////////
+    //// Random project selections written to the $user.data store ////  
+    ///////////////////////////////////////////////////////////////////
 
     function getRandomInt(min, max) {
         min = Math.ceil(min);
@@ -38,8 +38,8 @@
         $user.data.sharedProjects   = shuffleArray(projectDatabase.slice(0, userSharedNo))
         $user.data.draftProjects    = shuffleArray(projectDatabase.slice(userSharedNo, userDraftNo))
         $user.data.watchListProjects = shuffleArray(projectDatabase.slice(userSharedNo +userDraftNo , watchListtNo))
-
     };
+
     const promise = getUserData()
 </script>
 

@@ -6,11 +6,11 @@
     import { ui }               from '../../../data/stores.js'
     import { app }              from '../../../data/realm.js'
     import { componentContent, infoModal } from '../../../data/content.js'
+    import { keyValues, conditions, performanceObjectivesTheme, catchments, subcatchments, locations, leadOrg, leadOrgType, partnerOrg, projectType, projectStage, projectClass, projectScale }  from '../../../data/selectorLists.js'
 
-    import { keyValues, conditions, performanceObjectivesGroup, performanceObjectivesTheme, catchments, subcatchments, locations, leadOrg, leadOrgType, partnerOrg, projectType, projectStage, projectClass, projectSize, projectScale }  from '../../../data/selectorLists.js'
     export let newSearch = true
 
-    ////// COLLAPSIBLE SEARCH PANES ////
+    ////// COLLAPSIBLE SEARCH PANES AND UI ////
 	const paneVisbility= {
         byOutcomes:             false,
         byLocation:             false,
@@ -71,20 +71,18 @@
         if($ui.search.criteria.project.leadOrgType.length > 0)              query["leadOrgType"] = {$in: $ui.search.criteria.project.leadOrgType}
         if($ui.search.criteria.project.partnerOrgs.length > 0)              query["partnerOrgs"] = {$in: $ui.search.criteria.project.partnerOrgs}
 
-        const projection = {}
-
         console.log(query)
-        $ui.search.results.project  = await app.data.collections.projects.find(query, projection)
-        console.log("Realm search results: ", $ui.search.results.project )
+        $ui.search.results.project  = await app.data.collections.projects.aggregate([
+            { $match:       query },
+            { $sort:       { name: 1,  leadOrg: 1 } }
+        ])
+        console.log("Realm project search results: ", $ui.search.results.project )
 
         // Temporary info box for stakehoder search
         if($ui.infoModal.showNotes && componentContent.messageModal.stakeholderSearch){
             $ui.infoModal.message = infoModal.projectSearch
             componentContent.messageModal.projectSearch = null
         }
-
-
-        ///////////////////////////////////////////
 
         // Set UI based on curent page
         switch($ui.page){
@@ -98,9 +96,6 @@
                 $ui.byPage.share.projectSearch.isMade = true
                 break
         };
-
-
-
         window.scrollTo({top: 0, behavior: 'smooth'});
     };
 
@@ -111,7 +106,7 @@
 
     function handleClearSearch(){
         console.log('Clearing the search')
-        $ui.search.project = {}
+        $ui.search.criteria.project = null
         for (const key of Object.keys(paneVisbility)){ paneVisbility[key] = false}
         window.scrollTo({top: 0, behavior: 'smooth'});
     };

@@ -6,11 +6,11 @@
     import { ui }               from '../../../data/stores.js'
     import { app }              from '../../../data/realm.js'
     import { componentContent, infoModal } from '../../../data/content.js'
-    import { keyValues, conditions, performanceObjectivesGroup, performanceObjectivesTheme, catchments, subcatchments, locations, leadOrg, leadOrgType, partnerOrg, projectType, projectStage, projectClass, projectSize, projectScale }  from '../../../data/selectorLists.js'
+    import { keyValues, conditions, performanceObjectivesTheme, catchments, subcatchments, locations, leadOrg, leadOrgType, partnerOrg, projectType, projectStage, projectClass, projectScale }  from '../../../data/selectorLists.js'
 
     export let newSearch = true
 
-    ////// COLLAPSIBLE SEARCH PANES ////
+    ////// COLLAPSIBLE SEARCH PANES AND UI ////
 	const paneVisbility= {
         byOutcomes:             false,
         byLocation:             false,
@@ -20,16 +20,17 @@
 
     function togglePane(){
         Object.keys(paneVisbility).map( key => {
-            if(this.id !== key){
-                paneVisbility[key] = false
-            }
+            if(this.id !== key) paneVisbility[key] = false
         })
         paneVisbility[this.id] = ! paneVisbility[this.id]
-        console.log(`Toggling ${this.id} vis to `, paneVisbility[this.id])
     };
 
+    function handleClose(){
+        $ui.byPage.connect.main = 'list'
+        window.scrollTo({top: 0, behavior: 'smooth'});
+    };
 
-    ////// SEARCH PROJECTION OBJECT /////
+    ////// SEARCH QUERY OBJECT /////
     if(newSearch){
         $ui.search.criteria.organisation = {
             name:               [],
@@ -61,47 +62,37 @@
 
     async function handleSearch(){
         // Setup query
-        const query = {}
+        const query = {}, projection = {}
         if($ui.search.criteria.organisation.name.length > 0)               query["name"]     = {$in: $ui.search.criteria.organisation.name}
         if($ui.search.criteria.organisation.meta.type.length > 0)          query["meta.type"] = {$in: $ui.search.criteria.organisation.meta.type}
 
-        const projection = {}
+        $ui.search.results.organisation  = await app.data.collections.organisations.aggregate([
+            { $match:       query },
+            { $sort:       { name: 1 } }
+        ])
 
-        console.log(query)
-        console.log(app.data.collections.organisations)
-        $ui.search.results.organisation  = await app.data.collections.organisations.find(query, projection)
-        console.log("Realm search results: ", $ui.search.results.organisation )
+        console.log("Realm organisation search results: ", $ui.search.results.organisation )
 
-
-        // Temporary info box for stakehoder search
+        // Temporary info box for stakeholder search
         if($ui.infoModal.showNotes && componentContent.messageModal.stakeholderSearch){
             $ui.infoModal.message = infoModal.stakeholderSearch
             componentContent.messageModal.stakeholderSearch = null
         }
 
-        // $ui.search.organisation = shuffleArray(organisationDatabase.slice(0, randOrgNumber))
-
-        ///////////////////////////////////////////
-
         // Set UI based on curent page
         $ui.byPage.connect.main = 'list'
         $ui.byPage.connect.stakeholderSearch.isMade = true
         window.scrollTo({top: 0, behavior: 'smooth'});
-        console.log($ui.search)
+
     };
 
-    function handleClose(){
-        $ui.byPage.connect.main = 'list'
-        window.scrollTo({top: 0, behavior: 'smooth'});
-    };
 
     function handleClearSearch(){
         console.log('Clearing the search')
-        $ui.search.organisation = {}
+        $ui.search.criteria.organisation = null
         for (const key of Object.keys(paneVisbility)){ paneVisbility[key] = false}
         window.scrollTo({top: 0, behavior: 'smooth'});
     };
-
 
     // Keep count of search param number
     $: noSearchParams = typeof Object.values($ui.search.results.organisation) === 'undefined' ? 0 : Object.values($ui.search.results.organisation).flat().length

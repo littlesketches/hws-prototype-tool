@@ -7,7 +7,6 @@
     import Hero         from '../components/byPage/home/Hero.svelte'
     import AboutArrow   from '../components/byPage/home/AboutArrow.svelte'
 
-
     $ui.state.showNav = false
 </script>
 

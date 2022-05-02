@@ -70,18 +70,18 @@ async function connectToCollections(app){
     console.log('Data collections connected', app.data.collections )
 };
 
+
 /////////////////////////////////////////////////////////////////
-//// TOOL UI SETUP FUNCTIONS
+////////////////     TOOL UI SETUP FUNCTIONS     ////////////////
 /////////////////////////////////////////////////////////////////
 
 async function updateSelectionLists(app){
     console.log("Updating the selector lists based on database entries...")
 
-
     // Organisation lists
     const orgData = await app.data.collections.organisations.aggregate([
         { 
-            $project: { name: 1 }
+            $project: { name: 1,    _id: 0 }
         }
     ])
 

@@ -7,16 +7,20 @@
     import { ui }                   from '../../../data/stores.js'
     import { app }                  from '../../../data/realm.js'
 
-
-    // Random project selection if no search  ****TO BE UPDGRADED
+    // Random stakeholder selection if no search 
     let stakeholders
+
     async function getStakeholderData(){
-        const orgDatabase  = await app.data.collections.organisations.find({})
-        const shuffleArray = (array) => array.sort(() => Math.random() - 0.5)        
-        stakeholders =  $ui.search.results.organisation.length > 0 ? $ui.search.results.organisation :  shuffleArray(orgDatabase.slice(0, 6))
+        if($ui.search.criteria.organisation){
+            stakeholders = $ui.search.results.organisation.slice(0, 9) 
+        } else {
+            stakeholders =  await app.data.collections.organisations.aggregate([
+                { $sample : { size: 9 }  },
+            ])
+        }
     };
 
-    let promise = getStakeholderData()
+    const promise = getStakeholderData()
 </script>
 
 <!-- COMPONENT HTML MARKUP-->
@@ -24,11 +28,14 @@
 <section  in:fly="{{x: 500, duration: 1000, delay: 500}}">   
     <StakeholderListHeader/> 
     {#if $ui.byPage.connect.stakeholderView === 'cards'}
-    <ul>
-        {#each stakeholders as stakeholderData, index}
-        <StakeholderCard  {stakeholderData} {index}/>
-        {/each}
-    </ul>
+        <ul>
+            {#each stakeholders as stakeholderData, index}
+            <StakeholderCard  {stakeholderData} {index}/>
+            {/each}
+        </ul>
+        {#if $ui.search.results.organisation.length > 9}
+        <div class = "page-selector-container">Page selector for more results TBA</div>
+        {/if}
     {:else}
         <StakeholderNetwork/> 
     {/if}    
@@ -52,5 +59,12 @@
         margin-block-start:     0;
         margin-block-end:       0;
         padding-inline-start:   0;
+    }
+    .page-selector-container{
+        display:                flex;
+        justify-content:        flex-end;
+        padding:                0.5rem 0;
+        font-weight:            600;
+        font-size:              0.8rem;
     }
 </style>

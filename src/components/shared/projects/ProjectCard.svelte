@@ -7,7 +7,6 @@
     export let projectData
     export let index
 
-    // if(!projectData.imgURL) projectData.imgURL = getRandomStockImgPath()
     const id = projectData._id.toString()
 
     // Show and hide descriptions 
@@ -29,7 +28,7 @@
 
 
 <!-- COMPONENT HTML MARKUP-->
-<li  in:fly="{{x: 500, duration: 1000, delay: 500 + 100 * index}}"  out:fly="{{x: 500, duration: 200, delay: 50 * index}}">
+<li in:fly="{{x: 500, duration: 1000, delay: 500 + 100 * index}}"  out:fly="{{x: 500, duration: 200, delay: 50 * index}}">
     <div id = {`card-${id}`} class = 'card' 
         on:click={openProject(projectData)} 
         on:mouseover={showDesc}  on:focus={showDesc}   

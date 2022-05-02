@@ -87,7 +87,8 @@
 	{#if $ui.page !== 'home'}
 	<Footer/>
 	{/if}
-    <!-- MODAL -->
+
+    <!-- INFO MODAL -->
     {#if $ui.infoModal.show && $ui.infoModal.message}
         <ModalMessage />
     {/if}
