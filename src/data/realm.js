@@ -8,13 +8,7 @@ export {
     loginAnonymous, 
     connectToMongoAtlas, 
     connectToCollections,
-    searchProjects,
-    deleteAnonUser,
-    deleteAllUsers,
-    findRecord,
-    setupLocalStore,
-    updateMultiSelect,
-    addDefaultImages
+    updateSelectionLists
 } 
 
 ////////////////////////////////////////////////////////////////////
@@ -42,8 +36,10 @@ const app = { // This object is created
         }
     }            
 }
+
+
 /////////////////////////////////////////////////////////////////
-/////  Connect to MongoDB Realm backend and Atlas databases
+/////  CONNECT TO MONGODB REALM BACKEND AND ATLAS DATABASE  /////
 /////////////////////////////////////////////////////////////////
 
 async function initRealm(app ){
@@ -74,7 +70,38 @@ async function connectToCollections(app){
     console.log('Data collections connected', app.data.collections )
 };
 
-////////////////////////////////////////
+/////////////////////////////////////////////////////////////////
+//// TOOL UI SETUP FUNCTIONS
+/////////////////////////////////////////////////////////////////
+
+async function updateSelectionLists(app){
+    console.log("Updating the selector lists based on database entries...")
+
+
+    // Organisation lists
+    const orgData = await app.data.collections.organisations.aggregate([
+        { 
+            $project: { name: 1 }
+        }
+    ])
+
+    leadOrg.list = orgData.map( d => d.name).sort()
+    partnerOrg.list =  orgData.map( d => d.name).sort()
+
+    // Organsation type
+
+
+
+};
+
+
+
+
+
+////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
+
+
 
 async function deleteAnonUser(app){
     console.log('Removing user from database: ', app.user)
@@ -103,9 +130,6 @@ async function searchProjects(query = {}, projection = {} ){
 
 };
 
-
-////////////////////////////////////////
-
 async function setupLocalStore(app, store){
     console.log("Storing database as store...")
     for (const name of Object.keys(store)){
@@ -122,19 +146,7 @@ async function setupLocalStore(app, store){
     }
 };
 
-async function updateMultiSelect(store){
-    console.log("Updating the multiselect objects...")
-    leadOrg.list = store.organisations.map( d => d.name).sort()
-    partnerOrg.list =  store.organisations.map( d => d.name).sort()
-};
 
-async function addDefaultImages(store){
-    console.log('Adding default image URLs...')
-
-    for( const item of store.organisations){
-        item.imgURL = getRandomAbstractImgPath()
-    }
-};
 
 
 ////////////////////////////////////////

@@ -3,7 +3,6 @@
     import ProjectCard          from '../../projects/ProjectCard.svelte'
     import DividerZagged20px    from '../../layout/DividerZagged20px.svelte'
     import { ui }               from '../../../../data/stores.js'
-    import { database }         from '../../../../data/dataStores.js'
 
     export let leadProjects = []
     export let partnerProjects = []

@@ -2,7 +2,6 @@
 <script>
 	import { fade }         from 'svelte/transition'
     import { ui }           from '../../../../data/stores.js'
-    import { database }     from '../../../../data/dataStores.js'
     import { app }          from '../../../../data/realm.js'
 
     export let leadProjects = []
@@ -84,6 +83,8 @@
         </div>
     </div>
 </section>
+
+
 <!-- STYLES-->
 <style>
    section{

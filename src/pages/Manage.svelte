@@ -30,7 +30,6 @@
     let projectDatabase = []
     const getUserData = async() => {
         projectDatabase = await app.data.collections.projects.find({})
-        console.log(projectDatabase)
 
         const userSharedNo =  getRandomInt(0, 7)
         const userDraftNo  =  getRandomInt(0, 7)

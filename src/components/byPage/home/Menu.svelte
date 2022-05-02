@@ -1,7 +1,7 @@
 <script>
     import MenuCard                 from './MenuCard.svelte'
 	import { fade }                 from 'svelte/transition';
-    import { app, deleteAllUsers }  from '../../../data/realm.js';
+    import { app }                  from '../../../data/realm.js';
     import { getMenuOptions }       from '../../../data/content.js'
     import { user, ui }             from '../../../data/stores.js'
     import { slugify }              from '../../../utils/helpers.js'

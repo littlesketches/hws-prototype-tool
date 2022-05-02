@@ -4,7 +4,6 @@
 	import MultiSelect          from '../../shared/forms/MultiSelect.svelte';
 	import Map                  from '../../shared/map/Map.svelte';
     import { ui }               from '../../../data/stores.js'
-    import { database }         from '../../../data/dataStores.js'
     import { app }              from '../../../data/realm.js'
     import { componentContent, infoModal } from '../../../data/content.js'
 

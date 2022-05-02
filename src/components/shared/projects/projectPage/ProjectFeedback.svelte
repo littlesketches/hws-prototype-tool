@@ -3,14 +3,21 @@
     import Comment              from '../../../shared/feedback/Comment.svelte'
     import  DividerZagged20px   from '../../../shared/layout/DividerZagged20px.svelte'
     import { ui, user }         from '../../../../data/stores.js'
-    import { database }         from '../../../../data/dataStores.js'
+    import { app }              from '../../../../data/realm.js'
     import { componentContent } from '../../../../data/content.js'
 
     // Reactive variables
     $: projectData = $ui.state.focus.projectData
     $: newComment = ''
 
-    $ui.state.focus.projectComments = $database.interactions.filter( d => d.type === 'comment' && d.projectName === $ui.state.focus.projectData.name).sort( (a,b) => b.date - a.date)
+    let interactionsData = []
+    const getInteractionData = async() => {
+        interactionsData = await app.data.collections.interactions.find({})
+        $ui.state.focus.projectComments = interactionsData.filter( d => d.type === 'comment' && d.projectName === $ui.state.focus.projectData.name).sort( (a,b) => b.date - a.date)
+
+    };
+    let promise = getInteractionData()
+
 
     // Get project comments data
 
@@ -28,8 +35,8 @@
                 },
                 date:           new Date()
             }
-
-            $database.interactions = [newCommentEntry, ...$database.interactions]
+            /*** TO BE UPDATED TO WRITE TO DB*/
+            interactionsData= [newCommentEntry, ...interactionsData]
             $ui.state.focus.projectComments  = [newCommentEntry, ...$ui.state.focus.projectComments]
 
         } else {
@@ -44,6 +51,7 @@
 
 
 <!-- COMPONENT HTML MARKUP-->
+{#await promise then value}
 <section>
     <DividerZagged20px/>
     <h3>&mdash;&mdash; What stakeholders think about {projectData.name}</h3>
@@ -68,7 +76,7 @@
         </div>
     </div>
 </section>
-
+{/await}
 
 <!-- STYLES-->
 <style>

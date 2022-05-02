@@ -4,7 +4,6 @@
 	import MultiSelect          from '../../shared/forms/MultiSelect.svelte';
 	import LeafletMap           from '../../shared/map/Map.svelte';
     import { ui }               from '../../../data/stores.js'
-    import { database }         from '../../../data/dataStores.js'
     import { app }              from '../../../data/realm.js'
     import { componentContent, infoModal } from '../../../data/content.js'
     import { keyValues, conditions, performanceObjectivesGroup, performanceObjectivesTheme, catchments, subcatchments, locations, leadOrg, leadOrgType, partnerOrg, projectType, projectStage, projectClass, projectSize, projectScale }  from '../../../data/selectorLists.js'

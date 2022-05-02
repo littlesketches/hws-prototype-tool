@@ -3,8 +3,7 @@
     import ProjectCard          from '../ProjectCard.svelte'
     import DividerZagged20px    from '../../layout/DividerZagged20px.svelte'
     import { ui }               from '../../../../data/stores.js'
-    import { searchProjects }   from '../../../../data/realm.js'
-    import { database }         from '../../../../data/dataStores.js'
+    import { app }              from '../../../../data/realm.js'
 
     // Reacgive variables
     $: projectData = $ui.state.focus.projectData
@@ -15,33 +14,27 @@
         simLeadProjects = [],
         simProjectType =[] 
 
-    const promise = searchProjects()
+    /*** TO BE UPDATED*/
+    const getSimilarProjects = async() => {
+        const projectDatabase = await app.data.collections.projects.find({})
+        const shuffleArray = (array) => array.sort(() => Math.random() - 0.5)
+        const shuffledProjects = shuffleArray(projectDatabase)
+        
+        simImpactProjects = shuffledProjects.slice(0, 3)    
+        simLocationProjects = shuffledProjects.slice(3, 6)    
+        simLeadProjects = shuffledProjects.slice(6, 9)    
+        simProjectType = shuffledProjects.slice(9, 12)    
 
-    //     const projectData =  await searchProjects()
-    //     console.log(projectData)
-    // };
+    };
 
+    const promise = getSimilarProjects()
 
-    // Random project selection
-    const shuffleArray = (array) => array.sort(() => Math.random() - 0.5)
-
-    // const projectDatabase = $database.projects
-    // const shuffledProjects = shuffleArray(projectDatabase)
-    // const simImpactProjects = []   
-    // const simLocationProjects = []
-    // const simLeadProjects = []
-    // const simProjectType = []
-
-    // const shuffledProjects = shuffleArray(projectDatabase)
-    // const simImpactProjects = shuffledProjects.slice(0, 3)    
-    // const simLocationProjects = shuffledProjects.slice(3, 6)    
-    // const simLeadProjects = shuffledProjects.slice(6, 9)    
-    // const simProjectType = shuffledProjects.slice(9, 12)    
 </script>
 
 
 <!-- COMPONENT HTML MARKUP-->
-{#await promise}
+
+{#await promise then value}
 <section id = "similar-projects">
     <DividerZagged20px/>
     <h3>&mdash;&mdash; Similar projects to {projectData.name}</h3>

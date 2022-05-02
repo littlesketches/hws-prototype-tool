@@ -5,17 +5,22 @@
     import StakeholderCard          from './StakeholderCard.svelte'
     import StakeholderNetwork       from './StakeholderNetwork.svelte'
     import { ui }                   from '../../../data/stores.js'
-    import { database }             from '../../../data/dataStores.js'
+    import { app }                  from '../../../data/realm.js'
 
 
-    // Random project selection if no serch
-    const shuffleArray = (array) => array.sort(() => Math.random() - 0.5)
-    const orgDatabase = $database.organisations
-    const stakeholders =  $ui.search.results.organisation.length > 0 ? $ui.search.results.organisation :  shuffleArray(orgDatabase.slice(0, 6))
+    // Random project selection if no search  ****TO BE UPDGRADED
+    let stakeholders
+    async function getStakeholderData(){
+        const orgDatabase  = await app.data.collections.organisations.find({})
+        const shuffleArray = (array) => array.sort(() => Math.random() - 0.5)        
+        stakeholders =  $ui.search.results.organisation.length > 0 ? $ui.search.results.organisation :  shuffleArray(orgDatabase.slice(0, 6))
+    };
 
+    let promise = getStakeholderData()
 </script>
 
 <!-- COMPONENT HTML MARKUP-->
+{#await promise then value}
 <section  in:fly="{{x: 500, duration: 1000, delay: 500}}">   
     <StakeholderListHeader/> 
     {#if $ui.byPage.connect.stakeholderView === 'cards'}
@@ -26,9 +31,9 @@
     </ul>
     {:else}
         <StakeholderNetwork/> 
-    {/if}
-    
+    {/if}    
 </section>
+{/await}
 
 <!------ STYLE ------->
 <style>

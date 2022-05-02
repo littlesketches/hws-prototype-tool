@@ -2,7 +2,6 @@
 <script>
 	import { slide }    from 'svelte/transition'
     import { ui }       from '../../../../data/stores.js'
-    import { database } from '../../../../data/dataStores.js'
     import HWS_tags     from '../../forms/HWS_tags.svelte'
     import HWS_boxes    from '../../forms/HWS_boxes.svelte'
     import Sources      from './Sources.svelte'

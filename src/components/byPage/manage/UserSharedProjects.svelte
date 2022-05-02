@@ -5,10 +5,8 @@
     import DividerZagged20px    from "../../shared/layout/DividerZagged20px.svelte"
     import { ui, user }         from '../../../data/stores.js'
     import { componentContent } from '../../../data/content.js'
-    import { database }         from '../../../data/dataStores.js'
 
     const projectsData = $user.data.sharedProjects 
-    console.log(projectsData)
 
 </script>
 

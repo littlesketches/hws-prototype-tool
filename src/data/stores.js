@@ -67,7 +67,7 @@ export const ui = writable({
     },
     infoModal: {
         show:           true,      
-        showNotes:      true,       // Flag for showing development user notes
+        showNotes:      false,       // Flag for showing development user notes
         message:        null
     },
     map:{
@@ -77,10 +77,11 @@ export const ui = writable({
         data:           {
             focus: {
                 catchments:         null,
-                subCatchments:      null
-
+                subCatchments:      null,
+                locations:          null,
+                polygon:            null,
+                points:             null
             }
-
         }
     },
     items: {

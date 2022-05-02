@@ -4,7 +4,6 @@
     import ProjectCard          from './ProjectCard.svelte'
     import Map                  from '../map/Map.svelte'
     import { ui }               from '../../../data/stores.js'
-    import { searchProjects }   from '../../../data/realm.js'
 
     const projects = $ui.search.results.project.length > 0 ? $ui.search.results.project.slice(0, 9) : []
 

@@ -6,21 +6,17 @@
         loginAnonymous,    
         connectToMongoAtlas, 
         connectToCollections,
-        setupLocalStore,
-        updateMultiSelect, 
-        addDefaultImages
+        updateSelectionLists
+
     } from "../../data/realm.js";
 
-    import { database } from '../../data/dataStores.js'
 
     const promise = async function(app){
         await initRealm(app)
         await loginAnonymous(app)
         await connectToMongoAtlas(app)
         await connectToCollections(app)
-        await setupLocalStore(app, $database)
-        await addDefaultImages($database)
-        await updateMultiSelect($database)	
+        await updateSelectionLists(app)	
     };
 </script>
 
