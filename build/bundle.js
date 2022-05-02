@@ -1327,7 +1327,7 @@ var app = (function (exports) {
         },
         infoModal: {
             show:           true,      
-            showNotes:      false,       // Flag for showing development user notes
+            showNotes:      true,       // Flag for showing development user notes
             message:        null
         },
         map:{
@@ -98783,7 +98783,7 @@ var app = (function (exports) {
     	return block;
     }
 
-    // (74:34)   <Nav/>  <main id ='main-page'><!-- Main "Page: section controlled with logic selector -->   {#if      $ui.page === 'home'}
+    // (75:34)   <Nav/>  <main id ='main-page'><!-- Main "Page: section controlled with logic selector -->   {#if      $ui.page === 'home'}
     function create_then_block(ctx) {
     	let nav;
     	let t0;
@@ -98841,7 +98841,7 @@ var app = (function (exports) {
     			if (if_block2) if_block2.c();
     			if_block2_anchor = empty();
     			attr_dev(main, "id", "main-page");
-    			add_location(main, file, 75, 1, 4003);
+    			add_location(main, file, 76, 1, 4086);
     		},
     		m: function mount(target, anchor) {
     			mount_component(nav, target, anchor);
@@ -98973,14 +98973,14 @@ var app = (function (exports) {
     		block,
     		id: create_then_block.name,
     		type: "then",
-    		source: "(74:34)   <Nav/>  <main id ='main-page'><!-- Main \\\"Page: section controlled with logic selector -->   {#if      $ui.page === 'home'}",
+    		source: "(75:34)   <Nav/>  <main id ='main-page'><!-- Main \\\"Page: section controlled with logic selector -->   {#if      $ui.page === 'home'}",
     		ctx
     	});
 
     	return block;
     }
 
-    // (82:34) 
+    // (83:34) 
     function create_if_block_7(ctx) {
     	let manage;
     	let current;
@@ -99012,14 +99012,14 @@ var app = (function (exports) {
     		block,
     		id: create_if_block_7.name,
     		type: "if",
-    		source: "(82:34) ",
+    		source: "(83:34) ",
     		ctx
     	});
 
     	return block;
     }
 
-    // (81:32) 
+    // (82:32) 
     function create_if_block_6(ctx) {
     	let join;
     	let current;
@@ -99051,14 +99051,14 @@ var app = (function (exports) {
     		block,
     		id: create_if_block_6.name,
     		type: "if",
-    		source: "(81:32) ",
+    		source: "(82:32) ",
     		ctx
     	});
 
     	return block;
     }
 
-    // (80:33) 
+    // (81:33) 
     function create_if_block_5(ctx) {
     	let share;
     	let current;
@@ -99090,14 +99090,14 @@ var app = (function (exports) {
     		block,
     		id: create_if_block_5.name,
     		type: "if",
-    		source: "(80:33) ",
+    		source: "(81:33) ",
     		ctx
     	});
 
     	return block;
     }
 
-    // (79:35) 
+    // (80:35) 
     function create_if_block_4(ctx) {
     	let connect;
     	let current;
@@ -99129,14 +99129,14 @@ var app = (function (exports) {
     		block,
     		id: create_if_block_4.name,
     		type: "if",
-    		source: "(79:35) ",
+    		source: "(80:35) ",
     		ctx
     	});
 
     	return block;
     }
 
-    // (78:36) 
+    // (79:36) 
     function create_if_block_3(ctx) {
     	let discover;
     	let current;
@@ -99168,14 +99168,14 @@ var app = (function (exports) {
     		block,
     		id: create_if_block_3.name,
     		type: "if",
-    		source: "(78:36) ",
+    		source: "(79:36) ",
     		ctx
     	});
 
     	return block;
     }
 
-    // (77:2) {#if      $ui.page === 'home'}
+    // (78:2) {#if      $ui.page === 'home'}
     function create_if_block_2(ctx) {
     	let home;
     	let current;
@@ -99207,14 +99207,14 @@ var app = (function (exports) {
     		block,
     		id: create_if_block_2.name,
     		type: "if",
-    		source: "(77:2) {#if      $ui.page === 'home'}",
+    		source: "(78:2) {#if      $ui.page === 'home'}",
     		ctx
     	});
 
     	return block;
     }
 
-    // (86:1) {#if $ui.page !== 'home'}
+    // (87:1) {#if $ui.page !== 'home'}
     function create_if_block_1(ctx) {
     	let footer;
     	let current;
@@ -99246,14 +99246,14 @@ var app = (function (exports) {
     		block,
     		id: create_if_block_1.name,
     		type: "if",
-    		source: "(86:1) {#if $ui.page !== 'home'}",
+    		source: "(87:1) {#if $ui.page !== 'home'}",
     		ctx
     	});
 
     	return block;
     }
 
-    // (90:4) {#if $ui.infoModal.show && $ui.infoModal.message}
+    // (91:4) {#if $ui.infoModal.show && $ui.infoModal.message}
     function create_if_block(ctx) {
     	let modalmessage;
     	let current;
@@ -99285,7 +99285,7 @@ var app = (function (exports) {
     		block,
     		id: create_if_block.name,
     		type: "if",
-    		source: "(90:4) {#if $ui.infoModal.show && $ui.infoModal.message}",
+    		source: "(91:4) {#if $ui.infoModal.show && $ui.infoModal.message}",
     		ctx
     	});
 
@@ -99405,6 +99405,8 @@ var app = (function (exports) {
     		: false,
     		$user
     	);
+
+    	set_store_value(ui, $ui.infoModal.showNotes = queryParams.get('showNotes') === 'false' ? false : true, $ui);
 
     	// Intro Modal
     	if ($ui.infoModal.showNotes) {
