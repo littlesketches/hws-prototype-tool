@@ -20,6 +20,9 @@
         $ui.state.focus.stakeholderData = stakeholderData
         $ui.byPage.connect.overlay = 'stakeholder'
         window.scrollTo({top: 0, behavior: 'smooth'});
+
+
+
         // Hack for manually setting display
         if(document.getElementById('stakeholder-overlay')) document.getElementById('stakeholder-overlay').style.display = ''
     };

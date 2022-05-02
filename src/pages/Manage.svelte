@@ -10,7 +10,7 @@
     import NewProject           from '../components/shared/newProject/NewProject.svelte'
     import ProjectPage          from '../components/shared/projects/ProjectPage.svelte'
 	import { ui, user }         from '../data/stores.js'	 
-    import { database }         from '../data/dataStores.js'
+    import { app }              from '../data/realm.js'
     import { getPageInfo }      from '../data/content.js'
 
     const titleData = getPageInfo($ui.page)[0].TitleBlock
@@ -26,18 +26,27 @@
     };
 
     const shuffleArray = (array) => array.sort(() => Math.random() - 0.5)
-    const projectDatabase = $database.projects
-    const userSharedNo =  getRandomInt(0, 7)
-    const userDraftNo  =  getRandomInt(0, 7)
-    const watchListtNo =  getRandomInt(0, 10)
 
-    $user.data.sharedProjects   = shuffleArray(projectDatabase.slice(0, userSharedNo))
-    $user.data.draftProjects    = shuffleArray(projectDatabase.slice(userSharedNo, userDraftNo))
-    $user.data.watchListProjects = shuffleArray(projectDatabase.slice(userSharedNo +userDraftNo , watchListtNo))
+    let projectDatabase = []
+    const getUserData = async() => {
+        projectDatabase = await app.data.collections.projects.find({})
+        console.log(projectDatabase)
+
+        const userSharedNo =  getRandomInt(0, 7)
+        const userDraftNo  =  getRandomInt(0, 7)
+        const watchListtNo =  getRandomInt(0, 10)
+
+        $user.data.sharedProjects   = shuffleArray(projectDatabase.slice(0, userSharedNo))
+        $user.data.draftProjects    = shuffleArray(projectDatabase.slice(userSharedNo, userDraftNo))
+        $user.data.watchListProjects = shuffleArray(projectDatabase.slice(userSharedNo +userDraftNo , watchListtNo))
+
+    };
+    const promise = getUserData()
 </script>
 
 
 <!-- COMPONENT MARKUP-->
+{#await promise then value}
 <section id="manage-page"  in:fade="{{duration: 500}}" >
     <TitleBlock {titleData}/>
     {#if !$ui.byPage.manage.overlay}
@@ -55,7 +64,7 @@
     <NewProject store={$ui.editProject.data}/>
     {/if}
 </section>
-
+{/await}
 
 <!------ STYLE ------->
 <style>

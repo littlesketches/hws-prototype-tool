@@ -7,7 +7,8 @@
     import { componentContent } from '../../../data/content.js'
     import { database }         from '../../../data/dataStores.js'
 
-    $: projectsData = $user.data.sharedProjects 
+    const projectsData = $user.data.sharedProjects 
+    console.log(projectsData)
 
 </script>
 

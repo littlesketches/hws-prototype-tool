@@ -9,22 +9,24 @@
     import { app }              from '../../../data/realm.js'
 	import { ui }               from '../../../data/stores.js'	 
 
-    let leadProjects, partnerProjects, leadCatchments
-    async function getProjects(){
-        leadProjects =  await app.data.collections.projects.find({"leadOrg":  $ui.state.focus.stakeholderData.name  })
-        partnerProjects =  await app.data.collections.projects.find({"partnerOrgs":  $ui.state.focus.stakeholderData.name  })
-        leadProjects = leadProjects.slice(0,3)
-        leadCatchments  = [...new Set(leadProjects.map(d => d.location.catchments).flat())]
-        console.log(leadProjects)
-        return leadProjects
-    };
 
-    getProjects()
+    // Retrieve lead org and partner org data
+    let leadProjects = [], partnerProjects = [], leadCatchments = []
+    const leadOrgResponse  =   app.data.collections.projects.find({"leadOrg":  $ui.state.focus.stakeholderData.name  })
+    const partnerProjResponse =   app.data.collections.projects.find({"partnerOrgs":  $ui.state.focus.stakeholderData.name  })
+
+    const promise = Promise.all([leadOrgResponse, partnerProjResponse])
+        .then((results) => {
+            leadProjects = results[0]
+            partnerProjects = results[1]
+            leadCatchments  = [...new Set(leadProjects.map(d => d.location.catchments).flat())]
+        })
+
 </script>
 
 
 <!-- COMPONENT HTML MARKUP-->
-<!-- {#await promise } -->
+{#await promise then result}
 <section id = 'stakeholder-overlay' in:fade="{{x: 500, duration: 1000}}" out:fade="{{duration: 0}}">
     <TitleBlock/> 
     <InfoPane {leadProjects}  {leadCatchments} />
@@ -32,7 +34,8 @@
     <StakeholderImage/>
     <OtherProjects {leadProjects} {partnerProjects} />
 </section>
-<!-- {/await} -->
+{/await }
+
 
 <!------ STYLE ------->
 <style>
