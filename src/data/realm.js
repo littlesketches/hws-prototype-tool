@@ -8,7 +8,8 @@ export {
     loginAnonymous, 
     connectToMongoAtlas, 
     connectToCollections,
-    updateSelectionLists
+    updateSelectionLists, 
+    getSimilarProjects
 } 
 
 ////////////////////////////////////////////////////////////////////
@@ -88,94 +89,102 @@ async function updateSelectionLists(app){
     leadOrg.list = orgData.map( d => d.name).sort()
     partnerOrg.list =  orgData.map( d => d.name).sort()
 
-    // Organsation type
-
-
-
 };
 
+
+async function getSimilarProjects(projectData, simProjectStore){
+    simProjectStore.byTheme = []
+    simProjectStore.byProjectType = []
+    simProjectStore.byProjectLead = []
+    simProjectStore.byLocation = []
+
+    // Similar by HWS theme
+    if(projectData.hws.themes.length > 0){
+        simProjectStore.byTheme = await app.data.collections.projects.aggregate([
+            { 
+                $match:  { 
+                    "hws.themes" :    {$in: projectData.hws.themes},   
+                    "_id" :           {$ne: projectData._id}   
+                }  
+            },
+            { $sort:   { name: 1,  leadOrg: 1 } }
+        ]) 
+    }
+
+    // Similar by project type
+    if(projectData.meta.type.length > 0){
+        simProjectStore.byProjectType = await app.data.collections.projects.aggregate([
+            { 
+                $match:  { 
+                    "meta.type" :   {$in: [projectData.meta.type]},  
+                    "_id" :         {$ne: projectData._id}   
+                }  
+                },
+            { $sort:   { name: 1,  leadOrg: 1 } }
+        ]) 
+    }
+
+    // Led by same project lead type
+    if(projectData.leadOrg){
+        simProjectStore.byProjectLead = await app.data.collections.projects.aggregate([
+            { 
+                $match:  { 
+                    "leadOrg" :   {$in: [projectData.leadOrg]},  
+                    "_id" :         {$ne: projectData._id}   
+                }  
+                },
+            { $sort:   { name: 1,  leadOrg: 1 } }
+        ]) 
+    }
+
+    // Similar by location: by location scale 
+    switch(projectData.meta.scale){
+        case 'regional':
+            simProjectStore.byLocation = await app.data.collections.projects.aggregate([
+                { 
+                    $match:  { 
+                        "location.catchments" : {$eg: [projectData.location.catchments]}  ,
+                        "_id" :         {$ne: projectData._id}   
+                    }  
+                },
+                { $sort:   { name: 1,  leadOrg: 1 } }
+            ]) 
+            break
+
+        case 'Single catchment':
+        case 'Across multiple catchments':
+            simProjectStore.byLocation = await app.data.collections.projects.aggregate([
+                { 
+                    $match:  { 
+                        "location.catchments" : {$in: [projectData.location.catchments]} ,
+                        "_id" :         {$ne: projectData._id}    
+                    } 
+                },
+                { $sort:   { name: 1,  leadOrg: 1 } }
+            ]) 
+            break
+
+        case 'Single location':
+        case 'Across multiple locations':
+        case 'Single subcatchment':
+        case 'Across multiple subcatchments':
+            simProjectStore.byLocation = await app.data.collections.projects.aggregate([
+                { 
+                    $match:  { 
+                        "location.subCatchments" : {$in: [projectData.location.subCatchments]},
+                        "_id" :         {$ne: projectData._id}     
+                    }  
+                },
+                { $sort:   { name: 1,  leadOrg: 1 } }
+            ]) 
+            break
+    }
+
+    console.log(simProjectStore)
+};
 
 
 
 
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-
-
-
-
-async function deleteAnonUser(app){
-    console.log('Removing user from database: ', app.user)
-    app.realm.removeUser(app.user)
-};
-
-async function deleteAllUsers(app){
-    const userArray = [...app.realm.users]
-    for( const user of userArray){
-        app.realm.removeUser(user)
-    }
-};
-
-/////////////////////////////////////////////////////////////////
-///// Query the database collections
-/////////////////////////////////////////////////////////////////
-
-async function searchProjects(query = {}, projection = {} ){
-
-    console.log(app.data.collections.projects)
-    console.log(query)
-    console.log(projection)
-
-    return await app.data.collections.projects
-        .find(query, projection)
-
-};
-
-async function setupLocalStore(app, store){
-    console.log("Storing database as store...")
-    for (const name of Object.keys(store)){
-        store[name] = await app.data.collections[name].find({})
-            .then(result => {
-                if(result) {
-                    console.log(`- ${name} stored`);     
-                    return result;
-                } else {
-                console.log("No documents found");
-                }
-            })
-            .catch(err => console.error(`Failed to find documents: ${err}`));
-    }
-};
-
-
-
-
-////////////////////////////////////////
-
-
-async function testConnection(app){
-  await initRealm(app)
-  await loginAnonymous(app)
-  await connectToMongoAtlas(app)
-  await connectToCollections(app)
-  await findRecord(app)
-};
-
-async function findRecord(app, collectionName){
-  console.log('Trying to find record...')
-
-  const findResult = app.data.collections.projects.findOne({ 
-      "name": "Project #1" 
-    })
-    .then(result => {
-      if(result) {
-        console.log(`Successfully found document:`, result);
-      } else {
-        console.log("No document matches the provided query.");
-      }
-      return result;
-    })
-    .catch(err => console.error(`Failed to find document: ${err}`));
-
-
-};
 

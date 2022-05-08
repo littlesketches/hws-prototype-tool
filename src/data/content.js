@@ -65,14 +65,43 @@ function getRandomStockSplashImgPath(index){
 //////////////////////////////////////////////////////////////////////
 
 let toolName = 'Implementation hub'
-let pages = {} , componentContent = {}
+let pages = {}
+const componentContent = {
+        title:          {},
+        about:          {},
+        discover: {
+            info:       {}
+        },
+        connect: {
+            info:       {}
+        },
+        share: {
+            new:        {},
+            existing:   {}
+        },
+        join: {
+            info:       {}
+        },
+        manage: {
+            info:       {},
+            projects:   {}
+        },
+        misc:           {},
+        info: {
+            home:       {},
+            manage:     {},
+            discover:   {},
+            connect:    {},
+            share:      {},
+            join:       {},
+        },
+        messageModal:   {}
+}
 
 async function extractContent(data){
-    // Google sheets (if Airtable not used)
-	// const data = await tsv('https://docs.google.com/spreadsheets/d/e/2PACX-1vQ36HUgHmF_LDKH5Nfn6jLPyo56ygQu5vIgCqHa1md8cQCPvvSXhOGmudo_8zWftxu-Sx3lrU14Pwy4/pub?gid=0&single=true&output=tsv')
+    console.log("Loaded content data: ", data)
 
     const getHTML = (ref) => data.filter(d => d.reference === ref).length > 0 ? data.filter(d => d.reference === ref)[0].content : ''
-    console.log("Loaded content data: ", data)
 
     toolName = getHTML('toolName')
 
@@ -129,157 +158,67 @@ async function extractContent(data){
     }
 
     // 2. Extract and shape "Component" content 
-    componentContent = {
-        title: {
-            subHeading:      getHTML('toolSubHeader'),
-            mainHeading:     `${toolName}`,
-            tagline:         getHTML('toolTagline')
-        },
+    console.log( data.filter(d => d.reference.startsWith('component.about') ))
 
-        //  PAGES AND 
-        about: {
-            title:                          getHTML('component.about.title'),
-            intro:                          getHTML('component.about.intro'),
-            section_01_title:               getHTML('component.about.section_01_title'),   
-            section_01_description:         getHTML('component.about.section_01_description'),   
-            section_02_title:               getHTML('component.about.section_02_title'),  
-            section_02_description:         getHTML('component.about.section_02_description'),  
-            section_03_title:               getHTML('component.about.section_03_title'),   
-            section_03_description:         getHTML('component.about.section_03_description'),  
-            section_04_title:               getHTML('component.about.section_04_title'),    
-            section_04_description:         getHTML('component.about.section_04_description'),
-            section_05_title:               getHTML('component.about.section_05_title'),    
-            section_05_description_A:       getHTML('component.about.section_05_description_A'),
-            section_05_description_B:       getHTML('component.about.section_05_description_B')
-        },
+    componentContent.title = {
+        subHeading:      getHTML('toolSubHeader'),
+        mainHeading:     `${toolName}`,
+        tagline:         getHTML('toolTagline')
+    }
 
-        discover: {
-            info: {
-                selectionHeader:        getHTML('component.discover.info.selectionHeader'),
-                selectionDefault:       getHTML('component.discover.info.selectionDefault'),
-                searchToolHeader:       getHTML('component.discover.info.searchToolHeader'),
-                searchToolDesc:         getHTML('component.discover.info.searchToolDesc'),
-                filterHeader:           getHTML('component.discover.info.filterHeader'),
-                filterDesc:             getHTML('component.discover.info.filterDesc'),
-                mapHeader:              getHTML('component.discover.info.mapHeader'),
-                mapDesc:                getHTML('component.discover.info.mapDesc'),
-                searchResultsHeader:    getHTML('component.discover.info.searchResultsHeader'),
-                searchResultsDesc:      getHTML('component.discover.info.searchResultsDesc'),
-            }
-        },
+    for (const d of data.filter( d => d.reference.startsWith('component.about')) ){
+        componentContent.about[d.reference.slice('component.about'.length + 1)] = getHTML(d.reference)
+    }
+    for (const d of data.filter( d => d.reference.startsWith('component.discover.info')) ){
+        componentContent.discover.info[d.reference.slice('component.discover.info'.length + 1)] = getHTML(d.reference)
+    }
+    for (const d of data.filter( d => d.reference.startsWith('component.connect.info')) ){
+        componentContent.connect.info[d.reference.slice('component.connect.info'.length + 1)] = getHTML(d.reference)
+    }
+    for (const d of data.filter( d => d.reference.startsWith('component.connect.info')) ){
+        componentContent.connect.info[d.reference.slice('component.connect.info'.length + 1)] = getHTML(d.reference)
+    }
+    for (const d of data.filter( d => d.reference.startsWith('component.share.new')) ){
+        componentContent.share.new[d.reference.slice('component.share.new'.length + 1)] = getHTML(d.reference)
+    }
+    for (const d of data.filter( d => d.reference.startsWith('component.share.existing')) ){
+        componentContent.share.existing[d.reference.slice('component.share.existing'.length + 1)] = getHTML(d.reference)
+    }
+    for (const d of data.filter( d => d.reference.startsWith('component.join.info')) ){
+        componentContent.join.info[d.reference.slice('component.join.info'.length + 1)] = getHTML(d.reference)
+    }
+    for (const d of data.filter( d => d.reference.startsWith('component.manage.info')) ){
+        componentContent.manage.info[d.reference.slice('component.manage.info'.length + 1)] = getHTML(d.reference)
+    }
+    for (const d of data.filter( d => d.reference.startsWith('component.manage.projects')) ){
+        componentContent.manage.projects[d.reference.slice('component.manage.projects'.length + 1)] = getHTML(d.reference)
+    }
 
-        connect: {
-            info: {
-                selectionHeader:        getHTML('component.connect.info.selectionHeader'),
-                selectionDefault:       getHTML('component.connect.info.selectionDefault'),
-                searchToolHeader:       getHTML('component.connect.info.searchToolHeader'),
-                searchToolDesc:         getHTML('component.connect.info.searchToolDesc'),
-                filterHeader:           getHTML('component.connect.info.filterHeader'),
-                filterDesc:             getHTML('component.connect.info.filterDesc'),
-                networkHeader:          getHTML('component.connect.info.networkHeader'),
-                networkDesc:            getHTML('component.connect.info.networkDesc'),
-                searchResultsHeader:    getHTML('component.connect.info.searchResultsHeader'),
-                searchResultsDesc:      getHTML('component.connect.info.searchResultsDesc'),
-            }
-        },
+    for (const d of data.filter( d => d.reference.startsWith('info.home')) ){
+        componentContent.info.home[d.reference.slice('info.home'.length + 1)] = getHTML(d.reference)
+    }
+    for (const d of data.filter( d => d.reference.startsWith('info.manage')) ){
+        componentContent.info.manage[d.reference.slice('info.manage'.length + 1)] = getHTML(d.reference)
+    }
+    for (const d of data.filter( d => d.reference.startsWith('info.discover')) ){
+        componentContent.info.discover[d.reference.slice('info.discover'.length + 1)] = getHTML(d.reference)
+    }
+    for (const d of data.filter( d => d.reference.startsWith('info.connect')) ){
+        componentContent.info.connect[d.reference.slice('info.connect'.length + 1)] = getHTML(d.reference)
+    }
+    for (const d of data.filter( d => d.reference.startsWith('info.share')) ){
+        componentContent.info.share[d.reference.slice('info.share'.length + 1)] = getHTML(d.reference)
+    }
+    for (const d of data.filter( d => d.reference.startsWith('info.join')) ){
+        componentContent.info.join[d.reference.slice('info.join'.length + 1)] = getHTML(d.reference)
+    }
 
-        share:{
-            new: {
-                aboutHeader:            getHTML('component.share.new.aboutHeader'),
-                aboutDesc:              getHTML('component.share.new.aboutDesc'),
-                instructionHeader:      getHTML('component.share.new.instructionHeader'),
-                instructionDesc:        getHTML('component.share.new.instructionDesc'),
-            },
-            existing: {
-                aboutHeader:            getHTML('component.share.existing.aboutHeader'),
-                aboutDesc:              getHTML('component.share.existing.aboutDesc'),
-                instructionHeader:      getHTML('component.share.existing.instructionHeader'),
-                instructionDesc:        getHTML('component.share.existing.instructionDesc'),
-                searchResultsHeader:    getHTML('component.share.existing.searchResultsHeader'),
-                searchResultsDesc:      getHTML('component.share.existing.searchResultsDesc'), 
-           }
-        },
-    
-        join: {
-            info:{
-                header:                 getHTML('component.join.info.header'),
-                desc:                   getHTML('component.join.info.desc'),
-            }
-        },
+    for (const d of data.filter( d => d.reference.startsWith('messageModal')) ){
+        componentContent.messageModal[d.reference.slice('messageModal'.length + 1)] = getHTML(d.reference)
+    }
 
-        manage: {
-            info:{
-                defaultHeader:          getHTML('component.manage.info.defaultHeader'),
-                defaultDesc:            getHTML('component.manage.info.defaultDesc'),
-                newsAlertHeader:        getHTML('component.manage.info.newsAlertHeader'), 
-                newsAlertDesc:          getHTML('component.manage.info.newsAlertDesc'), 
-                accountHeader:          getHTML('component.manage.info.accountHeader'), 
-                accountDesc:            getHTML('component.manage.info.accountDesc'), 
-            },
-            projects:{
-                sharedHeader:           getHTML('component.manage.projects.sharedHeader'), 
-                sharedDesc:             getHTML('component.manage.projects.sharedDesc'), 
-                draftHeader:            getHTML('component.manage.projects.draftHeader'), 
-                draftDesc:              getHTML('component.manage.projects.draftDesc'), 
-                watchlistHeader:        getHTML('component.manage.projects.watchlistHeader'), 
-                watchlistDesc:          getHTML('component.manage.projects.watchlistDesc'),
-                feedbackHeader:        getHTML('component.manage.projects.feedbackHeader'), 
-                feedbackDesc:          getHTML('component.manage.projects.feedbackDesc')
-            }
-        },
-
-        // INFO OVERLAYS
-        info: {
-            home:{
-                header:                 getHTML('info.home.header'),
-                content:                getHTML('info.home.content')
-            },
-            manage:{
-                header:                 getHTML('info.manage.header'),
-                content:                getHTML('info.manage.content')
-            },
-            discover:{
-                header:                 getHTML('info.discover.header'),
-                content:                getHTML('info.discover.content')
-            },
-            connect:{
-                header:                 getHTML('info.connect.header'),
-                content:                getHTML('info.connect.content')
-            },
-            share:{
-                header:                 getHTML('info.share.header'),
-                content:                getHTML('info.share.content')
-            },
-            join:{
-                header:                 getHTML('info.join.header'),
-                content:                getHTML('info.join.content')
-            }
-        },
-
-        // MESSAGE MODALS
-        messageModal: {
-            aboutOtherResources:        getHTML('messageModal.aboutOtherResources'),
-            aboutToolHelp:              getHTML('messageModal.aboutToolHelp'),
-            aboutToolGovernance:        getHTML('messageModal.aboutToolGovernance'),
-            setUserPreferences:         getHTML('messageModal.setUserPreferences'),
-            updateUserDetails:          getHTML('messageModal.updateUserDetails'),
-            projectSearch:              getHTML('messageModal.projectSearch'),
-            projectMap:                 getHTML('messageModal.projectMap'),
-            stakeholderSearch:          getHTML('messageModal.stakeholderSearch'),
-            stakeholderNetwork:         getHTML('messageModal.stakeholderNetwork'),
-            createAccount:              getHTML('messageModal.createAccount'),
-            loginToComment:             getHTML('messageModal.loginToComment'),
-            login:                      getHTML('messageModal.login'),
-            newProjectSavePost:         getHTML('messageModal.newProjectSavePost'),
-            projectPage:                getHTML('messageModal.projectPage'),
-            orgPage:                    getHTML('messageModal.orgPage'),
-            newProjectPage:             getHTML('messageModal.newProjectPage'),
-        },
-
-        // MISC COMPONENTS
-        misc: {
-            feedbackInstruction:        getHTML('component.misc.feedbackInstruction')
-        }
+    for (const d of data.filter( d => d.reference.startsWith('component.misc')) ){
+        componentContent.misc[d.reference.slice('component.misc'.length + 1)] = getHTML(d.reference)
     }
 
     // 3. Create info modal content
@@ -340,6 +279,7 @@ async function extractContent(data){
 
 /////////////////////////////////////////////////////
 /* Stock image filenames */
+
 const stockWaterwaysImgNames = [
     "pexels-our-life-in-pixels-7044614.jpg",
     "oak-g0c3060d01_640.jpg",

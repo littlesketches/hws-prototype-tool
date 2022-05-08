@@ -13,7 +13,7 @@
     // HWS Key Values and conditions data
     $: themesData = {
         name:           "&mdash; Themes",
-        array:          projectData.hws.poThemes
+        array:          projectData.hws.themes
     }
     $: keyValuesData = {
         name:           "&mdash; Values",
@@ -28,7 +28,7 @@
 
     // Slideable pane visibility
     const visibility = {
-        hwsDetails:         false,
+        hwsDetails:         true,
         aboutDetails:       false,
         learningsDetails:   false,
         sourcesDetails:     false
@@ -55,11 +55,15 @@
     {#if visibility.aboutDetails }
         <div transition:slide="{{duration: 1200}}">
             <h3>&mdash;&mdash; Project details</h3>
-            {@html projectData.about.longDescription}
-
+            {#if projectData.about.longDescription}
+                {@html projectData.about.longDescription}
+            {/if}
             {#if projectData.about.history}
                 <h3 class ='margin-top'>&mdash;&mdash; Project history</h3>
                 {@html projectData.about.history}
+            {/if}
+            {#if !projectData.about.longDescription && !projectData.about.history}
+            <p>Unfortunately more descriptive details about this project have not been added (yet).</p>
             {/if}
         </div>
     {/if}
@@ -74,10 +78,10 @@
 
     <!-- HWS IMPACT SECTION-->
     <h3>&mdash;&mdash;&mdash; Waterways impact</h3>
-    <p>Every waterways project can be categorised by the waterways themes, key values an conditions which they impact.</p>
-    <HWS_tags data={themesData}/>
-    <HWS_boxes data={keyValuesData}/>
     {#if visibility.hwsDetails }
+        <p>Every waterways project can be categorised by the waterways themes, key values an conditions which they impact.</p>
+        <HWS_tags data={themesData}/>
+        <HWS_boxes data={keyValuesData}/>
         <HWS_boxes data={conditionsData}/>
     {/if}
     <div class = "collapse__body"  transition:slide>
@@ -90,26 +94,30 @@
     <hr>
 
     <!-- PROJECT LEARNINGS: optional -->
-    {#if (Object.values(projectData.learnings).flat().length > 0)}
-        <h3>&mdash;&mdash; Project learnings</h3>
-        <p>The follow project notes are provided by {@html projectData.leadOrg} to help document key lessons from this project.</p>
+    <h3>&mdash;&mdash; Project learnings</h3>
+    {#if projectData.learnings.cultural || projectData.learnings.innovation || projectData.learnings.general.length > 0 || projectData.learnings.worked.length > 0 || projectData.learnings.failed.length > 0 }
+        <p>These insights are provided by {@html projectData.leadOrg} to help document key lessons from this project.</p>
         {#if visibility.learningsDetails }
         <ProjectLearnings/>
         {/if}
         <div class = "collapse__body"  transition:slide>
             <div id = "learningsDetails" class="collapse__header" type="button" 
-                class:selected="{visibility.learnings}" on:click={togglePane}>
+                class:selected="{visibility.learningsDetails}" on:click={togglePane}>
                 <div class="toggle-label">{@html learningsLabel}</div>
                 <div class="toggle-icon down">&#8595;</div>
             </div>
         </div>
         <hr>
+    {:else}
+        <p>{@html projectData.leadOrg} has not (yet) provided any insights and lessons from this project.</p>
     {/if}
 
+
+
     <!-- MORE INFO AND SOURCES: optional-->
-    {#if (Object.values(projectData.links).length > 0)}
-        <h3>&mdash;&mdash; Where to find more information</h3>
-        <p>Project information was provided from {@html projectData.leadOrg} in {@html projectData.status.dates.lastUpdate} .</p>
+    <h3>&mdash;&mdash; Where to find more information</h3>
+    {#if projectData.links.length > 0 }
+        <p>Project information was provided from {@html projectData.leadOrg} in {@html new Date(projectData.status.dates.lastUpdate).toLocaleDateString('en-GB', { year: 'numeric', month: 'long', day: 'numeric' }) } .</p>
         {#if visibility.sourcesDetails }
             <ProjectSources/>
         {/if}

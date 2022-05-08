@@ -7,7 +7,7 @@
 
     // Reactive variables
     $: projectData = $ui.state.focus.projectData
-
+console.log($ui.state.focus.projectData)
 </script>
 
 
@@ -24,7 +24,7 @@
             <div class ='info-label'>Lead organisation:</div>
             <div class ='info-content'>{@html projectData.leadOrg}</div>
         </div>
-        {#if projectData.partnerOrgs.length > 0}
+        {#if projectData.partnerOrgs && projectData.partnerOrgs.length > 0}
         <div class='info-row'>
             {#if projectData.partnerOrgs.length > 1}
             <div class ='info-label'>Partners:</div>
@@ -43,11 +43,11 @@
         <h4>&mdash;&mdash; What's the status?</h4> 
         <div class='info-row'>
             <div class ='info-label'>Project type:</div>
-            <div class ='info-content'>{capitaliseFirst(projectData.meta.type)}</div>
+            <div class ='info-content'>{projectData.meta.type}</div>
         </div>
         <div class='info-row'>
             <div class ='info-label'>Status:</div>
-            <div class ='info-content'>{capitaliseFirst(projectData.status.stage)}</div>
+            <div class ='info-content'>{projectData.status.stage}</div>
         </div>
         {#if projectData.status.stage === 'Complete' || projectData.status.stage === 'Operational'}
         <div class='info-row'>
@@ -63,6 +63,7 @@
 
         <!-- PROJECT LOCATION DATA -->
         <h4>&mdash;&mdash; Where is it?</h4> 
+        {#if projectData.location.locations}
         <div class='info-row'>
             {#if projectData.location.locations.length > 1 }
             <div class ='info-label'>Locations:</div>
@@ -75,7 +76,9 @@
                 {/each}
             </div>
         </div>
+        {/if}
 
+        {#if projectData.location.subCatchments}
         <div class='info-row'>
             {#if $ui.state.focus.projectData.location.subCatchments.length > 1 }
             <div class ='info-label'>Subcatchments:</div>
@@ -88,6 +91,7 @@
                 {/each}
             </div>
         </div>
+        {/if}
 
         <div class='info-row'>
             {#if projectData.location.catchments.length > 1 }
@@ -102,7 +106,7 @@
             </div>
         </div>
 
-        <div class='info-row'>
+        <!-- <div class='info-row'>
             {#if projectData.location.locations.length > 1 }
             <div class ='info-label'>Local Governments:</div>
             {:else}
@@ -113,7 +117,7 @@
                 <span>{index === 0 ? "TBA City Council" : index == projectData.location.locations.length - 1 ? ` and "TBA City Council"` : `"TBA City Council", `}</span>
                 {/each}
             </div>
-        </div>
+        </div> -->
 
         <!-- MAP CONTAINER-->
         <LeafletMap/>

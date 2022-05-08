@@ -17,25 +17,31 @@
     <div>
         <ul>
             {#each projectData.links as linkData, index}
-            <li><a href={linkData.url}>{linkData.label}</a> - {linkData.description}</li>
+            <li><a href={linkData.url} target = "_blank">{linkData.label}</a> 
+                {#if linkData.description} - {linkData.description}{/if}
+            </li>
             {/each}
         </ul>
     </div>
     {/if}
 
-    {#if projectData.contact.primary.firstName !== '' && projectData.contact.primary.lastName !== ''}
+    {#if (projectData.leadContact.firstName && projectData.leadContact.lastName) || projectData.leadContact.email}
     <div>
         <h4>&mdash; Contact</h4>
     </div>
     <div class='info-row'>
+        {#if (projectData.leadContact.firstName && projectData.leadContact.lastName)}
         <div class ='info-label'>Name:</div>
         <div class ='info-content'>
-            {@html projectData.contact.primary.firstName} {@html projectData.contact.primary.lastName}
+            {@html projectData.leadContact.firstName} {@html projectData.leadContact.lastName}
         </div>
+        {/if}
+        {#if projectData.leadContact.email} 
         <div class ='info-label'>Email:</div>
         <div class ='info-content'>
-            {@html projectData.contact.primary.email}
+            <a href = 'mailto:{projectData.leadContact.email}'>{@html projectData.leadContact.email}</a>
         </div>
+        {/if}
     </div>
     {/if}
 </section>
@@ -60,7 +66,7 @@
         margin-block-start:     0;
         font-weight:            300;
         line-height:            1.5;
-        /* font-size:              0.8rem; */
+        font-size:              0.8rem;
     }
     ul{ 
     	padding-inline-start:   0.75rem;

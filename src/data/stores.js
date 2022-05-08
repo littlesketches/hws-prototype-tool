@@ -29,7 +29,14 @@ export const ui = writable({
         focus: {
             projectData:            null,
             stakeholderData:        null,
-            projectComments:        null
+            projectComments:        null,
+            similarProjects:        {
+                locationScale:          null,
+                byLocation:             null,
+                byTheme:                null,
+                byProjectType:          null,
+                byProjectLead:          null,
+            }
         },
     },
     byPage:{ 

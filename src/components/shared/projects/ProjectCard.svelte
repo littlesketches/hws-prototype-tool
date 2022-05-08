@@ -2,7 +2,7 @@
 <script>
 	import { fade, fly } 	         from 'svelte/transition';
 	import { ui }                    from '../../../data/stores.js'	 
-    import { getRandomStockImgPath } from '../../../data/content.js'
+    import { getSimilarProjects }    from '../../../data/realm.js'
 
     export let projectData
     export let index
@@ -15,10 +15,12 @@
     function hideDesc(){ hoverState = false };
 
     // Open a project
-    function openProject(){
+    async function openProject(){
         console.log('Open project with id: ', id )
         $ui.state.focus.projectData = projectData
         $ui.byPage[$ui.page].overlay = 'project'
+        await getSimilarProjects($ui.state.focus.projectData, $ui.state.focus.similarProjects)
+
         window.scrollTo({top: 0, behavior: 'smooth'});
 
         // Hack for manually re-setting display: see the Nav component which sets overlays to hidden when closed
