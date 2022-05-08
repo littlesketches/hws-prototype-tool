@@ -29,7 +29,7 @@ body {
     display:            flex;
     flex-flow:          column;
 }
-p{
+p, ul{
 	line-height: 		1.5;
 	font-weight: 		300;
 }
