@@ -1,12 +1,11 @@
 <!-- HWS CONDITIONS AND VALUES BOXES-->
 <script>
     import { ui }           from '../../../data/stores.js'
-    import { hwsSchema }    from '../../../data/schema.js'
+    import { schema }    from '../../../data/schema.js'
     import { slugify }      from '../../../utils/helpers.js'
 	import { slide }        from 'svelte/transition'
 
     export let data
-
 </script>
 
 
@@ -18,7 +17,7 @@
     <div class = 'hws-box-container'>
         {#each data.array as item, index}
         <div class ="box" id = {`box-${slugify(data.name)}-${slugify(item)}`}>
-            <img src = {hwsSchema[data.schemaName][item].imgURL} alt="tba"/>
+            <img src = {schema[data.schemaName].data.filter(d => d[data.label] === item)[0].imgURL} alt="tba"/>
             <div class = "height-pad"></div>
             <div class = "label">
                 <h5>{@html item}</h5>
@@ -32,24 +31,24 @@
 <!-- STYLES-->
 <style>
     section{
-        display:            grid;
+        display:                grid;
         grid-template-columns:  1fr 3fr;
         padding-bottom:         2.5vw;
     }
     h4{
-        margin-block-start:  0;
-        margin-block-end:    0;
-        font-weight:        500;
+        margin-block-start:     0;
+        margin-block-end:       0;
+        font-weight:            500;
         font-size:              1rem;
     }
     h5{
-        margin-block-start: 0.5rem;
-        margin-block-end:   0.5rem;
+        margin-block-start:     0.5rem;
+        margin-block-end:       0.5rem;
     }
     .hws-box-container{
-        display:            grid;
+        display:                grid;
         grid-template-columns: repeat(3, 1fr);
-        column-gap:         5px;
+        column-gap:             5px;
         row-gap:            5px;
     }
     .box{

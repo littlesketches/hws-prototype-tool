@@ -9,8 +9,7 @@
     import ProjectImage     from './projectPage/ProjectImage.svelte'
     import ProjectFeedback  from './projectPage/ProjectFeedback.svelte'
     import SimilarProjects  from './projectPage/SimilarProjects.svelte'
-    import { ui }           from '../../../data/stores'
-
+    import { ui }                   from '../../../data/stores'
 </script>
 
 <!-- COMPONENT HTML MARKUP-->

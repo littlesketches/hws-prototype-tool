@@ -31,7 +31,6 @@ export const ui = writable({
             stakeholderData:        null,
             projectComments:        null,
             similarProjects:        {
-                locationScale:          null,
                 byLocation:             null,
                 byTheme:                null,
                 byProjectType:          null,
@@ -110,4 +109,8 @@ export const ui = writable({
         id:                     null,
         data:                   null
     }
+})
+
+export const schema = writable({
+    data: null
 })

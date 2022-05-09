@@ -14,7 +14,6 @@
     function openNewProject(){
         console.log('Open the project entry')
         $ui.byPage.share.overlay = 'newProject'
-        console.log($ui)
     }; 
 </script>
 

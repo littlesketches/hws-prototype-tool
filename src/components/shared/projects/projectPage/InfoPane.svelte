@@ -7,7 +7,6 @@
 
     // Reactive variables
     $: projectData = $ui.state.focus.projectData
-console.log($ui.state.focus.projectData)
 </script>
 
 

@@ -16,11 +16,21 @@
     $ui.newProject = {
         name:           null,
         leadOrg:        '',
-        meta:           {},
+        meta:           {
+            class:      []
+        },
         about:          {},
         contact:        {},
-        hws:            {},
-        location:       {},
+        hws:            {
+            values:          [],
+            conditions:      [],
+            themes:          [],
+        },
+        location:       {
+            catchments:     [],
+            subCatchments:  [],
+            locations:      []
+        },
         learnings:        {
             general:    ['', '', ''],
             worked:     ['', '', ''],

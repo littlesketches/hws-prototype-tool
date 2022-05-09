@@ -99,7 +99,7 @@ const componentContent = {
 }
 
 async function extractContent(data){
-    console.log("Loaded content data: ", data)
+    // console.log("Loaded content data: ", data)
 
     const getHTML = (ref) => data.filter(d => d.reference === ref).length > 0 ? data.filter(d => d.reference === ref)[0].content : ''
 
@@ -158,8 +158,6 @@ async function extractContent(data){
     }
 
     // 2. Extract and shape "Component" content 
-    console.log( data.filter(d => d.reference.startsWith('component.about') ))
-
     componentContent.title = {
         subHeading:      getHTML('toolSubHeader'),
         mainHeading:     `${toolName}`,

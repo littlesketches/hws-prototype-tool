@@ -1,6 +1,6 @@
 import * as Realm from "realm-web";
 import { getRandomStockImgPath, getRandomAbstractImgPath }  from './content.js'
-import {leadOrg, partnerOrg}      from './selectorLists.js'
+import { createSelectorLists, leadOrg, partnerOrg}      from './selectorLists.js'
 
 export { 
     app, 
@@ -77,8 +77,7 @@ async function connectToCollections(app){
 /////////////////////////////////////////////////////////////////
 
 async function updateSelectionLists(app){
-    console.log("Updating the selector lists based on database entries...")
-
+    console.log("Updating the selector lists based on database entries...") 
     // Organisation lists
     const orgData = await app.data.collections.organisations.aggregate([
         { 
@@ -93,6 +92,7 @@ async function updateSelectionLists(app){
 
 
 async function getSimilarProjects(projectData, simProjectStore){
+
     simProjectStore.byTheme = []
     simProjectStore.byProjectType = []
     simProjectStore.byProjectLead = []
@@ -129,9 +129,9 @@ async function getSimilarProjects(projectData, simProjectStore){
         simProjectStore.byProjectLead = await app.data.collections.projects.aggregate([
             { 
                 $match:  { 
-                    "leadOrg" :   {$in: [projectData.leadOrg]},  
+                    "leadOrg" :     {$in: [projectData.leadOrg]},  
                     "_id" :         {$ne: projectData._id}   
-                }  
+                    }  
                 },
             { $sort:   { name: 1,  leadOrg: 1 } }
         ]) 
@@ -139,11 +139,11 @@ async function getSimilarProjects(projectData, simProjectStore){
 
     // Similar by location: by location scale 
     switch(projectData.meta.scale){
-        case 'regional':
+        case 'Region-wide (all catchments)':
             simProjectStore.byLocation = await app.data.collections.projects.aggregate([
                 { 
                     $match:  { 
-                        "location.catchments" : {$eg: [projectData.location.catchments]}  ,
+                        "location.catchments" : {$in: [projectData.location.catchments]}  ,
                         "_id" :         {$ne: projectData._id}   
                     }  
                 },
@@ -178,13 +178,9 @@ async function getSimilarProjects(projectData, simProjectStore){
                 { $sort:   { name: 1,  leadOrg: 1 } }
             ]) 
             break
+        default:
+            console.log('NO LOCATION SEARCH!!!!')
     }
 
-    console.log(simProjectStore)
+    return simProjectStore
 };
-
-
-
-
-////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-

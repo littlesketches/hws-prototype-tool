@@ -10,6 +10,8 @@
 
 <!-- HTML COMPONENT MARKUP -->
 <section transition:slide>
+
+    <!-- Display project links -->
     {#if projectData.links.length > 0}
     <div class>
         <h4>&mdash; Links</h4>
@@ -22,10 +24,12 @@
             </li>
             {/each}
         </ul>
+        <p class = "link-date">Links were last provided on {@html new Date(projectData.status.dates.lastUpdate).toLocaleDateString('en-GB', { year: 'numeric', month: 'long', day: 'numeric' })} </p>
     </div>
     {/if}
 
-    {#if (projectData.leadContact.firstName && projectData.leadContact.lastName) || projectData.leadContact.email}
+    <!-- Display project links -->
+    {#if [...new Set(Object.values(projectData.leadContact))][0]}
     <div>
         <h4>&mdash; Contact</h4>
     </div>
@@ -76,16 +80,20 @@
     }
     .info-row{
         display:                grid;
-        grid-template-columns: auto 1fr;
+        grid-template-columns:  auto 1fr;
         font-size:              0.8rem;
         row-gap:                0.5rem;
     }
     .info-label{
-        font-weight: 400;
-        color: rgb( 100, 100, 100);
-        padding-right: 0.5rem;
+        font-weight:            400;
+        color:              rgb( 100, 100, 100);
+        padding-right:          0.5rem;
     }
     .info-content{
-        font-weight: 600;
+        font-weight:            600;
+    }
+    .link-date{
+        text-align:         right;
+        font-style:         italic;
     }
 </style>

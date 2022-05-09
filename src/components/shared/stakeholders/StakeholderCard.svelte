@@ -17,11 +17,10 @@
     // Open a stakeholder
     function openStakeholder(){
         console.log('Open stakeholder with id: ', id)
+        console.log(stakeholderData)
         $ui.state.focus.stakeholderData = stakeholderData
         $ui.byPage.connect.overlay = 'stakeholder'
         window.scrollTo({top: 0, behavior: 'smooth'});
-
-
 
         // Hack for manually setting display
         if(document.getElementById('stakeholder-overlay')) document.getElementById('stakeholder-overlay').style.display = ''
@@ -30,20 +29,20 @@
 
 
 <!-- COMPONENT HTML MARKUP-->
-<li  in:fly="{{x: 500, duration: 1000, delay: 500 + 100 * index}}"  out:fly="{{x: 500, duration: 200, delay: 50 * index}}">
+<li in:fly="{{x: 500, duration: 1000, delay: 500 + 100 * index}}"  out:fly="{{x: 500, duration: 200, delay: 50 * index}}">
     <div id = {`card-${id}`} class = 'card' 
         on:click={openStakeholder(stakeholderData)} 
         on:mouseover={showDesc} on:focus={showDesc}   
         on:mouseout={hideDesc}  on:blur={hideDesc}   
         >
-        <img src = {stakeholderData.imgURL} alt ='tba'>
+        <img src = {stakeholderData.images.imgURL} alt ='tba'>
         <h3>{@html stakeholderData.name}</h3>
 
         {#if hoverState}
         <div class = 'desc-container' transition:fade>
             <p>{@html stakeholderData.about.shortDescription}</p>
             <div class = "stakeholder-link">
-                <a>&rarr; Tap to see more</a>
+                &rarr; Tap to see more
             </div>
         </div>
         {/if}

@@ -9,9 +9,9 @@
     import DividerZagged20px    from "../layout/DividerZagged20px.svelte"
     import { user, ui }         from '../../../data/stores.js'
     import { componentContent, infoModal } from '../../../data/content.js'
-    import { keyValues, conditions, performanceObjectivesGroup, performanceObjectivesTheme, 
+    import { keyValues, conditions, themes, 
         catchments, subcatchments, locations, leadOrg, partnerOrg, 
-        projectType, projectStage, projectClass, projectSize, projectScale }  from '../../../data/selectorLists.js'
+        projectType, projectStage, projectClass, projectScale }  from '../../../data/selectorLists.js'
 
     export let store
     let type
@@ -64,7 +64,7 @@
 
     function addLinkResource(){
         console.log('Adding a new blank one...')
-         projectStore.links = [...projectStore.links, {name: '', url: '', description: ''}]
+        projectStore.links = [...projectStore.links, {name: '', url: '', description: ''}]
     };
 
 
@@ -153,22 +153,11 @@
                         {/each}
                     </MultiSelect>
                 </div>
-
-                <div class = 'multi-select-container' style="z-index:19">
-                    <div class = "label centre_v" >{@html performanceObjectivesGroup.label}</div>
-                    <MultiSelect id={performanceObjectivesGroup.name} bind:value={projectStore.hws.poGroup}  placeholder={performanceObjectivesGroup.placeholder} >
-                        <option disabled selected value></option>
-                        {#each performanceObjectivesGroup.list as name}
-                        <option value={name}>{@html name}</option>
-                        {/each}
-                    </MultiSelect>
-                </div>
-
                 <div class = 'multi-select-container' style="z-index:18">
-                    <div class = "label centre_v" >{@html performanceObjectivesTheme.label}</div>
-                    <MultiSelect id={performanceObjectivesTheme.name} bind:value={projectStore.hws.poTheme}  placeholder={performanceObjectivesTheme.placeholder} >
+                    <div class = "label centre_v" >{@html themes.label}</div>
+                    <MultiSelect id={themes.name} bind:value={projectStore.hws.themes}  placeholder={themes.placeholder} >
                         <option disabled selected value></option>
-                        {#each performanceObjectivesTheme.list as name}
+                        {#each themes.list as name}
                         <option value={name}>{@html name}</option>
                         {/each}
                     </MultiSelect>
@@ -188,7 +177,7 @@
             <div class = "collapse__body"  transition:slide>
                 <div class = 'multi-select-container' style="z-index:17">
                     <div class = "label centre_v">{@html catchments.label}</div>
-                    <MultiSelect id={catchments.name} bind:value={projectStore.location.catchments} placeholder={catchments.placeholder} >
+                    <MultiSelect id={catchments.name}  bind:value={projectStore.location.catchments}  placeholder={catchments.placeholder} >
                         <option disabled selected value></option>
                         {#each catchments.list as name}
                         <option value={name}>{@html name}</option>
@@ -215,7 +204,9 @@
                         {/each}                
                     </MultiSelect>
                 </div>
+                <div style="z-index:14">
                 <Map/>
+                </div>
             </div>
             {/if}
         </div>
@@ -229,17 +220,22 @@
             </div>
             {#if paneVisibility.characteristics}
             <div class = "collapse__body"  transition:slide>
-
-                <div class = 'multi-select-container' style="z-index:14">
+                <div class = 'multi-select-container' style="z-index:13">
+                    <div class = "label centre_v">{@html projectClass.label}</div>
+                    <MultiSelect id={projectClass.name}  bind:value={projectStore.meta.class} placeholder={projectClass.placeholder}>
+                        <option disabled selected value></option>
+                        {#each projectClass.list as name}
+                        <option value={name}>{@html name}</option>
+                        {/each}                
+                    </MultiSelect>
+                </div>
+                <div class = 'multi-select-container' style="z-index:12">
                     <div class = "label centre_v">{@html projectType.label}</div>
                     <SingleSelect optionData = {projectType}  bind:value={projectStore.meta.type}/>
                 </div>
-                <div class = 'multi-select-container' style="z-index:13">
-                    <div class = "label centre_v">{@html projectClass.label}</div>
-                    <SingleSelect optionData = {projectClass}  bind:value={projectStore.meta.class}/>
-                </div>
 
-                <div class = 'multi-select-container' style="z-index:12">
+
+                <div class = 'multi-select-container' style="z-index:11">
                     <div class = "label centre_v">{@html projectStage.label}</div>
                     <SingleSelect optionData = {projectStage} bind:value={projectStore.status.stage}/>
                 </div>
@@ -248,16 +244,6 @@
                     <p class = "note">Date picker TBA based on project stage </p>
                 </div>
                 {/if}
-                <div class = 'multi-select-container' style="z-index:11">
-                    <div class = "label centre_v">{@html projectSize.label}</div>
-                    <SingleSelect optionData = {projectSize} bind:value={projectStore.meta.size}/>
-                </div>
-
-                <div class = 'multi-select-container' style="z-index:10">
-                    <div class = "label centre_v">{@html projectScale.label}</div>
-                    <SingleSelect optionData = {projectScale} bind:value={projectStore.meta.scale}/>
-                </div>
-
             </div>
             {/if}
         </div>

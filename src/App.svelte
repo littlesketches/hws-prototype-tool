@@ -1,21 +1,24 @@
 <!--- MAIN APP COMPONENT-->
 <script>
-	import { fade } 	        from 'svelte/transition';
-	import Home 		        from './pages/Home.svelte'
-	import Discover 	        from './pages/Discover.svelte'
-	import Connect 		        from './pages/Connect.svelte'
-	import Share 		        from './pages/Share.svelte'
-	import Join 		        from './pages/Join.svelte'
-	import Manage 		        from './pages/Manage.svelte'
-	import Nav 			        from './components/shared/ui/Nav.svelte'
-	import ModalMessage         from './components/shared/ui/ModalMessage.svelte'
-	import Footer 		        from './components/shared/layout/Footer.svelte'
-	import Realm 		        from './components/data/Realm.svelte'
-	import { user, ui }         from './data/stores.js'	 
-	import { extractContent}    from './data/content.js'	 
+	import { fade } 	            from 'svelte/transition';
+	import Home 		            from './pages/Home.svelte'
+	import Discover 	            from './pages/Discover.svelte'
+	import Connect 		            from './pages/Connect.svelte'
+	import Share 		            from './pages/Share.svelte'
+	import Join 		            from './pages/Join.svelte'
+	import Manage 		            from './pages/Manage.svelte'
+	import Nav 			            from './components/shared/ui/Nav.svelte'
+	import ModalMessage             from './components/shared/ui/ModalMessage.svelte'
+	import Footer 		            from './components/shared/layout/Footer.svelte'
+	import Realm 		            from './components/data/Realm.svelte'
+	import { user, ui }             from './data/stores.js'	 
+	import { extractContent}        from './data/content.js'	 
+	import { createSelectorLists}   from './data/selectorLists.js'	 
 
     export let queryParams
     export let contentData
+    export let schemaData
+
 
     // Extract content and setup tool
 	const promiseContent = extractContent(contentData)    
@@ -83,7 +86,7 @@
 		{:else if $ui.page === 'manage'}    <Manage/>
 		{/if}
 	</main>
-	<Realm/>
+	<Realm {schemaData}/>
 	{#if $ui.page !== 'home'}
 	<Footer/>
 	{/if}

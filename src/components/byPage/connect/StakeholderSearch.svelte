@@ -6,7 +6,7 @@
     import { ui }               from '../../../data/stores.js'
     import { app }              from '../../../data/realm.js'
     import { componentContent, infoModal } from '../../../data/content.js'
-    import { keyValues, conditions, performanceObjectivesTheme, catchments, subcatchments, locations, leadOrg, leadOrgType, partnerOrg, projectType, projectStage, projectClass, projectScale }  from '../../../data/selectorLists.js'
+    import { keyValues, conditions, themes, catchments, subcatchments, locations, leadOrg, leadOrgType, partnerOrg, projectType, projectStage, projectClass, projectScale }  from '../../../data/selectorLists.js'
 
     export let newSearch = true
 

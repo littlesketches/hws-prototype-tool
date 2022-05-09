@@ -19,7 +19,8 @@
         console.log('Open project with id: ', id )
         $ui.state.focus.projectData = projectData
         $ui.byPage[$ui.page].overlay = 'project'
-        await getSimilarProjects($ui.state.focus.projectData, $ui.state.focus.similarProjects)
+
+        $ui.state.focus.similarProjects = await getSimilarProjects($ui.state.focus.projectData, $ui.state.focus.similarProjects)
 
         window.scrollTo({top: 0, behavior: 'smooth'});
 

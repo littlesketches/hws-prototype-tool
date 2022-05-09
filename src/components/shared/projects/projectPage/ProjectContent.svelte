@@ -1,5 +1,6 @@
 <!-- PROJECT PAGE CONTENT PANE-->
 <script>
+    import showdown         from 'showdown'
 	import { slide }        from 'svelte/transition'
     import { ui }           from '../../../../data/stores.js'
     import HWS_tags         from '../../forms/HWS_tags.svelte'
@@ -13,18 +14,25 @@
     // HWS Key Values and conditions data
     $: themesData = {
         name:           "&mdash; Themes",
+        schemaName:     "themes",
+        label:          "Themes",
         array:          projectData.hws.themes
     }
     $: keyValuesData = {
         name:           "&mdash; Values",
-        schemaName:     "keyValues",
+        schemaName:     "hwsValues",
+        label:          "Waterway value",
         array:          projectData.hws.values
     }
     $: conditionsData = {
         name:           "&mdash; Conditions",
-        schemaName:     "conditions",
+        schemaName:     "hwsConditions",
+        label:          "Waterway condition",
         array:          projectData.hws.conditions
     }
+
+    // HTML converter
+    const converter = new showdown.Converter()
 
     // Slideable pane visibility
     const visibility = {
@@ -50,17 +58,17 @@
 <section id = "project-content" class = 'content-pane'>
     <!-- HWS IMPACT SECTION-->
     <div class = 'short-desc'>
-        {@html projectData.about.shortDescription}  
+        {@html converter.makeHtml(projectData.about.shortDescription)}  
     </div>
     {#if visibility.aboutDetails }
         <div transition:slide="{{duration: 1200}}">
             <h3>&mdash;&mdash; Project details</h3>
             {#if projectData.about.longDescription}
-                {@html projectData.about.longDescription}
+                {@html converter.makeHtml(projectData.about.longDescription)}
             {/if}
             {#if projectData.about.history}
                 <h3 class ='margin-top'>&mdash;&mdash; Project history</h3>
-                {@html projectData.about.history}
+                {@html converter.makeHtml(projectData.about.history)}
             {/if}
             {#if !projectData.about.longDescription && !projectData.about.history}
             <p>Unfortunately more descriptive details about this project have not been added (yet).</p>
@@ -97,6 +105,7 @@
     <h3>&mdash;&mdash; Project learnings</h3>
     {#if projectData.learnings.cultural || projectData.learnings.innovation || projectData.learnings.general.length > 0 || projectData.learnings.worked.length > 0 || projectData.learnings.failed.length > 0 }
         <p>These insights are provided by {@html projectData.leadOrg} to help document key lessons from this project.</p>
+
         {#if visibility.learningsDetails }
         <ProjectLearnings/>
         {/if}
@@ -113,11 +122,19 @@
     {/if}
 
 
-
     <!-- MORE INFO AND SOURCES: optional-->
     <h3>&mdash;&mdash; Where to find more information</h3>
-    {#if projectData.links.length > 0 }
-        <p>Project information was provided from {@html projectData.leadOrg} in {@html new Date(projectData.status.dates.lastUpdate).toLocaleDateString('en-GB', { year: 'numeric', month: 'long', day: 'numeric' }) } .</p>
+    {#if projectData.links.length > 0 || [...new Set(Object.vaaues(projectData.leadContact))][0]}
+        <!-- Message about the information provided for lnks and contacts-->
+        {#if projectData.links.length > 0 && [...new Set(Object.values(projectData.leadContact))][0]}
+        <p>{@html projectData.leadOrg} has provided links to further information and contact details to learn more about {@html projectData.name}.</p>
+        {:else if projectData.links.length > 0}
+        <p>{@html projectData.leadOrg} has provided links to more information about {@html projectData.name}.</p>
+        {:else if [...new Set(Object.values(projectData.leadContact))][0]}
+        <p>{@html projectData.leadOrg} has provided contact details to get in touch about {@html projectData.name} in {@html new Date(projectData.status.dates.lastUpdate).toLocaleDateString('en-GB', { year: 'numeric', month: 'long', day: 'numeric' }) }.</p>
+        {/if}
+
+
         {#if visibility.sourcesDetails }
             <ProjectSources/>
         {/if}
@@ -129,7 +146,10 @@
             </div>
         </div>
         <hr>
+    {:else}
+     <p>At this stage, {@html projectData.leadOrg} has not provided links to any further reources.</p>
     {/if}
+
 </section>
 
 

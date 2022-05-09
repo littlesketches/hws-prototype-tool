@@ -66,19 +66,19 @@
         <div class='info-row'>
             <div class ='info-label'>Contact:</div>
             <div class ='info-content'>
-                {@html stakeholderData.contact.name.first} {@html stakeholderData.contact.name.last}
+                {@html stakeholderData.contact.contactName}
             </div>
         </div>
         <div class='info-row'>
             <div class ='info-label'>Email:</div>
             <div class ='info-content'>
-                <a href="mailto:{stakeholderData.contact.email}">{@html stakeholderData.contact.email} </a>
+                <a href="mailto:{stakeholderData.contact.contactEmail}">{@html stakeholderData.contact.contactEmail} </a>
             </div>
         </div>
         <div class='info-row'>
             <div class ='info-label'>Website:</div>
             <div class ='info-content'>
-                <a href={'http://www.'+stakeholderData.contact.website} target="_blank">www.{@html stakeholderData.contact.website}</a>
+                <a href={'http://www.'+stakeholderData.contact.websiteURL} target="_blank">www.{@html stakeholderData.contact.websiteURL}</a>
             </div>
         </div>
     </div>

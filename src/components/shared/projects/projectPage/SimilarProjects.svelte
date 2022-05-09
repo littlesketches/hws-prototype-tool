@@ -5,11 +5,11 @@
     import { ui }                   from '../../../../data/stores.js'
     import { getSimilarProjects }   from '../../../../data/realm.js'
 
-    // Reacgive variables
+    // export let similarProjects
+    // Reactive variables
     $: projectData = $ui.state.focus.projectData
 
     const promise = getSimilarProjects($ui.state.focus.projectData, $ui.state.focus.similarProjects)    
-
 </script>
 
 
@@ -92,8 +92,7 @@
                     <li>{item}</li>
                     {/each}
                 </ul>
-            {/if}
-            {#if projectData.location.catchments}
+            {:else if projectData.location.catchments}
                 {#if projectData.location.catchments.length < 5}
                     <h4>&mdash; by location (catchment)</h4>
                     {#if $ui.state.focus.similarProjects.byLocation.length === 0}
@@ -157,7 +156,6 @@
             {/if}
         </div>
     </div>
-
 </section>
 {/await}
 
