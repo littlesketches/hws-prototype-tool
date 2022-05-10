@@ -3,7 +3,7 @@
 	import { fly, slide }       from 'svelte/transition'
     import DividerZagged20px    from "../../../shared/layout/DividerZagged20px.svelte"
     import { ui }               from '../../../../data/stores.js'
-    import { componentContent } from '../../../../data/content.js'
+    import { componentContent, newProjectObj } from '../../../../data/content.js'
 
     export let projectsData
     export let editable = false
@@ -31,29 +31,9 @@
     };
     function handleNewProject(index){
         console.log('Adding a new project')
-        $ui.newProject = {
-            name:           null,
-            leadOrg:        '',
-            meta:           {},
-            about:          {},
-            contact:        {},
-            hws:            {},
-            location:       {},
-            learnings:        {
-                general:    ['', '', ''],
-                worked:     ['', '', ''],
-                failed:     ['', '', ''],
-            },
-            links:          [
-                {name: '', url: '', description: ''}
-            ],
-            partnerOrgs:    [],
-            status:         {},
-            record:         {}
-        }
+        $ui.newProject = newProjectObj()
 
         $ui.byPage.manage.overlay = 'newProject'
-
         // Hack for manually setting display
         if(document.getElementById('new-project')) document.getElementById('new-project').style.display = ''
 

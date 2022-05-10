@@ -58,9 +58,9 @@
         <div class='info-row'>
             <div class ='info-label'>Address:</div>
             <div class ='info-content'>
-                {@html stakeholderData.contact.address}<br>
-                {@html stakeholderData.contact.city}, {@html stakeholderData.contact.postcode}<br>
-                {@html stakeholderData.contact.state}
+                {@html stakeholderData.contact.addressStreet}<br>
+                {@html stakeholderData.contact.addressSuburb}, {@html stakeholderData.contact.addressPostcode}<br>
+                {@html stakeholderData.contact.addressState}
             </div>
         </div>
         <div class='info-row'>
@@ -78,7 +78,7 @@
         <div class='info-row'>
             <div class ='info-label'>Website:</div>
             <div class ='info-content'>
-                <a href={'http://www.'+stakeholderData.contact.websiteURL} target="_blank">www.{@html stakeholderData.contact.websiteURL}</a>
+                <a href={stakeholderData.contact.websiteURL} target="_blank">{@html stakeholderData.contact.websiteURL}</a>
             </div>
         </div>
     </div>

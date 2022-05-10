@@ -135,6 +135,15 @@
             {#if paneVisibility.hwsOutcomes}
             <div class = "collapse__body"  transition:slide>
                 <div class = 'multi-select-container' style="z-index:21">
+                    <div class = "label centre_v" >{@html themes.label}</div>
+                    <MultiSelect id={themes.name} bind:value={projectStore.hws.themes}  placeholder={themes.placeholder} >
+                        <option disabled selected value></option>
+                        {#each themes.list as name}
+                        <option value={name}>{@html name}</option>
+                        {/each}
+                    </MultiSelect>
+                </div>
+                <div class = 'multi-select-container' style="z-index:20">
                     <div class = "label centre_v" >{@html keyValues.label}</div>
                     <MultiSelect id={keyValues.name}  bind:value={projectStore.hws.values} placeholder={keyValues.placeholder} >
                         <option disabled selected value></option>
@@ -143,21 +152,11 @@
                         {/each}
                     </MultiSelect>
                 </div>
-
-                <div class = 'multi-select-container'  style="z-index:20">
+                <div class = 'multi-select-container'  style="z-index:19">
                     <div class = "label centre_v" >{@html conditions.label}</div>
                     <MultiSelect id={conditions.name} bind:value={projectStore.hws.conditions} placeholder={conditions.placeholder} >
                         <option disabled selected value></option>
                         {#each conditions.list as name}
-                        <option value={name}>{@html name}</option>
-                        {/each}
-                    </MultiSelect>
-                </div>
-                <div class = 'multi-select-container' style="z-index:18">
-                    <div class = "label centre_v" >{@html themes.label}</div>
-                    <MultiSelect id={themes.name} bind:value={projectStore.hws.themes}  placeholder={themes.placeholder} >
-                        <option disabled selected value></option>
-                        {#each themes.list as name}
                         <option value={name}>{@html name}</option>
                         {/each}
                     </MultiSelect>
@@ -184,17 +183,15 @@
                         {/each}                
                     </MultiSelect>
                 </div>
-
                 <div class = 'multi-select-container' style="z-index:16">
                     <div class = "label centre_v">{@html subcatchments.label}</div>
-                    <MultiSelect id={subcatchments.name} bind:value={projectStore.location.subCatchments} placeholder={subcatchments.placeholder} >
+                    <MultiSelect id={subcatchments.name} bind:value={projectStore.location.subcatchments} placeholder={subcatchments.placeholder} >
                         <option disabled selected value></option>
                         {#each subcatchments.list as name}
                         <option value={name}>{@html name}</option>
                         {/each}                
                     </MultiSelect>
                 </div>
-
                 <div class = 'multi-select-container' style="z-index:15">
                     <div class = "label centre_v">{@html locations.label}</div>
                     <MultiSelect id={locations.name}  bind:value={projectStore.location.locations} placeholder={locations.placeholder}>
@@ -284,12 +281,26 @@
             </div>
 
             {#if paneVisibility.learnings}
-            <div class = 'label margin-top'>General</div>
-            <MultiInput store={projectStore.learnings.general} type = 'general' label='Add another learning'/>
-            <div class = 'label margin-top'>What worked</div>
-            <MultiInput store={projectStore.learnings.worked} type = 'worked'  label='Add another learning'/>
-            <div class = 'label margin-top'>What didn't worked</div>
-            <MultiInput store={projectStore.learnings.failed} type = 'failed'  label='Add another learning'/>
+            <div class = "collapse__body"  transition:slide="{{duration: 1200}}">
+                <ul>
+                    <li>
+                        <label for="projectInnovation">Innovations to share</label>
+                        <textarea name ="projectInnovation" rows = "20" bind:value={projectStore.learnings.innovation}></textarea>
+                    </li>
+                    <li>
+                        <label  for="projectCultural">Cultural practices to share</label>
+                        <textarea name ="projectCultural" rows = "20"  bind:value={projectStore.learnings.cultural}></textarea>
+                    </li>
+                </ul>
+
+
+                <div class = 'label margin-top'>General</div>
+                <MultiInput store={projectStore.learnings.general} type = 'general' label='Add another learning'/>
+                <div class = 'label margin-top'>What worked</div>
+                <MultiInput store={projectStore.learnings.worked} type = 'worked'  label='Add another learning'/>
+                <div class = 'label margin-top'>What didn't worked</div>
+                <MultiInput store={projectStore.learnings.failed} type = 'failed'  label='Add another learning'/>
+            </div>
             {/if}
         </div>
 

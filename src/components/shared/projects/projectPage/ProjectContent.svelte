@@ -8,6 +8,9 @@
     import ProjectSources   from './ProjectSources.svelte'
     import ProjectLearnings from './ProjectLearnings.svelte'
 
+    // HTML converter
+    const converter = new showdown.Converter()
+console.log($ui.state.focus.projectData)
     // Reactive variables
     $: projectData = $ui.state.focus.projectData
 
@@ -30,9 +33,6 @@
         label:          "Waterway condition",
         array:          projectData.hws.conditions
     }
-
-    // HTML converter
-    const converter = new showdown.Converter()
 
     // Slideable pane visibility
     const visibility = {
@@ -87,10 +87,12 @@
     <!-- HWS IMPACT SECTION-->
     <h3>&mdash;&mdash;&mdash; Waterways impact</h3>
     {#if visibility.hwsDetails }
-        <p>Every waterways project can be categorised by the waterways themes, key values an conditions which they impact.</p>
-        <HWS_tags data={themesData}/>
-        <HWS_boxes data={keyValuesData}/>
-        <HWS_boxes data={conditionsData}/>
+        <div transition:slide="{{duration: 1200}}">
+            <p>Every waterways project can be categorised by the waterways themes, key values an conditions which they impact.</p>
+            <HWS_tags data={themesData}/>
+            <HWS_boxes data={keyValuesData}/>
+            <HWS_boxes data={conditionsData}/>
+        </div>
     {/if}
     <div class = "collapse__body"  transition:slide>
         <div id = "hwsDetails" class="collapse__header" type="button" 
@@ -104,10 +106,20 @@
     <!-- PROJECT LEARNINGS: optional -->
     <h3>&mdash;&mdash; Project learnings</h3>
     {#if projectData.learnings.cultural || projectData.learnings.innovation || projectData.learnings.general.length > 0 || projectData.learnings.worked.length > 0 || projectData.learnings.failed.length > 0 }
-        <p>These insights are provided by {@html projectData.leadOrg} to help document key lessons from this project.</p>
+        <p>{@html projectData.leadOrg} has shared learnings from this project.</p>
 
         {#if visibility.learningsDetails }
-        <ProjectLearnings/>
+        <div transition:slide="{{duration: 1200}}">
+            {#if projectData.learnings.innovation}
+                <h3 class ='margin-top'>&mdash;&mdash; Sharing project innovation</h3>
+                {@html converter.makeHtml(projectData.learnings.innovation)}
+            {/if}
+            {#if projectData.learnings.cultural}
+                <h3 class ='margin-top'>&mdash;&mdash; Sharing cultural practices</h3>
+                {@html converter.makeHtml(projectData.learnings.cultural)}
+            {/if}
+            <ProjectLearnings/>
+        </div>
         {/if}
         <div class = "collapse__body"  transition:slide>
             <div id = "learningsDetails" class="collapse__header" type="button" 
@@ -118,13 +130,13 @@
         </div>
         <hr>
     {:else}
-        <p>{@html projectData.leadOrg} has not (yet) provided any insights and lessons from this project.</p>
+        <p>{@html projectData.leadOrg} has not (yet) shared any insights and lessons from <i>{@html projectData.name}</i>.</p>
     {/if}
 
 
     <!-- MORE INFO AND SOURCES: optional-->
     <h3>&mdash;&mdash; Where to find more information</h3>
-    {#if projectData.links.length > 0 || [...new Set(Object.vaaues(projectData.leadContact))][0]}
+    {#if projectData.links.length > 0 || [...new Set(Object.values(projectData.leadContact))][0]}
         <!-- Message about the information provided for lnks and contacts-->
         {#if projectData.links.length > 0 && [...new Set(Object.values(projectData.leadContact))][0]}
         <p>{@html projectData.leadOrg} has provided links to further information and contact details to learn more about {@html projectData.name}.</p>
@@ -133,7 +145,6 @@
         {:else if [...new Set(Object.values(projectData.leadContact))][0]}
         <p>{@html projectData.leadOrg} has provided contact details to get in touch about {@html projectData.name} in {@html new Date(projectData.status.dates.lastUpdate).toLocaleDateString('en-GB', { year: 'numeric', month: 'long', day: 'numeric' }) }.</p>
         {/if}
-
 
         {#if visibility.sourcesDetails }
             <ProjectSources/>

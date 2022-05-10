@@ -10,7 +10,8 @@ export {
     getRandomStockImgPath, 
     getRandomAbstractImgPath,
     getRandomStockSplashImgPath,
-    infoModal
+    infoModal, 
+    newProjectObj
 }
 
 let infoModal
@@ -59,7 +60,40 @@ function getRandomStockSplashImgPath(index){
     }
 };
 
+///////////// NEW PROJECT OBJECT ///////////// 
 
+function newProjectObj(){
+    return  {
+        name:           null,
+        leadOrg:        '',
+        meta:           {
+            class:      []
+        },
+        about:          {},
+        contact:        {},
+        hws:            {
+            values:          [],
+            conditions:      [],
+            themes:          [],
+        },
+        location:       {
+            catchments:     [],
+            subcatchments:  [],
+            locations:      []
+        },
+        learnings:        {
+            general:    ['', '', ''],
+            worked:     ['', '', ''],
+            failed:     ['', '', ''],
+        },
+        links:          [
+            {name: '', url: '', description: ''}
+        ],
+        partnerOrgs:    [],
+        status:         {},
+        record:         {}
+    }
+}
 //////////////////////////////////////////////////////////////////////
 ////////// TOOL CONTENT: MANAGE TEXT & HTML FROM MICRO CMS  //////////
 //////////////////////////////////////////////////////////////////////

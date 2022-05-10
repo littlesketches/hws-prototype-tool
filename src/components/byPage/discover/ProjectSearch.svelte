@@ -30,7 +30,7 @@
         $ui.search.criteria.project = {
             name:               [],
             hws: {
-                poThemes:       [],
+                themes:         [],
                 conditions:     [],
                 values:         [],
             },
@@ -44,7 +44,7 @@
             },
             location: {
                 catchments:     [],
-                subCatchments:  [],
+                subcatchments:  [],
                 locations:      [],
             },
 
@@ -60,13 +60,12 @@
         const query = {}
         if($ui.search.criteria.project.hws.values.length > 0)               query["hws.values"]     = {$in: $ui.search.criteria.project.hws.values}
         if($ui.search.criteria.project.hws.conditions.length > 0)           query["hws.conditions"] = {$in: $ui.search.criteria.project.hws.conditions}
-        if($ui.search.criteria.project.hws.poThemes.length > 0)             query["hws.poThemes"]   = {$in: $ui.search.criteria.project.hws.poThemes}
-        if($ui.search.criteria.project.meta.type.length > 0)                query["meta.type"]      = {$in: $ui.search.criteria.project.meta.type}
+        if($ui.search.criteria.project.hws.themes.length > 0)               query["hws.themes"]   = {$in: $ui.search.criteria.project.hws.themes}
         if($ui.search.criteria.project.meta.class.length > 0)               query["meta.class"]     = {$in: $ui.search.criteria.project.meta.class}
         if($ui.search.criteria.project.status.stage.length > 0)             query["status.stage"]   = {$in: $ui.search.criteria.project.status.stage}
         if($ui.search.criteria.project.location.locations.length > 0)       query["location.locations"]     = {$in: $ui.search.criteria.project.location.locations}
         if($ui.search.criteria.project.location.catchments.length > 0)      query["location.catchments"]    = {$in: $ui.search.criteria.project.location.catchments}
-        if($ui.search.criteria.project.location.subCatchments.length > 0)   query["location.subCatchments"] = {$in: $ui.search.criteria.project.location.subCatchments}
+        if($ui.search.criteria.project.location.subcatchments.length > 0)   query["location.subcatchments"] = {$in: $ui.search.criteria.project.location.subcatchments}
         if($ui.search.criteria.project.leadOrg.length > 0)                  query["leadOrg"]        = {$in: $ui.search.criteria.project.leadOrg}
         if($ui.search.criteria.project.leadOrgType.length > 0)              query["leadOrgType"]    = {$in: $ui.search.criteria.project.leadOrgType}
         if($ui.search.criteria.project.partnerOrgs.length > 0)              query["partnerOrgs"]    = {$in: $ui.search.criteria.project.partnerOrgs}

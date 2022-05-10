@@ -1,5 +1,6 @@
 <!-- PROJECT PAGE CONTENT PANE-->
 <script>
+    import showdown         from 'showdown'
 	import { slide }    from 'svelte/transition'
     import { ui }       from '../../../../data/stores.js'
     import HWS_tags     from '../../forms/HWS_tags.svelte'
@@ -8,9 +9,33 @@
 
     export let leadProjects = []
 
+    // HTML converter
+    const converter = new showdown.Converter()
+
+    // Reactive variables
+    $: stakeholderData = $ui.state.focus.stakeholderData 
+
+    // HWS Key Values and conditions data
+    $: themesData = {
+        name:           "&#8212; Themes",
+        array:          [...new Set(leadProjects.map(d => d.hws.themes).flat())]
+    }
+    $: keyValuesData = {
+        name:           "&#8212; Values",
+        schemaName:     "hwsValues",
+        array:          [...new Set(leadProjects.map(d => d.hws.values).flat())], 
+        label:          "Waterway value"
+    }
+    $: conditionsData = {
+        name:           "&#8212; Conditions",
+        schemaName:     "hwsConditions",
+        array:          [...new Set(leadProjects.map(d => d.hws.conditions).flat())],
+        label:          "Waterway condition"
+    }
+
     // Slideable pane visibility
     const visibility = {
-        hwsDetails:         false,
+        hwsDetails:         true,
         aboutDetails:       false,
     }
     // Pane toggle labels
@@ -22,24 +47,9 @@
         console.log(`Toggling ${this.id}  to `, visibility[this.id])
     };
 
-    // Reactive variables
-    $: stakeholderData = $ui.state.focus.stakeholderData 
-
-    // HWS Key Values and conditions data
-    $: themesData = {
-        name:           "&#8212; Themes",
-        array:          [...new Set(leadProjects.map(d => d.hws.poThemes).flat())]
-    }
-    $: keyValuesData = {
-        name:           "&#8212; Values",
-        schemaName:     "keyValues",
-        array:          [...new Set(leadProjects.map(d => d.hws.values).flat())]
-    }
-    $: conditionsData = {
-        name:           "&#8212; Conditions",
-        schemaName:     "conditions",
-        array:          [...new Set(leadProjects.map(d => d.hws.conditions).flat())]
-    }
+    console.log('Themes data: ',    [...new Set(leadProjects.map(d => d.hws.themes).flat())])
+    console.log('Values data: ',    [...new Set(leadProjects.map(d => d.hws.values).flat())])
+    console.log('Conditions data: ', [...new Set(leadProjects.map(d => d.hws.conditions).flat())])
 
 </script>
 
@@ -47,12 +57,12 @@
 <section class = 'content-pane'>
     <!-- HWS IMPACT SECTION-->
     <div class = 'short-desc'>
-        {@html stakeholderData.about.shortDescription}  
+        {@html converter.makeHtml(stakeholderData.about.shortDescription)}  
     </div>
     {#if visibility.aboutDetails }
         <div transition:slide>
             <h3>&#8212;&#8212; About</h3>
-            {@html stakeholderData.about.longDescription}
+            {@html converter.makeHtml(stakeholderData.about.longDescription)}
         </div>
     {/if}
     <div class = "collapse__body"  transition:slide>
@@ -67,11 +77,10 @@
     <!-- HWS IMPACT SECTION-->
     <h3>&#8212;&#8212;&#8212; Impact on waterways</h3>
     <p>{stakeholderData.name} is involved with projects that impact our waterways in the following ways:</p>
-    
+    {#if visibility.hwsDetails }    
     <HWS_tags data={themesData}/>
     <HWS_boxes data={keyValuesData}/>
-    {#if visibility.hwsDetails }
-        <HWS_boxes data={conditionsData}/>
+    <HWS_boxes data={conditionsData}/>
     {/if}
     <div class = "collapse__body"  transition:slide>
         <div id = "hwsDetails" class="collapse__header" type="button" 

@@ -9,40 +9,11 @@
     import NewProject       from '../components/shared/newProject/NewProject.svelte'
     import ProjectPage      from '../components/shared/projects/ProjectPage.svelte'
 	import { ui }           from '../data/stores.js'	 
-    import { getPageInfo }  from '../data/content.js'
+    import { getPageInfo , newProjectObj}  from '../data/content.js'
 
     const titleData = getPageInfo($ui.page)[0].TitleBlock
 
-    $ui.newProject = {
-        name:           null,
-        leadOrg:        '',
-        meta:           {
-            class:      []
-        },
-        about:          {},
-        contact:        {},
-        hws:            {
-            values:          [],
-            conditions:      [],
-            themes:          [],
-        },
-        location:       {
-            catchments:     [],
-            subCatchments:  [],
-            locations:      []
-        },
-        learnings:        {
-            general:    ['', '', ''],
-            worked:     ['', '', ''],
-            failed:     ['', '', ''],
-        },
-        links:          [
-            {name: '', url: '', description: ''}
-        ],
-        partnerOrgs:    [],
-        status:         {},
-        record:         {}
-    }
+    $ui.newProject = newProjectObj()
 </script>
 
 <!-- COMPONENT MARKUP-->

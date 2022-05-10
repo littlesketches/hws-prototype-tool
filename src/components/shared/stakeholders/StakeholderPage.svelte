@@ -20,6 +20,10 @@
             leadProjects = results[0]
             partnerProjects = results[1]
             leadCatchments  = [...new Set(leadProjects.map(d => d.location.catchments).flat())]
+
+            console.log('Lead projects: ', leadProjects)
+            console.log('Partner projects: ', partnerProjects)
+            console.log('Lead catchments', leadCatchments)
         })
 
 </script>
@@ -31,7 +35,7 @@
     <TitleBlock/> 
     <InfoPane {leadProjects} {leadCatchments} />
     <StakeholderContent {leadProjects} />
-    <StakeholderImage/>
+    <StakeholderImage />
     <OtherProjects {leadProjects} {partnerProjects} />
 </section>
 {/await }

@@ -10,7 +10,7 @@
 
 <!-- COMPONENT HTML MARKUP-->
     <section transtion:fly="{{y: 200, duration: 1000}}">
-        <img src= {stakeholderData.imgURL} 
+        <img src= {stakeholderData.images.imgURL} 
              alt="Image for {stakeholderData.name}"
         >
     </section>
