@@ -11407,6 +11407,48 @@ var app = (function (exports) {
     	return child_ctx;
     }
 
+    // (16:4) {:else}
+    function create_else_block$f(ctx) {
+    	let h3;
+    	let raw_value = componentContent$1.title.tagline + "";
+    	let h3_intro;
+
+    	const block = {
+    		c: function create() {
+    			h3 = element("h3");
+    			attr_dev(h3, "class", "tagline svelte-116dl62");
+    			add_location(h3, file$1o, 16, 8, 686);
+    		},
+    		m: function mount(target, anchor) {
+    			insert_dev(target, h3, anchor);
+    			h3.innerHTML = raw_value;
+    		},
+    		p: noop,
+    		i: function intro(local) {
+    			if (!h3_intro) {
+    				add_render_callback(() => {
+    					h3_intro = create_in_transition(h3, fade, { duration: 1500, delay: 1500 });
+    					h3_intro.start();
+    				});
+    			}
+    		},
+    		o: noop,
+    		d: function destroy(detaching) {
+    			if (detaching) detach_dev(h3);
+    		}
+    	};
+
+    	dispatch_dev("SvelteRegisterBlock", {
+    		block,
+    		id: create_else_block$f.name,
+    		type: "else",
+    		source: "(16:4) {:else}",
+    		ctx
+    	});
+
+    	return block;
+    }
+
     // (14:4) {#if $user.isRegistered}
     function create_if_block$D(ctx) {
     	let h3;
@@ -11427,8 +11469,8 @@ var app = (function (exports) {
     			t2 = space();
     			t3 = text(t3_value);
     			t4 = text("!");
-    			attr_dev(h3, "class", "user-label svelte-1ne3h6h");
-    			add_location(h3, file$1o, 14, 8, 538);
+    			attr_dev(h3, "class", "svelte-116dl62");
+    			add_location(h3, file$1o, 14, 8, 556);
     		},
     		m: function mount(target, anchor) {
     			insert_dev(target, h3, anchor);
@@ -11467,7 +11509,7 @@ var app = (function (exports) {
     	return block;
     }
 
-    // (18:8) {#each $ui.items.pages as pageData, index (slugify(pageData.name))}
+    // (20:8) {#each $ui.items.pages as pageData, index (slugify(pageData.name))}
     function create_each_block$l(key_1, ctx) {
     	let first;
     	let menucard;
@@ -11520,7 +11562,7 @@ var app = (function (exports) {
     		block,
     		id: create_each_block$l.name,
     		type: "each",
-    		source: "(18:8) {#each $ui.items.pages as pageData, index (slugify(pageData.name))}",
+    		source: "(20:8) {#each $ui.items.pages as pageData, index (slugify(pageData.name))}",
     		ctx
     	});
 
@@ -11534,7 +11576,14 @@ var app = (function (exports) {
     	let each_blocks = [];
     	let each_1_lookup = new Map();
     	let current;
-    	let if_block = /*$user*/ ctx[0].isRegistered && create_if_block$D(ctx);
+
+    	function select_block_type(ctx, dirty) {
+    		if (/*$user*/ ctx[0].isRegistered) return create_if_block$D;
+    		return create_else_block$f;
+    	}
+
+    	let current_block_type = select_block_type(ctx);
+    	let if_block = current_block_type(ctx);
     	let each_value = /*$ui*/ ctx[1].items.pages;
     	validate_each_argument(each_value);
     	const get_key = ctx => slugify(/*pageData*/ ctx[2].name);
@@ -11549,7 +11598,7 @@ var app = (function (exports) {
     	const block = {
     		c: function create() {
     			section = element("section");
-    			if (if_block) if_block.c();
+    			if_block.c();
     			t = space();
     			div = element("div");
 
@@ -11557,17 +11606,17 @@ var app = (function (exports) {
     				each_blocks[i].c();
     			}
 
-    			attr_dev(div, "class", "menu-container svelte-1ne3h6h");
-    			add_location(div, file$1o, 16, 4, 683);
-    			attr_dev(section, "class", "svelte-1ne3h6h");
-    			add_location(section, file$1o, 12, 0, 491);
+    			attr_dev(div, "class", "menu-container svelte-116dl62");
+    			add_location(div, file$1o, 18, 4, 809);
+    			attr_dev(section, "class", "svelte-116dl62");
+    			add_location(section, file$1o, 12, 0, 509);
     		},
     		l: function claim(nodes) {
     			throw new Error("options.hydrate only works if the component was compiled with the `hydratable: true` option");
     		},
     		m: function mount(target, anchor) {
     			insert_dev(target, section, anchor);
-    			if (if_block) if_block.m(section, null);
+    			if_block.m(section, null);
     			append_dev(section, t);
     			append_dev(section, div);
 
@@ -11578,22 +11627,17 @@ var app = (function (exports) {
     			current = true;
     		},
     		p: function update(ctx, [dirty]) {
-    			if (/*$user*/ ctx[0].isRegistered) {
-    				if (if_block) {
-    					if_block.p(ctx, dirty);
+    			if (current_block_type === (current_block_type = select_block_type(ctx)) && if_block) {
+    				if_block.p(ctx, dirty);
+    			} else {
+    				if_block.d(1);
+    				if_block = current_block_type(ctx);
 
-    					if (dirty & /*$user*/ 1) {
-    						transition_in(if_block, 1);
-    					}
-    				} else {
-    					if_block = create_if_block$D(ctx);
+    				if (if_block) {
     					if_block.c();
     					transition_in(if_block, 1);
     					if_block.m(section, t);
     				}
-    			} else if (if_block) {
-    				if_block.d(1);
-    				if_block = null;
     			}
 
     			if (dirty & /*$ui*/ 2) {
@@ -11624,7 +11668,7 @@ var app = (function (exports) {
     		},
     		d: function destroy(detaching) {
     			if (detaching) detach_dev(section);
-    			if (if_block) if_block.d();
+    			if_block.d();
 
     			for (let i = 0; i < each_blocks.length; i += 1) {
     				each_blocks[i].d();
@@ -11663,10 +11707,11 @@ var app = (function (exports) {
     		MenuCard,
     		fade,
     		app,
-    		getMenuOptions,
     		user,
     		ui,
     		slugify,
+    		getMenuOptions,
+    		componentContent: componentContent$1,
     		$user,
     		$ui
     	});
@@ -74071,7 +74116,7 @@ var app = (function (exports) {
             fetchNextPage();
 
         }).then( async() => {
-            // Get hte Schema data
+            // Get the Schema data
 
         }).then( async (result) => {
             initApp(airtableData, schema);
