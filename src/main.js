@@ -51,7 +51,7 @@ function initWithAirtableContent(initApp){
         fetchNextPage()
 
     }).then( async() => {
-        // Get hte Schema data
+        // Get the Schema data
 
     }).then( async (result) => {
         initApp(airtableData, schema)
