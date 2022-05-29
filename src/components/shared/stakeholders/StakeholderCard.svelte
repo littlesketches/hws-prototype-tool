@@ -35,15 +35,15 @@
         on:mouseover={showDesc} on:focus={showDesc}   
         on:mouseout={hideDesc}  on:blur={hideDesc}   
         >
-        <img src = {stakeholderData.images.imgURL} alt ='tba'>
+        <img src = {stakeholderData.images.imgURL} alt = "TBA">
         <h3>{@html stakeholderData.name}</h3>
 
         {#if hoverState}
-        <div class = 'desc-container' transition:fade>
+        <div class = 'desc-container' transition:fly="{{y: -10}}">
             <p>{@html stakeholderData.about.shortDescription}</p>
-            <div class = "stakeholder-link">
-                &rarr; Tap to see more
-            </div>
+        </div>
+        <div class = "stakeholder-link" transition:fly="{{y: 10}}">
+            <a>&rarr; Tap to see more</a>
         </div>
         {/if}
     </div>
@@ -70,16 +70,25 @@
         max-height:         25vw;
         filter:             grayscale(40%) sepia(20%);
         cursor:             pointer;
+        transform-origin:   50% 50%;
+        transition:         all 500ms;
+        box-shadow:         5px 5px 15px #bebebe,
+                            -5px -5px 15px #ffffff;
     }
     .card:hover{
         filter:             grayscale(0%) sepia(0%);
+        transform:          scale(1.05);            
+        box-shadow:         10px 10px 30px #bebebe,
+                            -10px -10px 30px #ffffff;
     }
     .desc-container{
         align-self:         flex-end;
         background:         rgba(255, 255, 255, 0.9);
         padding:            0.5rem;
         font-size:          0.75vw;
-        max-height:         100%;
+        max-height:         67.5%;
+        overflow:           hidden;
+        text-overflow:      ellipsis;
     }
 
     img{
@@ -92,6 +101,10 @@
         z-index:            -1;
     }
     .stakeholder-link{
-        font-weight:        600;
+        background:        var(--modalLight);
+        font-weight:        800;
+        font-size:          0.8rem;
+        margin-top:         auto;
+        padding:            0.25rem;
     }
 </style>

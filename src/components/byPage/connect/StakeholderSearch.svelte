@@ -2,11 +2,11 @@
 <script>
 	import { slide, fly }       from "svelte/transition";
 	import MultiSelect          from '../../shared/forms/MultiSelect.svelte';
-	import LeafletMap           from '../../shared/map/Map.svelte';
+	import Map           from '../../shared/map/Map.svelte';
     import { ui }               from '../../../data/stores.js'
     import { app }              from '../../../data/realm.js'
     import { componentContent, infoModal } from '../../../data/content.js'
-    import { keyValues, conditions, themes, catchments, subcatchments, locations, leadOrg, leadOrgType, partnerOrg, projectType, projectStage, projectClass, projectScale }  from '../../../data/selectorLists.js'
+    import { keyValues, conditions, themes, catchments, subcatchments, leadOrg, leadOrgType, partnerOrg, projectType, projectScale }  from '../../../data/selectorLists.js'
 
     export let newSearch = true
 
@@ -33,19 +33,18 @@
     ////// SEARCH QUERY OBJECT /////
     if(newSearch){
         $ui.search.criteria.organisation = {
-            name:               [],
+            name:               [],         // Lead org name
             meta: {
-                type:           [],
+                type:           [],         // Lead org type
             },
             project: {
                 hws: {
-                    poThemes:       [],
+                    themes:       [],
                     conditions:     [],
                     values:         [],
                 },
                 meta: {
                     type:           [],
-                    class:          [],
                     scale:          [],
                 },
                 status: {
@@ -53,8 +52,7 @@
                 },
                 location: {
                     catchments:     [],
-                    subCatchments:  [],
-                    locations:      [],
+                    subcatchments:  [],
                 }
             }
         }
@@ -62,9 +60,17 @@
 
     async function handleSearch(){
         // Setup query
-        const query = {}, projection = {}
-        if($ui.search.criteria.organisation.name.length > 0)               query["name"]     = {$in: $ui.search.criteria.organisation.name}
-        if($ui.search.criteria.organisation.meta.type.length > 0)          query["meta.type"] = {$in: $ui.search.criteria.organisation.meta.type}
+        const query = {}
+        if($ui.search.criteria.organisation.name.length > 0)                            query["name"]     = {$in: $ui.search.criteria.organisation.name}
+        if($ui.search.criteria.organisation.meta.type.length > 0)                       query["meta.type"] = {$in: $ui.search.criteria.organisation.meta.type}
+        if($ui.search.criteria.organisation.project.hws.themes.length > 0)  
+        if($ui.search.criteria.organisation.project.hws.conditions.length > 0)  
+        if($ui.search.criteria.organisation.project.hws.values.length > 0)  
+        if($ui.search.criteria.organisation.project.meta.type.length > 0)  
+        if($ui.search.criteria.organisation.project.meta.scale.length > 0)  
+        if($ui.search.criteria.organisation.project.status.stage.length > 0)  
+        if($ui.search.criteria.organisation.project.location.catchments.length > 0)  
+        if($ui.search.criteria.organisation.project.location.subcatchments.length > 0)  
 
         $ui.search.results.organisation  = await app.data.collections.organisations.aggregate([
             { $match:       query },
@@ -119,7 +125,7 @@
         </div>
         {#if paneVisbility.byStakeholders}
         <div class = "collapse__body" transition:slide>
-            <div class = 'multi-select-container' style="z-index:20">
+            <div class = 'multi-select-container' style="z-index:19">
                 <h4>{@html leadOrg.label}</h4>
                 <MultiSelect id = {leadOrg.name} bind:value={$ui.search.criteria.organisation.name} placeholder={leadOrg.placeholder} >
                     <option disabled selected value></option>
@@ -130,7 +136,7 @@
             </div>
         </div>
         <div class = "collapse__body" transition:slide>
-            <div class = 'multi-select-container' style="z-index:19">
+            <div class = 'multi-select-container' style="z-index:18">
                 <h4>{@html leadOrgType.label}</h4>
                 <MultiSelect id = {leadOrgType.name} bind:value={$ui.search.criteria.organisation.meta.type} placeholder={leadOrgType.placeholder} >
                     <option disabled selected value></option>
@@ -140,7 +146,6 @@
                 </MultiSelect>
             </div>
         </div>
-
         {/if}
     </div>
 
@@ -154,7 +159,10 @@
 
         {#if paneVisbility.byOutcomes}
         <div class = "collapse__body"  transition:slide>
-            <div class = 'multi-select-container' style="z-index:18">
+            <div class = "group-description">
+                <p> These fields can be used to search for organisations who lead projects that a classigied by waterawys <em>key values</em>, <em>conditions</em> and <em>themes</em>, as defined in the Healthy Waterways Strategy.  </p>
+            </div>
+            <div class = 'multi-select-container' style="z-index:17">
                 <h4>{@html keyValues.label}</h4>
                 <MultiSelect id={keyValues.name} bind:value={$ui.search.criteria.organisation.project.hws.values} placeholder={keyValues.placeholder} >
                     <option disabled selected value></option>
@@ -164,7 +172,7 @@
                 </MultiSelect>
             </div>
 
-            <div class = 'multi-select-container'  style="z-index:17">
+            <div class = 'multi-select-container'  style="z-index:16">
                 <h4>{@html conditions.label}</h4>
                 <MultiSelect id={conditions.name} bind:value={$ui.search.criteria.organisation.project.hws.conditions}   placeholder={conditions.placeholder} >
                     <option disabled selected value></option>
@@ -174,11 +182,11 @@
                 </MultiSelect>
             </div>
 
-            <div class = 'multi-select-container' style="z-index:16">
-                <h4>{@html performanceObjectivesTheme.label}</h4>
-                <MultiSelect id={performanceObjectivesTheme.name} bind:value={$ui.search.criteria.organisation.project.hws.poThemes}   placeholder={performanceObjectivesTheme.placeholder} >
+            <div class = 'multi-select-container' style="z-index:15">
+                <h4>{@html themes.label}</h4>
+                <MultiSelect id={themes.name} bind:value={$ui.search.criteria.organisation.project.hws.themes}   placeholder={themes.placeholder} >
                     <option disabled selected value></option>
-                    {#each performanceObjectivesTheme.list as name}
+                    {#each themes.list as name}
                     <option value={name}>{@html name}</option>
                     {/each}
                 </MultiSelect>
@@ -197,7 +205,14 @@
         </div>
         {#if paneVisbility.byLocation}
         <div class = "collapse__body"  transition:slide>
-            <div class = 'multi-select-container' style="z-index:15">
+            <div class = "group-description">
+                <p>Location search fields allow you to look for organisations that have project in certain <strong>catchments or subcatchment(s)</strong>.
+                    Because these search fields are treated independently, a selecion in one will turn off (hide) the other.
+                    Note: In the <em>production<em/> version, location searches will be 'smarter' and linked to the map view. This is not currenly functional, however a map is shown as an indicative interface
+                </p>
+            </div>
+            {#if $ui.search.criteria.organisation.project.location.catchments.length === 0}
+            <div class = 'multi-select-container' style="z-index:14">
                 <h4>{@html catchments.label}</h4>
                 <MultiSelect id={catchments.name} bind:value={$ui.search.criteria.organisation.project.location.catchments} placeholder={catchments.placeholder} >
                     <option disabled selected value></option>
@@ -206,27 +221,21 @@
                     {/each}                
                 </MultiSelect>
             </div>
-
-            <div class = 'multi-select-container' style="z-index:14">
+            {/if}
+            {#if $ui.search.criteria.organisation.project.location.subcatchments.length === 0}
+            <div class = 'multi-select-container' style="z-index:13">
                 <h4>{@html subcatchments.label}</h4>
-                <MultiSelect id={subcatchments.name} bind:value={$ui.search.criteria.organisation.project.location.subCatchments} placeholder={subcatchments.placeholder} >
+                <MultiSelect id={subcatchments.name} bind:value={$ui.search.criteria.organisation.project.location.subcatchments} placeholder={subcatchments.placeholder} >
                     <option disabled selected value></option>
                     {#each subcatchments.list as name}
                     <option value={name}>{@html name}</option>
                     {/each}                
                 </MultiSelect>
             </div>
-
-            <div class = 'multi-select-container' style="z-index:13">
-                <h4>{@html locations.label}</h4>
-                <MultiSelect id={locations.name} bind:value={$ui.search.criteria.organisation.project.location.locations} placeholder={locations.placeholder}>
-                    <option disabled selected value></option>
-                    {#each locations.list as name}
-                    <option value={name}>{@html name}</option>
-                    {/each}                
-                </MultiSelect>
+            {/if}
+            <div style="z-index:12">
+                <Map/>
             </div>
-            <LeafletMap/>
         </div>
         {/if}
     </div>
@@ -240,14 +249,8 @@
         </div>
         {#if paneVisbility.byCharacteristics}
         <div class = "collapse__body"  transition:slide>
-            <div class = 'multi-select-container' style="z-index:12">
-                <h4>{@html projectStage.label}</h4>
-                <MultiSelect id = {projectStage.name} bind:value={$ui.search.criteria.organisation.project.status.stage} placeholder={projectStage.placeholder} >
-                    <option disabled selected value></option>
-                    {#each projectStage.list as name}
-                    <option value={name}>{@html name}</option>
-                    {/each}                
-                </MultiSelect>
+            <div class = "group-description">
+                <p>These fields can be used to search for organisatiosn who have projects that are classified by these high level characteristics.</p>
             </div>
             <div class = 'multi-select-container' style="z-index:11">
                 <h4>{@html projectType.label}</h4>
@@ -258,16 +261,8 @@
                     {/each}                
                 </MultiSelect>
             </div>
-            <div class = 'multi-select-container' style="z-index:10">
-                <h4>{@html projectClass.label}</h4>
-                <MultiSelect id = {projectClass.name} bind:value={$ui.search.criteria.organisation.project.meta.class} placeholder={projectClass.placeholder} >
-                    <option disabled selected value></option>
-                    {#each projectClass.list as name}
-                    <option value={name}>{@html name}</option>
-                    {/each}                
-                </MultiSelect>
-            </div>
-            <div class = 'multi-select-container' style="z-index:9">
+
+            <div class = 'multi-select-container' style="z-index:q0">
                 <h4>{@html projectScale.label}</h4>
                 <MultiSelect id = {projectScale.name} bind:value={$ui.search.criteria.organisation.project.meta.scale} placeholder={projectScale.placeholder} >
                     <option disabled selected value></option>
@@ -364,4 +359,10 @@
 	    padding:                1rem 0;
         display:                grid;
 	}
+
+    .group-description{
+        font-size:              0.8rem;
+        font-weight:            300;
+        margin:                 0 0.75rem;
+    }
 </style>

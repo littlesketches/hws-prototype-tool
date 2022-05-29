@@ -77,6 +77,7 @@ async function connectToCollections(app){
 /////////////////////////////////////////////////////////////////
 
 async function updateSelectionLists(app){
+
     console.log("Updating the selector lists based on database entries...") 
     // Organisation lists
     const orgData = await app.data.collections.organisations.aggregate([

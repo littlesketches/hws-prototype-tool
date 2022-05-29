@@ -9,7 +9,6 @@
 
     // Reactive variables
     $: stakeholderData = $ui.state.focus.stakeholderData 
-
 </script>
 
 
@@ -30,9 +29,11 @@
         <div class='info-row'>
             <div class ='info-label'>Type:</div>
             <div class ='info-content'>
-                {@html stakeholderData.meta.subtype1} 
-                {#if stakeholderData.meta.subtype2}
-                    ({@html stakeholderData.meta.subtype2})
+                {#if stakeholderData.meta.subtype}
+                    {@html stakeholderData.meta.subtype} 
+                {/if}
+                {#if stakeholderData.meta["Focus areas"]}
+                    ({@html stakeholderData.meta["Focus areas"].join(" | ") })
                 {/if}
             </div>
         </div>
@@ -45,6 +46,8 @@
                 {@html leadProjects.length}
             </div>
         </div>
+
+        {#if leadCatchments.length > 0}
         <div class='info-row'>
             <div class ='info-label'>Catchments:</div>
             <div class ='info-content'>
@@ -53,32 +56,57 @@
                 {/each}
             </div>
         </div>
+        {/if}
 
         <h4>&mdash;&mdash; Contact details</h4> 
         <div class='info-row'>
             <div class ='info-label'>Address:</div>
             <div class ='info-content'>
-                {@html stakeholderData.contact.addressStreet}<br>
-                {@html stakeholderData.contact.addressSuburb}, {@html stakeholderData.contact.addressPostcode}<br>
-                {@html stakeholderData.contact.addressState}
+                {#if stakeholderData.contact.addressStreet}
+                    {@html stakeholderData.contact.addressStreet}<br>
+                {/if}         
+                {#if stakeholderData.contact.addressSuburb}       
+                    {@html stakeholderData.contact.addressSuburb}, 
+                {/if}    
+                {#if stakeholderData.contact.addressPostcode}  
+                    {@html stakeholderData.contact.addressPostcode}
+                {/if}    
+                {#if stakeholderData.contact.addressSuburb || stakeholderData.contact.addressPostcode}
+                    <br>
+                {/if}   
+                {#if stakeholderData.contact.addressState}  
+                    {@html stakeholderData.contact.addressState}
+                {/if}  
             </div>
         </div>
         <div class='info-row'>
             <div class ='info-label'>Contact:</div>
-            <div class ='info-content'>
-                {@html stakeholderData.contact.contactName}
+            <div class ='info-content'> 
+                {#if stakeholderData.contact.contactName}
+                    {@html stakeholderData.contact.contactName}
+                {:else}
+                    Not provided
+                {/if}  
             </div>
         </div>
         <div class='info-row'>
             <div class ='info-label'>Email:</div>
             <div class ='info-content'>
-                <a href="mailto:{stakeholderData.contact.contactEmail}">{@html stakeholderData.contact.contactEmail} </a>
+                {#if stakeholderData.contact.contactEmail}
+                    <a href="mailto:{stakeholderData.contact.contactEmail}">{@html stakeholderData.contact.contactEmail} </a>
+                {:else}
+                    Not provided
+                {/if}  
             </div>
         </div>
         <div class='info-row'>
             <div class ='info-label'>Website:</div>
             <div class ='info-content'>
-                <a href={stakeholderData.contact.websiteURL} target="_blank">{@html stakeholderData.contact.websiteURL}</a>
+                {#if stakeholderData.contact.websiteURL}
+                    <a href={stakeholderData.contact.websiteURL} target="_blank">{@html stakeholderData.contact.websiteURL}</a>
+                {:else}
+                    Not provided
+                {/if}  
             </div>
         </div>
     </div>

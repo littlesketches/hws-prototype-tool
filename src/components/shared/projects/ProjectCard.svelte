@@ -72,9 +72,16 @@
         max-height:         25vw;
         filter:             grayscale(40%) sepia(20%);
         cursor:             pointer;
+        transform-origin:   50% 50%;
+        transition:         all 500ms;
+        box-shadow:         5px 5px 15px #bebebe,
+                            -5px -5px 15px #ffffff;
     }
     .card:hover{
         filter:             grayscale(0%) sepia(0%);
+        transform:          scale(1.05);            
+        box-shadow:         10px 10px 30px #bebebe,
+                            -10px -10px 30px #ffffff;
     }
     .desc-container{
         align-self:         flex-end;

@@ -24,7 +24,7 @@
             {/if}
         <!-- b.STAKEHOLDER NETWORK VIEW -->
         {:else}
-            <InfoNetwork/>
+        <InfoNetwork/>
         {/if}
 
     <!-- 2. STAKEHOLDER DEFAULT LISTING -->

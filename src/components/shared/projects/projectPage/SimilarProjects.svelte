@@ -5,7 +5,6 @@
     import { ui }                   from '../../../../data/stores.js'
     import { getSimilarProjects }   from '../../../../data/realm.js'
 
-    // export let similarProjects
     // Reactive variables
     $: projectData = $ui.state.focus.projectData
 
@@ -147,7 +146,7 @@
 
         <div class = "card-container">
             <ul class = "unformatted">
-                {#each $ui.state.focus.similarProjects.byProjectLead as projectData, index}
+                {#each $ui.state.focus.similarProjects.byProjectLead.slice(0,6) as projectData, index}
                 <ProjectCard {projectData} {index} />
                 {/each}
             </ul>

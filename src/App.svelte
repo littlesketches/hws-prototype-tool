@@ -19,7 +19,6 @@
     export let contentData
     export let schemaData
 
-
     // Extract content and setup tool
 	const promiseContent = extractContent(contentData)    
 	$user.isRegistered = queryParams.get('userRegistered') === 'true' ? true : false
@@ -93,7 +92,7 @@
 
     <!-- INFO MODAL -->
     {#if $ui.infoModal.show && $ui.infoModal.message}
-        <ModalMessage />
+    <ModalMessage />
     {/if}
 {/await}
 

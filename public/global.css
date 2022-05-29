@@ -4,14 +4,14 @@
   	--grey: 			#999;
   	--lightGrey: 		#aaa;
   	--lightestGrey: 	#ddd;
-  	--darkPurple: 	    rgb(117, 3, 130);
+  	--brightMagenta: 	#ec058f;
+  	--darkPurple: 	    #750382;
   	--white: 			#ffffff;
 	--forestGreen:      rgb(13, 50, 50);
 	--modalLight: 		#00bfb6;
     --comment:          #aaa;
     --userComment:     #00bfb6;
 }
-
 
 
 html, body {
@@ -172,4 +172,13 @@ section.page{
 .switch-form-container div:hover{
 	font-weight: 		500;
 	text-decoration: 	underline;
+}
+
+
+.waterway{
+    pointer-events: none;
+    stroke-opacity: 0.95;
+}
+.catchment{
+    mix-blend-mode: exclusion;
 }

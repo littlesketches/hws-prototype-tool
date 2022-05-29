@@ -21,7 +21,6 @@
         <MenuCard {pageData} {index}/>
         {/each}
     </div>
-
 </section>
 
 

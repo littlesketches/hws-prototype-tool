@@ -10,8 +10,8 @@
     import { user, ui }         from '../../../data/stores.js'
     import { componentContent, infoModal } from '../../../data/content.js'
     import { keyValues, conditions, themes, 
-        catchments, subcatchments, locations, leadOrg, partnerOrg, 
-        projectType, projectStage, projectClass, projectScale }  from '../../../data/selectorLists.js'
+        catchments, subcatchments, leadOrg, partnerOrg, 
+        projectType, projectStage, projectScale }  from '../../../data/selectorLists.js'
 
     export let store
     let type
@@ -192,15 +192,7 @@
                         {/each}                
                     </MultiSelect>
                 </div>
-                <div class = 'multi-select-container' style="z-index:15">
-                    <div class = "label centre_v">{@html locations.label}</div>
-                    <MultiSelect id={locations.name}  bind:value={projectStore.location.locations} placeholder={locations.placeholder}>
-                        <option disabled selected value></option>
-                        {#each locations.list as name}
-                        <option value={name}>{@html name}</option>
-                        {/each}                
-                    </MultiSelect>
-                </div>
+
                 <div style="z-index:14">
                 <Map/>
                 </div>
@@ -217,15 +209,6 @@
             </div>
             {#if paneVisibility.characteristics}
             <div class = "collapse__body"  transition:slide>
-                <div class = 'multi-select-container' style="z-index:13">
-                    <div class = "label centre_v">{@html projectClass.label}</div>
-                    <MultiSelect id={projectClass.name}  bind:value={projectStore.meta.class} placeholder={projectClass.placeholder}>
-                        <option disabled selected value></option>
-                        {#each projectClass.list as name}
-                        <option value={name}>{@html name}</option>
-                        {/each}                
-                    </MultiSelect>
-                </div>
                 <div class = 'multi-select-container' style="z-index:12">
                     <div class = "label centre_v">{@html projectType.label}</div>
                     <SingleSelect optionData = {projectType}  bind:value={projectStore.meta.type}/>

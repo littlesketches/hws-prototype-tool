@@ -6,7 +6,7 @@
     import { ui }               from '../../../data/stores.js'
     import { app }              from '../../../data/realm.js'
     import { componentContent, infoModal } from '../../../data/content.js'
-    import { keyValues, conditions, themes, catchments, subcatchments, locations, leadOrg, leadOrgType, partnerOrg, projectType, projectStage, projectClass, projectScale }  from '../../../data/selectorLists.js'
+    import { keyValues, conditions, themes, catchments, subcatchments, leadOrg, leadOrgType, partnerOrg, projectType, projectStage, projectScale }  from '../../../data/selectorLists.js'
 
     export let newSearch = true
 
@@ -36,7 +36,6 @@
             },
             meta: {
                 type:           [],
-                class:          [],
                 scale:          [],
             },
             status: {
@@ -45,9 +44,7 @@
             location: {
                 catchments:     [],
                 subcatchments:  [],
-                locations:      [],
             },
-
             leadOrg:            [],
             leadOrgType:        [],
             partnerOrgs:        []
@@ -60,24 +57,21 @@
         const query = {}
         if($ui.search.criteria.project.hws.values.length > 0)               query["hws.values"]     = {$in: $ui.search.criteria.project.hws.values}
         if($ui.search.criteria.project.hws.conditions.length > 0)           query["hws.conditions"] = {$in: $ui.search.criteria.project.hws.conditions}
-        if($ui.search.criteria.project.hws.themes.length > 0)               query["hws.themes"]   = {$in: $ui.search.criteria.project.hws.themes}
-        if($ui.search.criteria.project.meta.class.length > 0)               query["meta.class"]     = {$in: $ui.search.criteria.project.meta.class}
+        if($ui.search.criteria.project.hws.themes.length > 0)               query["hws.themes"]     = {$in: $ui.search.criteria.project.hws.themes}
         if($ui.search.criteria.project.status.stage.length > 0)             query["status.stage"]   = {$in: $ui.search.criteria.project.status.stage}
-        if($ui.search.criteria.project.location.locations.length > 0)       query["location.locations"]     = {$in: $ui.search.criteria.project.location.locations}
         if($ui.search.criteria.project.location.catchments.length > 0)      query["location.catchments"]    = {$in: $ui.search.criteria.project.location.catchments}
         if($ui.search.criteria.project.location.subcatchments.length > 0)   query["location.subcatchments"] = {$in: $ui.search.criteria.project.location.subcatchments}
         if($ui.search.criteria.project.leadOrg.length > 0)                  query["leadOrg"]        = {$in: $ui.search.criteria.project.leadOrg}
         if($ui.search.criteria.project.leadOrgType.length > 0)              query["leadOrgType"]    = {$in: $ui.search.criteria.project.leadOrgType}
         if($ui.search.criteria.project.partnerOrgs.length > 0)              query["partnerOrgs"]    = {$in: $ui.search.criteria.project.partnerOrgs}
 
-        console.log(query)
         $ui.search.results.project  = await app.data.collections.projects.aggregate([
             { $match:       query },
             { $sort:       { name: 1,  leadOrg: 1 } }
         ])
         console.log("Realm project search results: ", $ui.search.results.project )
 
-        // Temporary info box for stakehoder search
+        // Temporary info box for project search
         if($ui.infoModal.showNotes && componentContent.messageModal.stakeholderSearch){
             $ui.infoModal.message = infoModal.projectSearch
             componentContent.messageModal.projectSearch = null
@@ -137,7 +131,10 @@
         </div>
         {#if paneVisbility.byOutcomes}
         <div class = "collapse__body"  transition:slide>
-            <div class = 'multi-select-container' style="z-index:21">
+            <div class = "group-description">
+                <p>Waterway <em>key values</em>, <em>conditions</em> and <em>themes</em> all relate to their definitions and use in the Healthy Waterways Strategy.</p>
+            </div>
+            <div class = 'multi-select-container' style="z-index:18">
                 <h4>{@html keyValues.label}</h4>
                 <MultiSelect id={keyValues.name} bind:value={$ui.search.criteria.project.hws.values} placeholder={keyValues.placeholder} >
                     <option disabled selected value></option>
@@ -147,7 +144,7 @@
                 </MultiSelect>
             </div>
 
-            <div class = 'multi-select-container'  style="z-index:20">
+            <div class = 'multi-select-container'  style="z-index:17">
                 <h4>{@html conditions.label}</h4>
                 <MultiSelect id={conditions.name} bind:value={$ui.search.criteria.project.hws.conditions}  placeholder={conditions.placeholder} >
                     <option disabled selected value></option>
@@ -157,7 +154,7 @@
                 </MultiSelect>
             </div>
 
-            <div class = 'multi-select-container' style="z-index:19">
+            <div class = 'multi-select-container' style="z-index:16">
                 <h4>{@html themes.label}</h4>
                 <MultiSelect id={themes.name} bind:value={$ui.search.criteria.project.hws.poThemes}   placeholder={themes.placeholder} >
                     <option disabled selected value></option>
@@ -179,38 +176,39 @@
         </div>
         {#if paneVisbility.byLocation}
         <div class = "collapse__body"  transition:slide>
-            <div class = 'multi-select-container' style="z-index:17">
-                <h4>{@html catchments.label}</h4>
-                <MultiSelect id={catchments.name} bind:value={$ui.search.criteria.project.location.catchments} placeholder={catchments.placeholder} >
-                    <option disabled selected value></option>
-                    {#each catchments.list as name}
-                    <option value={name}>{@html name}</option>
-                    {/each}                
-                </MultiSelect>
+            <div class = "group-description">
+                <p>Location search fields allow you to narrow down projects to only those that affect only certain <strong>catchments or subcatchment(s)</strong>.
+                    Because these search fields are treated independently, a selection in one will turn off (hide) the other.
+                    Note: In the <em>production<em/> version, location searches will be 'smarter' and linked to the map view. This is not currenly functional, however a map is shown as an indicative interface
+                </p>
             </div>
-
-            <div class = 'multi-select-container' style="z-index:16">
-                <h4>{@html subcatchments.label}</h4>
-                <MultiSelect id={subcatchments.name} bind:value={$ui.search.criteria.project.location.subCatchments} placeholder={subcatchments.placeholder} >
-                    <option disabled selected value></option>
-                    {#each subcatchments.list as name}
-                    <option value={name}>{@html name}</option>
-                    {/each}                
-                </MultiSelect>
+            {#if $ui.search.criteria.project.location.catchments.length === 0}
+            <div class = "collapse__body"  transition:slide>
+                <div class = 'multi-select-container' style="z-index:15">
+                    <h4>{@html subcatchments.label}</h4>
+                    <MultiSelect id={subcatchments.name} bind:value={$ui.search.criteria.project.location.subcatchments} placeholder={subcatchments.placeholder} >
+                        <option disabled selected value></option>
+                        {#each subcatchments.list as name}
+                        <option value={name}>{@html name}</option>
+                        {/each}                
+                    </MultiSelect>
+                </div>
             </div>
-
-            <div class = 'multi-select-container' style="z-index:15">
-                <h4>{@html locations.label}</h4>
-                <MultiSelect id={locations.name} bind:value={$ui.search.criteria.project.location.locations} placeholder={locations.placeholder}>
-                    <option disabled selected value></option>
-                    {#each locations.list as name}
-                    <option value={name}>{@html name}</option>
-                    {/each}                
-                </MultiSelect>
+            {/if}
+            {#if $ui.search.criteria.project.location.subcatchments.length === 0}
+            <div class = "collapse__body"  transition:slide>
+                <div class = 'multi-select-container' style="z-index:14">
+                    <h4>{@html catchments.label}</h4>
+                    <MultiSelect id={catchments.name} bind:value={$ui.search.criteria.project.location.catchments} placeholder={catchments.placeholder} >
+                        <option disabled selected value></option>
+                        {#each catchments.list as name}
+                        <option value={name}>{@html name}</option>
+                        {/each}                
+                    </MultiSelect>
+                </div>
             </div>
-            <div class = 'note'>Location searches will be 'smarter' and linked to the map view</div>
-
-            <div style="z-index:14">
+            {/if}
+            <div style="z-index:13">
                 <Map/>
             </div>
         </div>
@@ -226,19 +224,12 @@
         </div>
         {#if paneVisbility.byCharacteristics}
         <div class = "collapse__body"  transition:slide>
-            <div class = 'multi-select-container' style="z-index:14">
-                <h4>{@html projectStage.label}</h4>
-                <MultiSelect id = {projectStage.name} bind:value={$ui.search.criteria.project.status.stage} placeholder={projectStage.placeholder} >
-                    <option disabled selected value></option>
-                    {#each projectStage.list as name}
-                    <option value={name}>{@html name}</option>
-                    {/each}                
-                </MultiSelect>
+            <div class = "group-description">
+                <p>These high level characteristics help to classify projects into logical and useful groupings.
+                    Note: In a <em>production<em/> version where more timing information is collected on projects, date filters are expected to be added.
+                </p>
             </div>
-
-            <div class = 'note'>More 'by date' search characters TBA</div>
-
-            <div class = 'multi-select-container' style="z-index:13">
+            <div class = 'multi-select-container' style="z-index:12">
                 <h4>{@html projectType.label}</h4>
                 <MultiSelect id = {projectType.name} bind:value={$ui.search.criteria.project.meta.type} placeholder={projectType.placeholder} >
                     <option disabled selected value></option>
@@ -247,16 +238,15 @@
                     {/each}                 
                 </MultiSelect>
             </div>
-            <div class = 'multi-select-container' style="z-index:12">
-                <h4>{@html projectClass.label}</h4>
-                <MultiSelect id = {projectClass.name} bind:value={$ui.search.criteria.project.meta.class} placeholder={projectClass.placeholder} >
+            <div class = 'multi-select-container' style="z-index:11">
+                <h4>{@html projectStage.label}</h4>
+                <MultiSelect id = {projectStage.name} bind:value={$ui.search.criteria.project.status.stage} placeholder={projectStage.placeholder} >
                     <option disabled selected value></option>
-                    {#each projectClass.list as name}
+                    {#each projectStage.list as name}
                     <option value={name}>{@html name}</option>
                     {/each}                
                 </MultiSelect>
             </div>
-
             <div class = 'multi-select-container' style="z-index:10">
                 <h4>{@html projectScale.label}</h4>
                 <MultiSelect id = {projectScale.name} bind:value={$ui.search.criteria.project.meta.scale} placeholder={projectScale.placeholder} >
@@ -266,8 +256,6 @@
                     {/each}                
                 </MultiSelect>
             </div>
-            <div class = 'note'>Characteristics criteria to be refined on review of real project data</div>
-
         </div>
         {/if}
     </div>
@@ -281,6 +269,10 @@
         </div>
         {#if paneVisbility.byStakeholders}
         <div class = "collapse__body" transition:slide>
+            <div class = "group-description">
+                <p>Every project is assigned one organisation as the 'lead', but can also be assigned any number of partner organisations.</p>
+            </div>
+
             <div class = 'multi-select-container' style="z-index:9">
                 <h4>{@html leadOrg.label}</h4>
                 <MultiSelect id = {leadOrg.name} bind:value={$ui.search.criteria.project.leadOrg} placeholder={leadOrg.placeholder} >
@@ -316,9 +308,9 @@
         <button on:click|preventDefault={handleSearch}>Search for projects</button>
     </div>
     {#if noSearchParams > 0}
-        <div class = "clear-search-container" on:click={handleClearSearch}>
-            Clear the search parameters
-        </div>
+    <div class = "clear-search-container" on:click={handleClearSearch}>
+        Clear the search parameters
+    </div>
     {/if}
 
 </section>
@@ -397,9 +389,9 @@
 	    padding:                1rem 0rem;
         display:                grid;
 	}
-    .note{
+    .group-description{
         font-size:              0.8rem;
-        font-style:             italic;
-        text-align:             right;
+        font-weight:            300;
+        margin:                 0 0.75rem;
     }
 </style>

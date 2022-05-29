@@ -1,16 +1,16 @@
 import { schema } from './schema.js'
 export { createSelectorLists,
         keyValues, conditions, themes, 
-        catchments, subcatchments, locations,
+        catchments, subcatchments,
         leadOrg, leadOrgType, partnerOrg,
-        projectType, projectStage, projectClass, projectScale
+        projectType, projectStage, projectScale
  }
 
-let keyValues, conditions, themes,  catchments, subcatchments, locations,
+let keyValues, conditions, themes,  catchments, subcatchments,
         leadOrg, leadOrgType, partnerOrg,
         projectType, projectStage, projectClass, projectScale
 
-
+console.log(schema)
 ///// DATA OBJECTS FOR MULTI-SELECT COMPONENTS //////
 async function createSelectorLists(schema){
 
@@ -29,9 +29,9 @@ async function createSelectorLists(schema){
     }
 
     themes = {
-        label:              'by theme',
-        name:               'hwsTheme',
-        list:               schema.hwsTheme.data.map(d => d["HWS Theme"]).sort(),
+        label:              'by themes',
+        name:               'projectTheme',
+        list:               schema.projectTheme.data.map(d => d["Project theme"]).sort(),
         placeholder:        'Use this field to select performance objectives themes'
     }
 
@@ -48,13 +48,6 @@ async function createSelectorLists(schema){
         name:               'subcatchments',
         list:               schema.subcatchments.data.map(d => d["Subcatchment"]).sort(),
         placeholder:        'Use this field to select subcatchments'
-    }
-
-    locations = {
-        label:              'by location',
-        name:               'locations',
-        list:               schema.locations.data.map(d => d["Location"]).sort(),
-        placeholder:        'Use this field to select locations'
     }
 
     // Project characterstics
@@ -74,25 +67,15 @@ async function createSelectorLists(schema){
         placeholderSingle:  'Use this field to select a project stage'
     }
 
-    projectClass = {
-        label:              'by class',
-        name:               'projectClass',
-        list:               schema.projectClass.data.map(d => d["Project class"]).sort(),
-        placeholder:        'Use this field to select project class(es)',
-        placeholderSingle:  'Use this field to select a project class'
-    }
-
     projectScale = {
         label:              'by scale',
         name:               'projectScale',
         list:   [
             'Region-wide (all catchments)',
-            'Single catchment',
             'Across multiple catchments',
-            'Single location',
-            'Across multiple locations',
-            'Single subcatchment',
-            'Across multiple subcatchments'
+            'Single catchment',
+            'Across multiple subcatchments',
+            'Single subcatchment'
         ],
         placeholder:        'Use this field to select project scale(s)',
         placeholderSingle:  'Use this field to select a project scale'

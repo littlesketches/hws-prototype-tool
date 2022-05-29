@@ -34,7 +34,6 @@
 <!------ STYLE ------->
 <style> 
     .button-container{
-        width:              100%;
         margin-bottom:      1.5rem;
     }
 </style>

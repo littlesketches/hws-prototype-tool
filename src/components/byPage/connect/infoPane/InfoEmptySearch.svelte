@@ -13,7 +13,7 @@
 </script>
 
 <!-- COMPONENT HTML MARKUP-->
-<div class = 'selection-info info-container'>
+<div>
     <h2>&mdash; {@html componentContent.connect.info.selectionHeader}</h2>
     <p>We've identified {leadOrg.list.length} stakeholders - from public and private sector orgnaisations, to grassroots groups - all working on projects that impact the health of our waterways
     </p>
@@ -23,7 +23,7 @@
 <div class = 'search-options-container'>
     <h2>&mdash; {@html componentContent.connect.info.searchToolHeader}</h2>
     {@html  componentContent.connect.info.searchToolDesc}
-    <ul>
+    <ul class ='unformatted'>
         <li>
             <div class = "button-container">
                 <button on:click={showSearch}>Search for stakeholders &rarr;</button>
@@ -35,19 +35,11 @@
 
 <!------ STYLE ------->
 <style> 
-    ul{
-        list-style-type: none;
-        border: 0;
-        margin: 0;
-        margin-block-start: 0  ;
-        margin-block-end: 0  ;
-        padding-inline-start: 0;
-    }
     hr{
-        margin: 2.5rem 0;
+        margin:             2.5rem 0;
     }
     .button-container{
-        margin-top: 0.5rem;
+        margin-top:         0.5rem;
         margin-bottom:      1.5rem;
     }
 </style>

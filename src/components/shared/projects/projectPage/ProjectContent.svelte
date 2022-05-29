@@ -10,7 +10,6 @@
 
     // HTML converter
     const converter = new showdown.Converter()
-console.log($ui.state.focus.projectData)
     // Reactive variables
     $: projectData = $ui.state.focus.projectData
 
@@ -141,7 +140,7 @@ console.log($ui.state.focus.projectData)
         {#if projectData.links.length > 0 && [...new Set(Object.values(projectData.leadContact))][0]}
         <p>{@html projectData.leadOrg} has provided links to further information and contact details to learn more about {@html projectData.name}.</p>
         {:else if projectData.links.length > 0}
-        <p>{@html projectData.leadOrg} has provided links to more information about {@html projectData.name}.</p>
+        <p>{@html projectData.leadOrg} has provided links to more information about <i>{@html projectData.name}</i>.</p>
         {:else if [...new Set(Object.values(projectData.leadContact))][0]}
         <p>{@html projectData.leadOrg} has provided contact details to get in touch about {@html projectData.name} in {@html new Date(projectData.status.dates.lastUpdate).toLocaleDateString('en-GB', { year: 'numeric', month: 'long', day: 'numeric' }) }.</p>
         {/if}

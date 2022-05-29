@@ -2,8 +2,6 @@
 
 Current status: in early Prototype design and development
 
-
-
 <br>
 
 ## About this prototype
@@ -14,7 +12,7 @@ This repository holds code base and technical documentation for Melbourne Water'
 
 ## Technical documentation
 
-More documentation will be added soon: it will 
+More documentation will be added soon:
 
 
 

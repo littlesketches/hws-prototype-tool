@@ -7,6 +7,15 @@
 
     // Reactive variables
     $: projectData = $ui.state.focus.projectData
+    console.log($ui.state.focus.projectData)
+
+    const focus = {
+        catchments:         [],
+        subCatchments:      [],
+        points:             [],
+        polygons:           [$ui.state.focus.projectData.location.polygon]
+    }
+
 </script>
 
 
@@ -48,12 +57,13 @@
             <div class ='info-label'>Status:</div>
             <div class ='info-content'>{projectData.status.stage}</div>
         </div>
-        {#if projectData.status.stage === 'Complete' || projectData.status.stage === 'Operational'}
+        {#if projectData.status.stage === 'Complete' || projectData.status.stage === 'Operational (ongoing)' }
         <div class='info-row'>
             <div class ='info-label'>Completion date:</div>
             <div class ='info-content'>{projectData.status.dates.completion}</div>
         </div>
-        {:else}
+        {/if}
+        {#if projectData.status.target}
         <div class='info-row'>
             <div class ='info-label'>Target date</div>
             <div class ='info-content'>{projectData.status.dates.target}</div>
@@ -62,31 +72,23 @@
 
         <!-- PROJECT LOCATION DATA -->
         <h4>&mdash;&mdash; Where is it?</h4> 
-        {#if projectData.location.locations}
+        {#if projectData.location.locationName}
         <div class='info-row'>
-            {#if projectData.location.locations.length > 1 }
-            <div class ='info-label'>Locations:</div>
-            {:else}
             <div class ='info-label'>Location:</div>
-            {/if}
-            <div class ='info-content'>
-                {#each projectData.location.locations as location, index}
-                <span>{index === 0 ? location :index == projectData.location.locations.length - 1 ? ` and ${location}` : `${location}, `}</span>
-                {/each}
-            </div>
+            <div class ='info-content'>{projectData.location.locationName}</div>
         </div>
         {/if}
 
-        {#if projectData.location.subCatchments}
+        {#if projectData.location.subcatchments}
         <div class='info-row'>
-            {#if $ui.state.focus.projectData.location.subCatchments.length > 1 }
+            {#if $ui.state.focus.projectData.location.subcatchments.length > 1 }
             <div class ='info-label'>Subcatchments:</div>
             {:else}
             <div class ='info-label'>Subcatchment:</div>
             {/if}
             <div class ='info-content'>
-                {#each projectData.location.subCatchments as subcatchment, index}
-                <span>{index === 0 ? subcatchment :index == projectData.location.subCatchments.length - 1 ? ` and ${subcatchment}` : `${subcatchment}, `} </span>
+                {#each projectData.location.subcatchments as subcatchment, index}
+                <span>{index === 0 ? subcatchment :index == projectData.location.subcatchments.length - 1 ? ` and ${subcatchment}` : `${subcatchment}, `} </span>
                 {/each}
             </div>
         </div>
@@ -105,21 +107,8 @@
             </div>
         </div>
 
-        <!-- <div class='info-row'>
-            {#if projectData.location.locations.length > 1 }
-            <div class ='info-label'>Local Governments:</div>
-            {:else}
-            <div class ='info-label'>Local Government:</div>
-            {/if}
-            <div class ='info-content'>
-                {#each projectData.location.locations as location, index}
-                <span>{index === 0 ? "TBA City Council" : index == projectData.location.locations.length - 1 ? ` and "TBA City Council"` : `"TBA City Council", `}</span>
-                {/each}
-            </div>
-        </div> -->
-
         <!-- MAP CONTAINER-->
-        <LeafletMap/>
+        <LeafletMap {focus}/>
     </div>
 
 </section>

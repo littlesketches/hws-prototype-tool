@@ -12,7 +12,8 @@
 
     async function getStakeholderData(){
         if($ui.search.criteria.organisation){
-            stakeholders = $ui.search.results.organisation.slice(0, 9) 
+            stakeholders = $ui.search.results.organisation
+            // stakeholders = $ui.search.results.organisation.slice(0, 9) 
         } else {
             stakeholders =  await app.data.collections.organisations.aggregate([
                 { $sample : { size: 9 }  },
