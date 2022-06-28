@@ -12,7 +12,7 @@ export const user = writable({
     },
     details: {
         firstName:      'Happy',
-        lastName:       'User',
+        lastName:       'Registered-user',
         organisation:   'Tyrell Corporation',
         userID:         'user',
         username:       'username',
@@ -78,7 +78,7 @@ export const ui = writable({
     },
     map:{
         context:        null,
-        style:          'tonerBG',
+        style:          'toner',
         attribution:    false,
         data:           {
             focus: {

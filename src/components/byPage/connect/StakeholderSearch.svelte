@@ -79,12 +79,6 @@
 
         console.log("Realm organisation search results: ", $ui.search.results.organisation )
 
-        // Temporary info box for stakeholder search
-        if($ui.infoModal.showNotes && componentContent.messageModal.stakeholderSearch){
-            $ui.infoModal.message = infoModal.stakeholderSearch
-            componentContent.messageModal.stakeholderSearch = null
-        }
-
         // Set UI based on curent page
         $ui.byPage.connect.main = 'list'
         $ui.byPage.connect.stakeholderSearch.isMade = true

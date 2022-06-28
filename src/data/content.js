@@ -268,7 +268,7 @@ async function extractContent(data){
         toolGuidance: {
             buttons:        [{ text: 'Ok, got it!', function:  'close', }],
             header:         `About help and guidance in the Tool.`,
-            content:         componentContent.messageModal.aboutToolGovernance
+            content:         componentContent.messageModal.aboutToolHelp
         },
         projectSearch: {
             buttons:        [{ text: 'Ok, got it!', function:  'close', }],

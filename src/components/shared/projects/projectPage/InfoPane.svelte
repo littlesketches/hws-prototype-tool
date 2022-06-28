@@ -10,11 +10,12 @@
     console.log($ui.state.focus.projectData)
 
     const focus = {
-        catchments:         [],
-        subCatchments:      [],
-        points:             [],
-        polygons:           [$ui.state.focus.projectData.location.polygon]
-    }
+        polygons:       $ui.state.focus.projectData.location.polygon ? [$ui.state.focus.projectData.location.polygon] : [],
+        catchments:     $ui.state.focus.projectData.location.catchments ? $ui.state.focus.projectData.location.catchments: [],
+        subcatchments:  $ui.state.focus.projectData.location.subcatchments ? $ui.state.focus.projectData.location.subcatchments: [],
+        points:         $ui.state.focus.projectData.location.points ? $ui.state.focus.projectData.location.points: []
+     }
+
 
 </script>
 

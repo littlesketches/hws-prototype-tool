@@ -10,7 +10,6 @@ let keyValues, conditions, themes,  catchments, subcatchments,
         leadOrg, leadOrgType, partnerOrg,
         projectType, projectStage, projectClass, projectScale
 
-console.log(schema)
 ///// DATA OBJECTS FOR MULTI-SELECT COMPONENTS //////
 async function createSelectorLists(schema){
 

@@ -8,9 +8,6 @@
         $ui.page = this.getAttribute('name').toLowerCase()
         $ui.state.showMenuModal = false
         $ui.state.showNav = $ui.page !== 'home' ? true : false
-        
-        console.log('Now showing ', $ui.page)
-        console.log($ui.state)
     };
 
 </script>

@@ -29,7 +29,9 @@
 
     let projectDatabase = []
     const getUserData = async() => {
-        projectDatabase = await app.data.collections.projects.find({})
+        projectDatabase = await app.data.collections.projects.aggregate([
+                { $sample : { size: 25 }  },
+            ])
 
         const userSharedNo =  getRandomInt(0, 7)
         const userDraftNo  =  getRandomInt(0, 7)

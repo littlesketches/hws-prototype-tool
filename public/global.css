@@ -173,8 +173,6 @@ section.page{
 	font-weight: 		500;
 	text-decoration: 	underline;
 }
-
-
 .waterway{
     pointer-events: none;
     stroke-opacity: 0.95;

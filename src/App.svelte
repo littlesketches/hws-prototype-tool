@@ -38,18 +38,12 @@
                         <hr>
                         <div style="display:flex; justify-content:center; text-align: center; color: #fff">
                             <div class="contact" style="width: 20%; padding:0.5rem; font-size: 0.8rem; margin:auto 0">
-                                Feedback and further info: &rarr;
+                                Feedback and<br>further info: &rarr;
                             </div>
                             <div style="width: 20%; padding:0.5rem; cursor:pointer">
                                 <a style = "color: #fff" href="mailto:Gail.Hall@melbournewater.com.au?subject=Healthy Waterways Implementation Hub Prototype&cc=brendan@littlesketch.es">
                                     <div style="font-size: 3rem">&#9993;</div>
                                     <div style="font-size: 0.8rem">Email the prototype team directly</div>
-                                </a>
-                            </div>
-                            <div style="width: 20%; padding:0.5rem; cursor:pointer">
-                                <a style = "color: #fff" >
-                                    <div style="font-size: 3rem">&quest;</div>
-                                    <div style="font-size: 0.8rem">Issues and suggestions (Airtable)</div>
                                 </a>
                             </div>
                             <div style="width: 20%; padding:0.5rem; cursor:pointer">
@@ -59,7 +53,7 @@
                                 </a>
                             </div>
                             <div style="width: 20%; padding:0.5rem; cursor:pointer">
-                                <a style = "color: #fff"  href="https://littlesketches.github.io/hws-prototype-tool/" target="_blank">
+                                <a style = "color: #fff"  href="https://github.com/littlesketches/hws-prototype-tool" target="_blank">
                                     <div style="font-size: 2rem; padding-top: 0.75rem; padding-bottom: 0.45rem">< /></div>
                                     <div style="font-size: 0.8rem">Code repository + documentation (Github)</div>
                                 </a>

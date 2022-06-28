@@ -21,8 +21,8 @@ const app = { // This object is created
     realm:              new Realm.App({ id: 'mw-collab-prototype-yxtgd'}),
     user:               null,     // User instance
     data: {
-        mongo:            null,     // MongoDB Atlas handle
-        collections:      {}        // MongoDB Atlas collections
+        mongo:            null,         // MongoDB Atlas handle
+        collections:      {}            // MongoDB Atlas collections
     },           
     state: {
         isloggedIn:       false,

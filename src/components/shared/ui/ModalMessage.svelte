@@ -13,11 +13,9 @@
 
     function handleClose(){
         $ui.infoModal.message = null
-        console.log($ui)
     };
 
     function handleConfirm(){
-        console.log('Confirm')
         $ui.infoModal.message = null
     };
 

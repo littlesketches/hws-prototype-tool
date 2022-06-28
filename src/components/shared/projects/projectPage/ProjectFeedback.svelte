@@ -18,9 +18,7 @@
     };
     let promise = getInteractionData()
 
-
     // Get project comments data
-
     function handleNewComment(){
         if($user.isRegistered){
             console.log('Adding a new comment')
@@ -40,7 +38,7 @@
             $ui.state.focus.projectComments  = [newCommentEntry, ...$ui.state.focus.projectComments]
 
         } else {
-            $ui.showMessage = {
+            $ui.infoModal.message = {
                 buttons:        [{ text: 'Ok, got it!', function:  'close', }],
                 header:         `You'll need to log in to post a message.`,
                 content:         componentContent.messageModal.loginToComment

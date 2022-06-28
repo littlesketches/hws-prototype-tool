@@ -1,56 +1,34 @@
 <!-- PROJECT MAP: LEAFLET MAP WITH SVG OVERLAYS-->
 <script>
-    import { getContext }   from 'svelte';
+    import { onMount }      from 'svelte';
 	import { fade }         from 'svelte/transition'
 	import { ui }           from '../../../data/stores.js'	 
     import { LeafletMap, TileLayer, GeoJSON, Tooltip, Popup, Circle } from 'svelte-leafletjs';
     import { loop_guard }   from 'svelte/internal';
-    import L from 'leaflet';
+    import L                from 'leaflet';
 
     import MapContext       from './MapContext.svelte'
 
     export let focus = {
         catchments:         [],
-        subCatchments:      [],
+        subcatchments:      [],
         points:             [],
         polygons:           []
     }
 
     let leafletMap
+    let view 
 
-    let view = null
-    if ((focus.polygons.length + focus.catchments.length + focus.subCatchments.length) === 0){
+    if(focus.polygons.length > 0){
+        view = 'polygons'
+    } else if(focus.points.length > 0){
+        view = 'points'
+    } else if (focus.subcatchments.length > 0){
+        view = 'subcatchments'
+    } else {
         view = 'catchments'
-    } else if (focus.polygons.length > 0){
-
     }
-
-
-    //     // For no selection, show "catchments" outline view
-    //     if(Object.values(focus).flat.length === 0){
-    //         return "catchments"
-
-    //     // Where there is some location selection...
-    //     } else {
-    //         // If polygons are specified
-    //         if(focus.polygons.length > 0){
-    //             return "polygons"
-    //         // No polygons
-    //         } else {
-    //             // Subcatchments only
-    //             if(focus.subCatchments.length > 0 && focus.catchments.length === 0){
-    //                 return "subcatchments"
-    //             } else if(focus.subCatchments.length > 0 && focus.catchments.length > 0) {
-    //                 return "subcatcmenstAndCatchments"
-    //             }
-    //         }
-    //         // Note: points will always be assumed/checked
-    //     }
-    // }
-
-    console.log( focus )
-    console.log( $ui.map.context)         
-
+    console.log('Map view: ', view)
 
     // MAP OPTIONS AND TILES
     let mapOptions = {
@@ -135,10 +113,10 @@
         },
         polygon: {
             stroke:             true,
-            color:             'yellow',
+            color:             '#FF5733',
             weight:             10,
-            fillColor:          'yellow',
-            fillOpacity:        0.9
+            fillColor:          '#FF5733',
+            fillOpacity:        1
         },
        
     }
@@ -268,6 +246,22 @@
     };
 
 
+    // Change focus to update zoom to match any polygons 
+    onMount( () => {
+        if (focus.polygons.length === 0) return 
+
+        if (focus.polygons.length === 1){
+            // Get polygon layer and zoom to it
+            const polygonID  =  focus.polygons[0].id
+            const layersEntries = Object.entries($ui.map.context._layers)
+            const layerID = layersEntries.filter( d => d[1].feature && d[1].feature.id ===  polygonID)[0][0]
+            const layer = $ui.map.context._layers[layerID]
+
+            $ui.map.context.fitBounds(layer._bounds, {maxZoom: 14})
+        }
+    })
+
+
 </script>
 
 <!-- COMPONETN HTML MARKUP-->
@@ -276,25 +270,21 @@
         <MapContext/> 
         <TileLayer url={tileUrl[$ui.map.style]} options={tileLayerOptions}/>
 
-        <!-- CATCHMENTS VIEW -->
-        {#if (focus.polygons.length + focus.catchments.length + focus.subCatchments.length) === 0 }     
-            <GeoJSON url = {geoLayers.catchments}    options = {catchmentLayerOptions} />
-            <GeoJSON url = {geoLayers.waterways}     options = {waterwaysLayerOptions} />
-
         <!-- POLYGON VIEW -->
-        {:else if focus.polygons.length > 0}
+        {#if view === 'polygons'}
+            <GeoJSON url = {geoLayers.catchments}    options = {catchmentLayerOptions} />
             <GeoJSON url = {geoLayers.waterways}     options = {waterwaysLayerOptions} />
             {#each focus.polygons as polygon }
                 <GeoJSON geoData = {polygon}   options = {polygonLayerOptions}    />             
             {/each}
-        <!-- {:else if viewMode(focus) === 'subcatchments'}
+        {:else if view ==="subcatchments"}
             <GeoJSON url = {geoLayers.subcatchments} options = {subCatchmentOptions}   />   
             <GeoJSON url = {geoLayers.waterways}     options = {waterwaysLayerOptions} />
+        {:else if view ==="catchments"}
+            <GeoJSON url = {geoLayers.catchments}    options = {catchmentLayerOptions} />
+            <GeoJSON url = {geoLayers.waterways}     options = {waterwaysLayerOptions} />
+        {/if}
 
-        {:else if viewMode(focus) === 'subcatcmenstAndCatchments'}
-            <GeoJSON url = {geoLayers.subcatchments} options = {subCatchmentOptions}   />   
-            <GeoJSON url = {geoLayers.waterways}     options = {waterwaysLayerOptions} />  -->
-         {/if}
 
 
         <!-- Point locations-->

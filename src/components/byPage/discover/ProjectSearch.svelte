@@ -65,31 +65,42 @@
         if($ui.search.criteria.project.leadOrgType.length > 0)              query["leadOrgType"]    = {$in: $ui.search.criteria.project.leadOrgType}
         if($ui.search.criteria.project.partnerOrgs.length > 0)              query["partnerOrgs"]    = {$in: $ui.search.criteria.project.partnerOrgs}
 
-        $ui.search.results.project  = await app.data.collections.projects.aggregate([
-            { $match:       query },
-            { $sort:       { name: 1,  leadOrg: 1 } }
-        ])
-        console.log("Realm project search results: ", $ui.search.results.project )
+        const countResults = await app.data.collections.projects.aggregate([
+                { $match:       query },
+                { $count:       "name"}
+            ])
 
-        // Temporary info box for project search
-        if($ui.infoModal.showNotes && componentContent.messageModal.stakeholderSearch){
-            $ui.infoModal.message = infoModal.projectSearch
-            componentContent.messageModal.projectSearch = null
+        if(countResults[0].name > 50){
+            const confirm = window.confirm(`You're search criteria came back with ${countResults[0].name } results. Tap "OK' to see them all (it might a few seconds) or "Cancel" to search again) `)
+            if (confirm) {
+                $ui.search.results.project  = await app.data.collections.projects.aggregate([
+                    { $match:       query },
+                    { $sort:       { name: 1,  leadOrg: 1 } }
+                ])
+
+                console.log("Realm project search results: ", $ui.search.results.project )
+
+                // Temporary info box for project search
+                if($ui.infoModal.showNotes && componentContent.messageModal.stakeholderSearch){
+                    $ui.infoModal.message = infoModal.projectSearch
+                    componentContent.messageModal.projectSearch = null
+                }
+
+                // Set UI based on curent page
+                switch($ui.page){
+                    case 'discover':
+                        $ui.byPage.discover.main = 'list'
+                        $ui.byPage.discover.projectSearch.isMade = true
+                        break
+
+                    case 'share':
+                        $ui.byPage.share.main = 'list'
+                        $ui.byPage.share.projectSearch.isMade = true
+                        break
+                };
+                window.scrollTo({top: 0, behavior: 'smooth'});
+            }
         }
-
-        // Set UI based on curent page
-        switch($ui.page){
-            case 'discover':
-                $ui.byPage.discover.main = 'list'
-                $ui.byPage.discover.projectSearch.isMade = true
-                break
-
-            case 'share':
-                $ui.byPage.share.main = 'list'
-                $ui.byPage.share.projectSearch.isMade = true
-                break
-        };
-        window.scrollTo({top: 0, behavior: 'smooth'});
     };
 
     function handleClose(){

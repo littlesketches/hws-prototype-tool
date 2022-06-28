@@ -17,12 +17,10 @@
         $ui.byPage.share.overlay = false
         $ui.byPage.manage.overlay = false
 
-
         // Hack to hide components that dont' destroy properly when changing page state the store      
         if(document.getElementById('new-project')) document.getElementById('new-project').style.display = 'none'
         if(document.getElementById('project-overlay')) document.getElementById('project-overlay').style.display = 'none'
         if(document.getElementById('stakeholder-overlay')) document.getElementById('stakeholder-overlay').style.display = 'none'
-
 	};
 
     // Help options and modal
@@ -135,8 +133,12 @@
     }
     .nav-icon circle{
         fill:                   none;
-        stroke:                 var(--darkGrey);
+        stroke:                 #000;
         stroke-width:           1px;
+    }
+    .help-icon circle{
+        stroke:                 #fff;
+        stroke-width:           3px;
     }
     .nav-icon text{
         font-family:            'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
@@ -161,7 +163,7 @@
         height:             7.5vw;
         width:              7.5vw; 
         clip-path:          polygon(0 0, 100% 0, 0 100%);
-        background-color:   rgb(226, 255, 36);
+        background-color:   var(--modalLight);
         pointer-events:     none;
         transition:         200ms all;
         transform:          translate(-1vw, -1vw)
@@ -176,12 +178,8 @@
     }
     #helpButton svg{
         padding:            8px 2.5vw 2.5vw 8px;
-        fill:               var(--darkGrey);
     }
 
-    .help-icon{
-        /* pointer-events: none; */
-    }
     .help-icon text{
         font-family:            'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
         fill:                   var(--darkGrey);
@@ -190,5 +188,6 @@
         text-anchor:            middle;
         text-transform:         lowercase;
         text-decoration:        none;
+        fill:               #fff;
     }
 </style>

@@ -1,6 +1,6 @@
 # Healthy Waterways "Implementation Hub" Prototype
 
-Current status: in early Prototype design and development
+Current status: in early Prototype design and development. Delivered as a functional prototype June 30, 2022.
 
 <br>
 
@@ -9,10 +9,6 @@ This repository holds code base and technical documentation for Melbourne Water'
     - a fully navigable application with a neutral design template: suitable for demonstration and gathering stakeholder and user feedback 
     - functional 'core' features of the application with the framework for user authentification and database/data storage available, but not (yet) implemented
     - a basic 'content management system' to allow rapid drafting and editing of the application itself.
-
-## Technical documentation
-
-More documentation will be added soon:
 
 
 
